@@ -91,6 +91,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    background: radial-gradient(circle at center, oklch(1 0 0) 30%, oklch(0.92 0.04 210) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
   }
   html {
     @apply font-sans;
