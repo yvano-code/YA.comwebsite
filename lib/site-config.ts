@@ -58,7 +58,7 @@ export const siteConfig = {
   // Set any to "" to hide that icon.
   social: {
     vimeo: "https://vimeo.com",
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/yvanoantonio/",
     youtube: "",
     email: "ywickhamedwards@gmail.com",
   },
