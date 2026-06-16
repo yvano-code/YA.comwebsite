@@ -33,8 +33,24 @@ export const siteConfig = {
   // ── PROJECTS ──────────────────────────────────────────────────────────────
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
-    { title: "BEVEL LAB", image: "/projects/project-1.png", href: "" },
-    { title: "HOURS", image: "/projects/project-2.png", href: "" },
+    { 
+      title: "BEVEL LAB", 
+      image: "/projects/project-1.png", 
+      href: "",
+      subtitle: "",
+      credits: []
+    },
+    { 
+      title: "HOURS", 
+      image: "/projects/project-2.png", 
+      href: "",
+      subtitle: "SOME PIECES TAKE YOU FURTHER",
+      credits: [
+        { label: "Music", value: "Julius Pearce-Tate from Cartel" },
+        { label: "Production Company", value: "Antidote/Duala" },
+        { label: "Director", value: "Isiah Blake" }
+      ]
+    },
     { title: "BODY BY CHOSEN", image: "/projects/project-3.png", href: "" },
     { title: "SLEEP COUNTRY", image: "/projects/project-4.png", href: "" },
     { title: "LIZA", image: "/projects/project-5.png", href: "" },

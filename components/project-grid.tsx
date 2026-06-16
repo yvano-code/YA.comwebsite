@@ -3,25 +3,10 @@ import Link from "next/link"
 import type { Project } from "@/lib/site-config"
 import { getVideoEmbedUrl } from "@/lib/utils"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
-import { ZoomIn } from "lucide-react"
+import { ZoomIn, Play } from "lucide-react"
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (project: Project) => void }) {
   const embedUrl = getVideoEmbedUrl(project.href)
-
-  // If it's a video, render iframe directly in the grid
-  if (embedUrl) {
-    return (
-      <div className="group relative aspect-video w-full overflow-hidden bg-muted">
-        <iframe 
-          src={embedUrl} 
-          title={project.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-          className="absolute inset-0 h-full w-full border-0"
-        />
-      </div>
-    )
-  }
 
   const content = (
     <div className="group relative aspect-video w-full overflow-hidden bg-muted cursor-pointer">
@@ -37,10 +22,35 @@ function ProjectCard({ project }: { project: Project }) {
         <span className="px-4 text-center text-sm font-medium tracking-[0.2em] text-white flex flex-col items-center gap-2">
           {project.title}
           {!project.href && <ZoomIn className="size-5 opacity-70" />}
+          {embedUrl && <Play className="size-5 opacity-70" />}
         </span>
       </div>
     </div>
   )
+
+  // If it's a video and we have an onSelect handler
+  if (embedUrl && onSelect) {
+    return (
+      <button type="button" onClick={() => onSelect(project)} aria-label={`View ${project.title}`} className="block w-full text-left">
+        {content}
+      </button>
+    )
+  }
+
+  // If it's a video but no onSelect handler (fallback)
+  if (embedUrl) {
+    return (
+      <div className="group relative aspect-video w-full overflow-hidden bg-muted">
+        <iframe 
+          src={embedUrl} 
+          title={project.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      </div>
+    )
+  }
 
   // If there's an external link
   if (project.href && project.href.startsWith("http")) {
@@ -83,12 +93,12 @@ function ProjectCard({ project }: { project: Project }) {
   )
 }
 
-export function ProjectGrid({ projects }: { projects: Project[] }) {
+export function ProjectGrid({ projects, onSelect }: { projects: Project[], onSelect?: (project: Project) => void }) {
   return (
     <section aria-label="Selected work" className="mx-auto w-full max-w-6xl px-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
         {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+          <ProjectCard key={project.title} project={project} onSelect={onSelect} />
         ))}
       </div>
     </section>
