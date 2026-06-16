@@ -41,7 +41,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-16 flex flex-col items-center gap-6 px-6 pb-12 pt-8 text-center">
       <p className="text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} {siteConfig.name}
+        &copy; {new Date().getFullYear()} GOOD YUTE LIFESTYLE
       </p>
       <div className="flex items-center gap-5 text-muted-foreground">
         {social.vimeo && (
