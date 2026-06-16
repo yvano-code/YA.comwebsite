@@ -34,9 +34,9 @@ export const siteConfig = {
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
     { 
-      title: "BEVEL LAB", 
-      image: "/projects/project-1.png", 
-      href: "",
+      title: "CLUBHOUSE JAMZ ", 
+      image: "", 
+      href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
       subtitle: "",
       credits: []
     },
