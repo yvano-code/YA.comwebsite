@@ -46,11 +46,10 @@ export const siteConfig = {
       href: "https://youtu.be/X0GeZQYM-ms",
       subtitle: "Imagine Adult Swim and a Skittles commercial had a love child.",
       credits: [
-        { label: "Executive Producer/Producer:", value: "Yvano Antonio" },
-        { label: "Executive Producer/Producer:", value: "Ananse Arthur"},
-        { label: "Writer/Director:", value: "Yvano Antonio"},
-        { label: "Writer/Director:", value: "Ananse Arthur"},
-        
+        { label: "Executive Producer", value: "Yvano Antonio & Ananse Arthur" },
+  
+        { label: "Written & Directed by", value: "Yvano Antonio & Ananse Arthur"},
+       
       ]
     },
     { title: "BODY BY CHOSEN", image: "", href: "" },
