@@ -30,3 +30,29 @@ export function getVideoEmbedUrl(url: string | undefined): string | null {
     return null;
   }
 }
+
+export function getVideoThumbnailUrl(url: string | undefined): string | null {
+  if (!url) return null;
+
+  try {
+    if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
+      let videoId = '';
+      if (url.includes('youtube.com/watch')) {
+        videoId = new URL(url).searchParams.get('v') || '';
+      } else {
+        videoId = new URL(url).pathname.slice(1);
+      }
+      return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+    }
+
+    if (url.includes('vimeo.com/')) {
+      const parts = new URL(url).pathname.split('/').filter(Boolean);
+      const videoId = parts[0];
+      return videoId && !isNaN(Number(videoId)) ? `https://vumbnail.com/${videoId}.jpg` : null;
+    }
+
+    return null;
+  } catch (e) {
+    return null;
+  }
+}

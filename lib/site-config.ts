@@ -42,7 +42,7 @@ export const siteConfig = {
     },
     { 
       title: "HOURS", 
-      image: "/projects/project-2.png", 
+      image: "", 
       href: "",
       subtitle: "SOME PIECES TAKE YOU FURTHER",
       credits: [
@@ -51,13 +51,13 @@ export const siteConfig = {
         { label: "Director", value: "Isiah Blake" }
       ]
     },
-    { title: "BODY BY CHOSEN", image: "/projects/project-3.png", href: "" },
-    { title: "SLEEP COUNTRY", image: "/projects/project-4.png", href: "" },
-    { title: "LIZA", image: "/projects/project-5.png", href: "" },
-    { title: "JAZZ CARTIER", image: "/projects/project-6.png", href: "" },
-    { title: "REEBOK", image: "/projects/project-7.png", href: "" },
-    { title: "NIKE", image: "/projects/project-8.png", href: "" },
-    { title: "ANCESTRY NEXT GEN", image: "/projects/project-9.png", href: "" },
+    { title: "BODY BY CHOSEN", image: "", href: "" },
+    { title: "SLEEP COUNTRY", image: "", href: "" },
+    { title: "LIZA", image: "", href: "" },
+    { title: "JAZZ CARTIER", image: "", href: "" },
+    { title: "REEBOK", image: "", href: "" },
+    { title: "NIKE", image: "", href: "" },
+    { title: "ANCESTRY NEXT GEN", image: "", href: "" },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────

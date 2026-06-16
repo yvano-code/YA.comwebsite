@@ -1,17 +1,18 @@
 import Image from "next/image"
 import Link from "next/link"
 import type { Project } from "@/lib/site-config"
-import { getVideoEmbedUrl } from "@/lib/utils"
+import { getVideoEmbedUrl, getVideoThumbnailUrl } from "@/lib/utils"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
 import { ZoomIn, Play } from "lucide-react"
 
 function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (project: Project) => void }) {
   const embedUrl = getVideoEmbedUrl(project.href)
+  const thumbnailUrl = project.image || getVideoThumbnailUrl(project.href) || "/placeholder.svg"
 
   const content = (
     <div className="group relative aspect-video w-full overflow-hidden bg-muted cursor-pointer">
       <Image
-        src={project.image || "/placeholder.svg"}
+        src={thumbnailUrl}
         alt={project.title}
         fill
         sizes="(min-width: 768px) 33vw, 100vw"
