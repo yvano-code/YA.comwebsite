@@ -19,7 +19,7 @@
 
 export const siteConfig = {
   // Your name / studio name shown in the header and browser tab.
-  name: "ISIAH BLAKE",
+  name: "YVANO ANTONIO",
 
   // Short description used for SEO / social sharing.
   description: "Director & Filmmaker — commercials, music videos, and brand films.",
@@ -48,7 +48,7 @@ export const siteConfig = {
   contact: {
     heading: "GET IN TOUCH",
     blurb: "For bookings, collaborations, and general inquiries.",
-    email: "hello@isiahblake.com",
+    email: "ywickhamedwards@gmail.com",
     // Optional management / representation line. Leave "" to hide.
     repName: "Represented by Example Mgmt",
     repEmail: "bookings@example.com",
@@ -60,7 +60,7 @@ export const siteConfig = {
     vimeo: "https://vimeo.com",
     instagram: "https://instagram.com",
     youtube: "",
-    email: "hello@isiahblake.com",
+    email: "ywickhamedwards@gmail.com",
   },
 }
 
