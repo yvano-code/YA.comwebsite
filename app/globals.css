@@ -90,9 +90,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-    background: radial-gradient(circle at center, oklch(1 0 0) 30%, oklch(0.92 0.04 210) 100%);
-    background-attachment: fixed;
+    @apply text-foreground;
+    background-color: #ffffff;
+    background-image: radial-gradient(circle at center, #ffffff 20%, #cce5e3 100%) !important;
+    background-attachment: fixed !important;
     min-height: 100vh;
   }
   html {
