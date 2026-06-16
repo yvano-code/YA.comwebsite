@@ -41,14 +41,16 @@ export const siteConfig = {
       credits: []
     },
     { 
-      title: "HOURS", 
+      title: "BAKED BUTTER BISCUITS (2025) | SERIES PILOT EPISODE | DARK HUMOUR", 
       image: "", 
-      href: "",
-      subtitle: "SOME PIECES TAKE YOU FURTHER",
+      href: "https://youtu.be/X0GeZQYM-ms",
+      subtitle: "Imagine Adult Swim and a Skittles commercial had a love child.",
       credits: [
-        { label: "Music", value: "Julius Pearce-Tate from Cartel" },
-        { label: "Production Company", value: "Antidote/Duala" },
-        { label: "Director", value: "Isiah Blake" }
+        { label: "Executive Producer/Producer:", value: "Yvano Antonio" },
+        { label: "Executive Producer/Producer:", value: "Ananse Arthur"},
+        { label: "Writer/Director:", value: "Yvano Antonio"},
+        { label: "Writer/Director:", value: "Ananse Arthur"},
+        
       ]
     },
     { title: "BODY BY CHOSEN", image: "", href: "" },
