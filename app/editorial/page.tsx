@@ -50,7 +50,7 @@ export default function EditorialPage() {
               {/* Images Grid */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 grid-flow-dense">
                 {group.images.map((img, i) => {
-                  const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm');
+                  const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm') || img.toLowerCase().endsWith('.mov');
                   const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
                   
                   // Extract youtube video ID for embed

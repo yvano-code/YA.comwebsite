@@ -63,16 +63,7 @@ export const siteConfig = {
       client: "MUNDO",
       details: "",
       images: [
-        "/projects/mundo/1.png",
-        "/projects/mundo/2.png",
-        "/projects/mundo/3.png",
-        "/projects/mundo/4.png",
-        "/projects/mundo/5.png",
-        "/projects/mundo/6.png",
-        "/projects/mundo/7.png",
-        "/projects/mundo/8.png",
-        "/projects/mundo/9.png",
-        "/projects/mundo/10.png"
+        "/projects/mundo/RP_Promo_Wide.mov"
       ]
     }
   ],
