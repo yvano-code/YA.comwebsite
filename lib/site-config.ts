@@ -73,7 +73,7 @@ export const siteConfig = {
       images: [
         "https://www.youtube.com/watch?v=Rb9oltIDkwc&t=13s",
         "https://www.youtube.com/watch?v=1OkmBc1Cs-Q&t=3s",
-        "https://www.youtube.com/live/GF6R-dyaDXQ?si=sxSIa-wB-WcCpVof&t=205"
+        "https://www.youtube.com/live/GF6R-dyaDXQ?si=Wn26NnoPJ5_cf1io&t=458"
       ]
     }
   ],

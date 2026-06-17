@@ -53,11 +53,15 @@ export default function EditorialPage() {
                   const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm') || img.toLowerCase().endsWith('.mov');
                   const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
                   
-                  // Extract youtube video ID for embed
+                  // Extract youtube video ID and start time for embed
                   let youtubeId = '';
+                  let startTime = '';
                   if (isYoutube) {
-                    const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                    const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
                     if (match) youtubeId = match[1];
+
+                    const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
+                    if (timeMatch) startTime = `&start=${timeMatch[1]}`;
                   }
 
                   // @ts-ignore
@@ -93,7 +97,7 @@ export default function EditorialPage() {
                     >
                       {isYoutube ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=${controlsParam}&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=${controlsParam}&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1${startTime}`}
                           className={`absolute inset-0 w-full h-full object-cover ${pointerEventsClass}`}
                           allow="autoplay; encrypted-media"
                           allowFullScreen
