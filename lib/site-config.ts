@@ -67,7 +67,7 @@ export const siteConfig = {
     {
       title: "Baked Butter Biscuits",
       year: "2025",
-      roles: ["Director"],
+      roles: ["Co-Director"],
       type: "TV Series"
     },
     {
@@ -77,15 +77,69 @@ export const siteConfig = {
       type: "Music Video"
     },
     {
+      title: "Black Community Mixtapes",
+      year: "2023",
+      roles: ["Still Photographer"],
+      type: "TV Series (5 Episodes)"
+    },
+    {
+      title: "Doubles",
+      year: "2023",
+      roles: ["Still Photographer"],
+      type: "Film"
+    },
+    {
+      title: "The Legacy Awards",
+      year: "2023",
+      roles: ["Director Trainee"],
+      type: "TV Special"
+    },
+    {
+      title: "Erin's Guide to Kissing Girls",
+      year: "2022",
+      roles: ["Still Photographer"],
+      type: "Film"
+    },
+    {
+      title: "Reel Black: Our Film Stories",
+      year: "2022",
+      roles: ["Still Photographer"],
+      type: "Short"
+    },
+    {
+      title: "MoonGazer",
+      year: "2022",
+      roles: ["Director"],
+      type: "Short"
+    },
+    {
+      title: "TallBoyz",
+      year: "2022",
+      roles: ["Social Media Consultant"],
+      type: "TV Series (6 Episodes)"
+    },
+    {
       title: "Being Black in Toronto",
       year: "2020",
       roles: ["Director"],
       type: "Short"
     },
     {
+      title: "Promise Me",
+      year: "2020",
+      roles: ["Still Photographer"],
+      type: "Short"
+    },
+    {
       title: "Black",
       year: "2019",
-      roles: ["Camera and Electrical Department"],
+      roles: ["Director", "Still Photographer"],
+      type: "Short"
+    },
+    {
+      title: "Mr. Jane and Finch",
+      year: "2019",
+      roles: ["Still Photographer"],
       type: "Short"
     }
   ],
