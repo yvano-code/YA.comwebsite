@@ -123,9 +123,6 @@ export const siteConfig = {
     },
     { title: "LIZA", image: "", href: "" },
     { title: "JAZZ CARTIER", image: "", href: "" },
-    { title: "REEBOK", image: "", href: "" },
-    { title: "NIKE", image: "", href: "" },
-    { title: "ANCESTRY NEXT GEN", image: "", href: "" },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────
