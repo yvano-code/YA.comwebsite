@@ -48,24 +48,55 @@ export default function EditorialPage() {
               </div>
 
               {/* Images Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 grid-flow-dense">
                 {group.images.map((img, i) => {
                   const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm');
+                  const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
+                  
+                  // Extract youtube video ID for embed
+                  let youtubeId = '';
+                  if (isYoutube) {
+                    const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                    if (match) youtubeId = match[1];
+                  }
+
+                  let colSpanClass = 'md:col-span-1';
+                  let rowSpanClass = 'md:row-span-1';
+                  
+                  if (group.images.length === 1) {
+                    colSpanClass = 'md:col-span-4';
+                  } else if (isYoutube) {
+                    colSpanClass = 'md:col-span-3 aspect-video';
+                    rowSpanClass = 'md:row-span-2';
+                  } else if (isVideo) {
+                    colSpanClass = 'md:col-span-4';
+                  } else if (img.includes('S3 Ep 1 - 8') || img.includes('DSC00393.jpg')) {
+                    // Try to guess which ones are vertical to fit best
+                    rowSpanClass = 'md:row-span-2';
+                  } else if (i === 0 && !isYoutube && !isVideo) {
+                    colSpanClass = 'md:col-span-2';
+                  }
+
                   return (
                     <div 
                       key={i} 
-                      className={`relative ${
-                        isVideo ? 'md:col-span-4' : (i === 0 ? 'md:col-span-2' : 'md:col-span-1')
-                      }`}
+                      className={`relative w-full h-full min-h-[250px] ${colSpanClass} ${rowSpanClass}`}
                     >
-                      {isVideo ? (
+                      {isYoutube ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
+                          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
+                        />
+                      ) : isVideo ? (
                         <video
                           src={img}
                           autoPlay
                           loop
                           muted
                           playsInline
-                          className="w-full h-auto object-cover"
+                          className="w-full h-full object-cover"
                         />
                       ) : (
                         <Image 
@@ -73,7 +104,7 @@ export default function EditorialPage() {
                           alt={`${group.client} ${i + 1}`}
                           width={1200}
                           height={1200}
-                          className="w-full h-auto object-cover"
+                          className="w-full h-full object-cover"
                           priority={true}
                         />
                       )}
