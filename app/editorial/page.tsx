@@ -24,27 +24,22 @@ export default function EditorialPage() {
 
             {/* Images Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="md:col-span-2 relative">
-                <img 
-                  src={group.images[0]} 
-                  alt={`${group.client} 1`}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <div className="md:col-span-1 relative">
-                <img 
-                  src={group.images[1]} 
-                  alt={`${group.client} 2`}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <div className="md:col-span-1 relative">
-                <img 
-                  src={group.images[2]} 
-                  alt={`${group.client} 3`}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
+              {group.images.map((img, i) => (
+                <div 
+                  key={i} 
+                  className={`relative ${
+                    group.images.length === 1 ? 'md:col-span-4' : 
+                    group.images.length === 2 ? 'md:col-span-2' : 
+                    i === 0 ? 'md:col-span-2' : 'md:col-span-1'
+                  }`}
+                >
+                  <img 
+                    src={img} 
+                    alt={`${group.client} ${i + 1}`}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         ))}

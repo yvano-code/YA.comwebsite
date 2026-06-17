@@ -43,9 +43,7 @@ export const siteConfig = {
       font: "Helvetica",
       release: "2023",
       images: [
-        "/projects/PRO_9325-Edit.jpg",
-        "https://images.unsplash.com/photo-1513336828551-93c6be08253a?auto=format&fit=crop&q=80&w=1000",
-        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
+        "/projects/PRO_9325-Edit.jpg"
       ]
     },
     {
