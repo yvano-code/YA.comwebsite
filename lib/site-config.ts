@@ -118,8 +118,8 @@ export const siteConfig = {
     { title: "MOONGAZER | SHORT HORROR FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
-      image: "https://img.youtube.com/vi/gkcbCuJd4Rk/maxresdefault.jpg", 
-      href: "https://www.youtube.com/watch?v=gkcbCuJd4Rk" 
+      image: "https://i.vimeocdn.com/video/1769499952-5be64205ec75680f0c9df757f9698118af9485e16517f66aa181c643035322a9-d_1280x720?region=us", 
+      href: "https://vimeo.com/895031625/d4268c2880" 
     },
     { title: "LIZA", image: "", href: "" },
     { title: "JAZZ CARTIER", image: "", href: "" },
