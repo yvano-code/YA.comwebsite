@@ -34,7 +34,7 @@ export const siteConfig = {
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
     { 
-      title: "CLUBHOUSE JAMZ ", 
+      title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
       image: "", 
       href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
       subtitle: "",
