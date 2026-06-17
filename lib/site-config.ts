@@ -39,10 +39,9 @@ export const siteConfig = {
       href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
       subtitle: "Clubhouse Jamz is a live weekly variety show",
       credits: [ 
-        {label: "Executive Producer", value: "HNTRS CLUB INC."}
-        {label: "Directed by" value: "Yvano Antonio"}
-        {label: "Technical Director Ismael Machado"}
-
+        { label: "Executive Producer", value: "HNTRS CLUB INC." },
+        { label: "Directed by", value: "Yvano Antonio" },
+        { label: "Technical Director", value: "Ismael Machado" }
       ]
     },
     { 
