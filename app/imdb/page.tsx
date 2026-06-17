@@ -13,9 +13,23 @@ export default function ImdbPage() {
             </p>
           </div>
           {siteConfig.imdbBio && (
-            <p className="text-sm md:text-base leading-relaxed max-w-3xl">
-              {siteConfig.imdbBio}
-            </p>
+            <div className="space-y-4">
+              <p className="text-sm md:text-base leading-relaxed max-w-3xl">
+                {siteConfig.imdbBio}
+              </p>
+              {"imdbBioLink" in siteConfig && (
+                <div className="pt-2">
+                  <Link 
+                    href={(siteConfig as any).imdbBioLink.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500"
+                  >
+                    {(siteConfig as any).imdbBioLink.title} ↗
+                  </Link>
+                </div>
+              )}
+            </div>
           )}
         </header>
 
@@ -30,6 +44,11 @@ export default function ImdbPage() {
                   <div className="text-sm font-medium text-gray-500 tracking-wide uppercase">
                     {credit.roles.join(" • ")}
                   </div>
+                  {"note" in credit && (
+                    <div className="text-xs font-bold tracking-widest uppercase text-black pt-1">
+                      {(credit as any).note}
+                    </div>
+                  )}
                 </div>
                 <div className="flex sm:flex-col items-center sm:items-end gap-4 sm:gap-1 text-sm font-medium tracking-widest text-gray-400">
                   <span>{credit.year}</span>

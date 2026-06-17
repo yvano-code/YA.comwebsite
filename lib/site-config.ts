@@ -29,8 +29,8 @@ export const siteConfig = {
     { label: "DEMO REEL", href: "/" },
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
-    { label: "CONTACT", href: "/contact" },
     { label: "ACCREDITATIONS", href: "/imdb" },
+    { label: "CONTACT", href: "/contact" },
   ],
 
   // ── EDITORIAL ─────────────────────────────────────────────────────────────
@@ -61,6 +61,10 @@ export const siteConfig = {
   // ── IMDB CREDITS ──────────────────────────────────────────────────────────
   // Manually entered IMDB credits to display on the native /imdb page.
   imdbBio: "Yvano Antonio is an award-winning Canadian film director, best known for \"Being Black in Toronto (2020)\", which earned him the 2021 Canadian Screen Award for Best Direction in a Documentary Series. Known for blending cinematic realism with social impact, Yvano's work—featured on CBC Gem—spotlights identity, resilience, and community with visual and emotional depth.",
+  imdbBioLink: {
+    title: "Canadian Screen Award Details",
+    url: "https://www.academy.ca/2021/omolola-ajao/"
+  },
   imdbCredits: [
     {
       title: "Baked Butter Biscuits",
@@ -120,7 +124,8 @@ export const siteConfig = {
       title: "Being Black in Toronto",
       year: "2020",
       roles: ["Director"],
-      type: "Short"
+      type: "Short",
+      note: "Winner: 2021 Canadian Screen Award"
     },
     {
       title: "Promise Me",
