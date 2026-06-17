@@ -56,7 +56,7 @@ export const siteConfig = {
        
       ]
     },
-    { title: "MOONGAZER | SHORT FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
+    { title: "MOONGAZER | SHORT HORROR FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
     { title: "SLEEP COUNTRY", image: "", href: "" },
     { title: "LIZA", image: "", href: "" },
     { title: "JAZZ CARTIER", image: "", href: "" },
