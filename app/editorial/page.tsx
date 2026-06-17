@@ -65,6 +65,7 @@ export default function EditorialPage() {
                   
                   if (group.images.length === 1) {
                     colSpanClass = 'md:col-span-4';
+                    if (isYoutube || isVideo) colSpanClass += ' aspect-video';
                   } else if (isYoutube) {
                     colSpanClass = 'md:col-span-3 aspect-video';
                     rowSpanClass = 'md:row-span-2';

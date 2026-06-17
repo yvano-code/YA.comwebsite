@@ -56,14 +56,7 @@ export const siteConfig = {
       client: "CLUBHOUSE JAMZ Experience",
       details: "",
       images: [
-        "https://www.youtube.com/watch?v=y2CfIy8dmeA",
-        "/projects/chj/DSC00335.jpg",
-        "/projects/chj/DSC00393.jpg",
-        "/projects/chj/DSC07202.jpg",
-        "/projects/chj/DSC07237.jpg",
-        "/projects/chj/DSC08590.jpg",
-        "/projects/chj/DSC08726.jpg",
-        "/projects/chj/S3 Ep 1 - 8.jpg"
+        "https://www.youtube.com/watch?v=y2CfIy8dmeA"
       ]
     },
     {
