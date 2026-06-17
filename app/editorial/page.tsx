@@ -72,7 +72,9 @@ export default function EditorialPage() {
                   let colSpanClass = 'md:col-span-1';
                   let rowSpanClass = 'md:row-span-1';
                   
-                  if (group.images.length === 1) {
+                  if (showControls) {
+                    colSpanClass = 'md:col-span-4 aspect-video';
+                  } else if (group.images.length === 1) {
                     colSpanClass = 'md:col-span-4';
                     if (isYoutube || isVideo) colSpanClass += ' aspect-video';
                   } else if (group.images.length === 3 && (isYoutube || isVideo)) {
