@@ -122,7 +122,7 @@ export const siteConfig = {
       href: "https://vimeo.com/895031625/d4268c2880" 
     },
     { title: "LIZA", image: "https://img.youtube.com/vi/tbQP2YesXxI/maxresdefault.jpg", href: "https://youtu.be/tbQP2YesXxI" },
-    { title: "JAZZ CARTIER", image: "", href: "" },
+    { title: "JAZZ CARTIER", image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", href: "https://youtu.be/-xLbpc2JCGg" },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────
