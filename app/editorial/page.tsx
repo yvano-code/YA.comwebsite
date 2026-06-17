@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/site-config"
 
 export default function EditorialPage() {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0)
   const group = siteConfig.editorial[selectedIndex]
 
   return (
@@ -18,7 +19,10 @@ export default function EditorialPage() {
             {siteConfig.editorial.map((item, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedIndex(index)}
+                onClick={() => {
+                  setSelectedIndex(index);
+                  setSelectedVideoIndex(0);
+                }}
                 className={`text-left hover:opacity-70 transition-opacity ${
                   selectedIndex === index ? "font-bold" : "font-normal"
                 }`}
@@ -47,85 +51,143 @@ export default function EditorialPage() {
                 </div>
               </div>
 
-              {/* Images Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 grid-flow-dense">
-                {group.images.map((img, i) => {
-                  const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm') || img.toLowerCase().endsWith('.mov');
-                  const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
-                  
-                  // Extract youtube video ID and start time for embed
-                  let youtubeId = '';
-                  let startTime = '';
-                  if (isYoutube) {
-                    const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-                    if (match) youtubeId = match[1];
-
-                    const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
-                    if (timeMatch) startTime = `&start=${timeMatch[1]}`;
-                  }
-
-                  // @ts-ignore
-                  const showControls = !!group.showControls;
-                  const pointerEventsClass = showControls ? '' : 'pointer-events-none';
-                  const controlsParam = showControls ? '1' : '0';
-
-                  let colSpanClass = 'md:col-span-1';
-                  let rowSpanClass = 'md:row-span-1';
-                  
-                  if (showControls) {
-                    colSpanClass = 'md:col-span-4 aspect-video';
-                  } else if (group.images.length === 1) {
-                    colSpanClass = 'md:col-span-4';
-                    if (isYoutube || isVideo) colSpanClass += ' aspect-video';
-                  } else if (group.images.length === 3 && (isYoutube || isVideo)) {
-                    colSpanClass = i === 0 ? 'md:col-span-4 aspect-video' : 'md:col-span-2 aspect-video';
-                    rowSpanClass = 'md:row-span-1';
-                  } else if (isYoutube) {
-                    colSpanClass = 'md:col-span-3 aspect-video';
-                    rowSpanClass = 'md:row-span-2';
-                  } else if (isVideo) {
-                    colSpanClass = 'md:col-span-4';
-                  } else if (img.includes('S3 Ep 1 - 8') || img.includes('DSC00393.jpg')) {
-                    // Try to guess which ones are vertical to fit best
-                    rowSpanClass = 'md:row-span-2';
-                  } else if (i === 0 && !isYoutube && !isVideo) {
-                    colSpanClass = 'md:col-span-2';
-                  }
-
-                  return (
-                    <div 
-                      key={i} 
-                      className={`relative w-full h-full min-h-[250px] ${colSpanClass} ${rowSpanClass}`}
-                    >
-                      {isYoutube ? (
+              {/* Media Content */}
+              {/* @ts-ignore */}
+              {group.showControls ? (
+                <div className="flex flex-col gap-4">
+                  {/* Main Video */}
+                  <div className="w-full aspect-video">
+                    {(() => {
+                      const img = group.images[selectedVideoIndex];
+                      if (!img) return null;
+                      const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
+                      let youtubeId = '';
+                      let startTime = '';
+                      if (isYoutube) {
+                        const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                        if (match) youtubeId = match[1];
+                        const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
+                        if (timeMatch) startTime = `&start=${timeMatch[1]}`;
+                      }
+                      return isYoutube ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=${controlsParam}&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1${startTime}`}
-                          className={`absolute inset-0 w-full h-full object-cover ${pointerEventsClass}`}
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
+                          className="w-full h-full object-cover shadow-xl"
                           allow="autoplay; encrypted-media"
                           allowFullScreen
                         />
-                      ) : isVideo ? (
-                        <video
-                          src={img}
-                          autoPlay
-                          loop
-                          playsInline
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <Image 
-                          src={img} 
-                          alt={`${group.client} ${i + 1}`}
-                          width={1200}
-                          height={1200}
-                          className="w-full h-full object-cover"
-                          priority={true}
-                        />
-                      )}
+                      ) : null;
+                    })()}
+                  </div>
+
+                  {/* Thumbnails */}
+                  {group.images.length > 1 && (
+                    <div className="grid grid-cols-2 gap-4">
+                      {group.images.map((img, i) => {
+                        if (i === selectedVideoIndex) return null;
+                        
+                        const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
+                        let youtubeId = '';
+                        let startTime = '';
+                        if (isYoutube) {
+                          const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                          if (match) youtubeId = match[1];
+                          const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
+                          if (timeMatch) startTime = `&start=${timeMatch[1]}`;
+                        }
+
+                        return (
+                          <div 
+                            key={i} 
+                            className="w-full aspect-video cursor-pointer relative group" 
+                            onClick={() => setSelectedVideoIndex(i)}
+                          >
+                            <div className="absolute inset-0 z-10 bg-black/10 group-hover:bg-transparent transition-colors" />
+                            <iframe
+                              src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=1&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
+                              className="w-full h-full object-cover pointer-events-none shadow-md"
+                              allow="encrypted-media"
+                              allowFullScreen
+                            />
+                          </div>
+                        )
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 grid-flow-dense">
+                  {group.images.map((img, i) => {
+                    const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm') || img.toLowerCase().endsWith('.mov');
+                    const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
+                    
+                    // Extract youtube video ID and start time for embed
+                    let youtubeId = '';
+                    let startTime = '';
+                    if (isYoutube) {
+                      const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                      if (match) youtubeId = match[1];
+
+                      const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
+                      if (timeMatch) startTime = `&start=${timeMatch[1]}`;
+                    }
+
+                    let colSpanClass = 'md:col-span-1';
+                    let rowSpanClass = 'md:row-span-1';
+                    
+                    if (group.images.length === 1) {
+                      colSpanClass = 'md:col-span-4';
+                      if (isYoutube || isVideo) colSpanClass += ' aspect-video';
+                    } else if (group.images.length === 3 && (isYoutube || isVideo)) {
+                      colSpanClass = i === 0 ? 'md:col-span-4 aspect-video' : 'md:col-span-2 aspect-video';
+                      rowSpanClass = 'md:row-span-1';
+                    } else if (isYoutube) {
+                      colSpanClass = 'md:col-span-3 aspect-video';
+                      rowSpanClass = 'md:row-span-2';
+                    } else if (isVideo) {
+                      colSpanClass = 'md:col-span-4';
+                    } else if (img.includes('S3 Ep 1 - 8') || img.includes('DSC00393.jpg')) {
+                      // Try to guess which ones are vertical to fit best
+                      rowSpanClass = 'md:row-span-2';
+                    } else if (i === 0 && !isYoutube && !isVideo) {
+                      colSpanClass = 'md:col-span-2';
+                    }
+
+                    return (
+                      <div 
+                        key={i} 
+                        className={`relative w-full h-full min-h-[250px] ${colSpanClass} ${rowSpanClass}`}
+                      >
+                        {isYoutube ? (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1${startTime}`}
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                          />
+                        ) : isVideo ? (
+                          <video
+                            src={img}
+                            autoPlay
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Image 
+                            src={img} 
+                            alt={`${group.client} ${i + 1}`}
+                            width={1200}
+                            height={1200}
+                            className="w-full h-full object-cover"
+                            priority={true}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
         </div>
