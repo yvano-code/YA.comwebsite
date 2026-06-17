@@ -19,7 +19,7 @@
 
 export const siteConfig = {
   // Your name / studio name shown in the header and browser tab.
-  name: "YVANO ANTONIO",
+  name: "Yvano Antonio",
 
   // Short description used for SEO / social sharing.
   description: "Director & Filmmaker — commercials, music videos, and brand films.",
