@@ -11,7 +11,7 @@ export function SiteHeader() {
           {siteConfig.name}
         </Link>
         <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase mt-1">
-          FILM & TELEVISION / MUSIC VIDEO / COMMERCIAL / LIVE BROADCAST
+          FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST
         </p>
       </div>
       <nav aria-label="Primary">
