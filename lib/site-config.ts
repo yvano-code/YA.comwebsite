@@ -174,7 +174,7 @@ export const siteConfig = {
     { 
       title: "BAKED BUTTER BISCUITS | SERIES PILOT EPISODE ", 
       image: "/projects/baked-butter.png", 
-      href: "https://youtu.be/X0GeZQYM-ms",
+      href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "Imagine Adult Swim and a Skittles commercial had a love child.",
       credits: [
         { label: "Executive Producer", value: "Yvano Antonio & Ananse Arthur" },

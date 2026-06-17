@@ -35,6 +35,16 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             className="absolute inset-0 h-full w-full border-0"
           />
         </div>
+      ) : project.href?.toLowerCase().match(/\.(mp4|webm|mov)$/) ? (
+        <div className="relative aspect-video w-full overflow-hidden bg-black mb-12 shadow-xl">
+          <video
+            src={project.href}
+            autoPlay
+            controls
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
       ) : (
         /* Fallback if it's somehow not a video link */
         <div className="relative aspect-video w-full overflow-hidden bg-muted mb-12 shadow-xl">
