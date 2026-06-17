@@ -41,7 +41,7 @@ export const siteConfig = {
       font: "Helvetica",
       release: "2023",
       images: [
-        "/projects/GYL tshirt sample.png",
+        "/projects/gyl-tshirt-sample.png",
         "https://images.unsplash.com/photo-1513336828551-93c6be08253a?auto=format&fit=crop&q=80&w=1000",
         "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
       ]
