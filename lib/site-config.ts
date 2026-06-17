@@ -71,7 +71,7 @@ export const siteConfig = {
       details: "",
       showControls: true,
       images: [
-        "https://www.youtube.com/watch?v=Rb9oltIDkwc&t=13s",
+        "https://youtu.be/Rb9oltIDkwc?si=Nio7HMz0EaJmh9Bk&t=3",
         "https://www.youtube.com/watch?v=1OkmBc1Cs-Q&t=3s",
         "https://www.youtube.com/live/GF6R-dyaDXQ?si=Wn26NnoPJ5_cf1io&t=458"
       ]
