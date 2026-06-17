@@ -121,11 +121,6 @@ export const siteConfig = {
       image: "https://i.vimeocdn.com/video/1769499952-5be64205ec75680f0c9df757f9698118af9485e16517f66aa181c643035322a9-d_1280x720?region=us", 
       href: "https://vimeo.com/895031625/d4268c2880" 
     },
-    { title: "LIZA", image: "", href: "" },
-    { title: "JAZZ CARTIER", image: "", href: "" },
-    { title: "REEBOK", image: "", href: "" },
-    { title: "NIKE", image: "", href: "" },
-    { title: "ANCESTRY NEXT GEN", image: "", href: "" },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────
