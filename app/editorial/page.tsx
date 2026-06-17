@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/site-config"
 
 export default function EditorialPage() {
   return (
-    <div className="w-full bg-black min-h-screen text-white pt-32 pb-32">
+    <div className="w-full bg-white min-h-screen text-black pt-32 pb-32">
       <div className="mx-auto w-full px-4 md:px-8 lg:px-12 space-y-32">
         {siteConfig.editorial.map((group, index) => (
           <div key={index} className="w-full flex flex-col">
