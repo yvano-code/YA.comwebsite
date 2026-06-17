@@ -59,6 +59,29 @@ export const siteConfig = {
     }
   ],
 
+  // ── IMDB CREDITS ──────────────────────────────────────────────────────────
+  // Manually entered IMDB credits to display on the native /imdb page.
+  imdbCredits: [
+    {
+      title: "Baked Butter Biscuits",
+      year: "2025",
+      roles: ["Executive Producer", "Writer", "Director"],
+      type: "TV Series"
+    },
+    {
+      title: "Clubhouse Jamz",
+      year: "2024",
+      roles: ["Director"],
+      type: "TV Special"
+    },
+    {
+      title: "Moongazer",
+      year: "2023",
+      roles: ["Director", "Producer"],
+      type: "Short Film"
+    }
+  ],
+
   // ── PROJECTS ──────────────────────────────────────────────────────────────
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
