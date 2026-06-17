@@ -9,7 +9,7 @@ interface ProjectDetailProps {
 }
 
 export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
-  const embedUrl = getVideoEmbedUrl(project.href)
+  const embedUrl = getVideoEmbedUrl(project.href, true)
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 pt-8 pb-16 animate-in fade-in slide-in-from-bottom-8 duration-500">

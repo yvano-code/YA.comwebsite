@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getVideoEmbedUrl(url: string | undefined): string | null {
+export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = false): string | null {
   if (!url) return null;
 
   try {
@@ -16,13 +16,15 @@ export function getVideoEmbedUrl(url: string | undefined): string | null {
       } else {
         videoId = new URL(url).pathname.slice(1);
       }
-      return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+      const base = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+      return base && autoplay ? `${base}?autoplay=1` : base;
     }
 
     if (url.includes('vimeo.com/')) {
       const parts = new URL(url).pathname.split('/').filter(Boolean);
       const videoId = parts[0];
-      return videoId && !isNaN(Number(videoId)) ? `https://player.vimeo.com/video/${videoId}` : null;
+      const base = videoId && !isNaN(Number(videoId)) ? `https://player.vimeo.com/video/${videoId}` : null;
+      return base && autoplay ? `${base}?autoplay=1` : base;
     }
 
     return null;
