@@ -36,9 +36,9 @@ export default function ImdbPage() {
         <div className="border-t border-black/10 pt-8">
           <div className="space-y-8">
             {siteConfig.imdbCredits.map((credit, index) => (
-              <div key={index} className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-8 group">
+              <div key={index} className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-8">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-bold tracking-wider uppercase group-hover:text-gray-500 transition-colors">
+                  <h3 className="text-xl font-bold tracking-wider uppercase">
                     {credit.title}
                   </h3>
                   <div className="text-sm font-medium text-gray-500 tracking-wide uppercase">
