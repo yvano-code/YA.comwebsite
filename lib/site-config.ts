@@ -117,7 +117,7 @@ export const siteConfig = {
     },
     { title: "MOONGAZER | SHORT HORROR FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
     { 
-      title: "SLEEP COUNTRY", 
+      title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
       image: "https://img.youtube.com/vi/gkcbCuJd4Rk/maxresdefault.jpg", 
       href: "https://www.youtube.com/watch?v=gkcbCuJd4Rk" 
     },
