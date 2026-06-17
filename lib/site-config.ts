@@ -29,6 +29,7 @@ export const siteConfig = {
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
     { label: "CONTACT", href: "/contact" },
+    { label: "IMDB", href: "https://www.imdb.com/name/nm10504529/?ref_=tt_ov_1_1" },
   ],
 
   // ── EDITORIAL ─────────────────────────────────────────────────────────────

@@ -21,6 +21,7 @@ export function SiteHeader() {
               <Link
                 href={item.href}
                 className="text-xs font-medium tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
+                {...(item.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {item.label}
               </Link>
