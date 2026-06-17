@@ -65,6 +65,16 @@ export const siteConfig = {
       images: [
         "/projects/mundo/RP_Promo_Wide.mov"
       ]
+    },
+    {
+      client: "CEE CENTRE FOR YOUNG BLACK PROFESSIONALS",
+      details: "",
+      showControls: true,
+      images: [
+        "https://www.youtube.com/watch?v=Rb9oltIDkwc&t=13s",
+        "https://www.youtube.com/watch?v=1OkmBc1Cs-Q&t=3s",
+        "https://www.youtube.com/live/GF6R-dyaDXQ?si=sxSIa-wB-WcCpVof&t=205"
+      ]
     }
   ],
 

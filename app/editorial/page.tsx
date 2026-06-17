@@ -60,12 +60,20 @@ export default function EditorialPage() {
                     if (match) youtubeId = match[1];
                   }
 
+                  // @ts-ignore
+                  const showControls = !!group.showControls;
+                  const pointerEventsClass = showControls ? '' : 'pointer-events-none';
+                  const controlsParam = showControls ? '1' : '0';
+
                   let colSpanClass = 'md:col-span-1';
                   let rowSpanClass = 'md:row-span-1';
                   
                   if (group.images.length === 1) {
                     colSpanClass = 'md:col-span-4';
                     if (isYoutube || isVideo) colSpanClass += ' aspect-video';
+                  } else if (group.images.length === 3 && (isYoutube || isVideo)) {
+                    colSpanClass = i === 0 ? 'md:col-span-4 aspect-video' : 'md:col-span-2 aspect-video';
+                    rowSpanClass = 'md:row-span-1';
                   } else if (isYoutube) {
                     colSpanClass = 'md:col-span-3 aspect-video';
                     rowSpanClass = 'md:row-span-2';
@@ -85,8 +93,8 @@ export default function EditorialPage() {
                     >
                       {isYoutube ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
-                          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=${controlsParam}&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
+                          className={`absolute inset-0 w-full h-full object-cover ${pointerEventsClass}`}
                           allow="autoplay; encrypted-media"
                           allowFullScreen
                         />
