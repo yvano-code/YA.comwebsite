@@ -97,7 +97,7 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
 export function ProjectGrid({ projects, onSelect }: { projects: Project[], onSelect?: (project: Project) => void }) {
   return (
     <section aria-label="Selected work" className="mx-auto w-full max-w-6xl px-4">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.title} project={project} onSelect={onSelect} />
         ))}
