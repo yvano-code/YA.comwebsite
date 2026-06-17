@@ -30,7 +30,7 @@ export const siteConfig = {
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
     { label: "CONTACT", href: "/contact" },
-    { label: "IMDB", href: "/imdb" },
+    { label: "ACCREDITATIONS", href: "/imdb" },
   ],
 
   // ── EDITORIAL ─────────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ export const siteConfig = {
 
   // ── IMDB CREDITS ──────────────────────────────────────────────────────────
   // Manually entered IMDB credits to display on the native /imdb page.
-  imdbBio: "Yvano Wickham-Edwards (Yvano Antonio) is a Canadian film director best known for the Canadian Screen Award winning documentary Being Black In Toronto. Yvano is also well known for his set photography on the two-time Canadian Screen Award winning documentary Mr. Jane & Finch. In 2019, Yvano made his directorial debut at the 15th annual Montreal International Black Film...",
+  imdbBio: "Yvano Antonio is an award-winning Canadian film director, best known for \"Being Black in Toronto (2020)\", which earned him the 2021 Canadian Screen Award for Best Direction in a Documentary Series. Known for blending cinematic realism with social impact, Yvano's work—featured on CBC Gem—spotlights identity, resilience, and community with visual and emotional depth.",
   imdbCredits: [
     {
       title: "Baked Butter Biscuits",

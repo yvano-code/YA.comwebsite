@@ -7,7 +7,7 @@ export default function ImdbPage() {
       <div className="mx-auto w-full max-w-4xl px-4 md:px-8 space-y-16">
         <header className="space-y-6">
           <div className="space-y-4">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-[0.15em] uppercase">Credits</h1>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-[0.15em] uppercase">Accreditations</h1>
             <p className="text-muted-foreground uppercase tracking-[0.1em] text-xs">
               Selected Filmography & Directing Credits
             </p>
