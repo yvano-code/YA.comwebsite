@@ -5,11 +5,18 @@ export default function ImdbPage() {
   return (
     <div className="w-full bg-white min-h-screen text-black pt-16 pb-32">
       <div className="mx-auto w-full max-w-4xl px-4 md:px-8 space-y-16">
-        <header className="space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-[0.15em] uppercase">Credits</h1>
-          <p className="text-muted-foreground uppercase tracking-[0.1em] text-xs">
-            Selected Filmography & Directing Credits
-          </p>
+        <header className="space-y-6">
+          <div className="space-y-4">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-[0.15em] uppercase">Credits</h1>
+            <p className="text-muted-foreground uppercase tracking-[0.1em] text-xs">
+              Selected Filmography & Directing Credits
+            </p>
+          </div>
+          {siteConfig.imdbBio && (
+            <p className="text-sm md:text-base leading-relaxed max-w-3xl">
+              {siteConfig.imdbBio}
+            </p>
+          )}
         </header>
 
         <div className="border-t border-black/10 pt-8">
