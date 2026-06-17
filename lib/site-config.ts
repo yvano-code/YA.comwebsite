@@ -39,6 +39,13 @@ export const siteConfig = {
   // The layout will automatically adapt.
   editorial: [
     {
+      client: "BAKED BUTTER BISCUITS",
+      details: "",
+      images: [
+        "/projects/bbb/BBB_Pilot_Hero_V1.mp4"
+      ]
+    },
+    {
       client: "GOOD YUTE LIFESTYLE",
       details: "",
       images: [

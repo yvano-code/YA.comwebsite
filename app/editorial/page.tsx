@@ -49,23 +49,37 @@ export default function EditorialPage() {
 
               {/* Images Grid */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {group.images.map((img, i) => (
-                  <div 
-                    key={i} 
-                    className={`relative ${
-                      i === 0 ? 'md:col-span-2' : 'md:col-span-1'
-                    }`}
-                  >
-                    <Image 
-                      src={img} 
-                      alt={`${group.client} ${i + 1}`}
-                      width={1200}
-                      height={1200}
-                      className="w-full h-auto object-cover"
-                      priority={true}
-                    />
-                  </div>
-                ))}
+                {group.images.map((img, i) => {
+                  const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.webm');
+                  return (
+                    <div 
+                      key={i} 
+                      className={`relative ${
+                        isVideo ? 'md:col-span-4' : (i === 0 ? 'md:col-span-2' : 'md:col-span-1')
+                      }`}
+                    >
+                      {isVideo ? (
+                        <video
+                          src={img}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="w-full h-auto object-cover"
+                        />
+                      ) : (
+                        <Image 
+                          src={img} 
+                          alt={`${group.client} ${i + 1}`}
+                          width={1200}
+                          height={1200}
+                          className="w-full h-auto object-cover"
+                          priority={true}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
