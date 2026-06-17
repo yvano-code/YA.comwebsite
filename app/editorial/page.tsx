@@ -41,13 +41,9 @@ export default function EditorialPage() {
                   <span className="text-gray-400 block mb-1">Client:</span>
                   <span className="underline decoration-1 underline-offset-4 uppercase">{group.client}</span>
                 </div>
-                <div className="md:col-span-1">
-                  <span className="text-gray-400 block mb-1">Font:</span>
-                  <span className="underline decoration-1 underline-offset-4">{group.font}</span>
-                </div>
-                <div className="md:col-span-1">
-                  <span className="text-gray-400 block mb-1">Release:</span>
-                  <span>{group.release}</span>
+                <div className="md:col-span-2">
+                  <span className="text-gray-400 block mb-1">Project Details:</span>
+                  <span className="leading-relaxed whitespace-pre-wrap font-normal">{group.details || "Details coming soon..."}</span>
                 </div>
               </div>
 

@@ -39,21 +39,39 @@ export const siteConfig = {
   // The layout will automatically adapt.
   editorial: [
     {
-      client: "SUMMER ARCHIVES",
-      font: "Helvetica",
-      release: "2023",
+      client: "GOOD YUTE LIFESTYLE",
+      details: "",
       images: [
         "/projects/PRO_9325-Edit.jpg"
       ]
     },
     {
-      client: "TEXTURES",
-      font: "Inter",
-      release: "2024",
+      client: "CLUBHOUSE JAMZ Experience",
+      details: "",
       images: [
-        "https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&q=80&w=1000",
-        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80&w=1000",
-        "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?auto=format&fit=crop&q=80&w=1000"
+        "/projects/chj/DSC00335.jpg",
+        "/projects/chj/DSC00393.jpg",
+        "/projects/chj/DSC07202.jpg",
+        "/projects/chj/DSC07237.jpg",
+        "/projects/chj/DSC08590.jpg",
+        "/projects/chj/DSC08726.jpg",
+        "/projects/chj/S3 Ep 1 - 8.jpg"
+      ]
+    },
+    {
+      client: "MUNDO",
+      details: "",
+      images: [
+        "/projects/mundo/1.png",
+        "/projects/mundo/2.png",
+        "/projects/mundo/3.png",
+        "/projects/mundo/4.png",
+        "/projects/mundo/5.png",
+        "/projects/mundo/6.png",
+        "/projects/mundo/7.png",
+        "/projects/mundo/8.png",
+        "/projects/mundo/9.png",
+        "/projects/mundo/10.png"
       ]
     }
   ],
