@@ -26,6 +26,7 @@ export const siteConfig = {
 
   // Top navigation links.
   nav: [
+    { label: "DEMO REEL", href: "/" },
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
     { label: "CONTACT", href: "/contact" },
