@@ -71,8 +71,8 @@ export default function EditorialPage() {
                       }
                       return isYoutube ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
-                          className="w-full h-full object-cover shadow-xl"
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=0&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
+                          className="w-full h-full shadow-xl"
                           allow="autoplay; encrypted-media"
                           allowFullScreen
                         />
@@ -105,7 +105,7 @@ export default function EditorialPage() {
                             <div className="absolute inset-0 z-10 bg-black/10 group-hover:bg-transparent transition-colors" />
                             <iframe
                               src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=1&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
-                              className="w-full h-full object-cover pointer-events-none shadow-md"
+                              className="w-full h-full pointer-events-none shadow-md"
                               allow="encrypted-media"
                               allowFullScreen
                             />
@@ -160,18 +160,18 @@ export default function EditorialPage() {
                       >
                         {isYoutube ? (
                           <iframe
-                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1${startTime}`}
-                            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=0&controls=1&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1${startTime}`}
+                            className="absolute inset-0 w-full h-full"
                             allow="autoplay; encrypted-media"
                             allowFullScreen
                           />
                         ) : isVideo ? (
                           <video
                             src={img}
-                            autoPlay
+                            controls
                             loop
                             playsInline
-                            className="w-full h-full object-cover"
+                            className="w-full h-full bg-black object-contain"
                           />
                         ) : (
                           <Image 
