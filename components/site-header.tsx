@@ -6,19 +6,10 @@ import { siteConfig } from "@/lib/site-config"
 export function SiteHeader() {
   return (
     <header className="relative z-50 flex flex-col items-center gap-4 px-6 pt-12 pb-8 text-center">
-      <svg width="0" height="0" className="absolute" style={{ pointerEvents: "none" }}>
-        <filter id="rough-edges">
-          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
       <div className="flex flex-col items-center gap-2">
         <Link 
           href="/" 
-          className="text-5xl md:text-6xl font-black tracking-tight text-foreground"
-          style={{ 
-            filter: "url('#rough-edges')"
-          }}
+          className="text-4xl md:text-5xl font-black tracking-tight text-foreground"
         >
           {siteConfig.name}
         </Link>

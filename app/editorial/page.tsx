@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { siteConfig } from "@/lib/site-config"
 
 export default function EditorialPage() {
@@ -8,15 +9,12 @@ export default function EditorialPage() {
   const group = siteConfig.editorial[selectedIndex]
 
   return (
-    <div className="w-full bg-white min-h-screen text-black pt-32 pb-32">
+    <div className="w-full bg-background min-h-[calc(100vh-200px)] text-foreground pt-8 pb-32">
       <div className="mx-auto w-full px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-12 lg:gap-24">
         
         {/* Sidebar */}
         <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col">
-          <h2 className="text-xl md:text-2xl font-medium mb-12 hidden md:block tracking-tight">
-            {siteConfig.name}
-          </h2>
-          <div className="flex flex-col space-y-4 text-sm tracking-wide">
+          <div className="flex flex-col space-y-4 text-sm tracking-wide mt-2">
             {siteConfig.editorial.map((item, index) => (
               <button
                 key={index}
@@ -62,10 +60,13 @@ export default function EditorialPage() {
                       i === 0 ? 'md:col-span-2' : 'md:col-span-1'
                     }`}
                   >
-                    <img 
+                    <Image 
                       src={img} 
                       alt={`${group.client} ${i + 1}`}
+                      width={1200}
+                      height={1200}
                       className="w-full h-auto object-cover"
+                      priority={true}
                     />
                   </div>
                 ))}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
@@ -78,11 +79,12 @@ export default function ContactPage() {
 
         {/* Right Column */}
         <div className="flex flex-col justify-between items-end h-full pt-8">
-          <div className="w-full max-w-[500px] aspect-[4/3] bg-gray-100 overflow-hidden ml-auto">
-            <img 
+          <div className="relative w-full max-w-[500px] aspect-[4/3] bg-gray-100 overflow-hidden ml-auto">
+            <Image 
               src="https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&q=80&w=1000"
               alt="Editorial" 
-              className="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-500"
+              fill
+              className="object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>
 

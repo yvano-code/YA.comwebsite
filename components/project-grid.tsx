@@ -17,6 +17,7 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
         fill
         sizes="(min-width: 768px) 33vw, 100vw"
         className="object-cover transition-transform duration-500 group-hover:scale-105"
+        priority={true}
       />
       {/* Title overlay, revealed on hover */}
       <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

@@ -1,6 +1,7 @@
 "use client"
 
 import { Project } from "@/lib/site-config"
+import Image from "next/image"
 import { getVideoEmbedUrl } from "@/lib/utils"
 
 interface ProjectDetailProps {
@@ -37,7 +38,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
       ) : (
         /* Fallback if it's somehow not a video link */
         <div className="relative aspect-video w-full overflow-hidden bg-muted mb-12 shadow-xl">
-           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+           <Image src={project.image} alt={project.title} fill className="object-cover" priority={true} />
         </div>
       )}
 
