@@ -116,7 +116,11 @@ export const siteConfig = {
       ]
     },
     { title: "MOONGAZER | SHORT HORROR FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
-    { title: "SLEEP COUNTRY", image: "", href: "" },
+    { 
+      title: "SLEEP COUNTRY", 
+      image: "https://img.youtube.com/vi/gkcbCuJd4Rk/maxresdefault.jpg", 
+      href: "https://www.youtube.com/watch?v=gkcbCuJd4Rk" 
+    },
     { title: "LIZA", image: "", href: "" },
     { title: "JAZZ CARTIER", image: "", href: "" },
     { title: "REEBOK", image: "", href: "" },
