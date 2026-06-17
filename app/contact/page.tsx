@@ -29,7 +29,7 @@ export default function ContactPage() {
             </p>
             
             {/* Form */}
-            <form className="flex flex-col gap-6 pt-8" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-6 pt-8">
               <input 
                 type="text" 
                 placeholder="Name" 
@@ -50,7 +50,7 @@ export default function ContactPage() {
               />
               <div className="pt-4">
                 <button 
-                  type="submit" 
+                  type="button" 
                   className="text-xs font-bold tracking-[0.2em] uppercase hover:text-gray-500 transition-colors flex items-center"
                 >
                   → SEND
