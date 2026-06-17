@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/site-config"
 
 export function SiteHeader() {
   return (
-    <header className="flex flex-col items-center gap-4 px-6 pt-12 pb-8 text-center">
+    <header className="relative z-50 flex flex-col items-center gap-4 px-6 pt-12 pb-8 text-center">
       <div className="flex flex-col items-center gap-2">
         <Link href="/" className="text-4xl md:text-5xl font-black tracking-tight text-foreground">
           {siteConfig.name}
