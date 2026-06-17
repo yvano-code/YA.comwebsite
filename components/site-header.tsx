@@ -1,20 +1,20 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { siteConfig } from "@/lib/site-config"
 
 export function SiteHeader() {
-  const pathname = usePathname()
-
-  if (pathname === "/") {
-    return null
-  }
   return (
     <header className="flex flex-col items-center gap-4 px-6 pt-12 pb-8 text-center">
-      <Link href="/" className="text-lg font-medium tracking-[0.2em] text-foreground">
-        {siteConfig.name}
-      </Link>
+      <div className="flex flex-col items-center gap-1">
+        <Link href="/" className="text-xl font-medium tracking-[0.2em] text-foreground">
+          {siteConfig.name}
+        </Link>
+        <p className="text-xs font-medium tracking-[0.3em] text-foreground mt-2 uppercase">DIRECTOR</p>
+        <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase mt-1">
+          FILM & TELEVISION / MUSIC VIDEO / COMMERCIAL / LIVE BROADCAST
+        </p>
+      </div>
       <nav aria-label="Primary">
         <ul className="flex items-center gap-6">
           {siteConfig.nav.map((item) => (

@@ -40,11 +40,6 @@ function MailIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   const { social } = siteConfig
-  const pathname = usePathname()
-
-  if (pathname === "/") {
-    return null
-  }
 
   return (
     <footer className="mt-16 flex flex-col items-center gap-6 px-6 pb-12 pt-8 text-center">
