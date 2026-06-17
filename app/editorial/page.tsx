@@ -28,8 +28,6 @@ export default function EditorialPage() {
                 <div 
                   key={i} 
                   className={`relative ${
-                    group.images.length === 1 ? 'md:col-span-4' : 
-                    group.images.length === 2 ? 'md:col-span-2' : 
                     i === 0 ? 'md:col-span-2' : 'md:col-span-1'
                   }`}
                 >
