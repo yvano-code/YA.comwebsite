@@ -85,7 +85,7 @@ export default function EditorialPage() {
                     >
                       {isYoutube ? (
                         <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
+                          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&controls=0&rel=0&showinfo=0&loop=1&playlist=${youtubeId}&modestbranding=1&playsinline=1`}
                           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                           allow="autoplay; encrypted-media"
                           allowFullScreen
@@ -95,7 +95,6 @@ export default function EditorialPage() {
                           src={img}
                           autoPlay
                           loop
-                          muted
                           playsInline
                           className="w-full h-full object-cover"
                         />
