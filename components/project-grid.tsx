@@ -7,6 +7,8 @@ import { ZoomIn, Play } from "lucide-react"
 
 function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (project: Project) => void }) {
   const embedUrl = getVideoEmbedUrl(project.href)
+  const isLocalVideo = !!project.href?.toLowerCase().match(/\.(mp4|webm|mov)$/)
+  const isVideo = !!embedUrl || isLocalVideo
   const thumbnailUrl = project.image || getVideoThumbnailUrl(project.href) || "/placeholder.svg"
 
   const content = (
@@ -24,14 +26,14 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
         <span className="px-4 text-center text-sm font-medium tracking-[0.2em] text-white flex flex-col items-center gap-2">
           {project.title}
           {!project.href && <ZoomIn className="size-5 opacity-70" />}
-          {embedUrl && <Play className="size-5 opacity-70" />}
+          {isVideo && <Play className="size-5 opacity-70" />}
         </span>
       </div>
     </div>
   )
 
   // If it's a video and we have an onSelect handler
-  if (embedUrl && onSelect) {
+  if (isVideo && onSelect) {
     return (
       <button type="button" onClick={() => onSelect(project)} aria-label={`View ${project.title}`} className="block w-full text-left">
         {content}

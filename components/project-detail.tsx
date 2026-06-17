@@ -42,7 +42,7 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
             autoPlay
             controls
             playsInline
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain bg-black"
           />
         </div>
       ) : (
