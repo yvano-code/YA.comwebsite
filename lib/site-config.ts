@@ -37,8 +37,13 @@ export const siteConfig = {
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
       image: "", 
       href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
-      subtitle: "",
-      credits: []
+      subtitle: "Clubhouse Jamz is a live weekly variety show",
+      credits: [ 
+        {label: "Executive Producer", value: "HNTRS CLUB INC."}
+        { label: "Directed by Yvano Antonio"}
+        {label: "Technical Director Ismael Machado"}
+
+      ]
     },
     { 
       title: "BAKED BUTTER BISCUITS (2025) | SERIES PILOT EPISODE | DARK HUMOUR", 
@@ -52,7 +57,7 @@ export const siteConfig = {
        
       ]
     },
-    { title: "BODY BY CHOSEN", image: "", href: "" },
+    { title: "MOONGAZER | SHORT FILM", image: "", href: "" },
     { title: "SLEEP COUNTRY", image: "", href: "" },
     { title: "LIZA", image: "", href: "" },
     { title: "JAZZ CARTIER", image: "", href: "" },
@@ -67,8 +72,8 @@ export const siteConfig = {
     blurb: "For bookings, collaborations, and general inquiries.",
     email: "ywickhamedwards@gmail.com",
     // Optional management / representation line. Leave "" to hide.
-    repName: "Represented by Example Mgmt",
-    repEmail: "bookings@example.com",
+    repName: "",
+    repEmail: "",
   },
 
   // ── SOCIAL LINKS (footer) ───────────────────────────────────────────────────
