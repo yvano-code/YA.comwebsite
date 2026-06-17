@@ -121,8 +121,8 @@ export const siteConfig = {
       image: "https://i.vimeocdn.com/video/1769499952-5be64205ec75680f0c9df757f9698118af9485e16517f66aa181c643035322a9-d_1280x720?region=us", 
       href: "https://vimeo.com/895031625/d4268c2880" 
     },
-    { title: "LIZA", image: "https://img.youtube.com/vi/tbQP2YesXxI/maxresdefault.jpg", href: "https://youtu.be/tbQP2YesXxI" },
-    { title: "JAZZ CARTIER", image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", href: "https://youtu.be/-xLbpc2JCGg" },
+    { title: "PRACTICALLY MAGIC | COMMERCIAL SPEC ", image: "https://img.youtube.com/vi/tbQP2YesXxI/maxresdefault.jpg", href: "https://youtu.be/tbQP2YesXxI" },
+    { title: "#BLACK | SHORT FILM | CSA WINNER ", image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", href: "https://youtu.be/-xLbpc2JCGg" },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────
