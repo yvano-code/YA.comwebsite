@@ -40,7 +40,7 @@ export const siteConfig = {
       subtitle: "Clubhouse Jamz is a live weekly variety show",
       credits: [ 
         {label: "Executive Producer", value: "HNTRS CLUB INC."}
-        {label: "Directed by Yvano Antonio"}
+        {label: "Directed by" value: "Yvano Antonio"}
         {label: "Technical Director Ismael Machado"}
 
       ]
