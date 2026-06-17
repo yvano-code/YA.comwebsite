@@ -15,11 +15,9 @@ export function SiteHeader() {
       <div className="flex flex-col items-center gap-2">
         <Link 
           href="/" 
-          className="text-5xl md:text-6xl text-foreground"
+          className="text-5xl md:text-6xl font-black tracking-tight text-foreground"
           style={{ 
-            fontFamily: "var(--font-archivo-black)",
-            filter: "url('#rough-edges')",
-            letterSpacing: "-0.04em"
+            filter: "url('#rough-edges')"
           }}
         >
           {siteConfig.name}
