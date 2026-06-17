@@ -42,7 +42,7 @@ export function getVideoThumbnailUrl(url: string | undefined): string | null {
       } else {
         videoId = new URL(url).pathname.slice(1);
       }
-      return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+      return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
     }
 
     if (url.includes('vimeo.com/')) {
