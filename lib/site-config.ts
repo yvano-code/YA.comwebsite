@@ -104,7 +104,7 @@ export const siteConfig = {
       ]
     },
     { 
-      title: "BAKED BUTTER BISCUITS (2025) | SERIES PILOT EPISODE ", 
+      title: "BAKED BUTTER BISCUITS | SERIES PILOT EPISODE ", 
       image: "/projects/baked-butter.png", 
       href: "https://youtu.be/X0GeZQYM-ms",
       subtitle: "Imagine Adult Swim and a Skittles commercial had a love child.",
