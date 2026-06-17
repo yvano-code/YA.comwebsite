@@ -2,79 +2,52 @@ import { siteConfig } from "@/lib/site-config"
 
 export default function EditorialPage() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:py-24 mb-32">
-      {/* Intro Header */}
-      <header className="mb-24 text-center max-w-2xl mx-auto space-y-6">
-        <h1 className="text-4xl font-bold tracking-[0.2em] uppercase">Editorial</h1>
-        <p className="text-muted-foreground uppercase tracking-[0.1em] text-sm leading-relaxed">
-          A visual diary of ongoing studies, design philosophies, and experiments in aesthetic framing.
-        </p>
-      </header>
-
-      {/* Editorial Content */}
-      <div className="space-y-32">
-        {siteConfig.editorial.map((item, index) => {
-          const hasImage = Boolean(item.image)
-          const hasText = Boolean(item.title || item.body)
-          
-          // Layout variations
-          if (hasImage && !hasText) {
-            // Full width or large centered image
-            return (
-              <figure key={index} className="w-full relative overflow-hidden group">
-                <img 
-                  src={item.image} 
-                  alt={item.title || "Editorial Image"} 
-                  className="w-full h-auto max-h-[80vh] object-cover bg-muted transition-transform duration-1000 group-hover:scale-[1.02]" 
-                />
-              </figure>
-            )
-          }
-
-          if (!hasImage && hasText) {
-            // Text only, large typography
-            return (
-              <article key={index} className="max-w-3xl mx-auto text-center space-y-8 py-16 border-y border-border/40">
-                {item.title && <h2 className="text-2xl font-semibold tracking-[0.15em] uppercase">{item.title}</h2>}
-                {item.body && <p className="text-lg leading-relaxed text-muted-foreground">{item.body}</p>}
-              </article>
-            )
-          }
-
-          // Alternating Image + Text
-          const isEven = index % 2 === 0
-
-          return (
-            <article 
-              key={index} 
-              className={`flex flex-col gap-12 lg:gap-24 items-center ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
-            >
-              {/* Image half */}
-              <figure className="w-full lg:w-1/2 relative overflow-hidden group">
-                <img 
-                  src={item.image} 
-                  alt={item.title || "Editorial Image"} 
-                  className="w-full aspect-[4/5] object-cover bg-muted transition-transform duration-1000 group-hover:scale-[1.02]" 
-                />
-              </figure>
-
-              {/* Text half */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 text-center lg:text-left px-4 lg:px-12">
-                {item.title && (
-                  <h2 className="text-3xl font-bold tracking-[0.15em] uppercase relative">
-                    <span className="block absolute -top-8 left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 w-8 h-[1px] bg-foreground"></span>
-                    {item.title}
-                  </h2>
-                )}
-                {item.body && (
-                  <p className="text-muted-foreground leading-loose">
-                    {item.body}
-                  </p>
-                )}
+    <div className="w-full bg-black min-h-screen text-white pt-32 pb-32">
+      <div className="mx-auto w-full px-4 md:px-8 lg:px-12 space-y-32">
+        {siteConfig.editorial.map((group, index) => (
+          <div key={index} className="w-full flex flex-col">
+            {/* Meta Header */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 text-xs sm:text-sm font-semibold tracking-wide">
+              <div className="md:col-span-2">
+                <span className="text-gray-400 block mb-1">Client:</span>
+                <span className="underline decoration-1 underline-offset-4">{group.client}</span>
               </div>
-            </article>
-          )
-        })}
+              <div className="md:col-span-1">
+                <span className="text-gray-400 block mb-1">Font:</span>
+                <span className="underline decoration-1 underline-offset-4">{group.font}</span>
+              </div>
+              <div className="md:col-span-1">
+                <span className="text-gray-400 block mb-1">Release:</span>
+                <span>{group.release}</span>
+              </div>
+            </div>
+
+            {/* Images Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="md:col-span-2 relative">
+                <img 
+                  src={group.images[0]} 
+                  alt={`${group.client} 1`}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <div className="md:col-span-1 relative">
+                <img 
+                  src={group.images[1]} 
+                  alt={`${group.client} 2`}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <div className="md:col-span-1 relative">
+                <img 
+                  src={group.images[2]} 
+                  alt={`${group.client} 3`}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -37,29 +37,24 @@ export const siteConfig = {
   // The layout will automatically adapt.
   editorial: [
     {
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1000",
-      title: "SUMMER ARCHIVES",
-      body: "A study of light and shadow during the peak of summer. The way the sun hits the architecture creates natural framing."
+      client: "SUMMER ARCHIVES",
+      font: "Helvetica",
+      release: "2023",
+      images: [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1513336828551-93c6be08253a?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
+      ]
     },
     {
-      image: "https://images.unsplash.com/photo-1513336828551-93c6be08253a?auto=format&fit=crop&q=80&w=1000",
-      title: "",
-      body: ""
-    },
-    {
-      image: "",
-      title: "DESIGN PHILOSOPHY",
-      body: "Form follows function, but aesthetic value is a function in itself. The emotional response to a well-designed space or image cannot be quantified, yet it is deeply felt."
-    },
-    {
-      image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000",
-      title: "TEXTURES",
-      body: "Finding the balance between smooth surfaces and raw materials."
-    },
-    {
-      image: "https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&q=80&w=1000",
-      title: "",
-      body: ""
+      client: "TEXTURES",
+      font: "Inter",
+      release: "2024",
+      images: [
+        "https://images.unsplash.com/photo-1505322022379-7c3353ee6291?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?auto=format&fit=crop&q=80&w=1000"
+      ]
     }
   ],
 
