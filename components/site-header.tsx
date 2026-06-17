@@ -10,6 +10,9 @@ export function SiteHeader() {
         <Link href="/" className="text-xl font-medium tracking-[0.2em] text-foreground">
           {siteConfig.name}
         </Link>
+        <p className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase mt-1">
+          FILM & TELEVISION / MUSIC VIDEO / COMMERCIAL / LIVE BROADCAST
+        </p>
       </div>
       <nav aria-label="Primary">
         <ul className="flex items-center gap-6">
