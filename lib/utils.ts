@@ -21,10 +21,21 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
     }
 
     if (url.includes('vimeo.com/')) {
-      const parts = new URL(url).pathname.split('/').filter(Boolean);
+      const urlObj = new URL(url);
+      const parts = urlObj.pathname.split('/').filter(Boolean);
       const videoId = parts[0];
-      const base = videoId && !isNaN(Number(videoId)) ? `https://player.vimeo.com/video/${videoId}` : null;
-      return base && autoplay ? `${base}?autoplay=1` : base;
+      const hash = parts[1]; // unlisted video hash
+
+      if (videoId && !isNaN(Number(videoId))) {
+        let base = `https://player.vimeo.com/video/${videoId}`;
+        const params = new URLSearchParams();
+        if (hash) params.set('h', hash);
+        if (autoplay) params.set('autoplay', '1');
+        
+        const qs = params.toString();
+        return qs ? `${base}?${qs}` : base;
+      }
+      return null;
     }
 
     return null;
