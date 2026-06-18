@@ -230,8 +230,8 @@ export default function LandingPageDemo() {
           </div>
 
           {/* Laurels Banner Image */}
-          <div className="w-full flex justify-center border-t border-black/10 pt-16">
-            <div className="relative w-full max-w-5xl aspect-[8/1] md:aspect-[10/1]">
+          <div className="w-full flex justify-center border-t border-black/10 pt-16 pb-8 px-4 md:px-8 lg:px-12">
+            <div className="relative w-full aspect-[4/1] sm:aspect-[5/1] md:aspect-[7/1] lg:aspect-[8/1]">
               <Image 
                 src="/projects/bbt_laurels.webp"
                 alt="Festival Laurels"
