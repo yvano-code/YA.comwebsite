@@ -200,7 +200,7 @@ export const siteConfig = {
     {
       title: "Gary International Black Film Festival (2020)",
       status: "Nominated / Selected",
-      description: "for Best Youth Film following the CBC broadcast of Being Black in Toronto."
+      description: "for Best Youth Film"
     }
   ],
 
