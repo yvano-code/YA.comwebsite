@@ -169,10 +169,6 @@ export default function LandingPageDemo() {
                 )}
 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-white/60">{credit.year}</span>
-                    <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase bg-white/10 text-white px-3 py-1 rounded-full">{credit.type}</span>
-                  </div>
                   {credit.note && (
                     <p className="text-[10px] md:text-[11px] font-bold tracking-widest text-white uppercase mb-4">{credit.note}</p>
                   )}
