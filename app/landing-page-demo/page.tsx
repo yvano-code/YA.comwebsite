@@ -283,20 +283,12 @@ export default function LandingPageDemo() {
           {/* Laurels Banner Images */}
           <div className="w-full flex flex-col items-center pt-8 pb-8 px-2 md:px-4 gap-8 md:gap-12">
             <Image 
-              src="/projects/bbt_laurels.webp"
-              alt="Festival Laurels Row 1"
-              width={2000}
-              height={500}
-              unoptimized={true}
-              className="w-full h-auto object-contain mix-blend-multiply opacity-90"
-            />
-            <Image 
               src="/projects/official_selection.jpg"
               alt="Official Selection"
               width={2000}
               height={500}
               unoptimized={true}
-              className="w-full h-auto object-contain mix-blend-multiply opacity-90 scale-95"
+              className="w-full h-auto object-contain mix-blend-multiply opacity-90 scale-[0.80]"
             />
           </div>
         </section>
