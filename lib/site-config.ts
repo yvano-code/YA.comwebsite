@@ -260,7 +260,15 @@ export const siteConfig = {
         { label: "Starring", value: "Khara Martin" }
       ]
     },
-    { title: "#BLACK | SHORT FILM | CSA WINNER ", image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", href: "https://youtu.be/-xLbpc2JCGg" },
+    { 
+      title: "#BLACK | SHORT FILM | CSA WINNER ", 
+      image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", 
+      href: "https://youtu.be/-xLbpc2JCGg",
+      credits: [
+        { label: "Executive Producer", value: "Fabienne Colas Foundation" },
+        { label: "Written & Directed by", value: "Yvano Antonio" }
+      ]
+    },
   ],
 
   // ── CONTACT PAGE ────────────────────────────────────────────────────────────
