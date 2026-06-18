@@ -140,14 +140,14 @@ export default function LandingPageDemo() {
                 <div className="px-2 mt-4">
                   <h4 className="text-[13px] md:text-[15px] font-bold tracking-widest uppercase mb-3 text-black">{project.title}</h4>
                   {project.subtitle && (
-                    <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium mb-4">{project.subtitle}</p>
+                    <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium uppercase tracking-wide mb-4">{project.subtitle}</p>
                   )}
                   {project.credits && project.credits.length > 0 && (
                     <div className="flex flex-col gap-2 border-l-2 border-black/10 pl-4 mt-2">
                       {project.credits.slice(0, 3).map((credit, i) => (
                         <div key={i} className="text-[10px] md:text-[11px] tracking-[0.05em]">
                           <span className="font-bold text-gray-400 uppercase mr-2">{credit.label}:</span>
-                          <span className="text-gray-800 font-medium">{credit.value}</span>
+                          <span className="text-gray-800 font-medium uppercase">{credit.value}</span>
                         </div>
                       ))}
                     </div>
@@ -273,11 +273,11 @@ export default function LandingPageDemo() {
             </div>
             <div className="relative w-full aspect-[4/1] sm:aspect-[5/1] md:aspect-[7/1] lg:aspect-[8/1]">
               <Image 
-                src="/projects/bbt_laurels.webp"
-                alt="Festival Laurels Row 2"
+                src="/projects/official_selection.jpg"
+                alt="Official Selection"
                 fill
                 unoptimized={true}
-                className="object-contain mix-blend-multiply opacity-90"
+                className="object-contain mix-blend-multiply opacity-90 scale-95"
               />
             </div>
           </div>
