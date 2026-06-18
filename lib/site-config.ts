@@ -40,7 +40,7 @@ export const siteConfig = {
   editorial: [
     {
       client: "BAKED BUTTER BISCUITS",
-      details: "",
+      details: "Baked Butter Biscuits is a genre-bending, 30 minute episodic comedy series about survival and self-growth, blurring the line between realism and ridiculousness. Created by award winning director Yvano Antonio and cinematographer Ananse-Tony, and inspired by shows like Atlanta and Key and Peele, Biscuits examines race, friendship, and absurdity in spaces where Black life collides with societal expectations.",
       images: [
         "/projects/bbb/BBB_Pilot_Hero_V1.mp4"
       ]
