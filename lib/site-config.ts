@@ -279,7 +279,7 @@ export const siteConfig = {
     },
     { 
       title: "#BLACK | SHORT FILM | CSA WINNER ", 
-      image: "https://img.youtube.com/vi/-xLbpc2JCGg/maxresdefault.jpg", 
+      image: "/projects/black-bleed.png", 
       href: "https://youtu.be/-xLbpc2JCGg",
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
