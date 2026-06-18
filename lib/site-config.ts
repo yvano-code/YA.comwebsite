@@ -263,7 +263,12 @@ export const siteConfig = {
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
       image: "/projects/fafiella_image_site.jpg", 
-      href: "https://vimeo.com/895031625/d4268c2880" 
+      href: "https://vimeo.com/895031625/d4268c2880",
+      credits: [
+        { label: "Executive Producer", value: "POV Film" },
+        { label: "Director", value: "Yvano Antonio" },
+        { label: "Starring", value: "Fafiélla" }
+      ]
     },
     { 
       title: "PRACTICALLY MAGIC | COMMERCIAL SPEC ", 
