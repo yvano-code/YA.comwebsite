@@ -91,6 +91,17 @@ export default function LandingPageDemo() {
                   )}
 
                   {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110">
+                      <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Text Outside */}
+                <div className="px-2 mt-4">
                   <h4 className="text-[13px] md:text-[15px] font-bold tracking-widest uppercase mb-3 text-black">{project.title}</h4>
                   {project.subtitle && (
                     <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium mb-4">{project.subtitle}</p>
@@ -162,12 +173,15 @@ export default function LandingPageDemo() {
                     <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-white/60">{credit.year}</span>
                     <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase bg-white/10 text-white px-3 py-1 rounded-full">{credit.type}</span>
                   </div>
-                  <h4 className="text-2xl md:text-3xl font-black tracking-tight uppercase leading-[1.1] text-white group-hover:text-[#E50914] transition-colors duration-500 mb-4 drop-shadow-md">
-                    {credit.title}
-                  </h4>
                   {credit.note && (
-                    <p className="text-[10px] font-bold tracking-widest text-[#E50914] uppercase mb-4">{credit.note}</p>
+                    <p className="text-[10px] md:text-[11px] font-bold tracking-widest text-white uppercase mb-4">{credit.note}</p>
                   )}
+                  <h4 className="text-[18px] md:text-[22px] font-black uppercase tracking-tight mb-2 text-white">{credit.title}</h4>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[11px] md:text-[12px] font-bold tracking-[0.2em] text-white/60 uppercase">{credit.year}</span>
+                    <span className="text-white/30">•</span>
+                    <span className="text-[11px] md:text-[12px] font-bold tracking-[0.2em] text-white/60 uppercase">{credit.type}</span>
+                  </div>
                 </div>
                 
                 <div className="relative z-10 pt-6 border-t border-white/20">
@@ -191,7 +205,7 @@ export default function LandingPageDemo() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 mb-16">
             {siteConfig.awards.map((award, idx) => (
               <div key={idx} className="group cursor-default relative">
                 <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
@@ -207,6 +221,19 @@ export default function LandingPageDemo() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Laurels Banner Image */}
+          <div className="w-full flex justify-center border-t border-black/10 pt-16">
+            <div className="relative w-full max-w-5xl aspect-[8/1] md:aspect-[10/1]">
+              <Image 
+                src="/projects/laurels.png"
+                alt="Festival Laurels"
+                fill
+                unoptimized={true}
+                className="object-contain"
+              />
+            </div>
           </div>
         </section>
       </main>
