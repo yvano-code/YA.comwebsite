@@ -70,6 +70,7 @@ export const siteConfig = {
       ],
       bottomVideo: "https://youtu.be/4tOHeFDRI0k?si=F5Fghx8mAVR2Fr0Y&t=25"
     },
+    /*
     {
       client: "MUNDO",
       details: "",
@@ -77,6 +78,7 @@ export const siteConfig = {
         "/projects/mundo/RP_Promo_Wide.mov"
       ]
     },
+    */
     {
       client: "CEE CENTRE FOR YOUNG BLACK PROFESSIONALS",
       details: "The CEE Centre for Young Black Professionals is a Toronto-based registered charity dedicated to helping Black youth overcome social and economic barriers to employment, education, and training. Co-founded in 2012 by Dr. Kofi Hope, a Rhodes Scholar and civic entrepreneur, and Shereen Ashman  who established CEE's core program model and foundational curriculum in 2013. Its goal is to move Black youth from the margins of the labor market into prosperous, high-demand careers by focusing on three pillars: Careers, Education, and Empowerment.\n\nAs the Storyteller at the CEE, I was responsible for planning and executing strategic media campaigns for fundraising events and program workshops, including photoshoots, documentary films, social media advertisements and livestream broadcasts. These campaigns were created to target specific demographics within Black communities across the GTA.",
