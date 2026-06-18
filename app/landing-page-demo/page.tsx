@@ -61,6 +61,7 @@ export default function LandingPageDemo() {
                             src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
                             alt={project.title}
                             fill
+                            unoptimized={true}
                             className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                           />
                         )
@@ -81,6 +82,7 @@ export default function LandingPageDemo() {
                              src={img}
                              alt={project.title}
                              fill
+                             unoptimized={true}
                              className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                            />
                          )
@@ -174,6 +176,7 @@ export default function LandingPageDemo() {
                       src={credit.image}
                       alt={credit.title}
                       fill
+                      unoptimized={true}
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     {/* Only a bottom and top gradient for text legibility, no dark overlay across the whole image */}

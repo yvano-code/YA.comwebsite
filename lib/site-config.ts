@@ -105,7 +105,7 @@ export const siteConfig = {
       year: "2025",
       roles: ["Co-Director"],
       type: "TV Series",
-      image: "/projects/baked-butter.png"
+      image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg"
     },
     {
       title: "Honestly - Fafiélla",
@@ -241,7 +241,7 @@ export const siteConfig = {
     },
     { 
       title: "BAKED BUTTER BISCUITS | SERIES PILOT EPISODE ", 
-      image: "/projects/baked-butter.png", 
+      image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg", 
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
       credits: [
