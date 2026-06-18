@@ -85,121 +85,136 @@ export function AnimatedLogo() {
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
         
-        // 2. The Struggle (stuck to the A)
+        // 2. Anticipation Squash (Cuphead rubber hose style)
+        await yControls.start({ 
+          scaleX: 1.3, 
+          scaleY: 0.7, 
+          y: 5,
+          transition: { duration: 0.2 } 
+        })
+        if (isCancelled) return
+
+        // 3. The Struggle (stuck to the A)
         // Pull left
-        yControls.start({ x: -5, rotate: -15, scaleX: 0.9, scaleY: 1.05, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -5, transition: { duration: 0.2, ease: "easeOut" } })
+        yControls.start({ x: -10, y: -5, rotate: -20, scaleX: 0.8, scaleY: 1.2, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -10, scale: 0.8, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
         // Shake/vibrate (stuck!)
         yControls.start({
-          x: [-5, -2, -6, -3, -5, -2, -6, -4],
-          y: [0, -2, 1, -1, 2, 0, -1, 0],
-          rotate: [-15, -12, -18, -14, -17, -15],
+          x: [-10, -8, -12, -9, -11, -8, -12, -10],
+          y: [-5, -7, -4, -6, -3, -7, -4, -5],
+          rotate: [-20, -17, -23, -19, -22, -20],
           transition: { duration: 0.3 }
         })
         await shadowControls.start({
-          x: [-5, -2, -6, -3, -5, -2, -6, -4],
+          x: [-10, -8, -12, -9, -11, -8, -12, -10],
           transition: { duration: 0.3 }
         })
         if (isCancelled) return
 
         // Pull harder!
-        yControls.start({ x: -12, rotate: -25, scaleX: 0.8, scaleY: 1.15, transition: { duration: 0.2, ease: "easeIn" } })
-        await shadowControls.start({ x: -12, transition: { duration: 0.2, ease: "easeIn" } })
+        yControls.start({ x: -15, y: -10, rotate: -30, scaleX: 0.7, scaleY: 1.4, transition: { duration: 0.2, ease: "easeIn" } })
+        await shadowControls.start({ x: -15, scale: 0.7, transition: { duration: 0.2, ease: "easeIn" } })
         if (isCancelled) return
 
-        // 3. POP free! (Cinematic break)
+        // 4. POP free! (Cinematic break)
         popControls.start({
-          scale: [0, 2],
+          scale: [0, 2.5],
           opacity: [1, 0],
-          borderWidth: [4, 0],
+          borderWidth: [6, 0],
           transition: { duration: 0.4, ease: "easeOut" }
         })
         damageControls.start({
           opacity: [0, 1, 1, 0],
-          y: [0, -30, -35],
-          scale: [0.5, 1.2, 1],
-          transition: { duration: 1, ease: "easeOut", times: [0, 0.2, 0.8, 1] }
+          y: [0, -30, -40],
+          x: [0, 10, 20],
+          scale: [0.5, 1.3, 1],
+          rotate: [0, 5, 10],
+          transition: { duration: 1.2, ease: "easeOut", times: [0, 0.2, 0.8, 1] }
         })
         
-        // Jump up and right
+        // Jump up and right in a huge arc (squash in air)
         yControls.start({
           x: 10,
-          y: -30,
-          rotate: 10,
+          y: -40,
+          rotate: [ -30, 10, 30 ], // flip forward
           scaleX: 1,
           scaleY: 1,
-          transition: { type: "spring", stiffness: 400, damping: 10 }
+          transition: { type: "spring", stiffness: 300, damping: 15 }
         })
         await shadowControls.start({
           x: 10,
-          scale: 0.5,
+          scale: 0.4,
           opacity: 0.1,
-          transition: { type: "spring", stiffness: 400, damping: 10 }
+          transition: { type: "spring", stiffness: 300, damping: 15 }
         })
         if (isCancelled) return
 
-        // 4. Heavy Landing (Impact)
-        // Screen shake on wrapper
+        // 5. Heavy Landing (Impact)
         wrapperControls.start({
-          y: [0, 5, -2, 1, 0],
+          y: [0, 6, -3, 2, 0],
           transition: { duration: 0.3, ease: "easeInOut" }
         })
-        // Dust impact
         dust1Controls.start({
           scale: [0, 1.5],
-          x: [-10, -25],
-          y: [15, 10],
+          x: [-10, -30],
+          y: [15, 5],
           opacity: [0.8, 0],
           transition: { duration: 0.5, ease: "easeOut" }
         })
         dust2Controls.start({
           scale: [0, 1.5],
-          x: [10, 25],
-          y: [15, 10],
+          x: [10, 30],
+          y: [15, 5],
           opacity: [0.8, 0],
           transition: { duration: 0.5, ease: "easeOut" }
         })
         
+        // Squash on impact
         yControls.start({
           y: 20,
-          rotate: 20, // Lean forward to run
-          transition: { type: "spring", stiffness: 400, damping: 12 }
+          rotate: 0, 
+          scaleX: 1.4,
+          scaleY: 0.6,
+          transition: { type: "spring", stiffness: 500, damping: 15 }
         })
         await shadowControls.start({
-          scale: 1,
-          opacity: 0.4,
-          transition: { type: "spring", stiffness: 400, damping: 12 }
+          scale: 1.2,
+          opacity: 0.5,
+          transition: { type: "spring", stiffness: 500, damping: 15 }
         })
         if (isCancelled) return
 
-        // 5. Start running
-        // Dramatic leg pumping
+        // 6. Start running (Rubber hose style)
+        // High leg pumping
         leftLegControls.start({
-          rotate: [-70, 70],
+          rotate: [-80, 80],
           transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         rightLegControls.start({
-          rotate: [70, -70],
+          rotate: [80, -80],
           transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         
-        // Dramatic arm swinging
+        // Windmilling arms (Cuphead style)
         leftArmControls.start({
-          rotate: [-80, 40],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
+          rotate: [0, -360],
+          transition: { repeat: Infinity, duration: 0.3, ease: "linear" }
         })
         rightArmControls.start({
-          rotate: [40, -80],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
+          rotate: [0, 360],
+          transition: { repeat: Infinity, duration: 0.3, ease: "linear" }
         })
         
         // Bouncing up and down while leaning forward
         yControls.start({
-          y: [20, 5],
-          rotate: [15, 25],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" }
+          y: [15, 0],
+          rotate: 35,
+          scaleX: 1.1,
+          scaleY: 0.9,
+          skewX: -10, // wind resistance
+          transition: { y: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" } }
         })
         shadowControls.start({
           scale: [1, 0.7],
@@ -210,8 +225,8 @@ export function AnimatedLogo() {
         // Speed lines FX
         speedLinesControls.start({
           opacity: [0, 1, 0],
-          x: [0, -20],
-          transition: { repeat: Infinity, duration: 0.2 }
+          x: [0, -30],
+          transition: { repeat: Infinity, duration: 0.15 }
         })
 
         // Run straight right to edge of screen
@@ -247,9 +262,9 @@ export function AnimatedLogo() {
         popControls.stop()
         damageControls.stop()
         
-        limbControls.start({ opacity: 0, transition: { duration: 0.1 } })
-        shadowControls.start({ opacity: 0, transition: { duration: 0.1 } })
-        speedLinesControls.start({ opacity: 0, transition: { duration: 0.1 } })
+        limbControls.start({ opacity: 0, transition: { duration: 0 } })
+        shadowControls.start({ opacity: 0, transition: { duration: 0 } })
+        speedLinesControls.start({ opacity: 0, transition: { duration: 0 } })
         
         xControls.start({
           x: 0,
@@ -262,14 +277,16 @@ export function AnimatedLogo() {
           rotate: 0,
           scaleX: 1,
           scaleY: 1,
+          skewX: 0,
           transition: { type: "spring", stiffness: 300, damping: 20 }
         })
-        shadowControls.start({ x: 0, y: 0, scale: 1 })
+        shadowControls.start({ x: 0, y: 0, scale: 1, transition: { duration: 0 } })
         
-        leftLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
-        rightLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
-        leftArmControls.start({ rotate: -30, transition: { duration: 0.1 } })
-        rightArmControls.start({ rotate: 30, transition: { duration: 0.1 } })
+        // Instantly reset rotations so they don't unwind 360 degrees
+        leftLegControls.set({ rotate: 0 })
+        rightLegControls.set({ rotate: 0 })
+        leftArmControls.set({ rotate: -30 })
+        rightArmControls.set({ rotate: 30 })
       }
     }
     
@@ -310,9 +327,10 @@ export function AnimatedLogo() {
             <motion.div
               animate={damageControls}
               initial={{ opacity: 0, y: 0, scale: 0.5 }}
-              className="absolute top-[-10px] right-[-60px] text-red-600 font-black text-[10px] italic drop-shadow-md whitespace-nowrap z-50 pointer-events-none tracking-tight"
+              className="absolute top-[-20px] right-[-140px] text-yellow-400 font-black text-xs italic drop-shadow-[0_2px_0_rgba(0,0,0,1)] whitespace-nowrap z-50 pointer-events-none tracking-tight"
+              style={{ WebkitTextStroke: '0.5px black' }}
             >
-              CRITICAL!
+              YOU'RE A GOOD YUTE!
             </motion.div>
 
             {/* Impact Dust Clouds */}
@@ -346,38 +364,50 @@ export function AnimatedLogo() {
                 className="absolute inset-0 pointer-events-none opacity-0"
                 initial={{ opacity: 0 }}
               >
-                {/* Left Arm */}
+                {/* Left Arm (Rubber Hose Curve) */}
                 <motion.div 
                   animate={leftArmControls}
                   initial={{ rotate: -30 }}
-                  className="absolute left-[-12px] top-[40%] w-[12px] h-[3.5px] bg-black origin-right rounded-full z-10" 
+                  className="absolute left-[-16px] top-[40%] w-[16px] h-[10px] origin-right z-10" 
                 >
-                  <MickeyGlove className="absolute left-[-16px] top-[-10px] w-[24px] h-[24px] -rotate-90 drop-shadow-md" />
+                  <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
+                    <path d="M 16,5 Q 8,-5 0,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+                  </svg>
+                  <MickeyGlove className="absolute left-[-14px] top-[-7px] w-[24px] h-[24px] -rotate-90 drop-shadow-md" />
                 </motion.div>
                 
-                {/* Right Arm */}
+                {/* Right Arm (Rubber Hose Curve) */}
                 <motion.div 
                   animate={rightArmControls}
                   initial={{ rotate: 30 }}
-                  className="absolute right-[-12px] top-[40%] w-[12px] h-[3.5px] bg-black origin-left rounded-full z-10" 
+                  className="absolute right-[-16px] top-[40%] w-[16px] h-[10px] origin-left z-10" 
                 >
-                  <MickeyGlove className="absolute right-[-16px] top-[-10px] w-[24px] h-[24px] rotate-90 drop-shadow-md" />
+                  <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
+                    <path d="M 0,5 Q 8,-5 16,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+                  </svg>
+                  <MickeyGlove className="absolute right-[-14px] top-[-7px] w-[24px] h-[24px] rotate-90 drop-shadow-md" />
                 </motion.div>
 
-                {/* Left Leg */}
+                {/* Left Leg (Rubber Hose Curve) */}
                 <motion.div 
                   animate={leftLegControls}
-                  className="absolute left-[25%] bottom-[-16px] w-[3.5px] h-[16px] bg-black origin-top rounded-full z-0" 
+                  className="absolute left-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
                 >
-                  <MickeyShoe className="absolute left-[-10px] bottom-[-10px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+                  <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
+                    <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+                  </svg>
+                  <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
                 </motion.div>
                 
-                {/* Right Leg */}
+                {/* Right Leg (Rubber Hose Curve) */}
                 <motion.div 
                   animate={rightLegControls}
-                  className="absolute right-[25%] bottom-[-16px] w-[3.5px] h-[16px] bg-black origin-top rounded-full z-0" 
+                  className="absolute right-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
                 >
-                  <MickeyShoe className="absolute left-[-10px] bottom-[-10px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+                  <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
+                    <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+                  </svg>
+                  <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
                 </motion.div>
               </motion.div>
             </motion.span>
