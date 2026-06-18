@@ -44,8 +44,8 @@ export default function LandingPageDemo() {
           {/* Horizontal Scroll Container */}
           <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
-              <div key={idx} className="flex-none w-[65vw] md:w-[35vw] lg:w-[25vw] snap-center group">
-                <div className="relative aspect-[2/3] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
+              <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
+                <div className="relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 group-hover:scale-[1.02] transition-transform duration-500 shadow-xl cursor-pointer">
                   {project.image || project.href ? (
                     (() => {
                       const img = project.image || project.href;
@@ -65,63 +65,32 @@ export default function LandingPageDemo() {
                         resolvedSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
                       }
 
-                      return (
-                        <>
-                          {/* Blurred Background to fill space nicely */}
-                          {!isVideo ? (
-                             <Image 
-                               src={resolvedSrc}
-                               alt=""
-                               fill
-                               unoptimized={true}
-                               className="object-cover scale-110 blur-xl opacity-40 group-hover:scale-125 transition-transform duration-700 pointer-events-none"
-                             />
-                          ) : (
-                             <video 
-                               src={resolvedSrc} 
-                               muted 
-                               loop 
-                               playsInline 
-                               className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-40 group-hover:scale-125 transition-transform duration-700 pointer-events-none"
-                             />
-                          )}
-                          
-                          {/* Main uncropped content */}
-                          {isVideo ? (
-                             <video 
-                               src={resolvedSrc} 
-                               autoPlay 
-                               muted 
-                               loop 
-                               playsInline 
-                               className="absolute inset-0 w-full h-full object-contain p-2 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 z-10"
-                             />
-                          ) : (
-                             <Image 
-                               src={resolvedSrc}
-                               alt={project.title}
-                               fill
-                               unoptimized={true}
-                               className="object-contain p-2 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 z-10"
-                             />
-                          )}
-                        </>
-                      )
+                      return isVideo ? (
+                        <video 
+                          src={resolvedSrc} 
+                          autoPlay 
+                          muted 
+                          loop 
+                          playsInline 
+                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                        />
+                      ) : (
+                        <Image 
+                          src={resolvedSrc}
+                          alt={project.title}
+                          fill
+                          unoptimized={true}
+                          className="object-cover opacity-90 group-hover:opacity-100 transition-transform duration-700 group-hover:scale-105"
+                        />
+                      );
                     })()
                   ) : (
-                    <div className="absolute inset-0 bg-gray-800" />
-                  )}
-                  
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40">
-                       <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-white border-b-[8px] border-b-transparent ml-1" />
+                    <div className="w-full h-full flex items-center justify-center text-white/30 text-xs tracking-widest font-bold">
+                      NO MEDIA
                     </div>
-                  </div>
-                </div>
-                
-                {/* Project Info */}
-                <div className="flex flex-col">
+                  )}
+
+                  {/* Play Button Overlay */}
                   <h4 className="text-[13px] md:text-[15px] font-bold tracking-widest uppercase mb-3 text-black">{project.title}</h4>
                   {project.subtitle && (
                     <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium mb-4">{project.subtitle}</p>
@@ -202,7 +171,7 @@ export default function LandingPageDemo() {
                 </div>
                 
                 <div className="relative z-10 pt-6 border-t border-white/20">
-                  <p className="text-[13px] md:text-[14px] font-extrabold text-white">
+                  <p className="text-[13px] md:text-[14px] font-extrabold text-white uppercase">
                      {credit.roles.join(", ")}
                   </p>
                 </div>
