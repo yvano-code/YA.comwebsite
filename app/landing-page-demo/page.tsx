@@ -228,11 +228,11 @@ export default function LandingPageDemo() {
           <div className="w-full flex justify-center border-t border-black/10 pt-16">
             <div className="relative w-full max-w-5xl aspect-[8/1] md:aspect-[10/1]">
               <Image 
-                src="/projects/laurels.png"
+                src="/projects/BBT+laurals+4.webp"
                 alt="Festival Laurels"
                 fill
                 unoptimized={true}
-                className="object-contain"
+                className="object-contain mix-blend-multiply opacity-90"
               />
             </div>
           </div>
