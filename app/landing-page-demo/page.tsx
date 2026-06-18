@@ -132,12 +132,12 @@ export default function LandingPageDemo() {
 
           {/* Details Section */}
           {group && group.details && (
-            <div className="max-w-5xl mx-auto mt-16 md:mt-24 text-center px-4">
-               <div className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-6 font-bold">About {group.client}</div>
+            <div className="w-full mt-10 md:mt-12 text-center">
+               <div className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4 font-bold">About {group.client}</div>
                
-               <div className="text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium max-w-4xl mx-auto">
+               <div className="text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium w-full mx-auto">
                   {group.details.split('\n\n').filter(p => !p.startsWith('###') && !p.includes('[LINK]')).map((paragraph, i) => (
-                    <p key={i} className="mb-6">{paragraph}</p>
+                    <p key={i} className="mb-4">{paragraph}</p>
                   ))}
                </div>
             </div>
@@ -145,8 +145,8 @@ export default function LandingPageDemo() {
         </section>
 
         {/* Film & TV Horizontal Scroll Section */}
-        <section className="mt-32 md:mt-48 overflow-hidden">
-          <div className="px-6 md:px-12 mb-10 flex items-end justify-between">
+        <section className="mt-20 md:mt-24 overflow-hidden">
+          <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
             <div className="flex flex-col">
               <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Film & TV</h3>
               <p className="text-[11px] md:text-[13px] font-bold tracking-[0.1em] uppercase text-gray-500 mt-1 md:mt-2">Selected Filmography</p>
@@ -155,7 +155,7 @@ export default function LandingPageDemo() {
           </div>
 
           {/* Horizontal Scroll Container */}
-          <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-12 snap-x snap-mandatory hide-scrollbar">
+          <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
               <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
                 <div className="relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
@@ -234,8 +234,8 @@ export default function LandingPageDemo() {
         </section>
 
         {/* Accreditations Section */}
-        <section className="mt-24 md:mt-32 px-6 md:px-12 pb-12">
-          <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-6">
+        <section className="mt-16 md:mt-20 px-6 md:px-12 pb-12">
+          <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-6">
             <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Accreditations</h3>
             <Link href="/imdb" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity pb-1 w-max">View Full IMDb ↗</Link>
           </div>
@@ -261,7 +261,7 @@ export default function LandingPageDemo() {
       </main>
 
       {/* Massive Name Footer */}
-      <footer className="w-full mt-24 md:mt-40 pb-12 relative overflow-hidden flex flex-col items-center">
+      <footer className="w-full mt-16 md:mt-24 pb-12 relative overflow-hidden flex flex-col items-center">
         {/* Blurb container - positioned to align over ANTONIO */}
         <div className="w-full px-8 md:px-16 flex justify-end mb-[-2vw] relative z-10 pointer-events-auto">
           <p className="text-[8px] md:text-[10px] uppercase tracking-[0.15em] leading-relaxed font-bold text-gray-800 max-w-[200px] md:max-w-[280px] text-right md:text-left md:-mr-12 lg:-mr-24">
