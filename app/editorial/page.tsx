@@ -56,21 +56,43 @@ export default function EditorialPage() {
                           </div>
                         )
                       }
-                      if (paragraph.startsWith('[LINK]')) {
-                        const match = paragraph.match(/\[LINK\](.*?)\|(.*)/);
-                        if (match) {
-                          return (
-                            <div key={i} className="my-2">
-                              <a 
-                                href={match[2]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
-                              >
-                                {match[1]} ↗
-                              </a>
-                            </div>
-                          )
+                      if (paragraph.includes('[LINK]')) {
+                        const parts = paragraph.split(/\[LINK\](.*?)\|(.*)/);
+                        if (parts.length >= 3) {
+                          const textPart = parts[0];
+                          const linkText = parts[1];
+                          const linkUrl = parts[2];
+                          
+                          if (textPart.trim() === '') {
+                            return (
+                              <div key={i} className="my-2">
+                                <a 
+                                  href={linkUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
+                                >
+                                  {linkText} ↗
+                                </a>
+                              </div>
+                            )
+                          } else {
+                            return (
+                              <div key={i} className="flex flex-col sm:flex-row sm:justify-between sm:items-end w-full gap-4 mt-2">
+                                <span className="leading-relaxed whitespace-pre-wrap font-normal text-[13px] sm:text-sm text-foreground/90">
+                                  {textPart}
+                                </span>
+                                <a 
+                                  href={linkUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit shrink-0"
+                                >
+                                  {linkText} ↗
+                                </a>
+                              </div>
+                            )
+                          }
                         }
                       }
                       return (
