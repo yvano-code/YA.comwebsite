@@ -31,6 +31,7 @@ export const siteConfig = {
     { label: "EDITORIAL", href: "/editorial" },
     { label: "ACCREDITATIONS", href: "/imdb" },
     { label: "LANDING DEMO", href: "/landing-page-demo" },
+    { label: "HOME PAGE DEMO", href: "/home-page-demo" },
     { label: "CONTACT", href: "/contact" },
   ],
 
