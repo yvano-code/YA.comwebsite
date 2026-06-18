@@ -17,18 +17,26 @@ export default function ImdbPage() {
               <p className="text-sm md:text-base leading-relaxed max-w-3xl">
                 {siteConfig.imdbBio}
               </p>
-              {"imdbBioLink" in siteConfig && (
-                <div className="pt-2">
+              <div className="pt-4 flex flex-col sm:flex-row gap-4 sm:gap-8 sm:items-center">
+                {"imdbBioLink" in siteConfig && (
                   <Link 
                     href={(siteConfig as any).imdbBioLink.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500"
+                    className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
                   >
                     {(siteConfig as any).imdbBioLink.title} ↗
                   </Link>
-                </div>
-              )}
+                )}
+                <Link 
+                  href="https://www.imdb.com/name/nm10504529/?ref_=tt_ov_1_1" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
+                >
+                  VIEW FULL IMDB PROFILE ↗
+                </Link>
+              </div>
             </div>
           )}
         </header>
@@ -60,16 +68,18 @@ export default function ImdbPage() {
           </div>
         </div>
 
-        <div className="pt-16 border-t border-black/10 text-center">
-          <Link 
-            href="https://www.imdb.com/name/nm10504529/?ref_=tt_ov_1_1" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-block border border-black px-8 py-3 text-xs font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-colors"
-          >
-            View Full IMDB Profile
-          </Link>
-        </div>
+        {"awards" in siteConfig && (
+          <div className="border-t border-black/10 pt-16 mt-16">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-[0.15em] uppercase mb-8">Awards</h2>
+            <ul className="space-y-6 list-disc pl-5">
+              {(siteConfig as any).awards.map((award: any, index: number) => (
+                <li key={index} className="text-sm md:text-base leading-relaxed pl-2">
+                  <strong>{award.title}</strong>: <strong>{award.status}</strong> <span dangerouslySetInnerHTML={{ __html: award.description }} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   )

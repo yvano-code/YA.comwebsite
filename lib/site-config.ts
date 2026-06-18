@@ -180,6 +180,30 @@ export const siteConfig = {
     }
   ],
 
+  // ── AWARDS ────────────────────────────────────────────────────────────────
+  awards: [
+    {
+      title: "Canadian Screen Award (2021)",
+      status: "Winner",
+      description: "of <em>Best Direction, Documentary Series</em> for his work on the project <em>Being Black in Toronto</em>."
+    },
+    {
+      title: "Emerging Lens Cultural Film Festival (2021)",
+      status: "Winner",
+      description: "of <em>Best Documentary</em> for his directorial debut short documentary, <em>#BLACK</em>."
+    },
+    {
+      title: "Hollywood North Film Awards (2020)",
+      status: "Nominated",
+      description: "for <em>Best VFX & Color</em> and <em>Best Editing of a Canadian Short Doc</em> for <em>#BLACK</em>."
+    },
+    {
+      title: "Gary International Black Film Festival (2020)",
+      status: "Nominated / Selected",
+      description: "for <em>Best Youth Film</em> following the CBC broadcast of <em>Being Black in Toronto</em>."
+    }
+  ],
+
   // ── PROJECTS ──────────────────────────────────────────────────────────────
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
