@@ -239,10 +239,10 @@ export default function LandingPageDemo() {
       </main>
 
       {/* Massive Name Footer */}
-      <footer className="w-full mt-24 md:mt-40 pb-12 relative flex flex-col items-center">
+      <footer className="w-full mt-24 md:mt-40 pb-12 relative flex flex-col items-center overflow-hidden">
         <div className="w-full flex justify-center relative pt-8">
           {/* Massive Name */}
-          <h2 className="text-[11.5vw] md:text-[12vw] lg:text-[12.5vw] font-black tracking-[-0.04em] text-[#E50914] leading-[0.8] whitespace-nowrap scale-y-[1.2] origin-bottom text-center px-4">
+          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#E50914] leading-none whitespace-nowrap text-center px-4">
             YVANO ANTONIO.
           </h2>
 
