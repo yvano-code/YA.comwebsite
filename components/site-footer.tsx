@@ -40,39 +40,67 @@ function MailIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   const pathname = usePathname()
-  const { social } = siteConfig
+  const { social, contact } = siteConfig
 
   if (pathname === '/landing-page-demo') return null
 
+  // We use the demo reel video URL here
+  const videoId = "w0BXesobuSE"
+
   return (
-    <footer className="mt-16 flex flex-col items-center gap-6 px-6 pb-12 pt-8 text-center">
-      <p className="text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} GOOD YUTE LIFESTYLE
-      </p>
-      <div className="flex items-center gap-5 text-muted-foreground">
-        {/* @ts-ignore */}
-        {social.tiktok && (
-          // @ts-ignore
-          <a href={social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok" className="transition-colors hover:text-foreground">
-            <TiktokIcon className="size-5" />
-          </a>
-        )}
-        {social.instagram && (
-          <a href={social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="transition-colors hover:text-foreground">
-            <InstagramIcon className="size-5" />
-          </a>
-        )}
-        {social.youtube && (
-          <a href={social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube" className="transition-colors hover:text-foreground">
-            <YoutubeIcon className="size-5" />
-          </a>
-        )}
-        {social.email && (
-          <a href={`mailto:${social.email}`} aria-label="Email" className="transition-colors hover:text-foreground">
-            <MailIcon className="size-5" />
-          </a>
-        )}
+    <footer className="mt-32 relative w-full flex items-center justify-center overflow-hidden py-32 md:py-48">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=${videoId}`}
+          className="absolute inset-0 w-full h-full object-cover scale-150 transform-gpu"
+          allow="autoplay; encrypted-media"
+        />
+        {/* White overlay to make the video subtle and let the text pop like the screenshot */}
+        <div className="absolute inset-0 bg-[#f4f4f5]/85 backdrop-blur-[2px]" /> 
+      </div>
+
+      {/* Overlay Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 text-center">
+        <p className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-[#666] mb-2 md:mb-4">
+          FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL <a href={`mailto:${contact.email}`} className="text-[#8c8c8c] hover:text-black transition-colors">{contact.email}</a>
+        </p>
+        <h2 className="text-[13vw] sm:text-[12vw] font-black tracking-tighter text-[#e60000] leading-none select-none">
+          YVANO ANTONIO.
+        </h2>
+      </div>
+
+      {/* Bottom bar with socials and copyright */}
+      <div className="absolute bottom-6 left-0 w-full px-6 flex flex-col md:flex-row items-center justify-between gap-4 z-10 text-gray-500">
+        <p className="text-xs font-medium">
+          &copy; {new Date().getFullYear()} GOOD YUTE LIFESTYLE
+        </p>
+        <div className="flex items-center gap-5">
+          {/* @ts-ignore */}
+          {social.tiktok && (
+            // @ts-ignore
+            <a href={social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok" className="transition-colors hover:text-black">
+              <TiktokIcon className="size-5" />
+            </a>
+          )}
+          {social.instagram && (
+            <a href={social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="transition-colors hover:text-black">
+              <InstagramIcon className="size-5" />
+            </a>
+          )}
+          {social.youtube && (
+            <a href={social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube" className="transition-colors hover:text-black">
+              <YoutubeIcon className="size-5" />
+            </a>
+          )}
+          {social.email && (
+            <a href={`mailto:${social.email}`} aria-label="Email" className="transition-colors hover:text-black">
+              <MailIcon className="size-5" />
+            </a>
+          )}
+        </div>
       </div>
     </footer>
   )
 }
+
