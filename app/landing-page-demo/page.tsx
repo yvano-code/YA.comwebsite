@@ -44,8 +44,8 @@ export default function LandingPageDemo() {
           {/* Horizontal Scroll Container */}
           <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
-              <div key={idx} className="flex-none w-[65vw] md:w-[35vw] lg:w-[25vw] snap-center group">
-                <div className="relative aspect-[2/3] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
+              <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
+                <div className="relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
                   {project.image || project.href ? (
                     (() => {
                       const img = project.image || project.href;
