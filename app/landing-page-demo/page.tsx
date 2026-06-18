@@ -5,6 +5,27 @@ import Image from "next/image"
 import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
 
+// Elegant SVG Laurel Wreath Component
+const LaurelWreath = ({ className }: { className?: string }) => (
+  <svg 
+    className={className} 
+    viewBox="0 0 100 100" 
+    fill="currentColor" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M 20.324 81.298 C 12.384 66.82 12.871 49.337 20.573 34.258 C 21.905 31.652 25.109 30.601 27.714 31.933 C 30.32 33.265 31.371 36.468 30.039 39.074 C 23.957 50.985 23.518 64.912 29.627 75.986 C 30.707 77.946 29.988 80.407 28.028 81.488 C 26.068 82.568 23.606 81.849 22.526 79.889 L 20.324 81.298 Z" />
+    <path d="M 79.676 81.298 C 87.616 66.82 87.129 49.337 79.427 34.258 C 78.095 31.652 74.891 30.601 72.286 31.933 C 69.68 33.265 68.629 36.468 69.961 39.074 C 76.043 50.985 76.482 64.912 70.373 75.986 C 69.293 77.946 70.012 80.407 71.972 81.488 C 73.932 82.568 76.394 81.849 77.474 79.889 L 79.676 81.298 Z" />
+    <path d="M 12.56 61.944 C 4.604 53.649 3.013 41.252 8.358 31.066 C 9.697 28.514 12.923 27.525 15.474 28.864 C 18.026 30.203 19.014 33.429 17.675 35.98 C 13.565 43.81 14.887 53.473 21.053 59.904 C 22.955 61.887 22.868 65.006 20.885 66.908 C 18.903 68.81 15.784 68.723 13.882 66.74 L 12.56 61.944 Z" />
+    <path d="M 87.44 61.944 C 95.396 53.649 96.987 41.252 91.642 31.066 C 90.303 28.514 87.077 27.525 84.526 28.864 C 81.974 30.203 80.986 33.429 82.325 35.98 C 86.435 43.81 85.113 53.473 78.947 59.904 C 77.045 61.887 77.132 65.006 79.115 66.908 C 81.097 68.81 84.216 68.723 86.118 66.74 L 87.44 61.944 Z" />
+    <path d="M 23.362 39.851 C 18.256 29.414 21.049 16.598 30.407 8.94 C 32.545 7.189 35.69 7.495 37.441 9.633 C 39.191 11.771 38.885 14.916 36.747 16.666 C 29.435 22.651 27.234 32.748 31.255 40.966 C 32.41 43.327 31.42 46.166 29.059 47.32 C 26.699 48.475 23.86 47.485 22.705 45.124 L 23.362 39.851 Z" />
+    <path d="M 76.638 39.851 C 81.744 29.414 78.951 16.598 69.593 8.94 C 67.455 7.189 64.31 7.495 62.559 9.633 C 60.809 11.771 61.115 14.916 63.253 16.666 C 70.565 22.651 72.766 32.748 68.745 40.966 C 67.59 43.327 68.58 46.166 70.941 47.32 C 73.301 48.475 76.14 47.485 77.295 45.124 L 76.638 39.851 Z" />
+    <path d="M 37.601 23.952 C 37.653 12.316 45.922 2.308 57.347 0.05 C 60.038 -0.48 62.597 1.298 63.126 3.989 C 63.655 6.68 61.877 9.238 59.186 9.767 C 50.141 11.554 43.514 19.569 43.473 28.847 C 43.46 31.597 41.218 33.816 38.468 33.803 C 35.718 33.79 33.498 31.548 33.511 28.798 L 37.601 23.952 Z" />
+    <path d="M 62.399 23.952 C 62.347 12.316 54.078 2.308 42.653 0.05 C 39.962 -0.48 37.403 1.298 36.874 3.989 C 36.345 6.68 38.123 9.238 40.814 9.767 C 49.859 11.554 56.486 19.569 56.527 28.847 C 56.54 31.597 58.782 33.816 61.532 33.803 C 64.282 33.79 66.502 31.548 66.489 28.798 L 62.399 23.952 Z" />
+    <circle cx="50" cy="92" r="5" />
+    <path d="M 43 92 Q 50 98 57 92" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+)
+
 export default function LandingPageDemo() {
 
   return (
@@ -192,21 +213,45 @@ export default function LandingPageDemo() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
-            {siteConfig.awards.map((award, idx) => (
-              <div key={idx} className="group cursor-default relative">
-                <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
-                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
-                  {award.status}
+            {siteConfig.awards.map((award, idx) => {
+              const isCSA = award.title.includes("Canadian Screen Award");
+              
+              return (
+                <div key={idx} className={`group cursor-default relative ${isCSA ? 'md:-mt-2' : ''}`}>
+                  {isCSA && (
+                    <div className="absolute -inset-6 -z-10 bg-[#E05D4C]/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden md:block"></div>
+                  )}
+                  
+                  {!isCSA && (
+                    <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
+                  )}
+
+                  <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
+                    {isCSA ? (
+                      <div className="flex items-center gap-2 text-[#E05D4C] w-full">
+                         <div className="relative w-8 h-8 flex-shrink-0 animate-pulse">
+                           <LaurelWreath className="w-full h-full drop-shadow-sm" />
+                         </div>
+                         <span className="tracking-[0.3em] font-black">{award.status}</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
+                        {award.status}
+                      </>
+                    )}
+                  </div>
+                  
+                  <h4 className={`text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 transition-colors duration-300 ${isCSA ? 'text-[#E05D4C]' : 'group-hover:text-[#E05D4C]'}`}>
+                    {award.title}
+                  </h4>
+                  
+                  <p className={`text-[12px] md:text-[13px] leading-relaxed font-medium max-w-sm ${isCSA ? 'text-gray-800' : 'text-gray-600'}`}>
+                    {award.description}
+                  </p>
                 </div>
-                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
-                  {award.title}
-                </h4>
-                <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-600 font-medium max-w-sm">
-                  {award.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </main>
