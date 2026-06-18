@@ -40,11 +40,12 @@ export const siteConfig = {
   editorial: [
     {
       client: "BAKED BUTTER BISCUITS",
-      details: "Baked Butter Biscuits is a genre-bending, 30 minute episodic comedy series about survival and self-growth, blurring the line between realism and ridiculousness. Created by award winning director Yvano Antonio and cinematographer Ananse-Tony, and inspired by shows like Atlanta and Key and Peele, Biscuits examines race, friendship, and absurdity in spaces where Black life collides with societal expectations.",
+      details: "Baked Butter Biscuits is a genre-bending, 30 minute episodic comedy series about survival and self-growth, blurring the line between realism and ridiculousness. Inspired by shows like Atlanta and Key and Peele, Biscuits examines race, friendship, and absurdity in spaces where Black life collides with societal expectations.\n\nCreated by Yvano Antonio & Ananse Arthur.",
       images: [
         "/projects/bbb/BBB_Pilot_Hero_V1.mp4"
       ]
     },
+    /*
     {
       client: "GOOD YUTE LIFESTYLE",
       details: "",
@@ -52,6 +53,7 @@ export const siteConfig = {
         "/projects/PRO_9325-Edit.jpg"
       ]
     },
+    */
     {
       client: "THE CLUBHOUSE JAMZ EXPERIENCE",
       details: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. The show is hosted by Splash GB, who interviews guest artists and puts their talents and skills to the test with tough questions, theme game shows and requests for encore performances. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.\n\nExecutive Producer: HNTRS CLUB INC.\nDirected by: Yvano Antonio\nTechnical Director: Ismael Machado\nVideo by: London Rich / Set In Film",
