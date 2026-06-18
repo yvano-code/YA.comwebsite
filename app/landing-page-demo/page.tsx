@@ -12,7 +12,17 @@ export default function LandingPageDemo() {
     <div className="min-h-screen bg-[#F3F4F3] text-black selection:bg-black selection:text-white pb-24">
       {/* Navigation matching Awwwards, but using real links */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-8 text-sm font-semibold tracking-wide">
-         <Link href="/" className="text-3xl font-black tracking-tighter">YA.</Link>
+         <Link href="/" className="text-3xl font-black tracking-tighter group flex items-baseline">
+           <span>Y</span>
+           <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-[150px] group-hover:opacity-100 transition-all duration-700 ease-in-out whitespace-nowrap">
+             VANO&nbsp;
+           </span>
+           <span>A</span>
+           <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-[150px] group-hover:opacity-100 transition-all duration-700 ease-in-out whitespace-nowrap">
+             NTONIO
+           </span>
+           <span>.</span>
+         </Link>
          <div className="hidden lg:flex items-center space-x-10">
            {siteConfig.nav.map((item, idx) => (
               <Link 
