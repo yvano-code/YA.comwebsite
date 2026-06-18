@@ -103,7 +103,7 @@ export const siteConfig = {
     {
       title: "Baked Butter Biscuits",
       year: "2025",
-      roles: ["Co-Director"],
+      roles: ["Co-Creator", "Executive Producer", "Director"],
       type: "TV Series",
       image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg"
     },
