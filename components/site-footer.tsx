@@ -46,9 +46,11 @@ export function SiteFooter() {
     <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden bg-[#F3F4F3]">
       <div className="w-full flex justify-center relative pt-8">
         {/* Massive Name */}
-        <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none whitespace-nowrap text-center px-4">
-          YVANO ANTONIO.
-        </h2>
+        <div className="pt-8 overflow-hidden">
+          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none whitespace-nowrap text-center px-4 transform scale-y-[1.3] origin-bottom">
+            YVANO ANTONIO.
+          </h2>
+        </div>
 
         {/* Overlapping Blurb */}
         <div className="absolute top-0 md:top-2 right-4 md:right-8 lg:right-[4%] z-10 text-right md:text-left opacity-60 hover:opacity-100 transition-opacity duration-300">
