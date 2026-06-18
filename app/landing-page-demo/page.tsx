@@ -231,6 +231,15 @@ export default function LandingPageDemo() {
         </section>
       </main>
 
+      {/* Massive Name Footer */}
+      <footer className="w-full px-4 md:px-8 mt-12 md:mt-24 pb-4 md:pb-8">
+        <div className="bg-[#E05D4C] rounded-3xl md:rounded-[4rem] flex items-center justify-center pt-24 pb-20 md:pt-40 md:pb-32 w-full overflow-hidden shadow-2xl">
+          <h2 className="text-[10vw] sm:text-[11vw] md:text-[12vw] lg:text-[12.5vw] font-black tracking-tighter text-black leading-[0.75] whitespace-nowrap px-4">
+            YVANO ANTONIO.
+          </h2>
+        </div>
+      </footer>
+
       {/* Global Style for hiding scrollbar */}
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar {
