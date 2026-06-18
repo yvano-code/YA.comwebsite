@@ -132,10 +132,10 @@ export default function LandingPageDemo() {
 
           {/* Details Section */}
           {group && group.details && (
-            <div className="max-w-3xl mx-auto mt-16 md:mt-24 text-center px-4">
+            <div className="max-w-5xl mx-auto mt-16 md:mt-24 text-center px-4">
                <div className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-6 font-bold">About {group.client}</div>
                
-               <div className="text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium max-w-2xl mx-auto">
+               <div className="text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium max-w-4xl mx-auto">
                   {group.details.split('\n\n').filter(p => !p.startsWith('###') && !p.includes('[LINK]')).map((paragraph, i) => (
                     <p key={i} className="mb-6">{paragraph}</p>
                   ))}
