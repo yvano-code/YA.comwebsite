@@ -143,7 +143,7 @@ export default function EditorialPage() {
                   {group.images.length > 1 && (
                     <div className="flex flex-col gap-4">
                       {/* Main Selected Photo */}
-                      <div className="w-full relative aspect-[3/2] md:aspect-[16/9] overflow-hidden bg-black">
+                      <div className="w-full relative aspect-[3/2] md:aspect-[16/9] overflow-hidden bg-transparent">
                         {group.images.slice(1).map((img, idx) => (
                           <div
                             key={idx}
