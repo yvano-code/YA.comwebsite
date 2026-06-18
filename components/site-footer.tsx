@@ -42,62 +42,20 @@ export function SiteFooter() {
   const pathname = usePathname()
   const { social, contact } = siteConfig
 
-  // We use the demo reel video URL here
-  const videoId = "w0BXesobuSE"
-
   return (
-    <footer className="mt-32 relative w-full flex overflow-hidden">
-      {/* Background Video */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=${videoId}`}
-          className="absolute inset-0 w-full h-full object-cover scale-150 transform-gpu"
-          allow="autoplay; encrypted-media"
-        />
-        {/* Dark overlay to make the video subtle and let the text pop */}
-        <div className="absolute inset-0 bg-black/60" /> 
-      </div>
+    <footer className="w-full mt-24 md:mt-40 pb-12 relative flex flex-col items-center overflow-hidden bg-[#F3F4F3]">
+      <div className="w-full flex justify-center relative pt-8">
+        {/* Massive Name */}
+        <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none whitespace-nowrap text-center px-4">
+          YVANO ANTONIO.
+        </h2>
 
-      {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-end w-full px-4 text-center h-full pt-48 pb-24 md:pt-64 md:pb-28">
-        <p className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-gray-400 mb-2 md:mb-4">
-          FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL <a href={`mailto:${contact.email}`} className="text-gray-200 hover:text-white transition-colors">{contact.email}</a>
-        </p>
-        <div className="overflow-hidden py-4">
-          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none select-none drop-shadow-xl whitespace-nowrap transform scale-y-[1.3] origin-bottom">
-            YVANO ANTONIO.
-          </h2>
-        </div>
-      </div>
-
-      {/* Bottom bar with socials and copyright */}
-      <div className="absolute bottom-6 left-0 w-full px-6 flex flex-col md:flex-row items-center justify-between gap-4 z-10 text-gray-400">
-        <p className="text-xs font-medium">
-          &copy; {new Date().getFullYear()} GOOD YUTE LIFESTYLE
-        </p>
-        <div className="flex items-center gap-5">
-          {/* @ts-ignore */}
-          {social.tiktok && (
-            // @ts-ignore
-            <a href={social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok" className="transition-colors hover:text-white">
-              <TiktokIcon className="size-5" />
-            </a>
-          )}
-          {social.instagram && (
-            <a href={social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="transition-colors hover:text-white">
-              <InstagramIcon className="size-5" />
-            </a>
-          )}
-          {social.youtube && (
-            <a href={social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube" className="transition-colors hover:text-white">
-              <YoutubeIcon className="size-5" />
-            </a>
-          )}
-          {social.email && (
-            <a href={`mailto:${social.email}`} aria-label="Email" className="transition-colors hover:text-white">
-              <MailIcon className="size-5" />
-            </a>
-          )}
+        {/* Overlapping Blurb */}
+        <div className="absolute top-0 md:top-2 right-4 md:right-8 lg:right-[4%] z-10 text-right md:text-left opacity-60 hover:opacity-100 transition-opacity duration-300">
+          <p className="text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] uppercase tracking-[0.1em] font-extrabold text-black md:whitespace-nowrap leading-relaxed max-w-[200px] md:max-w-none ml-auto">
+            For bookings, collaborations and general inquiries please email <br className="md:hidden" />
+            <a href={`mailto:${contact.email}`} className="text-black hover:text-[#e60000] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#e60000]">{contact.email}</a>
+          </p>
         </div>
       </div>
     </footer>
