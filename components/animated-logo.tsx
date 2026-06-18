@@ -556,6 +556,24 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+const SoccerCleat = ({ className, flipped = false }: { className?: string, flipped?: boolean }) => {
+  return (
+    <svg viewBox="0 0 100 50" className={className} style={{ overflow: "visible", transform: flipped ? 'scaleX(-1)' : 'none' }}>
+      {/* Back of heel to toe */}
+      <path d="M 20,15 C 30,10 60,15 80,30 C 95,40 90,45 80,45 C 50,45 20,45 10,40 C 0,35 10,20 20,15 Z" fill="#111" />
+      {/* Swoosh/Speed stripe */}
+      <path d="M 30,25 C 50,22 70,30 85,35" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+      {/* Ankle collar (sock-like) */}
+      <path d="M 15,0 L 35,0 L 30,20 L 10,20 Z" fill="#e60000" />
+      {/* Studs */}
+      <rect x="20" y="45" width="6" height="5" fill="#aaa" rx="2" />
+      <rect x="35" y="45" width="6" height="5" fill="#aaa" rx="2" />
+      <rect x="60" y="45" width="6" height="5" fill="#aaa" rx="2" />
+      <rect x="75" y="44" width="5" height="4" fill="#aaa" rx="2" />
+    </svg>
+  )
+}
+
 function SoccerLogo({ isHovered }: { isHovered: boolean }) {
   const dotControls = useAnimation()
   const aControls = useAnimation()
@@ -568,41 +586,56 @@ function SoccerLogo({ isHovered }: { isHovered: boolean }) {
       if (isHovered) {
         // The dot (.) arcs left to get in front of the A
         await dotControls.start({
-          x: -15,
-          y: -20,
+          x: -12,
+          y: -15,
           rotate: -90,
           transition: { type: "spring", stiffness: 200, damping: 10 }
         })
         if (isCancelled) return
 
-        // Juggling Loop
-        // Ball bounces up and down
+        // Juggling Loop (1.2s total, 0.6s per kick)
+        // Ball bounces with gravity (parabolic arcs)
         dotControls.start({
-          y: [-20, -50, -20],
-          x: [-15, -18, -12], // slight sway
-          rotate: [-90, 0, 90], // ball spins
-          transition: { repeat: Infinity, duration: 0.8, ease: "linear" }
+          y: [-15, -60, -15, -60, -15], 
+          x: [-12, -15, -12, -9, -12], // slight sway
+          rotate: [-90, 90, 270, 450, 630], // realistic backspin
+          transition: { 
+            repeat: Infinity, 
+            duration: 1.2, 
+            ease: ["easeOut", "easeIn", "easeOut", "easeIn"], // up, down, up, down
+            times: [0, 0.25, 0.5, 0.75, 1]
+          }
         })
 
-        // A bounces up and down slightly to hit the ball
+        // A bounces up and down slightly to receive the ball
         aControls.start({
-          y: [0, 4, 0], 
-          scaleY: [1, 0.95, 1],
-          transition: { repeat: Infinity, duration: 0.8, ease: "linear" }
+          y: [0, 2, 0, 2, 0], 
+          scaleY: [1, 0.96, 1, 0.96, 1],
+          transition: { repeat: Infinity, duration: 1.2, ease: "easeInOut" }
         })
 
-        // Left knee up (when ball is low)
+        // Left Leg kicks (t=0 to 0.5)
         leftLegControls.start({
-          rotate: [0, -80, 0],
-          y: [0, -10, 0],
-          transition: { repeat: Infinity, duration: 0.8, ease: "easeOut", times: [0, 0.5, 1] }
+          rotate: [0, -65, 0, 0, 0],
+          y: [0, -8, 0, 0, 0],
+          transition: { 
+            repeat: Infinity, 
+            duration: 1.2, 
+            ease: ["easeOut", "easeIn", "linear", "linear"],
+            times: [0, 0.15, 0.5, 0.75, 1]
+          }
         })
 
-        // Right knee up (alternating)
+        // Right Leg kicks (t=0.5 to 1.0)
         rightLegControls.start({
-          rotate: [0, 80, 0], // right leg kicks differently
-          y: [0, -10, 0],
-          transition: { repeat: Infinity, duration: 0.8, ease: "easeOut", times: [0, 0.5, 1], delay: 0.4 } // offset by half cycle
+          rotate: [0, 0, 0, -65, 0],
+          y: [0, 0, 0, -8, 0],
+          transition: { 
+            repeat: Infinity, 
+            duration: 1.2, 
+            ease: ["linear", "linear", "easeOut", "easeIn"],
+            times: [0, 0.25, 0.5, 0.65, 1]
+          }
         })
         
       } else {
@@ -614,6 +647,8 @@ function SoccerLogo({ isHovered }: { isHovered: boolean }) {
 
         dotControls.start({ x: 0, y: 0, rotate: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
         aControls.start({ x: 0, y: 0, scaleY: 1, transition: { type: "spring", stiffness: 300, damping: 20 } })
+        leftLegControls.start({ rotate: 0, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
+        rightLegControls.start({ rotate: 0, y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
       }
     }
     
@@ -640,30 +675,33 @@ function SoccerLogo({ isHovered }: { isHovered: boolean }) {
           {/* Left Leg */}
           <motion.div 
             animate={leftLegControls}
-            className="absolute left-[15%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
+            className="absolute left-[15%] bottom-[-16px] w-[8px] h-[16px] origin-top z-0" 
           >
-            <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-              <path d="M 5,0 L 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-            </svg>
-            <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+            {/* Calf */}
+            <div className="absolute inset-0 bg-[#fcd5ce] rounded-full border border-black/10" />
+            {/* Sock */}
+            <div className="absolute bottom-0 w-full h-[12px] bg-[#e60000] rounded-b-full border-t border-white/40" />
+            <SoccerCleat className="absolute left-[-12px] bottom-[-10px] w-[28px] h-[14px] drop-shadow-md" flipped={true} />
           </motion.div>
           
           {/* Right Leg */}
           <motion.div 
             animate={rightLegControls}
-            className="absolute right-[15%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
+            className="absolute right-[15%] bottom-[-16px] w-[8px] h-[16px] origin-top z-0" 
           >
-            <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-              <path d="M 5,0 L 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-            </svg>
-            <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={false} />
+            {/* Calf */}
+            <div className="absolute inset-0 bg-[#fcd5ce] rounded-full border border-black/10" />
+            {/* Sock */}
+            <div className="absolute bottom-0 w-full h-[12px] bg-[#e60000] rounded-b-full border-t border-white/40" />
+            <SoccerCleat className="absolute left-[-12px] bottom-[-10px] w-[28px] h-[14px] drop-shadow-md" flipped={true} />
           </motion.div>
         </motion.div>
       </motion.span>
       
       <motion.span 
         animate={dotControls}
-        className="inline-block relative z-30 origin-center"
+        className="inline-block relative z-30 origin-center text-[#e60000]"
+        style={{ color: isHovered ? '#111' : 'inherit' }}
       >
         .
       </motion.span>
