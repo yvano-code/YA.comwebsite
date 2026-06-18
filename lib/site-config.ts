@@ -147,7 +147,7 @@ export const siteConfig = {
       year: "2022",
       roles: ["Still Photographer"],
       type: "Short",
-      image: "https://images.unsplash.com/photo-1588691522079-052a38615a13?q=80&w=2000&auto=format&fit=crop"
+      image: "/projects/MV5BOWU4N2ExNjItNmM0Ny00Y2U5LWExM2EtNDE1MTQ3YjFmNDgzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
     },
     {
       title: "MoonGazer",
