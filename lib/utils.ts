@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = false): string | null {
+export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = false, preview: boolean = false): string | null {
   if (!url) return null;
 
   try {
@@ -17,7 +17,16 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
         videoId = new URL(url).pathname.slice(1);
       }
       const base = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-      return base && autoplay ? `${base}?autoplay=1` : base;
+      if (!base) return null;
+      const params = new URLSearchParams();
+      if (autoplay || preview) params.set('autoplay', '1');
+      if (preview) {
+        params.set('mute', '1');
+        params.set('controls', '0');
+        params.set('modestbranding', '1');
+      }
+      const qs = params.toString();
+      return qs ? `${base}?${qs}` : base;
     }
 
     if (url.includes('vimeo.com/')) {
@@ -30,7 +39,10 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
         let base = `https://player.vimeo.com/video/${videoId}`;
         const params = new URLSearchParams();
         if (hash) params.set('h', hash);
-        if (autoplay) params.set('autoplay', '1');
+        if (autoplay || preview) params.set('autoplay', '1');
+        if (preview) {
+          params.set('background', '1'); // Vimeo's background=1 sets autoplay, loop, mute, and hides controls
+        }
         
         const qs = params.toString();
         return qs ? `${base}?${qs}` : base;

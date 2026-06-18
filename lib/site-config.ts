@@ -180,13 +180,6 @@ export const siteConfig = {
       image: "/projects/promise-me.webp"
     },
     {
-      title: "Onyx",
-      year: "2020",
-      roles: ["Director"],
-      type: "Short",
-      image: "https://image.tmdb.org/t/p/w500/7I08D2J6n6kYyZJ9vY8v7CqL0Dk.jpg"
-    },
-    {
       title: "#BLACK",
       year: "2019",
       roles: ["Writer", "Director"],

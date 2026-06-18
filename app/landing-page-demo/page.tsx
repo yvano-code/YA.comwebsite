@@ -54,8 +54,15 @@ export default function LandingPageDemo() {
                       
                       if (isYoutube) {
                         let youtubeId = '';
-                        const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-                        if (match) youtubeId = match[1];
+                        // First check if it's already an img.youtube.com URL
+                        const imgMatch = img.match(/img\.youtube\.com\/vi\/([^/]+)/);
+                        if (imgMatch) {
+                          youtubeId = imgMatch[1];
+                        } else {
+                          const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                          if (match) youtubeId = match[1];
+                        }
+                        
                         return (
                           <Image 
                             src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}

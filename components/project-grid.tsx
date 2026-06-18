@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import type { Project } from "@/lib/site-config"
@@ -6,13 +9,62 @@ import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/
 import { ZoomIn, Play } from "lucide-react"
 
 function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (project: Project) => void }) {
-  const embedUrl = getVideoEmbedUrl(project.href)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
+
   const isLocalVideo = !!project.href?.toLowerCase().match(/\.(mp4|webm|mov)$/)
-  const isVideo = !!embedUrl || isLocalVideo
+  
+  // For hover preview (muted, no controls)
+  const embedUrlPreview = getVideoEmbedUrl(project.href, true, true)
+  // For active playback (with controls and sound)
+  const embedUrlActive = getVideoEmbedUrl(project.href, true, false)
+  
+  const isVideo = !!embedUrlActive || isLocalVideo
   const thumbnailUrl = project.image || getVideoThumbnailUrl(project.href) || "/placeholder.svg"
 
-  const content = (
-    <div className="group relative aspect-video w-full overflow-hidden bg-muted cursor-pointer">
+  const handleMouseEnter = () => {
+    if (isVideo && !isClicked) setIsHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (!isClicked) setIsHovered(false)
+  }
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (isVideo && !onSelect) {
+      e.preventDefault()
+      setIsClicked(true)
+    }
+  }
+
+  const activeContent = (
+    <div className="relative aspect-video w-full overflow-hidden bg-black rounded-md shadow-xl">
+      {isLocalVideo ? (
+        <video 
+          src={project.href} 
+          autoPlay 
+          controls 
+          className="absolute inset-0 w-full h-full object-contain bg-black"
+        />
+      ) : (
+        <iframe 
+          src={embedUrlActive || ""} 
+          title={project.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      )}
+    </div>
+  )
+
+  const defaultContent = (
+    <div 
+      className="group relative aspect-video w-full overflow-hidden bg-muted cursor-pointer rounded-md shadow-sm transition-all duration-300"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
       <Image
         src={thumbnailUrl}
         alt={project.title}
@@ -21,11 +73,35 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
         className={`transition-transform duration-500 group-hover:scale-105 ${
           // @ts-ignore
           project.imagePosition === "bottom" ? "object-cover object-bottom" : "object-cover"
-        }`}
+        } ${isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity delay-300`} // fade out image slightly after delay so video can load behind
         priority={true}
       />
+      
+      {/* Background preview player */}
+      {isHovered && isVideo && (
+        <div className="absolute inset-0 z-0">
+          {isLocalVideo ? (
+            <video 
+              src={project.href} 
+              autoPlay 
+              muted 
+              loop 
+              playsInline 
+              className="absolute inset-0 w-full h-full object-cover opacity-80"
+            />
+          ) : embedUrlPreview && (
+            <iframe 
+              src={embedUrlPreview} 
+              title={`${project.title} preview`}
+              allow="autoplay" 
+              className="absolute inset-0 h-[150%] w-[150%] -top-[25%] -left-[25%] border-0 opacity-80 pointer-events-none" // scaling iframe to hide UI elements
+            />
+          )}
+        </div>
+      )}
+
       {/* Title overlay, revealed on hover */}
-      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className={`absolute inset-0 z-10 flex items-center justify-center bg-black/40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
         <span className="px-4 text-center text-sm font-medium tracking-[0.2em] text-white flex flex-col items-center gap-2">
           {project.title}
           {!project.href && <ZoomIn className="size-5 opacity-70" />}
@@ -35,46 +111,40 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
     </div>
   )
 
-  // If it's a video and we have an onSelect handler
+  if (isClicked) {
+    return activeContent
+  }
+
+  // If it's a video and we have an onSelect handler (for landing page demo logic)
   if (isVideo && onSelect) {
     return (
       <button type="button" onClick={() => onSelect(project)} aria-label={`View ${project.title}`} className="block w-full text-left">
-        {content}
+        {defaultContent}
       </button>
     )
   }
 
-  // If it's a video but no onSelect handler (fallback)
-  if (embedUrl) {
-    return (
-      <div className="group relative aspect-video w-full overflow-hidden bg-muted">
-        <iframe 
-          src={embedUrl} 
-          title={project.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-          className="absolute inset-0 h-full w-full border-0"
-        />
-      </div>
-    )
-  }
-
-  // If there's an external link
-  if (project.href && project.href.startsWith("http")) {
+  // If there's an external link (not a video)
+  if (!isVideo && project.href && project.href.startsWith("http")) {
     return (
       <a href={project.href} target="_blank" rel="noreferrer" aria-label={project.title} className="block">
-        {content}
+        {defaultContent}
       </a>
     )
   }
 
-  // If there's an internal link
-  if (project.href) {
+  // If there's an internal link (not a video)
+  if (!isVideo && project.href) {
     return (
       <Link href={project.href} aria-label={project.title} className="block">
-        {content}
+        {defaultContent}
       </Link>
     )
+  }
+
+  // If it is a video (without onSelect) it will just use defaultContent which handles click internally.
+  if (isVideo) {
+    return defaultContent;
   }
 
   // If no link, it's just an image. Make it a lightbox.
@@ -82,7 +152,7 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
     <Dialog>
       <DialogTrigger asChild>
         <button type="button" aria-label={`View ${project.title}`} className="block w-full text-left">
-          {content}
+          {defaultContent}
         </button>
       </DialogTrigger>
       <DialogContent className="max-w-[90vw] md:max-w-4xl border-none bg-transparent p-0 shadow-none">
