@@ -275,7 +275,7 @@ export const siteConfig = {
   contact: {
     heading: "GET IN TOUCH",
     blurb: "For bookings, collaborations, and general inquiries.",
-    email: "ywickhamedwards@gmail.com",
+    email: "yvanoantonio@protonmail.com",
     // Optional management / representation line. Leave "" to hide.
     repName: "",
     repEmail: "",

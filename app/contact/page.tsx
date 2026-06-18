@@ -21,9 +21,7 @@ export default function ContactPage() {
               LET'S START A CONVERSATION ABOUT YOUR PROJECT.
             </h1>
             <p className="text-xs font-semibold tracking-widest uppercase text-gray-500 leading-relaxed">
-              {contact.blurb}
-              <br />
-              SEND A MESSAGE VIA THE CONTACT FORM OR EMAIL DIRECTLY:{" "}
+              FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL{" "}
               <a href={`mailto:${contact.email}`} className="text-black hover:text-gray-500 transition-colors">
                 {contact.email}
               </a>
