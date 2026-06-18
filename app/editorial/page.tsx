@@ -41,8 +41,8 @@ export default function EditorialPage() {
             <div className="w-full flex flex-col animate-in fade-in duration-500">
               {/* Meta Header */}
               <div className="flex flex-col mb-16 max-w-4xl">
-                <span className="text-gray-400 block mb-3 uppercase tracking-widest text-[10px]">Project Details</span>
-                <span className="leading-loose whitespace-pre-wrap font-normal text-base sm:text-lg text-foreground/90">{group.details || "Details coming soon..."}</span>
+                <span className="text-gray-400 block mb-3 uppercase tracking-widest text-xs font-semibold">Project Details</span>
+                <span className="leading-relaxed whitespace-pre-wrap font-normal text-[11px] text-foreground/90">{group.details || "Details coming soon..."}</span>
               </div>
 
               {/* Media Content */}
