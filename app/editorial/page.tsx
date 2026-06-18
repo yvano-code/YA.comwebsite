@@ -44,7 +44,28 @@ export default function EditorialPage() {
               {/* Meta Header */}
               <div className="flex flex-col mb-16 max-w-4xl">
                 <span className="text-gray-400 block mb-3 uppercase tracking-widest text-[11px] font-semibold">Project Details</span>
-                <span className="leading-relaxed whitespace-pre-wrap font-normal text-[13px] sm:text-sm text-foreground/90">{group.details || "Details coming soon..."}</span>
+                {group.details ? (
+                  <div className="flex flex-col space-y-4">
+                    {group.details.split('\n\n').map((paragraph, i) => {
+                      if (paragraph.startsWith('### ')) {
+                        return (
+                          <div key={i} className="mt-4">
+                            <span className="text-gray-400 block mb-1 uppercase tracking-widest text-[11px] font-semibold">
+                              {paragraph.replace('### ', '')}
+                            </span>
+                          </div>
+                        )
+                      }
+                      return (
+                        <span key={i} className="leading-relaxed whitespace-pre-wrap font-normal text-[13px] sm:text-sm text-foreground/90">
+                          {paragraph}
+                        </span>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <span className="leading-relaxed whitespace-pre-wrap font-normal text-[13px] sm:text-sm text-foreground/90">Details coming soon...</span>
+                )}
               </div>
 
               {/* Media Content */}
