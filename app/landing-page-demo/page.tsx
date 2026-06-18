@@ -127,7 +127,7 @@ export default function LandingPageDemo() {
           </div>
 
           <div className="flex overflow-x-auto gap-4 md:gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory hide-scrollbar">
-            {siteConfig.imdbCredits.map((credit, idx) => (
+            {[...siteConfig.imdbCredits].reverse().map((credit, idx) => (
               <div key={idx} className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-black transition-all duration-500 rounded-3xl overflow-hidden p-8 flex flex-col justify-between min-h-[300px] md:min-h-[380px] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] cursor-pointer border border-white/5">
                 
                 {/* Image Background */}
