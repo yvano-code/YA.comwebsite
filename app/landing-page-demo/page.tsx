@@ -122,41 +122,8 @@ export default function LandingPageDemo() {
           </div>
         </section>
 
-        {/* Accreditations Section */}
-        <section className="mt-16 md:mt-20 px-6 md:px-12 pb-12">
-          <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-6">Accreditations</h3>
-              <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
-                {siteConfig.accreditations}
-              </p>
-            </div>
-            <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap pb-1">
-              VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
-            {siteConfig.awards.map((award, idx) => (
-              <div key={idx} className="group cursor-default relative">
-                <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
-                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
-                  {award.status}
-                </div>
-                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
-                  {award.title}
-                </h4>
-                <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-600 font-medium max-w-sm">
-                  {award.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Filmography Horizontal Scroll Section */}
-        <section className="mt-8 md:mt-12 overflow-hidden border-t border-black/10 pt-16 md:pt-24 mb-12">
+        <section className="mt-16 md:mt-20 overflow-hidden mb-12">
           <div className="px-6 md:px-12 mb-12 md:mb-16 flex items-end justify-between">
             <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Filmography</h3>
             <div className="flex gap-4 items-center">
@@ -203,6 +170,39 @@ export default function LandingPageDemo() {
                      {credit.roles.join(", ")}
                   </p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Accreditations Section */}
+        <section className="mt-8 md:mt-12 px-6 md:px-12 pb-12 border-t border-black/10 pt-16 md:pt-24">
+          <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-6">Accreditations</h3>
+              <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
+                {siteConfig.accreditations}
+              </p>
+            </div>
+            <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap pb-1">
+              VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
+            {siteConfig.awards.map((award, idx) => (
+              <div key={idx} className="group cursor-default relative">
+                <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
+                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
+                  {award.status}
+                </div>
+                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
+                  {award.title}
+                </h4>
+                <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-600 font-medium max-w-sm">
+                  {award.description}
+                </p>
               </div>
             ))}
           </div>
