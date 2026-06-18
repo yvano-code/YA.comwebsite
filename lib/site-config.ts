@@ -44,12 +44,12 @@ export const siteConfig = {
       showPhotoCarousel: true,
       images: [
         "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
-        "/projects/bbb/Still 2025-09-09_1.29.1.jpg",
-        "/projects/bbb/Still 2025-09-09_2.8.1.jpg",
-        "/projects/bbb/Still 2025-09-09_3.13.1.jpg",
-        "/projects/bbb/Still 2025-09-09_3.20.1.jpg",
-        "/projects/bbb/Still 2025-09-12 211118_1.19.1.png",
-        "/projects/bbb/Still 2025-09-12 211349_1.32.1.png"
+        "/projects/bbb/Still_2025-09-09_1.29.1.jpg",
+        "/projects/bbb/Still_2025-09-09_2.8.1.jpg",
+        "/projects/bbb/Still_2025-09-09_3.13.1.jpg",
+        "/projects/bbb/Still_2025-09-09_3.20.1.jpg",
+        "/projects/bbb/Still_2025-09-12_211118_1.19.1.png",
+        "/projects/bbb/Still_2025-09-12_211349_1.32.1.png"
       ]
     },
     {
@@ -71,9 +71,9 @@ export const siteConfig = {
         "/projects/chj/DSC07237.jpg",
         "/projects/chj/DSC08590.jpg",
         "/projects/chj/DSC08726.jpg",
-        "/projects/chj/S3 Ep 1 - 8.jpg"
+        "/projects/chj/S3_Ep_1_-_8.jpg"
       ],
-      bottomVideo: "/projects/chj/INTRO FOR VO.mp4"
+      bottomVideo: "/projects/chj/INTRO_FOR_VO.mp4"
     },
     {
       client: "MUNDO",

@@ -134,6 +134,16 @@ export default function EditorialPage() {
                             allowFullScreen
                           />
                         );
+                      } else if (img.endsWith('.mp4') || img.endsWith('.mov') || img.includes('vimeo.com')) {
+                        return (
+                          <video
+                            src={img}
+                            controls
+                            loop
+                            playsInline
+                            className="w-full h-full bg-black object-contain shadow-xl"
+                          />
+                        );
                       }
                       return null;
                     })()}
