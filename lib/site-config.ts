@@ -224,7 +224,7 @@ export const siteConfig = {
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
       credits: [
-        { label: "Executive Producer", value: "Yvano Antonio & Ananse Arthur" },
+        { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
   
         { label: "Written & Directed by", value: "Yvano Antonio & Ananse Arthur"},
        
