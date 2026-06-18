@@ -177,7 +177,7 @@ export const siteConfig = {
       year: "2020",
       roles: ["Still Photographer"],
       type: "Short",
-      image: "https://image.tmdb.org/t/p/w500/354U0sf0BWPReBVE8z2GZYfDiD1.jpg"
+      image: "/projects/promise-me.webp"
     },
     {
       title: "Onyx",
