@@ -556,13 +556,129 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+function SoccerLogo({ isHovered }: { isHovered: boolean }) {
+  const dotControls = useAnimation()
+  const aControls = useAnimation()
+  const leftLegControls = useAnimation()
+  const rightLegControls = useAnimation()
+
+  useEffect(() => {
+    let isCancelled = false
+    const runSequence = async () => {
+      if (isHovered) {
+        // The dot (.) arcs left to get in front of the A
+        await dotControls.start({
+          x: -15,
+          y: -20,
+          rotate: -90,
+          transition: { type: "spring", stiffness: 200, damping: 10 }
+        })
+        if (isCancelled) return
+
+        // Juggling Loop
+        // Ball bounces up and down
+        dotControls.start({
+          y: [-20, -50, -20],
+          x: [-15, -18, -12], // slight sway
+          rotate: [-90, 0, 90], // ball spins
+          transition: { repeat: Infinity, duration: 0.8, ease: "linear" }
+        })
+
+        // A bounces up and down slightly to hit the ball
+        aControls.start({
+          y: [0, 4, 0], 
+          scaleY: [1, 0.95, 1],
+          transition: { repeat: Infinity, duration: 0.8, ease: "linear" }
+        })
+
+        // Left knee up (when ball is low)
+        leftLegControls.start({
+          rotate: [0, -80, 0],
+          y: [0, -10, 0],
+          transition: { repeat: Infinity, duration: 0.8, ease: "easeOut", times: [0, 0.5, 1] }
+        })
+
+        // Right knee up (alternating)
+        rightLegControls.start({
+          rotate: [0, 80, 0], // right leg kicks differently
+          y: [0, -10, 0],
+          transition: { repeat: Infinity, duration: 0.8, ease: "easeOut", times: [0, 0.5, 1], delay: 0.4 } // offset by half cycle
+        })
+        
+      } else {
+        // Reset everything
+        dotControls.stop()
+        aControls.stop()
+        leftLegControls.stop()
+        rightLegControls.stop()
+
+        dotControls.start({ x: 0, y: 0, rotate: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
+        aControls.start({ x: 0, y: 0, scaleY: 1, transition: { type: "spring", stiffness: 300, damping: 20 } })
+      }
+    }
+    
+    runSequence()
+    return () => { isCancelled = true }
+  }, [isHovered, dotControls, aControls, leftLegControls, rightLegControls])
+
+  return (
+    <div className="flex relative items-baseline">
+      <span className="z-10 inline-block relative">
+        Y
+      </span>
+      
+      <motion.span 
+        animate={aControls}
+        className="inline-block relative z-20 origin-bottom"
+      >
+        A
+        {/* Legs container */}
+        <motion.div 
+           className="absolute inset-0 pointer-events-none transition-opacity duration-200"
+           style={{ opacity: isHovered ? 1 : 0 }}
+        >
+          {/* Left Leg */}
+          <motion.div 
+            animate={leftLegControls}
+            className="absolute left-[15%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
+          >
+            <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
+              <path d="M 5,0 L 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+            </svg>
+            <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+          </motion.div>
+          
+          {/* Right Leg */}
+          <motion.div 
+            animate={rightLegControls}
+            className="absolute right-[15%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
+          >
+            <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
+              <path d="M 5,0 L 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
+            </svg>
+            <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={false} />
+          </motion.div>
+        </motion.div>
+      </motion.span>
+      
+      <motion.span 
+        animate={dotControls}
+        className="inline-block relative z-30 origin-center"
+      >
+        .
+      </motion.span>
+    </div>
+  )
+}
+
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "soccer">("cartoon")
 
   const handleMouseEnter = () => {
     if (!isHovered) {
-      setAnimType(Math.random() > 0.5 ? "cartoon" : "tumbler")
+      const types = ["cartoon", "tumbler", "soccer"] as const
+      setAnimType(types[Math.floor(Math.random() * types.length)])
       setIsHovered(true)
     }
   }
@@ -578,11 +694,10 @@ export function AnimatedLogo() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {animType === "cartoon" ? (
-        <CartoonLogo isHovered={isHovered} />
-      ) : (
-        <TumblerLogo isHovered={isHovered} />
-      )}
+      {animType === "cartoon" && <CartoonLogo isHovered={isHovered} />}
+      {animType === "tumbler" && <TumblerLogo isHovered={isHovered} />}
+      {animType === "soccer" && <SoccerLogo isHovered={isHovered} />}
     </Link>
   )
 }
+
