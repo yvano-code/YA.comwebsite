@@ -104,80 +104,93 @@ export const siteConfig = {
       title: "Baked Butter Biscuits",
       year: "2025",
       roles: ["Co-Director"],
-      type: "TV Series"
+      type: "TV Series",
+      image: "/projects/baked-butter.png"
     },
     {
       title: "Honestly - Fafiélla",
       year: "2024",
       roles: ["Director"],
-      type: "Music Video"
+      type: "Music Video",
+      image: "https://image.tmdb.org/t/p/w500/4S3QXFZjTXQ06LDFwZN4w73tvQQ.jpg"
     },
     {
       title: "Black Community Mixtapes",
       year: "2023",
       roles: ["Still Photographer"],
-      type: "TV Series (5 Episodes)"
+      type: "TV Series (5 Episodes)",
+      image: "/projects/project-1.png"
     },
     {
       title: "Doubles",
       year: "2023",
       roles: ["Still Photographer"],
-      type: "Film"
+      type: "Film",
+      image: "https://image.tmdb.org/t/p/w500/jCv6NWHOx9hf5dBHUoS94lYd1vw.jpg"
     },
     {
       title: "The Legacy Awards",
       year: "2023",
       roles: ["Director Trainee"],
-      type: "TV Special"
+      type: "TV Special",
+      image: "https://image.tmdb.org/t/p/w500/p2QPebmMw6axMylPOJC3kIo8Phl.jpg"
     },
     {
       title: "Erin's Guide to Kissing Girls",
       year: "2022",
       roles: ["Still Photographer"],
-      type: "Film"
+      type: "Film",
+      image: "https://image.tmdb.org/t/p/w500/kJmau4bZMuGNUYp2owHp51rHrfz.jpg"
     },
     {
       title: "Reel Black: Our Film Stories",
       year: "2022",
       roles: ["Still Photographer"],
-      type: "Short"
+      type: "Short",
+      image: "/projects/project-2.png"
     },
     {
       title: "MoonGazer",
       year: "2022",
       roles: ["Director"],
-      type: "Short"
+      type: "Short",
+      image: "https://image.tmdb.org/t/p/w500/7M6rvnXj7lQZ2I1pN1k6t0Qwzqg.jpg"
     },
     {
       title: "TallBoyz",
       year: "2022",
       roles: ["Social Media Consultant"],
-      type: "TV Series (6 Episodes)"
+      type: "TV Series (6 Episodes)",
+      image: "https://image.tmdb.org/t/p/w500/hpVkAc3EaEDejSvhk1lSxOgGOsR.jpg"
     },
     {
       title: "Being Black in Toronto",
       year: "2020",
       roles: ["Director"],
       type: "Short",
-      note: "Winner: 2021 Canadian Screen Award"
+      note: "Winner: 2021 Canadian Screen Award",
+      image: "/projects/project-3.png"
     },
     {
       title: "Promise Me",
       year: "2020",
       roles: ["Still Photographer"],
-      type: "Short"
+      type: "Short",
+      image: "https://image.tmdb.org/t/p/w500/354U0sf0BWPReBVE8z2GZYfDiD1.jpg"
     },
     {
       title: "Black",
       year: "2019",
       roles: ["Director", "Still Photographer"],
-      type: "Short"
+      type: "Short",
+      image: "https://image.tmdb.org/t/p/w500/seN6rRfN0I6n8iDXjlSMk1QjNcq.jpg"
     },
     {
       title: "Mr. Jane and Finch",
       year: "2019",
       roles: ["Still Photographer"],
-      type: "Short"
+      type: "Short",
+      image: "https://image.tmdb.org/t/p/w500/4dib2X6kM10ghIBuYGlXZ4oJCJk.jpg"
     }
   ],
 

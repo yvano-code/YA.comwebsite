@@ -235,9 +235,16 @@ export default function LandingPageDemo() {
 
         {/* Accreditations Section */}
         <section className="mt-16 md:mt-20 px-6 md:px-12 pb-12">
-          <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-6">
-            <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Accreditations</h3>
-            <Link href="/imdb" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity pb-1 w-max">View Full IMDb ↗</Link>
+          <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-6">Accreditations</h3>
+              <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
+                {siteConfig.accreditations}
+              </p>
+            </div>
+            <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap pb-1">
+              VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
@@ -271,13 +278,27 @@ export default function LandingPageDemo() {
 
           <div className="flex overflow-x-auto gap-4 md:gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.imdbCredits.map((credit, idx) => (
-              <div key={idx} className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-gray-100 hover:bg-black transition-colors duration-500 rounded-3xl p-8 flex flex-col justify-between min-h-[280px] md:min-h-[320px] shadow-sm hover:shadow-2xl">
-                <div>
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 group-hover:text-gray-500 transition-colors duration-500">{credit.year}</span>
-                    <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase bg-black/5 group-hover:bg-white/10 text-black group-hover:text-white px-3 py-1 rounded-full transition-colors duration-500">{credit.type}</span>
+              <div key={idx} className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-black transition-all duration-500 rounded-3xl overflow-hidden p-8 flex flex-col justify-between min-h-[300px] md:min-h-[380px] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] cursor-pointer border border-white/5">
+                
+                {/* Image Background */}
+                {credit.image && (
+                  <div className="absolute inset-0 w-full h-full z-0">
+                    <Image 
+                      src={credit.image}
+                      alt={credit.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-50 group-hover:opacity-30 mix-blend-overlay"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
                   </div>
-                  <h4 className="text-2xl md:text-3xl font-black tracking-tight uppercase leading-[1.1] text-black group-hover:text-white transition-colors duration-500 mb-4">
+                )}
+
+                <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-white/60">{credit.year}</span>
+                    <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase bg-white/10 text-white px-3 py-1 rounded-full">{credit.type}</span>
+                  </div>
+                  <h4 className="text-2xl md:text-3xl font-black tracking-tight uppercase leading-[1.1] text-white group-hover:text-[#E50914] transition-colors duration-500 mb-4 drop-shadow-md">
                     {credit.title}
                   </h4>
                   {credit.note && (
@@ -285,9 +306,8 @@ export default function LandingPageDemo() {
                   )}
                 </div>
                 
-                <div className="pt-6 border-t border-black/10 group-hover:border-white/20 transition-colors duration-500">
-                  <p className="text-[9px] tracking-[0.2em] uppercase font-bold text-gray-400 group-hover:text-gray-500 transition-colors duration-500 mb-2">Role</p>
-                  <p className="text-[13px] md:text-[14px] font-extrabold text-black group-hover:text-white transition-colors duration-500">
+                <div className="relative z-10 pt-6 border-t border-white/20">
+                  <p className="text-[13px] md:text-[14px] font-extrabold text-white">
                      {credit.roles.join(", ")}
                   </p>
                 </div>
@@ -301,7 +321,7 @@ export default function LandingPageDemo() {
       <footer className="w-full mt-24 md:mt-40 pb-8 relative overflow-hidden flex flex-col items-center">
         <div className="w-full flex justify-center relative">
           {/* Massive Name */}
-          <h2 className="text-[15vw] md:text-[15.5vw] font-black tracking-tighter text-[#E50914] leading-[0.75] whitespace-nowrap scale-y-[1.35] origin-bottom select-all ml-[-1vw]">
+          <h2 className="text-[11.5vw] md:text-[12vw] lg:text-[12.5vw] font-black tracking-tighter text-[#E50914] leading-[0.75] whitespace-nowrap scale-y-[1.35] origin-bottom text-center px-4">
             YVANO ANTONIO.
           </h2>
 
