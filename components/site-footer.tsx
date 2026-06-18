@@ -39,7 +39,10 @@ function MailIcon({ className }: { className?: string }) {
 }
 
 export function SiteFooter() {
+  const pathname = usePathname()
   const { social } = siteConfig
+
+  if (pathname === '/landing-page-demo') return null
 
   return (
     <footer className="mt-16 flex flex-col items-center gap-6 px-6 pb-12 pt-8 text-center">
