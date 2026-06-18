@@ -225,7 +225,7 @@ export const siteConfig = {
   // ── SOCIAL LINKS (footer) ───────────────────────────────────────────────────
   // Set any to "" to hide that icon.
   social: {
-    vimeo: "https://vimeo.com",
+    tiktok: "https://www.tiktok.com/@yvanoantonio",
     instagram: "https://www.instagram.com/yvanoantonio/",
     youtube: "",
     email: "ywickhamedwards@gmail.com",

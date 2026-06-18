@@ -3,10 +3,10 @@
 import { usePathname } from "next/navigation"
 import { siteConfig } from "@/lib/site-config"
 
-function VimeoIcon({ className }: { className?: string }) {
+function TiktokIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
-      <path d="M22 7.42c-.1 2.14-1.59 5.06-4.48 8.78C14.54 20.07 12 22 9.86 22c-1.33 0-2.45-1.22-3.36-3.67-.61-2.23-1.22-4.46-1.83-6.69-.68-2.45-1.4-3.67-2.18-3.67-.17 0-.76.35-1.77 1.06L0 7.62c1.2-1.06 2.39-2.12 3.56-3.18C5.17 3.06 6.38 2.36 7.19 2.28c1.9-.18 3.07 1.12 3.51 3.91.47 3.01.8 4.88.98 5.62.54 2.45 1.13 3.67 1.78 3.67.5 0 1.27-.8 2.29-2.39 1.02-1.59 1.56-2.8 1.64-3.63.16-1.5-.43-2.26-1.78-2.26-.64 0-1.29.15-1.97.44C15.65 3.74 18.04 1.4 21.6 1.5c2.64.07 3.88 1.7 3.74 4.88L22 7.42z" />
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.12-3.44-3.17-3.8-5.46-.4-2.51.33-5.18 2.01-7.07 1.68-1.9 4.2-2.93 6.75-2.73v4.02c-1.18-.1-2.38.16-3.37.8-1.52.98-2.3 2.8-2.01 4.59.25 1.53 1.44 2.82 2.93 3.23 1.48.4 3.12-.04 4.14-1.15.93-1.02 1.4-2.42 1.38-3.83.03-5.19-.01-10.39.02-15.58z" />
     </svg>
   )
 }
@@ -47,9 +47,11 @@ export function SiteFooter() {
         &copy; {new Date().getFullYear()} GOOD YUTE LIFESTYLE
       </p>
       <div className="flex items-center gap-5 text-muted-foreground">
-        {social.vimeo && (
-          <a href={social.vimeo} target="_blank" rel="noreferrer" aria-label="Vimeo" className="transition-colors hover:text-foreground">
-            <VimeoIcon className="size-5" />
+        {/* @ts-ignore */}
+        {social.tiktok && (
+          // @ts-ignore
+          <a href={social.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok" className="transition-colors hover:text-foreground">
+            <TiktokIcon className="size-5" />
           </a>
         )}
         {social.instagram && (
