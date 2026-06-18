@@ -58,6 +58,8 @@ export default function LandingPageDemo() {
                   {playingVideo === idx && project.href ? (
                     (() => {
                       const isYoutube = project.href.includes('youtube.com') || project.href.includes('youtu.be');
+                      const isVimeo = project.href.includes('vimeo.com');
+                      
                       if (isYoutube) {
                         let youtubeId = '';
                         const match = project.href.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
@@ -71,6 +73,24 @@ export default function LandingPageDemo() {
                           ></iframe>
                         );
                       }
+
+                      if (isVimeo) {
+                        const vimeoMatch = project.href.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
+                        if (vimeoMatch) {
+                          const vimeoId = vimeoMatch[1];
+                          const vimeoHash = vimeoMatch[2];
+                          const vimeoSrc = `https://player.vimeo.com/video/${vimeoId}?autoplay=1${vimeoHash ? `&h=${vimeoHash}` : ''}`;
+                          return (
+                            <iframe
+                              src={vimeoSrc}
+                              allow="autoplay; fullscreen; picture-in-picture"
+                              allowFullScreen
+                              className="absolute inset-0 w-full h-full border-0 z-30"
+                            ></iframe>
+                          );
+                        }
+                      }
+
                       return (
                         <video 
                           src={project.href} 
