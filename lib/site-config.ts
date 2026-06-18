@@ -226,7 +226,7 @@ export const siteConfig = {
     { 
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
       image: "", 
-      href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
+      href: "https://www.youtube.com/watch?v=y2CfIy8dmeA",
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
