@@ -173,22 +173,27 @@ export default function LandingPageDemo() {
                   </>
                 )}
 
-                <div className="relative z-10">
-                  {credit.note && (
-                    <p className="text-[10px] md:text-[11px] font-bold tracking-widest text-white uppercase mb-4">{credit.note}</p>
-                  )}
-                  <h4 className="text-[18px] md:text-[22px] font-black uppercase tracking-tight mb-2 text-white">{credit.title}</h4>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[11px] md:text-[12px] font-bold tracking-[0.2em] text-white/60 uppercase">{credit.year}</span>
-                    <span className="text-white/30">•</span>
-                    <span className="text-[11px] md:text-[12px] font-bold tracking-[0.2em] text-white/60 uppercase">{credit.type}</span>
-                  </div>
+                {/* Top: Year and Type Pill */}
+                <div className="relative z-10 flex justify-between items-start w-full">
+                  <span className="text-[14px] md:text-[16px] font-bold tracking-[0.3em] text-white/90 drop-shadow-md">
+                    {credit.year.split('').join(' ')}
+                  </span>
+                  <span className="text-[10px] md:text-[11px] font-bold tracking-widest text-white uppercase px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/10 shadow-sm">
+                    {credit.type}
+                  </span>
                 </div>
-                
-                <div className="relative z-10 pt-6 border-t border-white/20">
-                  <p className="text-[13px] md:text-[14px] font-extrabold text-white uppercase">
-                     {credit.roles.join(", ")}
-                  </p>
+
+                {/* Bottom: Title and Roles */}
+                <div className="relative z-10 mt-auto pt-8">
+                  {credit.note && (
+                    <p className="text-[10px] md:text-[11px] font-bold tracking-widest text-white/80 uppercase mb-2 drop-shadow-md">{credit.note}</p>
+                  )}
+                  <h4 className="text-[22px] md:text-[26px] font-black uppercase tracking-tight mb-4 text-white leading-tight drop-shadow-lg">{credit.title}</h4>
+                  <div className="pt-4 border-t border-white/20">
+                    <p className="text-[12px] md:text-[13px] font-extrabold text-white/90 uppercase tracking-wide">
+                       {credit.roles.join(", ")}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
