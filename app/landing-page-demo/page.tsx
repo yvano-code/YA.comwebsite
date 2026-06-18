@@ -303,24 +303,6 @@ export default function LandingPageDemo() {
         </section>
       </main>
 
-      {/* Massive Name Footer */}
-      <footer className="w-full mt-24 md:mt-40 pb-12 relative flex flex-col items-center overflow-hidden">
-        <div className="w-full flex justify-center relative pt-8">
-          {/* Massive Name */}
-          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#E50914] leading-none whitespace-nowrap text-center px-4">
-            YVANO ANTONIO.
-          </h2>
-
-          {/* Overlapping Blurb */}
-          <div className="absolute top-0 md:top-2 right-4 md:right-8 lg:right-[4%] z-10 text-right md:text-left opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <p className="text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] uppercase tracking-[0.1em] font-extrabold text-black md:whitespace-nowrap leading-relaxed max-w-[200px] md:max-w-none ml-auto">
-              For bookings, collaborations and general inquiries please email <br className="md:hidden" />
-              <a href="mailto:yvanoantonio@protonmail.com" className="text-black hover:text-[#E50914] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#E50914]">yvanoantonio@protonmail.com</a>
-            </p>
-          </div>
-        </div>
-      </footer>
-
       {/* Global Style for hiding scrollbar */}
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar {

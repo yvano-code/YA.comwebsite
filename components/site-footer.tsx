@@ -42,8 +42,6 @@ export function SiteFooter() {
   const pathname = usePathname()
   const { social, contact } = siteConfig
 
-  if (pathname === '/landing-page-demo') return null
-
   // We use the demo reel video URL here
   const videoId = "w0BXesobuSE"
 
