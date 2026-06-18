@@ -46,7 +46,7 @@ export function SiteFooter() {
   const videoId = "w0BXesobuSE"
 
   return (
-    <footer className="mt-32 relative w-full flex items-center justify-center overflow-hidden py-32 md:py-48">
+    <footer className="mt-32 relative w-full flex overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <iframe
@@ -59,13 +59,15 @@ export function SiteFooter() {
       </div>
 
       {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-end w-full px-4 text-center h-full pt-48 pb-24 md:pt-64 md:pb-28">
         <p className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-gray-400 mb-2 md:mb-4">
           FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL <a href={`mailto:${contact.email}`} className="text-gray-200 hover:text-white transition-colors">{contact.email}</a>
         </p>
-        <h2 className="text-[13vw] sm:text-[12vw] font-black tracking-tighter text-[#e60000] leading-none select-none drop-shadow-xl">
-          YVANO ANTONIO.
-        </h2>
+        <div className="overflow-hidden py-4">
+          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none select-none drop-shadow-xl whitespace-nowrap transform scale-y-[1.3] origin-bottom">
+            YVANO ANTONIO.
+          </h2>
+        </div>
       </div>
 
       {/* Bottom bar with socials and copyright */}
