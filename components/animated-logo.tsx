@@ -1,152 +1,133 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
 import Link from "next/link"
 
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const controls = useAnimation()
-  
-  // The full string we want to animate
-  const fullText = "YVANO ANTONIO.".split("")
-  
-  // Which letters correspond to "YA."? 
-  // Y = 0, A in ANTONIO = 6, . = 13
-  const isY = (i: number) => i === 0
-  const isA = (i: number) => i === 6
-  const isDot = (i: number) => i === 13
-  const isYA = (i: number) => isY(i) || isA(i) || isDot(i)
-
-  // Random positions for the "spilling out" phase
-  const getRandomSpill = () => {
-    // Spill outwards from center
-    const angle = Math.random() * Math.PI * 2
-    const distance = Math.random() * 60 + 20
-    return {
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance - 20, // slightly upwards
-      rotate: (Math.random() - 0.5) * 180,
-      scale: Math.random() * 0.4 + 0.8,
-    }
-  }
-
-  // Random positions for the "jumble" phase (landed)
-  const getRandomJumble = () => {
-    // Pile up loosely at the bottom
-    return {
-      x: (Math.random() - 0.5) * 120, // Spread horizontally
-      y: Math.random() * 20 + 10,     // Fall down slightly
-      rotate: (Math.random() - 0.5) * 120,
-      scale: 1,
-    }
-  }
-
-  // Use a ref to track if we're currently hovering so async sequences can abort/adapt
-  const hoverRef = useRef(false)
+  const yControls = useAnimation()
+  const limbControls = useAnimation()
+  const leftLegControls = useAnimation()
+  const rightLegControls = useAnimation()
 
   useEffect(() => {
-    hoverRef.current = isHovered
+    let isCancelled = false
     
-    const runAnimation = async () => {
+    const runSequence = async () => {
       if (isHovered) {
-        // --- HOVER IN SEQUENCE ---
+        // 1. Limbs appear
+        limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         
-        // 1. Spilling out like toys
-        await controls.start((i) => ({
-          ...getRandomSpill(),
-          opacity: 1,
-          width: "auto",
-          transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
-        }))
+        // 2. Break free (wiggle to loosen up)
+        await yControls.start({ 
+          y: -10, 
+          rotate: [0, -15, 15, -10, 0], 
+          transition: { duration: 0.4 } 
+        })
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (isCancelled) return
+        
+        // 3. Jump down
+        await yControls.start({
+          y: 20,
+          transition: { type: "spring", stiffness: 300, damping: 10 }
+        })
+        
+        if (isCancelled) return
 
-        // 2. Spell correctly briefly
-        await controls.start((i) => ({
+        // 4. Start running
+        // Lean forward
+        yControls.start({
+          rotate: 15,
+          transition: { duration: 0.2 }
+        })
+        
+        // Start pumping legs infinitely
+        leftLegControls.start({
+          rotate: [-40, 40],
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+        })
+        rightLegControls.start({
+          rotate: [40, -40],
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+        })
+        
+        // Run diagonally and disappear
+        await yControls.start({
+          x: 400,
+          y: 200,
+          opacity: 0,
+          transition: { duration: 1.2, ease: "linear" }
+        })
+        
+        // Stop legs when disappeared
+        leftLegControls.stop()
+        rightLegControls.stop()
+        
+      } else {
+        // Reset immediately on unhover
+        leftLegControls.stop()
+        rightLegControls.stop()
+        limbControls.start({ opacity: 0, transition: { duration: 0.1 } })
+        
+        yControls.start({
           x: 0,
           y: 0,
           rotate: 0,
-          scale: 1,
           opacity: 1,
-          width: "auto",
-          transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
-        }))
-        
-        if (!hoverRef.current) return // Abort if mouse left
-        
-        // Pause briefly to read it
-        await new Promise(r => setTimeout(r, 800))
-        
-        if (!hoverRef.current) return // Abort if mouse left
-
-        // 3. Collapse into a jumble
-        controls.start((i) => ({
-          ...getRandomJumble(),
-          transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
-        }))
-        
-      } else {
-        // --- HOVER OUT SEQUENCE ---
-        
-        // Mouse removed: go back to "YA."
-        controls.start((i) => {
-          if (isYA(i)) {
-            return {
-              x: 0, 
-              y: 0,
-              rotate: 0,
-              scale: 1,
-              opacity: 1,
-              width: "auto",
-              transition: { type: "spring", stiffness: 300, damping: 20 }
-            }
-          } else {
-            return {
-              x: 0,
-              y: 0,
-              rotate: 0,
-              scale: 0,
-              opacity: 0,
-              width: 0,
-              transition: { duration: 0.3 }
-            }
-          }
+          transition: { type: "spring", stiffness: 300, damping: 20 }
         })
+        
+        leftLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
+        rightLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
       }
     }
-
-    runAnimation()
-  }, [isHovered, controls])
+    
+    runSequence()
+    
+    return () => {
+      isCancelled = true
+    }
+  }, [isHovered, yControls, limbControls, leftLegControls, rightLegControls])
 
   return (
     <Link 
       href="/" 
-      className="text-3xl font-black tracking-tighter relative flex items-center h-12 z-50 cursor-pointer"
+      className="text-3xl font-black tracking-tighter flex items-center h-12 z-50 cursor-pointer w-fit"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex relative items-baseline">
-        {fullText.map((char, i) => (
-          <motion.span
-            key={i}
-            custom={i}
-            animate={controls}
-            initial={
-              isYA(i) 
-                ? { opacity: 1, scale: 1, x: 0, y: 0, rotate: 0, width: "auto" } 
-                : { opacity: 0, scale: 0, x: 0, y: 0, rotate: 0, width: 0 }
-            }
-            className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
-            style={{ 
-              overflow: 'visible',
-              // Add a slight min-width to space to ensure it renders correctly when width is auto
-              minWidth: char === ' ' && isHovered ? '0.25em' : 'auto'
-            }}
+        <span className="relative inline-block z-20">
+          <motion.span 
+            animate={yControls} 
+            className="inline-block relative z-20"
           >
-            {char}
+            Y
+            <motion.div 
+              animate={limbControls} 
+              className="absolute inset-0 pointer-events-none opacity-0"
+              initial={{ opacity: 0 }}
+            >
+              {/* Left Arm */}
+              <div className="absolute left-[-4px] top-[45%] w-[8px] h-[3px] bg-black rounded-full rotate-[-30deg] origin-right" />
+              {/* Right Arm */}
+              <div className="absolute right-[-4px] top-[45%] w-[8px] h-[3px] bg-black rounded-full rotate-[30deg] origin-left" />
+              {/* Left Leg */}
+              <motion.div 
+                animate={leftLegControls}
+                className="absolute left-[35%] bottom-[-10px] w-[3px] h-[12px] bg-black rounded-full origin-top" 
+              />
+              {/* Right Leg */}
+              <motion.div 
+                animate={rightLegControls}
+                className="absolute right-[35%] bottom-[-10px] w-[3px] h-[12px] bg-black rounded-full origin-top" 
+              />
+            </motion.div>
           </motion.span>
-        ))}
+        </span>
+        <span className="z-10 inline-block relative">A.</span>
       </div>
     </Link>
   )
