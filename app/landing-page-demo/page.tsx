@@ -229,6 +229,32 @@ export default function LandingPageDemo() {
             ))}
           </div>
         </section>
+
+        {/* Accreditations Section */}
+        <section className="mt-24 md:mt-32 px-6 md:px-12 pb-12">
+          <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-6">
+            <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Accreditations</h3>
+            <Link href="/imdb" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity pb-1 w-max">View Full IMDb ↗</Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
+            {siteConfig.awards.map((award, idx) => (
+              <div key={idx} className="group cursor-default relative">
+                <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
+                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
+                  {award.status}
+                </div>
+                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
+                  {award.title}
+                </h4>
+                <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-600 font-medium max-w-sm">
+                  {award.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       {/* Massive Name Footer */}
