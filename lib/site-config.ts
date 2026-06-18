@@ -112,7 +112,7 @@ export const siteConfig = {
       year: "2024",
       roles: ["Director"],
       type: "Music Video",
-      image: "/projects/site images/_DSC2431.webp"
+      image: "/projects/site-images/_DSC2431.webp"
     },
     {
       title: "Black Community Mixtapes",
@@ -266,7 +266,7 @@ export const siteConfig = {
     },
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
-      image: "/projects/site images/_DSC2431.webp", 
+      image: "/projects/site-images/_DSC2431.webp", 
       href: "https://vimeo.com/895031625/d4268c2880" 
     },
     { 
