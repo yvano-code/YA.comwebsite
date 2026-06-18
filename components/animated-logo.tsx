@@ -306,6 +306,17 @@ export function AnimatedLogo() {
     >
       <motion.div animate={wrapperControls} className="flex relative items-baseline">
         <span className="relative inline-block z-20">
+          
+          {/* Video Game Damage Text */}
+          <motion.div
+            animate={damageControls}
+            initial={{ opacity: 0, y: 0, scale: 0.5 }}
+            className="absolute top-[40px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
+            style={{ WebkitTextStroke: '1px black' }}
+          >
+            YOU'RE A GOOD YUTE!
+          </motion.div>
+
           {/* X-axis translation container */}
           <motion.div animate={xControls} className="inline-block relative z-20">
             
@@ -323,15 +334,7 @@ export function AnimatedLogo() {
               className="absolute top-[50%] right-[-10px] w-[40px] h-[40px] -mt-[20px] rounded-full border-black z-0 pointer-events-none"
             />
 
-            {/* Video Game Damage Text */}
-            <motion.div
-              animate={damageControls}
-              initial={{ opacity: 0, y: 0, scale: 0.5 }}
-              className="absolute top-[40px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
-              style={{ WebkitTextStroke: '1px black' }}
-            >
-              YOU'RE A GOOD YUTE!
-            </motion.div>
+
 
             {/* Impact Dust Clouds */}
             <motion.div animate={dust1Controls} initial={{ opacity: 0 }} className="absolute bottom-[-10px] left-[-10px] w-[20px] h-[20px] pointer-events-none">
