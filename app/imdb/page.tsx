@@ -73,8 +73,8 @@ export default function ImdbPage() {
             <h2 className="text-2xl md:text-3xl font-bold tracking-[0.15em] uppercase mb-8">Awards</h2>
             <ul className="space-y-6 list-disc pl-5">
               {(siteConfig as any).awards.map((award: any, index: number) => (
-                <li key={index} className="text-sm md:text-base leading-relaxed pl-2">
-                  <strong>{award.title}</strong>: <strong>{award.status}</strong> <span dangerouslySetInnerHTML={{ __html: award.description }} />
+                <li key={index} className="text-sm md:text-base leading-relaxed pl-2 text-foreground/90 font-medium">
+                  <strong>{award.title}</strong>: {award.status} {award.description}
                 </li>
               ))}
             </ul>

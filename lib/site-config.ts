@@ -185,22 +185,22 @@ export const siteConfig = {
     {
       title: "Canadian Screen Award (2021)",
       status: "Winner",
-      description: "of <em>Best Direction, Documentary Series</em> for his work on the project <em>Being Black in Toronto</em>."
+      description: "of Best Direction, Documentary Series for his work on the project Being Black in Toronto."
     },
     {
       title: "Emerging Lens Cultural Film Festival (2021)",
       status: "Winner",
-      description: "of <em>Best Documentary</em> for his directorial debut short documentary, <em>#BLACK</em>."
+      description: "of Best Documentary for his directorial debut short documentary, #BLACK."
     },
     {
       title: "Hollywood North Film Awards (2020)",
       status: "Nominated",
-      description: "for <em>Best VFX & Color</em> and <em>Best Editing of a Canadian Short Doc</em> for <em>#BLACK</em>."
+      description: "for Best VFX & Color and Best Editing of a Canadian Short Doc for #BLACK."
     },
     {
       title: "Gary International Black Film Festival (2020)",
       status: "Nominated / Selected",
-      description: "for <em>Best Youth Film</em> following the CBC broadcast of <em>Being Black in Toronto</em>."
+      description: "for Best Youth Film following the CBC broadcast of Being Black in Toronto."
     }
   ],
 
