@@ -258,9 +258,17 @@ export default function LandingPageDemo() {
       </main>
 
       {/* Massive Name Footer */}
-      <footer className="w-full px-4 md:px-8 mt-12 md:mt-24 pb-4 md:pb-8">
-        <div className="bg-[#E05D4C] rounded-3xl md:rounded-[4rem] flex items-center justify-center pt-24 pb-20 md:pt-40 md:pb-32 w-full overflow-hidden shadow-2xl">
-          <h2 className="text-[10vw] sm:text-[11vw] md:text-[12vw] lg:text-[12.5vw] font-black tracking-tighter text-black leading-[0.75] whitespace-nowrap px-4">
+      <footer className="w-full mt-24 md:mt-40 pb-12 relative overflow-hidden flex flex-col items-center">
+        {/* Blurb container - positioned to align over ANTONIO */}
+        <div className="w-full px-8 md:px-16 flex justify-end mb-[-2vw] relative z-10 pointer-events-auto">
+          <p className="text-[8px] md:text-[10px] uppercase tracking-[0.15em] leading-relaxed font-bold text-gray-800 max-w-[200px] md:max-w-[280px] text-right md:text-left md:-mr-12 lg:-mr-24">
+            For bookings, collaborations and general inquiries please email <a href="mailto:yvanoantonio@protonmail.com" className="text-black hover:text-[#FF1A1A] transition-colors underline decoration-2 underline-offset-4">yvanoantonio@protonmail.com</a>
+          </p>
+        </div>
+        
+        {/* Massive Name */}
+        <div className="w-full overflow-hidden flex justify-center">
+          <h2 className="text-[14vw] sm:text-[14.5vw] font-black tracking-tighter text-[#FF1A1A] leading-[0.75] whitespace-nowrap scale-y-[1.35] origin-bottom mt-4 md:mt-8">
             YVANO ANTONIO.
           </h2>
         </div>
