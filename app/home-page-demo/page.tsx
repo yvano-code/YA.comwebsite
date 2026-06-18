@@ -7,6 +7,39 @@ import { siteConfig } from "@/lib/site-config";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
+function FloatingLetter({ 
+  char, 
+  index, 
+  randoms, 
+  scrollYProgress 
+}: { 
+  char: string, 
+  index: number, 
+  randoms: any[], 
+  scrollYProgress: any 
+}) {
+  const r = randoms[index];
+  
+  const y = useTransform(scrollYProgress, [0, 0.8], [`${r.startY}vh`, `${r.endY}vh`]);
+  const x = useTransform(scrollYProgress, [0, 0.8], [`${r.startX}vw`, `${r.endX}vw`]);
+  const rotate = useTransform(scrollYProgress, [0, 0.8], [r.rStart, r.rEnd]);
+  
+  // Apply opacity fade in at the very start to stagger them slightly
+  const opacity = useTransform(scrollYProgress, [0, 0.1 + (index * 0.05), 0.7, 0.9], [0, 1, 1, 0]);
+  
+  // Base scale varies slightly by letter to give depth
+  const scale = useTransform(scrollYProgress, [0, 0.8], [r.zScale, r.zScale * 2]);
+
+  return (
+    <motion.div
+      style={{ y, x, rotate, opacity, scale }}
+      className="absolute text-7xl md:text-9xl font-black text-white mix-blend-screen drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] pointer-events-none"
+    >
+      {char}
+    </motion.div>
+  );
+}
+
 export default function HomePageDemo() {
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -83,31 +116,14 @@ export default function HomePageDemo() {
             {/* Floating Letters */}
             {mounted && letters.map((char, i) => {
               if (char === " ") return null;
-
-              const r = randoms[i];
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const y = useTransform(scrollYProgress, [0, 0.8], [`${r.startY}vh`, `${r.endY}vh`]);
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const x = useTransform(scrollYProgress, [0, 0.8], [`${r.startX}vw`, `${r.endX}vw`]);
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const rotate = useTransform(scrollYProgress, [0, 0.8], [r.rStart, r.rEnd]);
-              
-              // Apply opacity fade in at the very start to stagger them slightly
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const opacity = useTransform(scrollYProgress, [0, 0.1 + (i * 0.05), 0.7, 0.9], [0, 1, 1, 0]);
-              
-              // Base scale varies slightly by letter to give depth
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const scale = useTransform(scrollYProgress, [0, 0.8], [r.zScale, r.zScale * 2]);
-
               return (
-                <motion.div
-                  key={i}
-                  style={{ y, x, rotate, opacity, scale }}
-                  className="absolute text-7xl md:text-9xl font-black text-white mix-blend-screen drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] pointer-events-none"
-                >
-                  {char}
-                </motion.div>
+                <FloatingLetter 
+                  key={i} 
+                  char={char} 
+                  index={i} 
+                  randoms={randoms} 
+                  scrollYProgress={scrollYProgress} 
+                />
               );
             })}
 
