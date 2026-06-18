@@ -237,7 +237,7 @@ export const siteConfig = {
     },
     { 
       title: "BAKED BUTTER BISCUITS | SERIES PILOT EPISODE ", 
-      image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg", 
+      image: "/projects/bbb/Still_2025-09-09_1.29.1.jpg", 
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
       credits: [
