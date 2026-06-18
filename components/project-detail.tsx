@@ -19,8 +19,8 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
           {project.title}
         </h1>
         {project.subtitle && (
-          <p className="text-sm tracking-[0.2em] text-muted-foreground uppercase">
-            - {project.subtitle} -
+          <p className="text-xs md:text-sm tracking-[0.15em] text-muted-foreground uppercase max-w-3xl leading-relaxed mx-auto">
+            {project.subtitle}
           </p>
         )}
       </div>
