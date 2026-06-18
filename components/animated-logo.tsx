@@ -327,8 +327,8 @@ export function AnimatedLogo() {
             <motion.div
               animate={damageControls}
               initial={{ opacity: 0, y: 0, scale: 0.5 }}
-              className="absolute top-[-20px] right-[-140px] text-yellow-400 font-black text-xs italic drop-shadow-[0_2px_0_rgba(0,0,0,1)] whitespace-nowrap z-50 pointer-events-none tracking-tight"
-              style={{ WebkitTextStroke: '0.5px black' }}
+              className="absolute top-[40px] right-[-180px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter"
+              style={{ WebkitTextStroke: '1px black' }}
             >
               YOU'RE A GOOD YUTE!
             </motion.div>
