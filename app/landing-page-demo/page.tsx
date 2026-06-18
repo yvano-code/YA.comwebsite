@@ -44,17 +44,17 @@ export default function LandingPageDemo() {
           {/* Horizontal Scroll Container */}
           <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
-              <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
-                <div className="relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
+              <div key={idx} className="flex-none w-[65vw] md:w-[35vw] lg:w-[25vw] snap-center group">
+                <div className="relative aspect-[2/3] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 shadow-xl">
                   {project.image || project.href ? (
                     (() => {
                       const img = project.image || project.href;
                       const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
                       const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.mov');
                       
+                      let resolvedSrc = img;
                       if (isYoutube) {
                         let youtubeId = '';
-                        // First check if it's already an img.youtube.com URL
                         const imgMatch = img.match(/img\.youtube\.com\/vi\/([^/]+)/);
                         if (imgMatch) {
                           youtubeId = imgMatch[1];
@@ -62,41 +62,51 @@ export default function LandingPageDemo() {
                           const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
                           if (match) youtubeId = match[1];
                         }
-                        
-                        return (
-                          <Image 
-                            src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
-                            alt={project.title}
-                            fill
-                            unoptimized={true}
-                            className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                          />
-                        )
-                      } else if (isVideo) {
-                         return (
-                           <video 
-                             src={img} 
-                             autoPlay 
-                             muted 
-                             loop 
-                             playsInline 
-                             className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                           />
-                         )
-                      } else {
-                         return (
-                           <Image 
-                             src={img}
-                             alt={project.title}
-                             fill
-                             unoptimized={true}
-                             className={`opacity-80 group-hover:scale-105 transition-transform duration-700 ${
-                               // @ts-ignore
-                               project.imagePosition === "bottom" ? "object-cover object-bottom" : "object-cover"
-                             }`}
-                           />
-                         )
+                        resolvedSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
                       }
+
+                      return (
+                        <>
+                          {/* Blurred Background to fill space nicely */}
+                          {!isVideo ? (
+                             <Image 
+                               src={resolvedSrc}
+                               alt=""
+                               fill
+                               unoptimized={true}
+                               className="object-cover scale-110 blur-xl opacity-40 group-hover:scale-125 transition-transform duration-700 pointer-events-none"
+                             />
+                          ) : (
+                             <video 
+                               src={resolvedSrc} 
+                               muted 
+                               loop 
+                               playsInline 
+                               className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-40 group-hover:scale-125 transition-transform duration-700 pointer-events-none"
+                             />
+                          )}
+                          
+                          {/* Main uncropped content */}
+                          {isVideo ? (
+                             <video 
+                               src={resolvedSrc} 
+                               autoPlay 
+                               muted 
+                               loop 
+                               playsInline 
+                               className="absolute inset-0 w-full h-full object-contain p-2 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 z-10"
+                             />
+                          ) : (
+                             <Image 
+                               src={resolvedSrc}
+                               alt={project.title}
+                               fill
+                               unoptimized={true}
+                               className="object-contain p-2 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 z-10"
+                             />
+                          )}
+                        </>
+                      )
                     })()
                   ) : (
                     <div className="absolute inset-0 bg-gray-800" />
@@ -153,18 +163,29 @@ export default function LandingPageDemo() {
                 
                 {/* Image Background */}
                 {credit.image && (
-                  <div className="absolute inset-0 w-full h-full z-0">
-                    <Image 
-                      src={credit.image}
-                      alt={credit.title}
-                      fill
-                      unoptimized={true}
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    {/* Only a bottom and top gradient for text legibility, no dark overlay across the whole image */}
-                    <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                    <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
-                  </div>
+                  <>
+                    {/* Image Wrapper for Scaling */}
+                    <div 
+                      className="absolute inset-0 w-full h-full z-0 overflow-hidden" 
+                      style={
+                        // @ts-ignore
+                        credit.imageScale ? { transform: `scale(${credit.imageScale})` } : undefined
+                      }
+                    >
+                      <Image 
+                        src={credit.image}
+                        alt={credit.title}
+                        fill
+                        unoptimized={true}
+                        className="object-cover transition-transform duration-700 group-hover:scale-105 origin-center"
+                      />
+                    </div>
+                    {/* Gradients */}
+                    <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+                      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                      <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
+                    </div>
+                  </>
                 )}
 
                 <div className="relative z-10">

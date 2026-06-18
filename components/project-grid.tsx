@@ -115,15 +115,6 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
     return activeContent
   }
 
-  // If it's a video and we have an onSelect handler (for landing page demo logic)
-  if (isVideo && onSelect) {
-    return (
-      <button type="button" onClick={() => onSelect(project)} aria-label={`View ${project.title}`} className="block w-full text-left">
-        {defaultContent}
-      </button>
-    )
-  }
-
   // If there's an external link (not a video)
   if (!isVideo && project.href && project.href.startsWith("http")) {
     return (
@@ -142,7 +133,7 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
     )
   }
 
-  // If it is a video (without onSelect) it will just use defaultContent which handles click internally.
+  // If it is a video it will just use defaultContent which handles click internally.
   if (isVideo) {
     return defaultContent;
   }

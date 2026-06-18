@@ -112,7 +112,8 @@ export const siteConfig = {
       year: "2024",
       roles: ["Director"],
       type: "Music Video",
-      image: "/projects/fafiella_image_site.jpg"
+      image: "/projects/fafiella_image_site.jpg",
+      imageScale: 1.25
     },
     {
       title: "Black Community Mixtapes",
