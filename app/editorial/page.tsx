@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/site-config"
 export default function EditorialPage() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0)
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(1)
   const group = siteConfig.editorial[selectedIndex]
 
   return (
@@ -22,6 +23,7 @@ export default function EditorialPage() {
                 onClick={() => {
                   setSelectedIndex(index);
                   setSelectedVideoIndex(0);
+                  setSelectedPhotoIndex(1);
                 }}
                 className={`text-left hover:opacity-70 transition-opacity ${
                   selectedIndex === index ? "font-bold" : "font-normal"
@@ -106,6 +108,81 @@ export default function EditorialPage() {
                           </div>
                         )
                       })}
+                    </div>
+                  )}
+                </div>
+              ) : /* @ts-ignore */ group.showPhotoCarousel ? (
+                <div className="flex flex-col gap-16">
+                  {/* Main Video */}
+                  <div className="w-full aspect-video">
+                    {(() => {
+                      const img = group.images[0];
+                      if (!img) return null;
+                      const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
+                      let youtubeId = '';
+                      let startTime = '';
+                      if (isYoutube) {
+                        const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                        if (match) youtubeId = match[1];
+                        const timeMatch = img.match(/[?&]t=([0-9]+)s?/);
+                        if (timeMatch) startTime = `&start=${timeMatch[1]}`;
+                        return (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=0&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
+                            className="w-full h-full shadow-xl"
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                          />
+                        );
+                      }
+                      return null;
+                    })()}
+                  </div>
+
+                  {/* Photo Carousel */}
+                  {group.images.length > 1 && (
+                    <div className="flex flex-col gap-4">
+                      {/* Main Selected Photo */}
+                      <div className="w-full relative aspect-[3/2] md:aspect-[16/9] overflow-hidden bg-black">
+                        {group.images.slice(1).map((img, idx) => (
+                          <div
+                            key={idx}
+                            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                              selectedPhotoIndex === idx + 1 ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                            }`}
+                          >
+                            <Image
+                              src={img}
+                              alt={`Gallery photo ${idx + 1}`}
+                              fill
+                              className="object-contain"
+                              priority={idx === 0}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Thumbnail Strip */}
+                      <div className="grid grid-cols-4 md:grid-cols-7 gap-2">
+                        {group.images.slice(1).map((img, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => setSelectedPhotoIndex(idx + 1)}
+                            className={`relative aspect-square cursor-pointer overflow-hidden transition-all duration-300 ${
+                              selectedPhotoIndex === idx + 1 
+                                ? "ring-2 ring-primary opacity-100" 
+                                : "opacity-50 hover:opacity-100 grayscale hover:grayscale-0"
+                            }`}
+                          >
+                            <Image
+                              src={img}
+                              alt={`Thumbnail ${idx + 1}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
