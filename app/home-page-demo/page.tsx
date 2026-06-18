@@ -2,10 +2,9 @@
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 
 function FloatingLetter({ 
   char, 
@@ -20,20 +19,23 @@ function FloatingLetter({
 }) {
   const r = randoms[index];
   
-  const y = useTransform(scrollYProgress, [0, 0.8], [`${r.startY}vh`, `${r.endY}vh`]);
-  const x = useTransform(scrollYProgress, [0, 0.8], [`${r.startX}vw`, `${r.endX}vw`]);
-  const rotate = useTransform(scrollYProgress, [0, 0.8], [r.rStart, r.rEnd]);
+  // Create a 3D effect: letters come from "behind" the camera (scale > 1) and fall down into the abyss (scale < 0)
+  const z = useTransform(scrollYProgress, [0, 0.7], [r.startZ, r.endZ]);
+  const y = useTransform(scrollYProgress, [0, 0.7], [`${r.startY}vh`, `${r.endY}vh`]);
+  const x = useTransform(scrollYProgress, [0, 0.7], [`${r.startX}vw`, `${r.endX}vw`]);
   
-  // Apply opacity fade in at the very start to stagger them slightly
-  const opacity = useTransform(scrollYProgress, [0, 0.1 + (index * 0.05), 0.7, 0.9], [0, 1, 1, 0]);
+  // 3D rotations for the letters tumbling
+  const rotateX = useTransform(scrollYProgress, [0, 0.7], [0, r.rotX]);
+  const rotateY = useTransform(scrollYProgress, [0, 0.7], [0, r.rotY]);
+  const rotateZ = useTransform(scrollYProgress, [0, 0.7], [r.rStart, r.rEnd]);
   
-  // Base scale varies slightly by letter to give depth
-  const scale = useTransform(scrollYProgress, [0, 0.8], [r.zScale, r.zScale * 2]);
+  // Fade out as they fall into the abyss
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.5, 0.7], [0, 1, 1, 0]);
 
   return (
     <motion.div
-      style={{ y, x, rotate, opacity, scale }}
-      className="absolute text-7xl md:text-9xl font-black text-white mix-blend-screen drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] pointer-events-none"
+      style={{ y, x, z, rotateX, rotateY, rotateZ, opacity }}
+      className="absolute text-6xl md:text-9xl font-black text-white/90 mix-blend-overlay drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] pointer-events-none"
     >
       {char}
     </motion.div>
@@ -48,35 +50,36 @@ export default function HomePageDemo() {
     offset: ["start start", "end end"]
   });
 
-  // Background/Scene scale and movement
-  // Starts normal, scales down as if moving away/falling backwards
-  const sceneScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
-  const sceneY = useTransform(scrollYProgress, [0, 0.8], ["0%", "40%"]);
-  const sceneOpacity = useTransform(scrollYProgress, [0.6, 0.9], [1, 0]);
+  // Background/Scene scale and movement for falling effect
+  // Zooming IN on the background makes the viewer feel like they are falling DOWN into it.
+  const sceneScale = useTransform(scrollYProgress, [0, 0.8], [1, 1.5]);
+  const sceneY = useTransform(scrollYProgress, [0, 0.8], ["0%", "-10%"]);
+  const sceneOpacity = useTransform(scrollYProgress, [0.6, 0.9], [1, 0.3]);
 
   // "YVANO ANTONIO" -> 13 characters
   const name = "YVANO ANTONIO";
   const letters = name.split("");
 
   // Bio section fades in at the end of the scroll
-  const bioOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
-  const bioY = useTransform(scrollYProgress, [0.8, 1], [100, 0]);
+  const bioOpacity = useTransform(scrollYProgress, [0.75, 1], [0, 1]);
+  const bioY = useTransform(scrollYProgress, [0.75, 1], [50, 0]);
+  const bioScale = useTransform(scrollYProgress, [0.75, 1], [0.9, 1]);
 
-  // Stable random-ish values to avoid hydration errors
+  // 3D Randoms
   const randoms = [
-    { startY: -20, endY: -150, startX: -30, endX: -10, rStart: 10, rEnd: 45, zScale: 0.8 },
-    { startY: 10, endY: -200, startX: 10, endX: 40, rStart: -10, rEnd: -90, zScale: 1.2 },
-    { startY: -40, endY: -100, startX: -20, endX: -40, rStart: 20, rEnd: 180, zScale: 1.5 },
-    { startY: 30, endY: -250, startX: 30, endX: 10, rStart: -5, rEnd: -60, zScale: 0.9 },
-    { startY: -10, endY: -120, startX: 0, endX: 20, rStart: 15, rEnd: 90, zScale: 1.1 },
-    { startY: 0, endY: 0, startX: 0, endX: 0, rStart: 0, rEnd: 0, zScale: 1 }, // space
-    { startY: 40, endY: -300, startX: -40, endX: -10, rStart: -20, rEnd: -120, zScale: 1.4 },
-    { startY: -30, endY: -180, startX: 40, endX: 20, rStart: 5, rEnd: 45, zScale: 0.7 },
-    { startY: 20, endY: -220, startX: -10, endX: -30, rStart: 25, rEnd: 150, zScale: 1.3 },
-    { startY: -25, endY: -140, startX: 20, endX: 50, rStart: -15, rEnd: -75, zScale: 1.0 },
-    { startY: 15, endY: -260, startX: -25, endX: -5, rStart: 10, rEnd: 60, zScale: 1.6 },
-    { startY: -5, endY: -160, startX: 15, endX: -15, rStart: -25, rEnd: -180, zScale: 0.9 },
-    { startY: 35, endY: -280, startX: -35, endX: 25, rStart: 30, rEnd: 210, zScale: 1.2 },
+    { startY: 100, endY: -50, startX: -40, endX: -10, startZ: 200, endZ: -500, rotX: 180, rotY: 90, rStart: 10, rEnd: 45 },
+    { startY: 120, endY: -80, startX: -20, endX: 10, startZ: 300, endZ: -600, rotX: -180, rotY: 45, rStart: -10, rEnd: -90 },
+    { startY: 80, endY: -40, startX: -10, endX: -30, startZ: 150, endZ: -400, rotX: 360, rotY: -90, rStart: 20, rEnd: 180 },
+    { startY: 150, endY: -100, startX: 10, endX: 30, startZ: 400, endZ: -700, rotX: -360, rotY: 180, rStart: -5, rEnd: -60 },
+    { startY: 90, endY: -60, startX: 30, endX: 5, startZ: 250, endZ: -450, rotX: 90, rotY: -45, rStart: 15, rEnd: 90 },
+    { startY: 0, endY: 0, startX: 0, endX: 0, startZ: 0, endZ: 0, rotX: 0, rotY: 0, rStart: 0, rEnd: 0 }, // space
+    { startY: 110, endY: -70, startX: -35, endX: -15, startZ: 280, endZ: -550, rotX: -90, rotY: 45, rStart: -20, rEnd: -120 },
+    { startY: 130, endY: -90, startX: -15, endX: 5, startZ: 350, endZ: -650, rotX: 180, rotY: -180, rStart: 5, rEnd: 45 },
+    { startY: 85, endY: -45, startX: 5, endX: -25, startZ: 180, endZ: -420, rotX: -180, rotY: 90, rStart: 25, rEnd: 150 },
+    { startY: 140, endY: -110, startX: 25, endX: 15, startZ: 380, endZ: -680, rotX: 360, rotY: -45, rStart: -15, rEnd: -75 },
+    { startY: 95, endY: -55, startX: -25, endX: 0, startZ: 220, endZ: -480, rotX: -360, rotY: 180, rStart: 10, rEnd: 60 },
+    { startY: 125, endY: -85, startX: 15, endX: -5, startZ: 320, endZ: -620, rotX: 90, rotY: -90, rStart: -25, rEnd: -180 },
+    { startY: 105, endY: -65, startX: -5, endX: 25, startZ: 260, endZ: -520, rotX: -90, rotY: 45, rStart: 30, rEnd: 210 },
   ];
 
   const [mounted, setMounted] = useState(false);
@@ -85,68 +88,82 @@ export default function HomePageDemo() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black">
-      <div className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
-        <SiteHeader />
+    <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans">
+      
+      {/* Simple Back Button */}
+      <div className="fixed top-6 left-6 z-[100]">
+        <Link 
+          href="/" 
+          className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-lg"
+        >
+          ← Back to Main
+        </Link>
       </div>
 
       <main>
         {/* Sunken Place Animation Container */}
-        {/* Height is 400vh to give plenty of scroll duration */}
-        <div ref={containerRef} className="h-[400vh] relative">
+        {/* Height is 500vh to give plenty of scroll duration for a smooth 3D effect */}
+        <div ref={containerRef} className="h-[500vh] relative">
           
           {/* Sticky view frame */}
-          <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#050505]">
+          <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black" style={{ perspective: "1000px" }}>
             
             {/* The main subject (falling away) */}
             <motion.div 
               style={{ scale: sceneScale, y: sceneY, opacity: sceneOpacity }}
-              className="relative w-full h-full max-w-7xl flex items-center justify-center pointer-events-none"
+              className="absolute inset-0 w-full h-full flex items-center justify-center origin-center"
             >
               <Image
-                src="/projects/PRO_9325-Edit-NoBG.png"
-                alt="Yvano Antonio"
+                src="/projects/sunken_place_falling.png"
+                alt="Sunken Place Falling"
                 fill
-                className="object-contain drop-shadow-2xl"
+                className="object-cover"
                 priority
                 unoptimized
               />
+              {/* Optional Vignette overlay to blend edges */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] pointer-events-none" />
             </motion.div>
 
-            {/* Floating Letters */}
-            {mounted && letters.map((char, i) => {
-              if (char === " ") return null;
-              return (
-                <FloatingLetter 
-                  key={i} 
-                  char={char} 
-                  index={i} 
-                  randoms={randoms} 
-                  scrollYProgress={scrollYProgress} 
-                />
-              );
-            })}
+            {/* 3D Floating Letters Container */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ transformStyle: "preserve-3d" }}>
+              {mounted && letters.map((char, i) => {
+                if (char === " ") return null;
+                return (
+                  <FloatingLetter 
+                    key={i} 
+                    char={char} 
+                    index={i} 
+                    randoms={randoms} 
+                    scrollYProgress={scrollYProgress} 
+                  />
+                );
+              })}
+            </div>
 
             {/* Bio appearing at the end */}
             <motion.div 
-              style={{ opacity: bioOpacity, y: bioY }}
-              className="absolute inset-0 flex items-center justify-center p-6 md:p-12 pointer-events-auto z-10"
+              style={{ opacity: bioOpacity, y: bioY, scale: bioScale }}
+              className="absolute inset-0 flex items-center justify-center p-6 md:p-12 pointer-events-auto z-50 bg-black/40 backdrop-blur-sm"
             >
-              <div className="max-w-4xl w-full text-center md:text-left">
-                <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase mb-8 md:mb-12">
-                  About
+              <div className="max-w-3xl w-full text-center">
+                <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-8 md:mb-12 text-white drop-shadow-2xl">
+                  Yvano Antonio
                 </h2>
-                <div className="text-lg md:text-3xl font-medium leading-relaxed text-gray-300 space-y-6 md:space-y-8">
+                <div className="text-xl md:text-3xl font-medium leading-relaxed text-gray-200 space-y-6 md:space-y-8 drop-shadow-lg">
                   {siteConfig.imdbBio.split('\n').map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
                   ))}
+                </div>
+                <div className="mt-16">
+                  <Link href="/film-tv" className="bg-white text-black px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                    View Filmography
+                  </Link>
                 </div>
               </div>
             </motion.div>
           </div>
         </div>
-
-        <SiteFooter />
       </main>
     </div>
   );
