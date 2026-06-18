@@ -57,7 +57,7 @@ export const siteConfig = {
     */
     {
       client: "THE CLUBHOUSE JAMZ EXPERIENCE",
-      details: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.\n\nExecutive Producer: HNTRS CLUB INC.\nDirected by: Yvano Antonio\nTechnical Director: Ismael Machado\nVideo by: London Rich / Set In Film",
+      details: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.\n\nExecutive Producer: HNTRS CLUB INC.\nDirector: Yvano Antonio\nTechnical Director: Ismael Machado\nVideo by: London Rich / Set In Film",
       showPhotoCarousel: true,
       images: [
         "https://www.youtube.com/watch?v=y2CfIy8dmeA",
@@ -230,7 +230,7 @@ export const siteConfig = {
       subtitle: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.",
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
-        { label: "Directed by", value: "Yvano Antonio" },
+        { label: "Director", value: "Yvano Antonio" },
         { label: "Technical Director", value: "Ismael Machado" },
         { label: "Video by", value: "London Rich / Set In Film" }
       ]
@@ -243,7 +243,7 @@ export const siteConfig = {
       credits: [
         { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
   
-        { label: "Written & Directed by", value: "Yvano Antonio & Ananse Arthur"},
+        { label: "Writer & Director", value: "Yvano Antonio & Ananse Arthur"},
        
       ]
     },
@@ -253,7 +253,7 @@ export const siteConfig = {
       href: "https://youtu.be/U0j3r8ulTM4",
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
-        { label: "Directed by", value: "Yvano Antonio" },
+        { label: "Director", value: "Yvano Antonio" },
         { label: "Cinematographer", value: "Eniola Yussuff" },
         { label: "Production Designer", value: "Sharine Taylor" },
         { label: "Special Effects Makeup", value: "Gabrielle Geneviève Martin" },
@@ -271,7 +271,7 @@ export const siteConfig = {
       href: "https://youtu.be/tbQP2YesXxI",
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
-        { label: "Directed by", value: "Yvano Antonio" },
+        { label: "Director", value: "Yvano Antonio" },
         { label: "Cinematographer", value: "Ismail Ali" },
         { label: "Editor", value: "Sochima Nwakaeze" },
         { label: "Starring", value: "Khara Martin" }
@@ -283,7 +283,7 @@ export const siteConfig = {
       href: "https://youtu.be/-xLbpc2JCGg",
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
-        { label: "Written & Directed by", value: "Yvano Antonio" }
+        { label: "Writer & Director", value: "Yvano Antonio" }
       ]
     },
   ],
