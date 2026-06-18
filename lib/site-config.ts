@@ -267,7 +267,7 @@ export const siteConfig = {
     },
     { 
       title: "PRACTICALLY MAGIC | COMMERCIAL SPEC ", 
-      image: "https://img.youtube.com/vi/tbQP2YesXxI/maxresdefault.jpg", 
+      image: "/projects/practically-magic-thumbnail.jpg", 
       href: "https://youtu.be/tbQP2YesXxI",
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
