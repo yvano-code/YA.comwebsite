@@ -187,11 +187,11 @@ export const siteConfig = {
       image: "https://image.tmdb.org/t/p/w500/7I08D2J6n6kYyZJ9vY8v7CqL0Dk.jpg"
     },
     {
-      title: "Black",
+      title: "#BLACK",
       year: "2019",
-      roles: ["Director", "Still Photographer"],
+      roles: ["Writer", "Director"],
       type: "Short",
-      image: "https://image.tmdb.org/t/p/w500/seN6rRfN0I6n8iDXjlSMk1QjNcq.jpg"
+      image: "/projects/black-bleed.png"
     },
     {
       title: "Mr. Jane and Finch",
