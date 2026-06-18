@@ -56,6 +56,23 @@ export default function EditorialPage() {
                           </div>
                         )
                       }
+                      if (paragraph.startsWith('[LINK]')) {
+                        const match = paragraph.match(/\[LINK\](.*?)\|(.*)/);
+                        if (match) {
+                          return (
+                            <div key={i} className="my-2">
+                              <a 
+                                href={match[2]}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
+                              >
+                                {match[1]} ↗
+                              </a>
+                            </div>
+                          )
+                        }
+                      }
                       return (
                         <span key={i} className="leading-relaxed whitespace-pre-wrap font-normal text-[13px] sm:text-sm text-foreground/90">
                           {paragraph}
