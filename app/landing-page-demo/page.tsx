@@ -146,19 +146,27 @@ export default function LandingPageDemo() {
 
                   {/* Play Button Overlay */}
                   {playingVideo !== idx && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
+                      {/* Gradient for text readability */}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                      
+                      {/* Play Button */}
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110 mb-4 relative z-30">
                         <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
+
+                      {/* Title Overlay */}
+                      <h4 className="text-[14px] md:text-[18px] lg:text-[22px] font-black tracking-widest uppercase text-white drop-shadow-lg text-center px-4 relative z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-500">
+                        {project.title}
+                      </h4>
                     </div>
                   )}
                 </div>
 
                 {/* Text Outside */}
                 <div className="px-2 mt-4">
-                  <h4 className="text-[13px] md:text-[15px] font-bold tracking-widest uppercase mb-3 text-black">{project.title}</h4>
                   {project.subtitle && (
                     <p className="text-[10px] md:text-[11px] leading-relaxed text-gray-500 font-medium uppercase tracking-wide mb-4">{project.subtitle}</p>
                   )}

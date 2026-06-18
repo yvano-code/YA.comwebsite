@@ -249,7 +249,7 @@ export const siteConfig = {
     },
     { 
       title: "MOONGAZER | SHORT HORROR FILM", 
-      image: "/projects/Pasted%20Graphic%204.jpg", 
+      image: "/projects/moongazer-thumbnail.jpg", 
       href: "https://youtu.be/U0j3r8ulTM4",
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
