@@ -73,7 +73,7 @@ export const siteConfig = {
         "/projects/chj/DSC08726.jpg",
         "/projects/chj/S3_Ep_1_-_8.jpg"
       ],
-      bottomVideo: "/projects/chj/INTRO_FOR_VO.mp4"
+      bottomVideo: "https://youtu.be/4tOHeFDRI0k?si=F5Fghx8mAVR2Fr0Y&t=25"
     },
     {
       client: "MUNDO",

@@ -200,13 +200,37 @@ export default function EditorialPage() {
                   {/* @ts-ignore */}
                   {group.bottomVideo && (
                     <div className="w-full aspect-video mt-8 shadow-xl">
-                      <video
-                        src={/* @ts-ignore */ group.bottomVideo}
-                        controls
-                        loop
-                        playsInline
-                        className="w-full h-full bg-black object-contain rounded-sm"
-                      />
+                      {(() => {
+                        // @ts-ignore
+                        const bottomVideoStr = group.bottomVideo as string;
+                        const isBottomYoutube = bottomVideoStr.includes('youtube.com') || bottomVideoStr.includes('youtu.be');
+                        if (isBottomYoutube) {
+                          let youtubeId = '';
+                          let startTime = '';
+                          const match = bottomVideoStr.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                          if (match) youtubeId = match[1];
+                          const timeMatch = bottomVideoStr.match(/[?&]t=([0-9]+)s?/);
+                          if (timeMatch) startTime = `&start=${timeMatch[1]}`;
+                          return (
+                            <iframe
+                              src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&mute=0&controls=1&rel=0&showinfo=0&modestbranding=1&playsinline=1${startTime}`}
+                              className="w-full h-full bg-black rounded-sm"
+                              allow="autoplay; encrypted-media"
+                              allowFullScreen
+                            />
+                          );
+                        } else {
+                          return (
+                            <video
+                              src={bottomVideoStr}
+                              controls
+                              loop
+                              playsInline
+                              className="w-full h-full bg-black object-contain rounded-sm"
+                            />
+                          );
+                        }
+                      })()}
                     </div>
                   )}
                 </div>
