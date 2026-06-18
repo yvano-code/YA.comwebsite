@@ -112,14 +112,14 @@ export const siteConfig = {
       year: "2024",
       roles: ["Director"],
       type: "Music Video",
-      image: "/projects/site-images/fafiella_image_site.jpg"
+      image: "/projects/fafiella_image_site.jpg"
     },
     {
       title: "Black Community Mixtapes",
       year: "2023",
       roles: ["Still Photographer"],
       type: "TV Series (5 Episodes)",
-      image: "/projects/site-images/BCMT_POSTER-small.webp"
+      image: "/projects/BCMT_POSTER-small.webp"
     },
     {
       title: "Doubles",
@@ -266,7 +266,7 @@ export const siteConfig = {
     },
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
-      image: "/projects/site-images/fafiella_image_site.jpg", 
+      image: "/projects/fafiella_image_site.jpg", 
       href: "https://vimeo.com/895031625/d4268c2880" 
     },
     { 
