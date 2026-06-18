@@ -144,7 +144,7 @@ export default function LandingPageDemo() {
                   )}
                   {project.credits && project.credits.length > 0 && (
                     <div className="flex flex-col gap-2 border-l-2 border-black/10 pl-4 mt-2">
-                      {project.credits.slice(0, 3).map((credit, i) => (
+                      {project.credits.map((credit, i) => (
                         <div key={i} className="text-[10px] md:text-[11px] tracking-[0.05em]">
                           <span className="font-bold text-gray-400 uppercase mr-2">{credit.label}:</span>
                           <span className="text-gray-800 font-medium uppercase">{credit.value}</span>

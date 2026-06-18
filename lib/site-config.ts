@@ -227,11 +227,12 @@ export const siteConfig = {
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
       image: "", 
       href: "https://www.youtube.com/watch?v=nPmq7VKqo4U",
-      subtitle: "Clubhouse Jamz is a live weekly variety show",
+      subtitle: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. The show is hosted by Splash GB, who interviews guest artists and puts their talents and skills to the test with tough questions, theme game shows and requests for encore performances. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.",
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
         { label: "Directed by", value: "Yvano Antonio" },
-        { label: "Technical Director", value: "Ismael Machado" }
+        { label: "Technical Director", value: "Ismael Machado" },
+        { label: "Video by", value: "London Rich / Set In Film" }
       ]
     },
     { 
