@@ -45,7 +45,12 @@ export default function LandingPageDemo() {
           <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
               <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
-                <div className="relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 group-hover:scale-[1.02] transition-transform duration-500 shadow-xl cursor-pointer">
+                <a 
+                  href={project.href || "#"} 
+                  target={project.href ? "_blank" : undefined} 
+                  rel="noopener noreferrer" 
+                  className="block relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 group-hover:scale-[1.02] transition-transform duration-500 shadow-xl cursor-pointer"
+                >
                   {project.image || project.href ? (
                     (() => {
                       const img = project.image || project.href;
@@ -98,7 +103,7 @@ export default function LandingPageDemo() {
                       </svg>
                     </div>
                   </div>
-                </div>
+                </a>
 
                 {/* Text Outside */}
                 <div className="px-2 mt-4">
