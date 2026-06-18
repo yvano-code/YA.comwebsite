@@ -147,7 +147,10 @@ export default function LandingPageDemo() {
         {/* Film & TV Horizontal Scroll Section */}
         <section className="mt-32 md:mt-48 overflow-hidden">
           <div className="px-6 md:px-12 mb-10 flex items-end justify-between">
-            <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Film & TV</h3>
+            <div className="flex flex-col">
+              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Film & TV</h3>
+              <p className="text-[11px] md:text-[13px] font-bold tracking-[0.1em] uppercase text-gray-500 mt-1 md:mt-2">Selected Filmography</p>
+            </div>
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
           </div>
 
