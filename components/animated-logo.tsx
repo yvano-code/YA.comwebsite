@@ -131,7 +131,7 @@ export function AnimatedLogo() {
           x: [0, 10, 20],
           scale: [0.5, 1.3, 1],
           rotate: [0, 5, 10],
-          transition: { duration: 1.2, ease: "easeOut", times: [0, 0.2, 0.8, 1] }
+          transition: { duration: 3.0, ease: "easeOut", times: [0, 0.1, 0.9, 1] }
         })
         
         // Jump up and right in a huge arc (squash in air)
