@@ -41,13 +41,13 @@ export default function EditorialPage() {
             <div className="w-full flex flex-col animate-in fade-in duration-500">
               {/* Meta Header */}
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-16 mb-16 text-xs sm:text-sm font-semibold tracking-wide">
-                <div className="md:col-span-1 lg:col-span-1">
-                  <span className="text-gray-400 block mb-1">Client:</span>
-                  <span className="underline decoration-1 underline-offset-4 uppercase">{group.client}</span>
+                <div className="md:col-span-4 lg:col-span-4 order-2 md:order-1">
+                  <span className="text-gray-400 block mb-2 uppercase tracking-widest text-[10px]">Project Details</span>
+                  <span className="leading-loose whitespace-pre-wrap font-normal text-sm sm:text-[15px] text-foreground/90">{group.details || "Details coming soon..."}</span>
                 </div>
-                <div className="md:col-span-4 lg:col-span-4">
-                  <span className="text-gray-400 block mb-1">Project Details:</span>
-                  <span className="leading-relaxed whitespace-pre-wrap font-normal">{group.details || "Details coming soon..."}</span>
+                <div className="md:col-span-1 lg:col-span-1 order-1 md:order-2">
+                  <span className="text-gray-400 block mb-2 uppercase tracking-widest text-[10px]">Client</span>
+                  <span className="underline decoration-1 underline-offset-4 uppercase">{group.client}</span>
                 </div>
               </div>
 
