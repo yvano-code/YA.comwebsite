@@ -167,10 +167,10 @@ export const siteConfig = {
     {
       title: "Being Black in Toronto",
       year: "2020",
-      roles: ["Mentor", "Story Editor"],
+      roles: ["Writer & Director"],
       note: "Canadian Screen Award Winner - Best Direction in a Documentary Series (2021)",
       type: "Series",
-      image: "https://images.unsplash.com/photo-1486808013385-d72b22bb33f3?q=80&w=2000&auto=format&fit=crop"
+      image: "/projects/bbit.webp"
     },
     {
       title: "Promise Me",
