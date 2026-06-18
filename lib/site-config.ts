@@ -30,6 +30,7 @@ export const siteConfig = {
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
     { label: "ACCREDITATIONS", href: "/imdb" },
+    { label: "LANDING DEMO", href: "/landing-page-demo" },
     { label: "CONTACT", href: "/contact" },
   ],
 
