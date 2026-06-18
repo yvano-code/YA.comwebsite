@@ -47,9 +47,19 @@ const MickeyShoe = ({ className, flipped = false }: { className?: string, flippe
   )
 }
 
+const DustCloud = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 50 50" className={className} style={{ overflow: "visible" }}>
+    <circle cx="25" cy="25" r="15" fill="#D1D5DB" />
+    <circle cx="15" cy="20" r="10" fill="#D1D5DB" />
+    <circle cx="35" cy="20" r="10" fill="#D1D5DB" />
+  </svg>
+)
+
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
   
+  // Cinematic animation controls
+  const wrapperControls = useAnimation()
   const xControls = useAnimation()
   const yControls = useAnimation()
   const limbControls = useAnimation()
@@ -57,97 +67,158 @@ export function AnimatedLogo() {
   const rightLegControls = useAnimation()
   const leftArmControls = useAnimation()
   const rightArmControls = useAnimation()
+  
+  // Video game visual FX controls
+  const shadowControls = useAnimation()
+  const popControls = useAnimation()
+  const damageControls = useAnimation()
+  const dust1Controls = useAnimation()
+  const dust2Controls = useAnimation()
+  const speedLinesControls = useAnimation()
 
   useEffect(() => {
     let isCancelled = false
     
     const runSequence = async () => {
       if (isHovered) {
-        // 1. Limbs appear
+        // 1. Limbs & shadow appear
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
+        shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
         
         // 2. The Struggle (stuck to the A)
         // Pull left
-        await yControls.start({ 
-          x: -5, 
-          rotate: -15, 
-          scaleX: 0.9, 
-          scaleY: 1.05,
-          transition: { duration: 0.2, ease: "easeOut" } 
-        })
+        yControls.start({ x: -5, rotate: -15, scaleX: 0.9, scaleY: 1.05, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -5, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
         // Shake/vibrate (stuck!)
-        await yControls.start({
+        yControls.start({
           x: [-5, -2, -6, -3, -5, -2, -6, -4],
           y: [0, -2, 1, -1, 2, 0, -1, 0],
           rotate: [-15, -12, -18, -14, -17, -15],
           transition: { duration: 0.3 }
         })
-        if (isCancelled) return
-
-        // Pull harder!
-        await yControls.start({ 
-          x: -12, 
-          rotate: -25, 
-          scaleX: 0.8, 
-          scaleY: 1.15,
-          transition: { duration: 0.2, ease: "easeIn" } 
+        await shadowControls.start({
+          x: [-5, -2, -6, -3, -5, -2, -6, -4],
+          transition: { duration: 0.3 }
         })
         if (isCancelled) return
 
-        // POP free! Jump up and right
-        await yControls.start({
+        // Pull harder!
+        yControls.start({ x: -12, rotate: -25, scaleX: 0.8, scaleY: 1.15, transition: { duration: 0.2, ease: "easeIn" } })
+        await shadowControls.start({ x: -12, transition: { duration: 0.2, ease: "easeIn" } })
+        if (isCancelled) return
+
+        // 3. POP free! (Cinematic break)
+        popControls.start({
+          scale: [0, 2],
+          opacity: [1, 0],
+          borderWidth: [4, 0],
+          transition: { duration: 0.4, ease: "easeOut" }
+        })
+        damageControls.start({
+          opacity: [0, 1, 1, 0],
+          y: [0, -30, -35],
+          scale: [0.5, 1.2, 1],
+          transition: { duration: 1, ease: "easeOut", times: [0, 0.2, 0.8, 1] }
+        })
+        
+        // Jump up and right
+        yControls.start({
           x: 10,
-          y: -25,
+          y: -30,
           rotate: 10,
           scaleX: 1,
           scaleY: 1,
           transition: { type: "spring", stiffness: 400, damping: 10 }
         })
+        await shadowControls.start({
+          x: 10,
+          scale: 0.5,
+          opacity: 0.1,
+          transition: { type: "spring", stiffness: 400, damping: 10 }
+        })
         if (isCancelled) return
 
-        // 3. Land down
-        await yControls.start({
+        // 4. Heavy Landing (Impact)
+        // Screen shake on wrapper
+        wrapperControls.start({
+          y: [0, 5, -2, 1, 0],
+          transition: { duration: 0.3, ease: "easeInOut" }
+        })
+        // Dust impact
+        dust1Controls.start({
+          scale: [0, 1.5],
+          x: [-10, -25],
+          y: [15, 10],
+          opacity: [0.8, 0],
+          transition: { duration: 0.5, ease: "easeOut" }
+        })
+        dust2Controls.start({
+          scale: [0, 1.5],
+          x: [10, 25],
+          y: [15, 10],
+          opacity: [0.8, 0],
+          transition: { duration: 0.5, ease: "easeOut" }
+        })
+        
+        yControls.start({
           y: 20,
           rotate: 20, // Lean forward to run
-          transition: { type: "spring", stiffness: 300, damping: 12 }
+          transition: { type: "spring", stiffness: 400, damping: 12 }
+        })
+        await shadowControls.start({
+          scale: 1,
+          opacity: 0.4,
+          transition: { type: "spring", stiffness: 400, damping: 12 }
         })
         if (isCancelled) return
 
-        // 4. Start running
+        // 5. Start running
         // Dramatic leg pumping
         leftLegControls.start({
-          rotate: [-60, 60],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+          rotate: [-70, 70],
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         rightLegControls.start({
-          rotate: [60, -60],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+          rotate: [70, -70],
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         
         // Dramatic arm swinging
         leftArmControls.start({
           rotate: [-80, 40],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         rightArmControls.start({
           rotate: [40, -80],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeInOut" }
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
         })
         
         // Bouncing up and down while leaning forward
         yControls.start({
           y: [20, 5],
           rotate: [15, 25],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.12, ease: "easeOut" }
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" }
+        })
+        shadowControls.start({
+          scale: [1, 0.7],
+          opacity: [0.4, 0.2],
+          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" }
+        })
+        
+        // Speed lines FX
+        speedLinesControls.start({
+          opacity: [0, 1, 0],
+          x: [0, -20],
+          transition: { repeat: Infinity, duration: 0.2 }
         })
 
         // Run straight right to edge of screen
         const distance = typeof window !== "undefined" ? window.innerWidth + 100 : 2000;
         await xControls.start({
           x: distance,
-          transition: { duration: 1.8, ease: "easeIn" }
+          transition: { duration: 1.5, ease: "easeIn" }
         })
         
         if (isCancelled) return
@@ -158,9 +229,11 @@ export function AnimatedLogo() {
         leftArmControls.stop()
         rightArmControls.stop()
         yControls.stop()
+        speedLinesControls.stop()
         
         // Hide instantly
         xControls.start({ opacity: 0, transition: { duration: 0 } })
+        shadowControls.start({ opacity: 0, transition: { duration: 0 } })
         
       } else {
         // --- Reset immediately on unhover ---
@@ -170,8 +243,13 @@ export function AnimatedLogo() {
         rightArmControls.stop()
         yControls.stop()
         xControls.stop()
+        speedLinesControls.stop()
+        popControls.stop()
+        damageControls.stop()
         
         limbControls.start({ opacity: 0, transition: { duration: 0.1 } })
+        shadowControls.start({ opacity: 0, transition: { duration: 0.1 } })
+        speedLinesControls.start({ opacity: 0, transition: { duration: 0.1 } })
         
         xControls.start({
           x: 0,
@@ -186,6 +264,7 @@ export function AnimatedLogo() {
           scaleY: 1,
           transition: { type: "spring", stiffness: 300, damping: 20 }
         })
+        shadowControls.start({ x: 0, y: 0, scale: 1 })
         
         leftLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
         rightLegControls.start({ rotate: 0, transition: { duration: 0.1 } })
@@ -199,7 +278,7 @@ export function AnimatedLogo() {
     return () => {
       isCancelled = true
     }
-  }, [isHovered, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls])
+  }, [isHovered, wrapperControls, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
 
   return (
     <Link 
@@ -208,14 +287,60 @@ export function AnimatedLogo() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex relative items-baseline">
+      <motion.div animate={wrapperControls} className="flex relative items-baseline">
         <span className="relative inline-block z-20">
+          {/* X-axis translation container */}
           <motion.div animate={xControls} className="inline-block relative z-20">
+            
+            {/* Ground Shadow */}
+            <motion.div 
+              animate={shadowControls}
+              initial={{ opacity: 0 }}
+              className="absolute bottom-[-6px] left-[0px] w-[20px] h-[4px] bg-black rounded-full blur-[2px]"
+            />
+
+            {/* Cinematic Breakout Pop Ring */}
+            <motion.div 
+              animate={popControls}
+              initial={{ opacity: 0, scale: 0 }}
+              className="absolute top-[50%] right-[-10px] w-[40px] h-[40px] -mt-[20px] rounded-full border-black z-0 pointer-events-none"
+            />
+
+            {/* Video Game Damage Text */}
+            <motion.div
+              animate={damageControls}
+              initial={{ opacity: 0, y: 0, scale: 0.5 }}
+              className="absolute top-[-10px] right-[-60px] text-red-600 font-black text-[10px] italic drop-shadow-md whitespace-nowrap z-50 pointer-events-none tracking-tight"
+            >
+              CRITICAL!
+            </motion.div>
+
+            {/* Impact Dust Clouds */}
+            <motion.div animate={dust1Controls} initial={{ opacity: 0 }} className="absolute bottom-[-10px] left-[-10px] w-[20px] h-[20px] pointer-events-none">
+              <DustCloud />
+            </motion.div>
+            <motion.div animate={dust2Controls} initial={{ opacity: 0 }} className="absolute bottom-[-10px] right-[-10px] w-[20px] h-[20px] pointer-events-none">
+              <DustCloud />
+            </motion.div>
+
+            {/* Speed lines */}
+            <motion.div 
+              animate={speedLinesControls} 
+              initial={{ opacity: 0 }} 
+              className="absolute inset-0 pointer-events-none z-0"
+            >
+              <div className="absolute top-[30%] right-[120%] w-[30px] h-[2px] bg-black/40 rounded-full" />
+              <div className="absolute top-[60%] right-[140%] w-[50px] h-[2px] bg-black/30 rounded-full" />
+              <div className="absolute top-[80%] right-[110%] w-[20px] h-[2px] bg-black/50 rounded-full" />
+            </motion.div>
+
+            {/* Y-axis translation, rotation, and bounce container */}
             <motion.span 
               animate={yControls} 
-              className="inline-block relative origin-bottom"
+              className="inline-block relative origin-bottom z-20"
             >
               Y
+              {/* Limbs container */}
               <motion.div 
                 animate={limbControls} 
                 className="absolute inset-0 pointer-events-none opacity-0"
@@ -258,8 +383,14 @@ export function AnimatedLogo() {
             </motion.span>
           </motion.div>
         </span>
-        <span className="z-10 inline-block relative">A.</span>
-      </div>
+        {/* The "A." takes cinematic focus styling */}
+        <span 
+          className="z-10 inline-block relative transition-opacity duration-300"
+          style={{ opacity: isHovered ? 0.3 : 1 }}
+        >
+          A.
+        </span>
+      </motion.div>
     </Link>
   )
 }
