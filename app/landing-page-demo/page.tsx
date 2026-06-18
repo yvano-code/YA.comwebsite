@@ -37,7 +37,7 @@ export default function LandingPageDemo() {
         <section className="mt-20 md:mt-24 overflow-hidden">
           <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
             <div className="flex flex-col">
-              <h3 className="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</h3>
+              <h3 className="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase text-white leading-normal md:leading-snug"><span className="bg-black px-2 md:px-3 py-0.5 md:py-1 box-decoration-clone">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</span></h3>
               <p className="text-[11px] md:text-[13px] font-bold tracking-[0.1em] uppercase text-gray-500 mt-1 md:mt-2">Selected Filmography</p>
             </div>
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
