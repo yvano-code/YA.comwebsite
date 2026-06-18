@@ -119,7 +119,7 @@ export const siteConfig = {
       year: "2023",
       roles: ["Still Photographer"],
       type: "TV Series (5 Episodes)",
-      image: "/projects/project-1.png"
+      image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2000&auto=format&fit=crop"
     },
     {
       title: "Doubles",
@@ -147,7 +147,7 @@ export const siteConfig = {
       year: "2022",
       roles: ["Still Photographer"],
       type: "Short",
-      image: "/projects/project-2.png"
+      image: "https://images.unsplash.com/photo-1588691522079-052a38615a13?q=80&w=2000&auto=format&fit=crop"
     },
     {
       title: "MoonGazer",
@@ -166,10 +166,10 @@ export const siteConfig = {
     {
       title: "Being Black in Toronto",
       year: "2020",
-      roles: ["Director"],
-      type: "Short",
-      note: "Winner: 2021 Canadian Screen Award",
-      image: "/projects/project-3.png"
+      roles: ["Mentor", "Story Editor"],
+      note: "Canadian Screen Award Winner - Best Direction in a Documentary Series (2021)",
+      type: "Series",
+      image: "https://images.unsplash.com/photo-1486808013385-d72b22bb33f3?q=80&w=2000&auto=format&fit=crop"
     },
     {
       title: "Promise Me",
@@ -177,6 +177,13 @@ export const siteConfig = {
       roles: ["Still Photographer"],
       type: "Short",
       image: "https://image.tmdb.org/t/p/w500/354U0sf0BWPReBVE8z2GZYfDiD1.jpg"
+    },
+    {
+      title: "Onyx",
+      year: "2020",
+      roles: ["Director"],
+      type: "Short",
+      image: "https://image.tmdb.org/t/p/w500/7I08D2J6n6kYyZJ9vY8v7CqL0Dk.jpg"
     },
     {
       title: "Black",

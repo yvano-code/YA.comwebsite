@@ -174,9 +174,11 @@ export default function LandingPageDemo() {
                       src={credit.image}
                       alt={credit.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-50 group-hover:opacity-30 mix-blend-overlay"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+                    {/* Only a bottom and top gradient for text legibility, no dark overlay across the whole image */}
+                    <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
                   </div>
                 )}
 
