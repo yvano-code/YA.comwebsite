@@ -125,8 +125,13 @@ export default function LandingPageDemo() {
         {/* Filmography Horizontal Scroll Section */}
         <section className="mt-16 md:mt-20 overflow-hidden mb-12">
           <div className="px-6 md:px-12 mb-12 md:mb-16 flex items-end justify-between">
-            <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Filmography</h3>
-            <div className="flex gap-4 items-center">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8">
+              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Filmography</h3>
+              <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap sm:pb-1 md:pb-2">
+                VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
+              </Link>
+            </div>
+            <div className="flex gap-4 items-center sm:pb-1 md:pb-2">
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 hidden md:block">Scroll to explore</span>
               <svg className="w-4 h-4 text-gray-400 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </div>
@@ -184,9 +189,6 @@ export default function LandingPageDemo() {
                 {siteConfig.accreditations}
               </p>
             </div>
-            <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap pb-1">
-              VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
