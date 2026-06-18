@@ -54,7 +54,7 @@ export const siteConfig = {
     },
     {
       client: "THE CLUBHOUSE JAMZ EXPERIENCE",
-      details: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. The show is hosted by Splash GB, who interviews guest artists and puts their talents and skills to the test with tough questions, theme game shows and requests for encore performances. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.\n\nExecutive Producer:\nHNTRS CLUB INC.\nDirected by:\nYvano Antonio\nTechnical Director:\nIsmael Machado\nVideo by: London Rich / Set In Film",
+      details: "Clubhouse Jamz is a weekly live music countdown show just like 106 & Park. The show is hosted by Splash GB, who interviews guest artists and puts their talents and skills to the test with tough questions, theme game shows and requests for encore performances. Based in Toronto, Canada, Clubhouse Jamz is performed in front of a live studio audience and broadcasted live to Twitch and YouTube.\n\nExecutive Producer: HNTRS CLUB INC.\nDirected by: Yvano Antonio\nTechnical Director: Ismael Machado\nVideo by: London Rich / Set In Film",
       images: [
         "https://www.youtube.com/watch?v=y2CfIy8dmeA"
       ]
