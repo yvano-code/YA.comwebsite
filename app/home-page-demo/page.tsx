@@ -4,8 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 export default function HomePageDemo() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +54,7 @@ export default function HomePageDemo() {
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black">
       <div className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
-        <Navbar />
+        <SiteHeader />
       </div>
 
       <main>
@@ -130,7 +130,7 @@ export default function HomePageDemo() {
           </div>
         </div>
 
-        <Footer />
+        <SiteFooter />
       </main>
     </div>
   );
