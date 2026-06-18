@@ -126,7 +126,7 @@ export const siteConfig = {
       year: "2023",
       roles: ["Still Photographer"],
       type: "Film",
-      image: "https://image.tmdb.org/t/p/w500/jCv6NWHOx9hf5dBHUoS94lYd1vw.jpg"
+      image: "/projects/DOUBLES.jpg"
     },
     {
       title: "The Legacy Awards",
