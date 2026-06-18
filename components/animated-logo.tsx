@@ -20,25 +20,13 @@ export function AnimatedLogo() {
 
   // Random positions for the "spilling out" phase
   const getRandomSpill = () => {
-    // Spill outwards from center
-    const angle = Math.random() * Math.PI * 2
-    const distance = Math.random() * 60 + 20
+    // Spill outwards mostly to the right and down (diagonally towards center)
+    // Constrain X to avoid horizontal scrolling on small screens, but spread enough
     return {
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance - 20, // slightly upwards
+      x: Math.random() * 250 + 20, 
+      y: Math.random() * 120 + 10,
       rotate: (Math.random() - 0.5) * 180,
-      scale: Math.random() * 0.4 + 0.8,
-    }
-  }
-
-  // Random positions for the "jumble" phase (landed)
-  const getRandomJumble = () => {
-    // Pile up loosely at the bottom
-    return {
-      x: (Math.random() - 0.5) * 120, // Spread horizontally
-      y: Math.random() * 20 + 10,     // Fall down slightly
-      rotate: (Math.random() - 0.5) * 120,
-      scale: 1,
+      scale: Math.random() * 0.5 + 0.8,
     }
   }
 
@@ -52,38 +40,25 @@ export function AnimatedLogo() {
       if (isHovered) {
         // --- HOVER IN SEQUENCE ---
         
-        // 1. Spilling out like toys
+        // 1. Spilling out like toys (Jumbled state)
         await controls.start((i) => ({
           ...getRandomSpill(),
           opacity: 1,
           width: "auto",
-          transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
+          transition: { type: "spring", stiffness: 400, damping: 25, delay: i * 0.015 }
         }))
         
         if (!hoverRef.current) return // Abort if mouse left
 
-        // 2. Spell correctly briefly
-        await controls.start((i) => ({
+        // 2. Spell correctly (Final frame, stays here)
+        controls.start((i) => ({
           x: 0,
           y: 0,
           rotate: 0,
           scale: 1,
           opacity: 1,
           width: "auto",
-          transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
-        }))
-        
-        if (!hoverRef.current) return // Abort if mouse left
-        
-        // Pause briefly to read it
-        await new Promise(r => setTimeout(r, 800))
-        
-        if (!hoverRef.current) return // Abort if mouse left
-
-        // 3. Collapse into a jumble
-        controls.start((i) => ({
-          ...getRandomJumble(),
-          transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
+          transition: { type: "spring", stiffness: 350, damping: 22 }
         }))
         
       } else {
@@ -99,7 +74,7 @@ export function AnimatedLogo() {
               scale: 1,
               opacity: 1,
               width: "auto",
-              transition: { type: "spring", stiffness: 300, damping: 20 }
+              transition: { type: "spring", stiffness: 400, damping: 25 }
             }
           } else {
             return {
@@ -109,7 +84,7 @@ export function AnimatedLogo() {
               scale: 0,
               opacity: 0,
               width: 0,
-              transition: { duration: 0.3 }
+              transition: { duration: 0.2 }
             }
           }
         })
