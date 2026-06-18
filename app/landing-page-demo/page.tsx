@@ -83,7 +83,10 @@ export default function LandingPageDemo() {
                              alt={project.title}
                              fill
                              unoptimized={true}
-                             className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                             className={`opacity-80 group-hover:scale-105 transition-transform duration-700 ${
+                               // @ts-ignore
+                               project.imagePosition === "bottom" ? "object-cover object-bottom" : "object-cover"
+                             }`}
                            />
                          )
                       }

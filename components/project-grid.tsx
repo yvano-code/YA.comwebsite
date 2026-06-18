@@ -18,7 +18,10 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
         alt={project.title}
         fill
         sizes="(min-width: 768px) 33vw, 100vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className={`transition-transform duration-500 group-hover:scale-105 ${
+          // @ts-ignore
+          project.imagePosition === "bottom" ? "object-cover object-bottom" : "object-cover"
+        }`}
         priority={true}
       />
       {/* Title overlay, revealed on hover */}

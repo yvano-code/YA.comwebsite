@@ -147,14 +147,15 @@ export const siteConfig = {
       year: "2022",
       roles: ["Still Photographer"],
       type: "Short",
-      image: "/projects/MV5BOWU4N2ExNjItNmM0Ny00Y2U5LWExM2EtNDE1MTQ3YjFmNDgzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
+      image: "/projects/reel-black.jpg"
     },
     {
       title: "MoonGazer",
       year: "2022",
       roles: ["Director"],
       type: "Short",
-      image: "https://image.tmdb.org/t/p/w500/7M6rvnXj7lQZ2I1pN1k6t0Qwzqg.jpg"
+      image: "/projects/moongazer.jpg",
+      imagePosition: "bottom"
     },
     {
       title: "TallBoyz",
