@@ -229,12 +229,21 @@ export default function LandingPageDemo() {
             ))}
           </div>
 
-          {/* Laurels Banner Image */}
-          <div className="w-full flex justify-center border-t border-black/10 pt-16 pb-8 px-4 md:px-8 lg:px-12">
+          {/* Laurels Banner Images */}
+          <div className="w-full flex flex-col items-center border-t border-black/10 pt-16 pb-8 px-4 md:px-8 lg:px-12 gap-8 md:gap-12">
             <div className="relative w-full aspect-[4/1] sm:aspect-[5/1] md:aspect-[7/1] lg:aspect-[8/1]">
               <Image 
                 src="/projects/bbt_laurels.webp"
-                alt="Festival Laurels"
+                alt="Festival Laurels Row 1"
+                fill
+                unoptimized={true}
+                className="object-contain mix-blend-multiply opacity-90"
+              />
+            </div>
+            <div className="relative w-full aspect-[4/1] sm:aspect-[5/1] md:aspect-[7/1] lg:aspect-[8/1]">
+              <Image 
+                src="/projects/bbt_laurels.webp"
+                alt="Festival Laurels Row 2"
                 fill
                 unoptimized={true}
                 className="object-contain mix-blend-multiply opacity-90"
