@@ -10,7 +10,7 @@ export default function LandingPageDemo() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#F3F4F3] text-black selection:bg-black selection:text-white pb-24">
+    <div className="min-h-screen pb-24">
       {/* Navigation matching Awwwards, but using real links */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-8 text-sm font-semibold tracking-wide">
          <AnimatedLogo />

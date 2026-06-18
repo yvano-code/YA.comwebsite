@@ -43,7 +43,7 @@ export function SiteFooter() {
   const { social, contact } = siteConfig
 
   return (
-    <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden bg-[#F3F4F3]">
+    <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden">
       <div className="w-full flex justify-center relative pt-8">
         {/* Massive Name */}
         <div className="pt-8 overflow-hidden">
