@@ -261,19 +261,20 @@ export default function LandingPageDemo() {
       </main>
 
       {/* Massive Name Footer */}
-      <footer className="w-full mt-16 md:mt-24 pb-12 relative overflow-hidden flex flex-col items-center">
-        {/* Blurb container - positioned to align over ANTONIO */}
-        <div className="w-full px-8 md:px-16 flex justify-end mb-[-2vw] relative z-10 pointer-events-auto">
-          <p className="text-[8px] md:text-[10px] uppercase tracking-[0.15em] leading-relaxed font-bold text-gray-800 max-w-[200px] md:max-w-[280px] text-right md:text-left md:-mr-12 lg:-mr-24">
-            For bookings, collaborations and general inquiries please email <a href="mailto:yvanoantonio@protonmail.com" className="text-black hover:text-[#FF1A1A] transition-colors underline decoration-2 underline-offset-4">yvanoantonio@protonmail.com</a>
-          </p>
-        </div>
-        
-        {/* Massive Name */}
-        <div className="w-full overflow-hidden flex justify-center">
-          <h2 className="text-[14vw] sm:text-[14.5vw] font-black tracking-tighter text-[#FF1A1A] leading-[0.75] whitespace-nowrap scale-y-[1.35] origin-bottom mt-4 md:mt-8">
+      <footer className="w-full mt-24 md:mt-40 pb-8 relative overflow-hidden flex flex-col items-center">
+        <div className="w-full flex justify-center relative">
+          {/* Massive Name */}
+          <h2 className="text-[15vw] md:text-[15.5vw] font-black tracking-tighter text-[#E50914] leading-[0.75] whitespace-nowrap scale-y-[1.35] origin-bottom select-all ml-[-1vw]">
             YVANO ANTONIO.
           </h2>
+
+          {/* Overlapping Blurb */}
+          <div className="absolute top-[5%] md:top-[12%] right-4 md:right-8 lg:right-[3%] z-10 text-right md:text-left">
+            <p className="text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] uppercase tracking-[0.1em] font-extrabold text-[#111] md:whitespace-nowrap leading-relaxed max-w-[200px] md:max-w-none ml-auto drop-shadow-md">
+              For bookings, collaborations and general inquiries please email <br className="md:hidden" />
+              <a href="mailto:yvanoantonio@protonmail.com" className="text-black hover:text-white transition-colors underline decoration-2 underline-offset-4 decoration-black hover:decoration-white">yvanoantonio@protonmail.com</a>
+            </p>
+          </div>
         </div>
       </footer>
 
