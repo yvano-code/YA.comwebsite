@@ -102,19 +102,19 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
 
       {/* Title overlay, revealed on hover */}
       <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 transition-opacity duration-300 gap-4 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        <span className="px-4 text-center text-sm md:text-base font-bold tracking-[0.2em] text-white">
+          {project.title}
+        </span>
         {isVideo && (
-          <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-sm transition-transform hover:scale-110">
+          <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-sm transition-transform hover:scale-110 border border-white/20">
              <Play className="size-6 md:size-8 text-white ml-1" fill="currentColor" />
           </div>
         )}
         {!project.href && (
-          <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-sm transition-transform hover:scale-110">
+          <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-black/50 backdrop-blur-sm transition-transform hover:scale-110 border border-white/20">
              <ZoomIn className="size-6 md:size-8 text-white" />
           </div>
         )}
-        <span className="px-4 text-center text-sm md:text-base font-bold tracking-[0.2em] text-white">
-          {project.title}
-        </span>
       </div>
     </div>
   )

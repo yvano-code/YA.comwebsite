@@ -151,17 +151,17 @@ export default function LandingPageDemo() {
                       {/* Gradient for text readability */}
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
                       
+                      {/* Title Overlay */}
+                      <h4 className="text-[16px] md:text-[20px] lg:text-[26px] font-black tracking-widest uppercase text-white drop-shadow-lg text-center px-4 relative z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-500 mb-4">
+                        {project.title}
+                      </h4>
+
                       {/* Play Button */}
-                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110 mb-4 relative z-30">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/10 group-hover:border-white/40 transition-all duration-500 transform group-hover:scale-110 relative z-30">
                         <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
-
-                      {/* Title Overlay */}
-                      <h4 className="text-[14px] md:text-[18px] lg:text-[22px] font-black tracking-widest uppercase text-white drop-shadow-lg text-center px-4 relative z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-500">
-                        {project.title}
-                      </h4>
                     </div>
                   )}
                 </div>
