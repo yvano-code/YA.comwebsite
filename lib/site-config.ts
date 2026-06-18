@@ -230,7 +230,15 @@ export const siteConfig = {
        
       ]
     },
-    { title: "MOONGAZER | SHORT HORROR FILM", image: "", href: "https://youtu.be/U0j3r8ulTM4" },
+    { 
+      title: "MOONGAZER | SHORT HORROR FILM", 
+      image: "", 
+      href: "https://youtu.be/U0j3r8ulTM4",
+      credits: [
+        { label: "Executive Producer", value: "OYA Media Group" },
+        { label: "Directed by", value: "Yvano Antonio" }
+      ]
+    },
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
       image: "https://i.vimeocdn.com/video/1769499952-5be64205ec75680f0c9df757f9698118af9485e16517f66aa181c643035322a9-d_1280x720?region=us", 
