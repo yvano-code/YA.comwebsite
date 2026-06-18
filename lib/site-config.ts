@@ -119,7 +119,7 @@ export const siteConfig = {
       year: "2023",
       roles: ["Still Photographer"],
       type: "TV Series (5 Episodes)",
-      image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2000&auto=format&fit=crop"
+      image: "/projects/site-images/BCMT_POSTER-small.webp"
     },
     {
       title: "Doubles",
