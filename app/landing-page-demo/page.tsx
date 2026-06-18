@@ -258,6 +258,43 @@ export default function LandingPageDemo() {
             ))}
           </div>
         </section>
+
+        {/* Filmography Horizontal Scroll Section */}
+        <section className="mt-8 md:mt-12 overflow-hidden border-t border-black/10 pt-16 md:pt-24 mb-12">
+          <div className="px-6 md:px-12 mb-12 md:mb-16 flex items-end justify-between">
+            <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Filmography</h3>
+            <div className="flex gap-4 items-center">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 hidden md:block">Scroll to explore</span>
+              <svg className="w-4 h-4 text-gray-400 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </div>
+          </div>
+
+          <div className="flex overflow-x-auto gap-4 md:gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory hide-scrollbar">
+            {siteConfig.imdbCredits.map((credit, idx) => (
+              <div key={idx} className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-gray-100 hover:bg-black transition-colors duration-500 rounded-3xl p-8 flex flex-col justify-between min-h-[280px] md:min-h-[320px] shadow-sm hover:shadow-2xl">
+                <div>
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 group-hover:text-gray-500 transition-colors duration-500">{credit.year}</span>
+                    <span className="text-[9px] md:text-[10px] font-bold tracking-[0.1em] uppercase bg-black/5 group-hover:bg-white/10 text-black group-hover:text-white px-3 py-1 rounded-full transition-colors duration-500">{credit.type}</span>
+                  </div>
+                  <h4 className="text-2xl md:text-3xl font-black tracking-tight uppercase leading-[1.1] text-black group-hover:text-white transition-colors duration-500 mb-4">
+                    {credit.title}
+                  </h4>
+                  {credit.note && (
+                    <p className="text-[10px] font-bold tracking-widest text-[#E50914] uppercase mb-4">{credit.note}</p>
+                  )}
+                </div>
+                
+                <div className="pt-6 border-t border-black/10 group-hover:border-white/20 transition-colors duration-500">
+                  <p className="text-[9px] tracking-[0.2em] uppercase font-bold text-gray-400 group-hover:text-gray-500 transition-colors duration-500 mb-2">Role</p>
+                  <p className="text-[13px] md:text-[14px] font-extrabold text-black group-hover:text-white transition-colors duration-500">
+                     {credit.roles.join(", ")}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       {/* Massive Name Footer */}
