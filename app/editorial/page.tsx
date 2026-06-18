@@ -155,7 +155,7 @@ export default function EditorialPage() {
                               src={img}
                               alt={`Gallery photo ${idx + 1}`}
                               fill
-                              className="object-contain"
+                              className="object-cover"
                               priority={idx === 0}
                             />
                           </div>
