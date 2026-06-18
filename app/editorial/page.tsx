@@ -185,6 +185,20 @@ export default function EditorialPage() {
                       </div>
                     </div>
                   )}
+
+                  {/* Bottom Video */}
+                  {/* @ts-ignore */}
+                  {group.bottomVideo && (
+                    <div className="w-full aspect-video mt-8 shadow-xl">
+                      <video
+                        src={/* @ts-ignore */ group.bottomVideo}
+                        controls
+                        loop
+                        playsInline
+                        className="w-full h-full bg-black object-contain rounded-sm"
+                      />
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 grid-flow-dense">
