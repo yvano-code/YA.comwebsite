@@ -160,7 +160,7 @@ export default function LandingPageDemo() {
                 <div className="px-2 mt-4">
                   <h4 className="text-[13px] md:text-[15px] font-bold tracking-widest uppercase mb-3 text-black">{project.title}</h4>
                   {project.subtitle && (
-                    <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium uppercase tracking-wide mb-4">{project.subtitle}</p>
+                    <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-500 font-medium [font-variant:small-caps] tracking-wide mb-4">{project.subtitle}</p>
                   )}
                   {project.credits && project.credits.length > 0 && (
                     <div className="flex flex-col gap-2 border-l-2 border-black/10 pl-4 mt-2">
