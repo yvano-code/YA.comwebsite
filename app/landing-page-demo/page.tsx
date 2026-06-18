@@ -6,6 +6,7 @@ import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
 
 export default function LandingPageDemo() {
+  const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
   return (
     <div className="min-h-screen bg-[#F3F4F3] text-black selection:bg-black selection:text-white pb-24">
@@ -45,13 +46,41 @@ export default function LandingPageDemo() {
           <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
             {siteConfig.projects.map((project, idx) => (
               <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
-                <a 
-                  href={project.href || "#"} 
-                  target={project.href ? "_blank" : undefined} 
-                  rel="noopener noreferrer" 
-                  className="block relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 group-hover:scale-[1.02] transition-transform duration-500 shadow-xl cursor-pointer"
+                <div 
+                  className={`block relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 transition-transform duration-500 shadow-xl ${playingVideo !== idx ? 'group-hover:scale-[1.02] cursor-pointer' : ''}`}
+                  onClick={(e) => {
+                    if (project.href && playingVideo !== idx) {
+                      e.preventDefault();
+                      setPlayingVideo(idx);
+                    }
+                  }}
                 >
-                  {project.image || project.href ? (
+                  {playingVideo === idx && project.href ? (
+                    (() => {
+                      const isYoutube = project.href.includes('youtube.com') || project.href.includes('youtu.be');
+                      if (isYoutube) {
+                        let youtubeId = '';
+                        const match = project.href.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+                        if (match) youtubeId = match[1];
+                        return (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=1`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="absolute inset-0 w-full h-full border-0 z-30"
+                          ></iframe>
+                        );
+                      }
+                      return (
+                        <video 
+                          src={project.href} 
+                          controls
+                          autoPlay 
+                          className="absolute inset-0 w-full h-full object-cover z-30"
+                        />
+                      );
+                    })()
+                  ) : project.image || project.href ? (
                     (() => {
                       const img = project.image || project.href;
                       const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
@@ -96,14 +125,16 @@ export default function LandingPageDemo() {
                   )}
 
                   {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110">
-                      <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                  {playingVideo !== idx && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#E50914] group-hover:border-[#E50914] transition-all duration-500 transform group-hover:scale-110">
+                        <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </a>
+                  )}
+                </div>
 
                 {/* Text Outside */}
                 <div className="px-2 mt-4">
