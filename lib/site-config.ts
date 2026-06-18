@@ -236,7 +236,11 @@ export const siteConfig = {
       href: "https://youtu.be/U0j3r8ulTM4",
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
-        { label: "Directed by", value: "Yvano Antonio" }
+        { label: "Directed by", value: "Yvano Antonio" },
+        { label: "Cinematographer", value: "Eniola Yussuff" },
+        { label: "Production Designer", value: "Sharine Taylor" },
+        { label: "Special Effects Makeup", value: "Gabrielle Geneviève Martin" },
+        { label: "Cast", value: "Storm Clarke, Jonathan Isaiah Tucker, Steve Kasan, Jessica Myrie, Reece Presley, Lara Tai" }
       ]
     },
     { 
