@@ -1652,8 +1652,13 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         >
           Y
 
-          {/* Mask / Bandana */}
-          <KeffiyehBandana className="absolute top-[35%] left-[50%] w-[90%] h-auto -translate-x-1/2 -translate-y-1/2 z-20 drop-shadow-md pointer-events-none" />
+          {/* New Era Fitted Hat */}
+          <img 
+            src="/projects/new-era-toronto-blue-jays-black-throwback.jpg" 
+            alt="Toronto Blue Jays Fitted Hat"
+            className="absolute top-[10%] left-[50%] w-[160%] max-w-none h-auto -translate-x-[50%] -translate-y-[80%] z-20 drop-shadow-xl pointer-events-none rotate-[-12deg]"
+            style={{ mixBlendMode: 'darken' }}
+          />
 
           {/* Shadow */}
           <motion.div
