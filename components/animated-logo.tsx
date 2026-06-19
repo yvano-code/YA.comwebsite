@@ -657,17 +657,35 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         dotControls.start({ x: 0, y: 0 })
 
         // BLAST OFF SEQUENCE
-        // 1. EXPLOSION and Vertical Burst!
-        smokeControls.start({ scale: [0, 5], opacity: [0, 1, 0], transition: { duration: 1.0, ease: "easeOut" } })
-        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.8, 1.2, 1.8], transition: { duration: 0.5, repeat: Infinity } })
-        
-        // Ensure scaleX and scaleY are strictly reset to 1 in case of previous bugs
+        // 1. The Implosion / Anticipation Squash
+        // It smoothly squashes down to build energy
         await aControls.start({
-          scaleX: 1,
-          scaleY: 1,
-          transition: { duration: 0.1 }
+          scaleX: 1.5,
+          scaleY: 0.5,
+          y: 20,
+          transition: { duration: 0.4, ease: "easeInOut" }
         })
         if (isCancelled) return
+        
+        // Brief extreme squeeze right before launch!
+        await aControls.start({
+          scaleX: 1.8,
+          scaleY: 0.3,
+          y: 25,
+          transition: { duration: 0.1, ease: "easeIn" }
+        })
+        if (isCancelled) return
+
+        // 2. EXPLOSION and Vertical Burst!
+        smokeControls.start({ scale: [0, 5], opacity: [0, 1, 0], transition: { duration: 1.0, ease: "easeOut" } })
+        fireControls.start({ opacity: [0, 1, 0.8, 1], scale: [0.5, 2.0, 1.5, 2.0], transition: { duration: 0.5, repeat: Infinity } })
+        
+        // VERY IMPORTANT: Restore scaleX and scaleY to 1 during launch so it looks normal upon return!
+        aControls.start({
+          scaleX: 1,
+          scaleY: 1,
+          transition: { duration: 0.2, ease: "easeOut" }
+        })
         
         const w = typeof window !== "undefined" ? window.innerWidth : 1500;
         
