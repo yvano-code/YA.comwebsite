@@ -303,7 +303,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         <motion.div
           animate={damageControls}
           initial={{ opacity: 0, y: 0, scale: 0.5 }}
-          className="absolute top-[60px] md:top-[80px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
+          className="absolute top-[40px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
           style={{ WebkitTextStroke: '1px black' }}
         >
           YOU'RE A GOOD YUTE!
@@ -574,7 +574,7 @@ export function AnimatedLogo() {
   return (
     <Link 
       href="/" 
-      className="text-5xl md:text-6xl font-black tracking-tighter flex items-center h-16 md:h-20 z-50 cursor-pointer w-fit"
+      className="text-3xl font-black tracking-tighter flex items-center h-12 z-50 cursor-pointer w-fit"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
