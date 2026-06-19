@@ -1216,7 +1216,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
               ))}
             </div>
             {/* AWARD WINNER */}
-            <div className="flex items-baseline">
+            <div className="flex items-baseline relative">
               {"AWARD WINNER".split("").map((c, i) => (
                 <motion.span
                   key={`aw-${i}`}
@@ -1235,7 +1235,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 animate={restTextControls}
                 src="/csa_award_clean.png"
                 alt="Canadian Screen Award"
-                className="inline-block ml-[0.3em] h-[1.3em] w-auto object-contain translate-y-[0.15em]"
+                className="absolute right-[-1.6em] bottom-[-0.2em] h-[2.8em] w-auto object-contain origin-bottom"
               />
             </div>
           </div>
