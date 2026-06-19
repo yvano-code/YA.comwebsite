@@ -508,7 +508,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
         if (!hoverRef.current) return // Abort if mouse left
         
         // Pause briefly to read it
-        await new Promise(r => setTimeout(r, 800))
+        await new Promise(r => setTimeout(r, 1800))
         
         if (!hoverRef.current) return // Abort if mouse left
 
