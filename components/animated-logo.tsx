@@ -905,13 +905,122 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
+  const [isActive, setIsActive] = useState(false)
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    
+    if (isHovered) {
+      setIsActive(true)
+      timeoutId = setTimeout(() => {
+        setIsActive(false)
+      }, 4000)
+    } else {
+      setIsActive(false)
+    }
+    
+    return () => clearTimeout(timeoutId)
+  }, [isHovered])
+
+  const getRandomSpill = () => ({
+    opacity: 0,
+    scale: 0.1,
+    rotate: (Math.random() - 0.5) * 360,
+    x: (Math.random() - 0.5) * 100,
+    y: (Math.random() - 0.5) * 100,
+  })
+
+  return (
+    <div className="flex relative items-baseline justify-center">
+      {/* The Y */}
+      <motion.span 
+        layout 
+        animate={{ opacity: isActive ? 0 : 1, width: isActive ? 0 : "auto" }} 
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="inline-block whitespace-pre overflow-visible z-20"
+      >
+        Y
+      </motion.span>
+      
+      {/* The A and the Explosion Container */}
+      <motion.div layout className="relative z-30 flex flex-col items-center justify-center">
+        {!isActive ? (
+          <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+        ) : (
+          <motion.div 
+            className="flex flex-col items-center justify-center leading-[0.8]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* Top Line: CANADIAN AWARD */}
+            <div className="flex items-baseline">
+              {"CANADIAN ".split("").map((c, i) => (
+                <motion.span 
+                  key={`can-${i}`} 
+                  initial={getRandomSpill()} 
+                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+              {"WARD".split("").map((c, i) => (
+                <motion.span 
+                  key={`ward-${i}`} 
+                  initial={getRandomSpill()} 
+                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
+                  className="inline-block whitespace-pre"
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
+            
+            {/* Bottom Line: SCREEN WINNER */}
+            <div className="flex items-baseline">
+              {"SCREEN WINNER".split("").map((c, i) => (
+                <motion.span 
+                  key={`sw-${i}`} 
+                  initial={getRandomSpill()} 
+                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </motion.div>
+
+      {/* The Dot */}
+      <motion.span 
+        layout 
+        animate={{ opacity: isActive ? 0 : 1, width: isActive ? 0 : "auto" }} 
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="inline-block whitespace-pre overflow-visible z-20"
+      >
+        .
+      </motion.span>
+    </div>
+  )
+}
+
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner">("cartoon")
 
   const handleMouseEnter = () => {
     if (!isHovered) {
-      const types: ("cartoon" | "tumbler" | "rocket" | "storyteller")[] = ["cartoon", "tumbler", "rocket", "storyteller"]
+      const types: ("cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "storyteller", "awardwinner"]
       setAnimType(types[Math.floor(Math.random() * types.length)])
       setIsHovered(true)
     }
@@ -934,6 +1043,8 @@ export function AnimatedLogo() {
         <TumblerLogo isHovered={isHovered} />
       ) : animType === "storyteller" ? (
         <StoryTellerLogo isHovered={isHovered} />
+      ) : animType === "awardwinner" ? (
+        <AwardWinnerLogo isHovered={isHovered} />
       ) : (
         <RocketLogo isHovered={isHovered} />
       )}
