@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display, Outfit, Hanken_Grotesk } from 'next/font/google'
+import { Inter, Playfair_Display, Outfit, Hanken_Grotesk, Sedgwick_Ave } from 'next/font/google'
 import './globals.css'
 import { siteConfig } from '@/lib/site-config'
 
@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 const hankenGrotesk = Hanken_Grotesk({ subsets: ['latin'], variable: '--font-hanken-grotesk' })
+const sedgwick = Sedgwick_Ave({ weight: "400", subsets: ['latin'], variable: '--font-sedgwick' })
 
 export const metadata: Metadata = {
   title: siteConfig.name,
@@ -48,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
+      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwick.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
         {/* Dynamic Liquid Glass Background Elements */}
         <DynamicBackground />
         

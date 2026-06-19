@@ -1277,44 +1277,70 @@ const PaintPuff = ({ color = "#1a1a2e", className }: { color?: string; className
   </svg>
 )
 
+// ─── Keffiyeh Bandana SVG ───────────────────────────────────────────────────
+const KeffiyehBandana = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 50 40" className={className} style={{ overflow: "visible" }}>
+    <defs>
+      <pattern id="keffiyehPattern" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+        {/* Sand/Desert base color */}
+        <rect width="8" height="8" fill="#dcbfa6" />
+        {/* Black houndstooth/checkered marks */}
+        <path d="M 0,0 h 4 v 4 h -4 z" fill="#1a1a2e" />
+        <path d="M 4,4 h 4 v 4 h -4 z" fill="#1a1a2e" />
+      </pattern>
+    </defs>
+    
+    {/* Main wrap around the face */}
+    <path d="M 5,10 Q 25,-5 45,10 L 40,30 Q 25,45 10,30 Z" fill="url(#keffiyehPattern)" />
+    
+    {/* Folds/creases for realism */}
+    <path d="M 10,15 Q 25,25 40,15" fill="none" stroke="#1a1a2e" strokeWidth="1.5" opacity="0.4" />
+    <path d="M 15,22 Q 25,32 35,22" fill="none" stroke="#1a1a2e" strokeWidth="1" opacity="0.3" />
+    
+    {/* Dangling tails tied at the back or sides */}
+    <path d="M 8,28 Q -5,40 -10,55 Q 0,50 5,35 Z" fill="url(#keffiyehPattern)" />
+    <path d="M 42,28 Q 55,40 60,55 Q 50,50 45,35 Z" fill="url(#keffiyehPattern)" />
+  </svg>
+)
+
 // ─── Graffiti Text SVG ────────────────────────────────────────────────────────
 const GraffitiText = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 520 120" className={className} style={{ overflow: "visible" }}>
     {/* angled transform - rotate ~-8deg */}
     <g transform="rotate(-8, 260, 60)">
-      {/* CITY SLICKER. */}
+      {/* CITY SLICKER */}
       {/* Chunky outlined bold letters */}
       <text
         x="10" y="80"
-        fontFamily="'Arial Black', 'Impact', sans-serif"
+        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
         fontSize="72"
-        fontWeight="900"
+        fontWeight="400"
         fill="#1a1a2e"
         stroke="#1a1a2e"
         strokeWidth="6"
         strokeLinejoin="round"
         letterSpacing="2"
-      >City Slicker.</text>
+      >CITY SLICKER</text>
       {/* White inner fill for contrast */}
       <text
         x="10" y="80"
-        fontFamily="'Arial Black', 'Impact', sans-serif"
+        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
         fontSize="72"
-        fontWeight="900"
+        fontWeight="400"
         fill="#f0e6d3"
         letterSpacing="2"
-      >City Slicker.</text>
+      >CITY SLICKER</text>
       {/* Highlight streak on letters */}
       <text
         x="10" y="80"
-        fontFamily="'Arial Black', 'Impact', sans-serif"
+        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
         fontSize="72"
-        fontWeight="900"
+        fontWeight="400"
         fill="none"
         stroke="rgba(255,255,255,0.25)"
         strokeWidth="3"
         letterSpacing="2"
-      >City Slicker.</text>
+      >CITY SLICKER</text>
       {/* C drip — subtle paint drip from bottom of C */}
       <path d="M 27,82 Q 24,95 26,115 Q 27,120 29,115 Q 31,100 28,82 Z"
         fill="#1a1a2e" opacity="0.9" />
@@ -1575,6 +1601,9 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
           className="inline-block relative origin-bottom"
         >
           Y
+
+          {/* Mask / Bandana */}
+          <KeffiyehBandana className="absolute top-[35%] left-[50%] w-[90%] h-auto -translate-x-1/2 -translate-y-1/2 z-20 drop-shadow-md pointer-events-none" />
 
           {/* Shadow */}
           <motion.div
