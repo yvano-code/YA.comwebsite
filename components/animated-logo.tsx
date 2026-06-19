@@ -1362,13 +1362,14 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
 
         stopWalk()
 
-        // ── 10. Text fades slowly, then snap Y back ───────────────────────────
+        // ── 10. Text fades slowly, then hide Y until unhover ───────────────────
         await new Promise(r => setTimeout(r, 600))
         if (isCancelled) return
         await graffitiControls.start({ opacity: 0, transition: { duration: 1.5, ease: "easeOut" } })
         if (isCancelled) return
 
-        xControls.set({ x: 0, opacity: 1 })
+        // Hide instantly off-screen until unhover resets it
+        xControls.set({ opacity: 0 })
         yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
         limbControls.set({ opacity: 0 })
         shadowControls.set({ opacity: 0 })
