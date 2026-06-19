@@ -1251,17 +1251,18 @@ const GraffitiText = ({ className }: { className?: string }) => (
 
 // ─── GraffitiLogo ─────────────────────────────────────────────────────────────
 function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
-  const wrapperControls   = useAnimation()  // whole scene x-translate
-  const yControls         = useAnimation()  // Y letter body
-  const limbControls      = useAnimation()  // limb visibility
-  const leftLegControls   = useAnimation()
-  const rightLegControls  = useAnimation()
-  const leftArmControls   = useAnimation()  // free arm
-  const rightArmControls  = useAnimation() // spray-can arm
-  const canControls       = useAnimation()  // spray can visibility/anim
-  const puffControls      = useAnimation()  // paint puff cloud
-  const graffitiControls  = useAnimation()  // graffiti reveal
-  const shadowControls    = useAnimation()
+  // xControls moves ONLY the Y character leftward — A. is outside this element
+  const xControls        = useAnimation()
+  const yControls        = useAnimation()  // squash/stretch/bounce on the Y
+  const limbControls     = useAnimation()
+  const leftLegControls  = useAnimation()
+  const rightLegControls = useAnimation()
+  const leftArmControls  = useAnimation()
+  const rightArmControls = useAnimation()
+  const canControls      = useAnimation()
+  const puffControls     = useAnimation()
+  const graffitiControls = useAnimation()
+  const shadowControls   = useAnimation()
 
   useEffect(() => {
     let isCancelled = false
@@ -1304,8 +1305,8 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         canControls.set({ opacity: 0 })
         puffControls.set({ opacity: 0, scale: 0 })
         graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)" })
-        yControls.set({ x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
-        wrapperControls.set({ x: 0 })
+        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
+        xControls.set({ x: 0, opacity: 1 })
 
         // ── 1. Anticipation squash ─────────────────────────────────────────────
         await yControls.start({
@@ -1339,15 +1340,16 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 4. Walk LEFT toward the wall ──────────────────────────────────────
+        // ── 4. Walk LEFT toward the wall (only Y moves) ───────────────────────
         startWalk(0.42)
-        // Flip direction: face left
+        // Flip to face left
         yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
 
-        const walkLeftDist = typeof window !== "undefined" ? -(window.innerWidth * 0.42) : -600
-        await wrapperControls.start({
+        // Walk about 22% of viewport — stays clearly visible on screen
+        const walkLeftDist = typeof window !== "undefined" ? -(window.innerWidth * 0.22) : -220
+        await xControls.start({
           x: walkLeftDist,
-          transition: { duration: 1.8, ease: [0.4, 0, 0.6, 1] }
+          transition: { duration: 1.6, ease: [0.4, 0, 0.6, 1] }
         })
         if (isCancelled) return
 
@@ -1404,21 +1406,21 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         startWalk(0.35)
         yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
 
-        const walkOffDist = typeof window !== "undefined" ? walkLeftDist - window.innerWidth * 0.7 : -1500
-        await wrapperControls.start({
+        const walkOffDist = typeof window !== "undefined" ? walkLeftDist - window.innerWidth * 0.55 : -800
+        await xControls.start({
           x: walkOffDist,
-          transition: { duration: 1.4, ease: "easeIn" }
+          transition: { duration: 1.2, ease: "easeIn" }
         })
         if (isCancelled) return
 
         stopWalk()
 
-        // ── 10. Fade everything out and reset invisibly ───────────────────────
-        await wrapperControls.start({ opacity: 0, transition: { duration: 0.2 } })
+        // ── 10. Fade Y out and reset invisibly ───────────────────────────────
+        await xControls.start({ opacity: 0, transition: { duration: 0.2 } })
         if (isCancelled) return
 
-        wrapperControls.set({ x: 0, opacity: 1 })
-        yControls.set({ x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
+        xControls.set({ x: 0, opacity: 1 })
+        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
         limbControls.set({ opacity: 0 })
         shadowControls.set({ opacity: 0 })
         canControls.set({ opacity: 0 })
@@ -1439,8 +1441,8 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         canControls.set({ opacity: 0 })
         puffControls.set({ opacity: 0, scale: 0, x: 0 })
         graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)" })
-        wrapperControls.set({ x: 0, opacity: 1 })
-        yControls.set({ x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
+        xControls.set({ x: 0, opacity: 1 })
+        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
         rightArmControls.set({ rotate: 30 })
         leftArmControls.set({ rotate: -30 })
         leftLegControls.set({ rotate: 0 })
@@ -1450,40 +1452,44 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
 
     runAnimation()
     return () => { isCancelled = true }
-  }, [isHovered, wrapperControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, canControls, puffControls, graffitiControls, shadowControls])
+  }, [isHovered, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, canControls, puffControls, graffitiControls, shadowControls])
 
   return (
-    <motion.div animate={wrapperControls} className="flex relative items-baseline">
-      {/* Graffiti on the "wall" — absolutely positioned far to the left */}
-      <motion.div
-        animate={graffitiControls}
-        initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-        className="absolute pointer-events-none z-0"
-        style={{
-          left: "-520px",
-          top: "-30px",
-          width: "520px",
-          transformOrigin: "left center",
-        }}
-      >
-        <GraffitiText className="w-full h-auto" />
-      </motion.div>
+    // Outer wrapper is static — only the Y's div (xControls) moves left. A. never moves.
+    <div className="flex relative items-baseline">
 
-      <span className="relative inline-block z-20">
-        {/* Paint puff — erupts to the left of Y */}
+      {/* ── Y's world: this is the only element that translates left ── */}
+      <motion.div animate={xControls} className="relative inline-block z-20">
+
+        {/* Graffiti — appears to the LEFT of wherever Y is standing */}
+        <motion.div
+          animate={graffitiControls}
+          initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+          className="absolute pointer-events-none z-0"
+          style={{
+            right: "calc(100% + 10px)",
+            top: "-20px",
+            width: "min(400px, 42vw)",
+            transformOrigin: "right center",
+          }}
+        >
+          <GraffitiText className="w-full h-auto" />
+        </motion.div>
+
+        {/* Paint puff — erupts leftward from the can */}
         <motion.div
           animate={puffControls}
           initial={{ opacity: 0, scale: 0 }}
           className="absolute z-30 pointer-events-none"
-          style={{ top: "-30px", left: "-20px", width: "90px", height: "70px" }}
+          style={{ top: "-20px", left: "-10px", width: "80px", height: "60px" }}
         >
           <PaintPuff color="#1a1a2e" className="w-full h-full" />
         </motion.div>
 
-        {/* X-translate container */}
+        {/* Y character: squash/stretch/bounce */}
         <motion.span
           animate={yControls}
-          className="inline-block relative origin-bottom z-20"
+          className="inline-block relative origin-bottom"
         >
           Y
 
@@ -1521,7 +1527,6 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
               <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
                 <path d="M 0,5 Q 8,-5 16,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
-              {/* Spray can instead of glove */}
               <motion.div
                 animate={canControls}
                 initial={{ opacity: 0 }}
@@ -1554,16 +1559,16 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
             </motion.div>
           </motion.div>
         </motion.span>
-      </span>
+      </motion.div>
 
-      {/* A. stays behind, dims */}
+      {/* A. — completely static, never moves */}
       <span
-        className="z-10 inline-block relative transition-opacity duration-300"
+        className="inline-block transition-opacity duration-300"
         style={{ opacity: isHovered ? 0.3 : 1 }}
       >
         A.
       </span>
-    </motion.div>
+    </div>
   )
 }
 export function AnimatedLogo() {
