@@ -647,30 +647,61 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Thicken the billowing smoke
         smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
         
-        // Crazy Loop-the-loop flight path!
-        const distance = typeof window !== "undefined" ? window.innerWidth + 100 : 1500;
+        // Random Flight Path Generation
+        const w = typeof window !== "undefined" ? window.innerWidth : 1500;
+        const h = typeof window !== "undefined" ? window.innerHeight : 1000;
+        
+        const numWaypoints = Math.floor(Math.random() * 3) + 3; // 3 to 5 loops/turns
+        const xPath = [0];
+        const yPath = [0];
+        const rotatePath = [0];
+        const scalePath = [1];
+        
+        let currentRot = 0;
+        
+        for (let i = 0; i < numWaypoints; i++) {
+          xPath.push((Math.random() - 0.5) * w * 0.8);
+          yPath.push(-Math.random() * h * 0.6 - 100);
+          currentRot += (Math.random() - 0.5) * 360;
+          rotatePath.push(currentRot);
+          scalePath.push(0.9 - (i * 0.15));
+        }
+        
+        // Final exit
+        const exitSide = Math.floor(Math.random() * 3);
+        if (exitSide === 0) { xPath.push(-w); yPath.push(-Math.random() * h); currentRot -= 90; }
+        else if (exitSide === 1) { xPath.push(w); yPath.push(-Math.random() * h); currentRot += 90; }
+        else { xPath.push((Math.random() - 0.5) * w); yPath.push(-h - 400); currentRot += (Math.random() > 0.5 ? 90 : -90); }
+        rotatePath.push(currentRot);
+        scalePath.push(0.3);
+        
         await aControls.start({
-          y: [0, -150, -200, -100, -200, -500],
-          x: [0, -20, -50, -20, 100, distance],
-          rotate: [0, -45, -135, -225, -315, -270],
-          scale: [1, 0.9, 0.8, 0.8, 0.7, 0.3],
-          transition: { duration: 3.5, ease: "easeInOut", times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
+          y: yPath,
+          x: xPath,
+          rotate: rotatePath,
+          scale: scalePath,
+          transition: { duration: 3.5, ease: "easeInOut" }
         })
         
         // Cut engines while off-screen
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
-        // Re-enter from top left, diving in to land
-        aControls.set({ x: -400, y: -400, rotate: -45, scale: 0.3 })
+        // Re-enter from random location
+        const reEnterSide = Math.random() > 0.5 ? -1 : 1;
+        const startX = reEnterSide * (400 + Math.random() * 200);
+        const startY = -400 - Math.random() * 300;
+        const startRot = reEnterSide * -(45 + Math.random() * 45);
+        
+        aControls.set({ x: startX, y: startY, rotate: startRot, scale: 0.3 })
         
         // Retrorockets fire!
         fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1, 0.8, 1], transition: { duration: 0.5, repeat: Infinity } })
         
         // Landing flight path
         await aControls.start({
-          y: [-400, -200, -50, 0],
-          x: [-400, -150, -20, 0],
-          rotate: [-45, -20, -5, 0],
+          y: [startY, startY / 2, -50, 0],
+          x: [startX, startX / 2, startX / 8, 0],
+          rotate: [startRot, startRot / 2, startRot / 8, 0],
           scale: [0.3, 0.6, 0.9, 1],
           transition: { duration: 1.5, ease: "easeInOut", times: [0, 0.5, 0.8, 1] }
         })
