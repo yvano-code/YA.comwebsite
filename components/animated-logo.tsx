@@ -92,33 +92,33 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // 3. The Struggle (Struggling furiously IN PLACE)
-        // Yank Left (in place)
-        yControls.start({ x: -5, y: 15, rotate: -20, scaleX: 0.9, scaleY: 1.2, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -5, scale: 0.9, transition: { duration: 0.2, ease: "easeOut" } })
+        // 3. The Struggle (Trying to get away from the A)
+        // Yank Left! (Away from A)
+        yControls.start({ x: -15, y: 15, rotate: -30, scaleX: 0.8, scaleY: 1.4, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -15, scale: 0.8, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
-        // Yank Right (in place)
-        yControls.start({ x: 5, y: 15, rotate: 20, scaleX: 0.9, scaleY: 1.2, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: 5, scale: 0.9, transition: { duration: 0.2, ease: "easeOut" } })
+        // Yank FURTHER Left!
+        yControls.start({ x: -25, y: 10, rotate: -40, scaleX: 0.7, scaleY: 1.6, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -25, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
-        // Shake/vibrate violently IN PLACE!
+        // Shake/vibrate violently while pulling left with all its might!
         yControls.start({
-          x: [-5, 6, -7, 4, -6, 5, -4, 6],
-          y: [12, 10, 14, 11, 13, 10, 14, 12],
-          rotate: [-15, 18, -20, 15, -18, 20, -15, 16],
+          x: [-25, -28, -23, -27, -24, -29, -25, -26],
+          y: [10, 8, 12, 9, 11, 8, 12, 10],
+          rotate: [-40, -43, -37, -42, -38, -44, -39, -40],
           transition: { duration: 0.4 }
         })
         await shadowControls.start({
-          x: [-5, 6, -7, 4, -6, 5, -4, 6],
+          x: [-25, -28, -23, -27, -24, -29, -25, -26],
           transition: { duration: 0.4 }
         })
         if (isCancelled) return
 
-        // Maximum upward stretch IN PLACE before it snaps free!
-        yControls.start({ x: 0, y: -10, rotate: 0, scaleX: 0.6, scaleY: 1.8, transition: { duration: 0.3, ease: "easeIn" } })
-        await shadowControls.start({ x: 0, scale: 0.6, transition: { duration: 0.3, ease: "easeIn" } })
+        // Maximum stretch straight left before it snaps free!
+        yControls.start({ x: -35, y: 5, rotate: -50, scaleX: 0.5, scaleY: 2.0, transition: { duration: 0.3, ease: "easeIn" } })
+        await shadowControls.start({ x: -35, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } })
         if (isCancelled) return
 
         // 4. POP free! (Cinematic break)
@@ -657,19 +657,17 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         dotControls.start({ x: 0, y: 0 })
 
         // BLAST OFF SEQUENCE
-        // 1. Anticipation Squash (Squash down to build energy)
-        await aControls.start({
-          scaleX: 1.3,
-          scaleY: 0.6,
-          y: 10,
-          transition: { duration: 0.4, ease: "easeOut" }
-        })
-        
-        if (isCancelled) return
-
-        // 2. EXPLOSION and Vertical Burst!
+        // 1. EXPLOSION and Vertical Burst!
         smokeControls.start({ scale: [0, 5], opacity: [0, 1, 0], transition: { duration: 1.0, ease: "easeOut" } })
         fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.8, 1.2, 1.8], transition: { duration: 0.5, repeat: Infinity } })
+        
+        // Ensure scaleX and scaleY are strictly reset to 1 in case of previous bugs
+        await aControls.start({
+          scaleX: 1,
+          scaleY: 1,
+          transition: { duration: 0.1 }
+        })
+        if (isCancelled) return
         
         const w = typeof window !== "undefined" ? window.innerWidth : 1500;
         
