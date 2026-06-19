@@ -37,7 +37,6 @@ export const viewport: Viewport = {
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { DynamicBackground } from '@/components/dynamic-background'
-import { CustomCursor } from '@/components/custom-cursor'
 
 export default function RootLayout({
   children,
@@ -49,9 +48,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
         {/* Dynamic Liquid Glass Background Elements */}
         <DynamicBackground />
-        
-        {/* Custom Liquid Glass Cursor */}
-        <CustomCursor />
         
         {/* Global Glass Overlay */}
         <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />

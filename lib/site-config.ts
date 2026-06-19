@@ -287,10 +287,10 @@ export const siteConfig = {
       href: "https://vimeo.com/895031625/d4268c2880",
       colorway: {
         id: "fafiella",
-        baseBg: "bg-[#e8dfe2]",
-        blob1: "from-rose-800/80 via-pink-800/80 to-fuchsia-900/0",
-        blob2: "from-pink-900/80 via-rose-900/80 to-red-900/0",
-        blob3: "from-fuchsia-800/80 via-purple-900/80 to-pink-900/0"
+        baseBg: "bg-[#fdf2f8]", // Very light pink tint
+        blob1: "from-pink-600/80 via-fuchsia-600/80 to-rose-600/0",
+        blob2: "from-fuchsia-500/80 via-pink-700/80 to-pink-600/0",
+        blob3: "from-rose-500/80 via-pink-600/80 to-fuchsia-500/0"
       },
       credits: [
         { label: "Executive Producer", value: "POV Film" },
