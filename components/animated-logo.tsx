@@ -27,6 +27,26 @@ const MickeyGlove = ({ className }: { className?: string }) => {
   )
 }
 
+const MickeyShoe = ({ className, flipped = false }: { className?: string, flipped?: boolean }) => {
+  const shapes = (
+    <>
+      <path d="M 40,25 C 10,25 0,40 0,60 C 0,85 40,90 60,90 C 85,90 100,80 100,55 C 100,30 80,25 65,35 C 55,42 45,42 40,25 Z" />
+      <ellipse cx="65" cy="20" rx="20" ry="10" />
+    </>
+  )
+  return (
+    <svg viewBox="0 0 110 100" className={className} style={{ overflow: "visible", transform: flipped ? 'scaleX(-1)' : 'none' }}>
+      <g stroke="#000" strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" fill="#000">{shapes}</g>
+      <g fill="#FFCC00">
+        <path d="M 40,25 C 10,25 0,40 0,60 C 0,85 40,90 60,90 C 85,90 100,80 100,55 C 100,30 80,25 65,35 C 55,42 45,42 40,25 Z" />
+        <ellipse cx="65" cy="20" rx="20" ry="10" />
+      </g>
+      <ellipse cx="65" cy="20" rx="12" ry="5" fill="#000" />
+      <path d="M 30,45 Q 40,65 60,50" fill="none" stroke="#000" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 const RealShoe = ({ className, flipped = false }: { className?: string, flipped?: boolean }) => {
   return (
     <img 
@@ -404,7 +424,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
                 <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                   <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
                 </svg>
-                <RealShoe className="absolute left-[-15px] bottom-[-14px] w-[34px] h-[28px] drop-shadow-md" flipped={true} />
+                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
               </motion.div>
               
               {/* Right Leg (Rubber Hose Curve) */}
@@ -415,7 +435,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
                 <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                   <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
                 </svg>
-                <RealShoe className="absolute left-[-9px] bottom-[-14px] w-[34px] h-[28px] drop-shadow-md" flipped={true} />
+                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
               </motion.div>
             </motion.div>
           </motion.span>
@@ -1714,7 +1734,11 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
               <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                 <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
-              <RealShoe className="absolute left-[-15px] bottom-[-14px] w-[34px] h-[28px] drop-shadow-md" flipped />
+              <RealShoe 
+                className="absolute drop-shadow-2xl z-20" 
+                style={{ width: "0.8em", left: "-0.4em", bottom: "-0.3em" }}
+                flipped 
+              />
             </motion.div>
 
             {/* Right Leg */}
@@ -1725,7 +1749,11 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
               <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                 <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
-              <RealShoe className="absolute left-[-9px] bottom-[-14px] w-[34px] h-[28px] drop-shadow-md" flipped />
+              <RealShoe 
+                className="absolute drop-shadow-2xl z-20" 
+                style={{ width: "0.8em", left: "-0.4em", bottom: "-0.3em" }}
+                flipped 
+              />
             </motion.div>
           </motion.div>
         </motion.span>
