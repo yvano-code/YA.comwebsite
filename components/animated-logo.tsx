@@ -83,37 +83,46 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
         
-        // 2. Anticipation Squash (Cuphead rubber hose style)
+        // 2. Anticipation Squash (Sink deep into the ground/A)
         await yControls.start({ 
-          scaleX: 1.3, 
-          scaleY: 0.7, 
-          y: 5,
-          transition: { duration: 0.2 } 
+          scaleX: 1.6, 
+          scaleY: 0.4, // Squash way down
+          y: 20, // Sink deep into the floor
+          transition: { duration: 0.3, ease: "easeOut" } 
         })
         if (isCancelled) return
 
-        // 3. The Struggle (stuck to the A)
-        // Pull left
-        yControls.start({ x: -10, y: -5, rotate: -20, scaleX: 0.8, scaleY: 1.2, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -10, scale: 0.8, transition: { duration: 0.2, ease: "easeOut" } })
+        // 3. The Struggle (Trying to uproot itself)
+        // Yank Left!
+        yControls.start({ x: -20, y: 5, rotate: -30, scaleX: 0.7, scaleY: 1.5, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -20, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
-        // Shake/vibrate (stuck!)
+        // Slam back down, stuck!
+        await yControls.start({ x: 0, y: 20, rotate: 0, scaleX: 1.6, scaleY: 0.4, transition: { duration: 0.15, type: "spring", stiffness: 400 } })
+        if (isCancelled) return
+
+        // Yank Right!
+        yControls.start({ x: 20, y: 5, rotate: 30, scaleX: 0.7, scaleY: 1.5, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: 20, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
+        if (isCancelled) return
+
+        // Shake/vibrate violently (pulling with all its might)
         yControls.start({
-          x: [-10, -8, -12, -9, -11, -8, -12, -10],
-          y: [-5, -7, -4, -6, -3, -7, -4, -5],
-          rotate: [-20, -17, -23, -19, -22, -20],
-          transition: { duration: 0.3 }
+          x: [20, 15, 25, 18, 22, 17, 23, 20],
+          y: [5, 2, 8, 4, 7, 3, 8, 5],
+          rotate: [30, 25, 35, 28, 32, 27, 33, 30],
+          transition: { duration: 0.4 }
         })
         await shadowControls.start({
-          x: [-10, -8, -12, -9, -11, -8, -12, -10],
-          transition: { duration: 0.3 }
+          x: [20, 15, 25, 18, 22, 17, 23, 20],
+          transition: { duration: 0.4 }
         })
         if (isCancelled) return
 
-        // Pull harder!
-        yControls.start({ x: -15, y: -10, rotate: -30, scaleX: 0.7, scaleY: 1.4, transition: { duration: 0.2, ease: "easeIn" } })
-        await shadowControls.start({ x: -15, scale: 0.7, transition: { duration: 0.2, ease: "easeIn" } })
+        // Maximum stretch straight up right before it snaps free!
+        yControls.start({ x: 0, y: -25, rotate: 0, scaleX: 0.5, scaleY: 2.0, transition: { duration: 0.3, ease: "easeIn" } })
+        await shadowControls.start({ x: 0, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } })
         if (isCancelled) return
 
         // 4. POP free! (Cinematic break)
