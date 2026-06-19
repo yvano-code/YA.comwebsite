@@ -1662,9 +1662,9 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
 
           {/* New Era Fitted Hat (Left branch of Y) */}
           <img 
-            src="/projects/hat-nobg.png" 
+            src="/projects/hat-nobg-cropped.png" 
             alt="Toronto Blue Jays Fitted Hat"
-            className="absolute top-[5%] left-[20%] w-[100%] max-w-none h-auto -translate-x-[50%] -translate-y-[70%] z-20 drop-shadow-2xl pointer-events-none rotate-[-20deg]"
+            className="absolute top-[8%] left-[8%] w-[60%] max-w-none h-auto -translate-x-[50%] -translate-y-[50%] z-20 drop-shadow-2xl pointer-events-none rotate-[-22deg]"
           />
 
           {/* Shadow */}
