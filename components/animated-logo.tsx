@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, useAnimation } from "framer-motion"
 import Link from "next/link"
-import { DynaPuff } from "next/font/google"
+import { Lilita_One } from "next/font/google"
 
-const bubbleFont = DynaPuff({ subsets: ["latin"], weight: ["700"] })
+const bubbleFont = Lilita_One({ subsets: ["latin"], weight: ["400"] })
 
 const MickeyGlove = ({ className }: { className?: string }) => {
   const shapes = (
