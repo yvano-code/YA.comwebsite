@@ -85,8 +85,10 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               }
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.15)] bg-white/20 backdrop-blur-2xl ${
-              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] transition-shadow"
+            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group bg-white/20 backdrop-blur-2xl transition-all duration-500 ${
+              isActive 
+                ? "flex-grow cursor-default border-[2px] md:border-[3px] border-[#0f2e2e] shadow-[0_0_50px_rgba(45,212,191,0.5)] z-20" 
+                : "w-12 md:w-24 cursor-pointer shadow-[0_8px_32px_rgba(0,0,0,0.15)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] z-10"
             }`}
           >
             {/* LIQUID GLASS ANIMATION: Starts as sharp thumbnail, blurs into glass background when active */}
