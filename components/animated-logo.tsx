@@ -1359,7 +1359,7 @@ const GraffitiText = ({ className, preserveAspectRatio }: { className?: string, 
       <circle cx="700" cy="480" r="12" fill="#facc15" opacity="0.8" />
 
       {/* Main Center Text Area */}
-      <g transform="translate(240, 100) rotate(-6, 300, 100)">
+      <g transform="translate(140, 100) rotate(-6, 300, 100)">
         
         {/* Wildstyle Swooping Arrow Underneath */}
         <path 
