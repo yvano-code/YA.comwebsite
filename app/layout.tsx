@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-[radial-gradient(ellipse_at_top_center,_var(--tw-gradient-stops))] from-white via-[#f3f4f3] to-[#d4d4d8] text-black selection:bg-black selection:text-white`}>
+      <body className={`${inter.className} antialiased bg-[radial-gradient(ellipse_at_top_center,_var(--tw-gradient-stops))] from-white via-[#f3f4f3] to-[#e4e4e7] bg-fixed bg-no-repeat text-black selection:bg-black selection:text-white min-h-screen`}>
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">
