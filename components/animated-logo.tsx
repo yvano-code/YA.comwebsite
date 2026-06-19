@@ -556,13 +556,168 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+const RocketFire = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 20 40" className={className} style={{ overflow: "visible" }}>
+    <path d="M 10,0 C 15,10 20,20 10,40 C 0,20 5,10 10,0 Z" fill="#F97316" />
+    <path d="M 10,5 C 13,15 15,25 10,35 C 5,25 7,15 10,5 Z" fill="#FBBF24" />
+  </svg>
+)
+
+const RocketSmoke = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 50 50" className={className} style={{ overflow: "visible" }}>
+    <circle cx="25" cy="25" r="15" fill="#D1D5DB" opacity="0.8" />
+    <circle cx="15" cy="20" r="12" fill="#9CA3AF" opacity="0.6" />
+    <circle cx="35" cy="20" r="12" fill="#E5E7EB" opacity="0.7" />
+    <circle cx="20" cy="35" r="10" fill="#6B7280" opacity="0.5" />
+    <circle cx="30" cy="35" r="10" fill="#9CA3AF" opacity="0.6" />
+  </svg>
+)
+
+function RocketLogo({ isHovered }: { isHovered: boolean }) {
+  const yControls = useAnimation()
+  const aControls = useAnimation()
+  const dotControls = useAnimation()
+  const fireControls = useAnimation()
+  const smokeControls = useAnimation()
+  const [countdown, setCountdown] = useState<number | null>(null)
+  const hoverRef = useRef(false)
+
+  useEffect(() => {
+    hoverRef.current = isHovered
+    let isCancelled = false
+    
+    const runAnimation = async () => {
+      if (isHovered) {
+        // 1. Countdown
+        setCountdown(3)
+        // rumble Y and Dot
+        yControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
+        dotControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
+        aControls.start({ y: [0, -2, 0], transition: { repeat: Infinity, duration: 0.1 } })
+        
+        await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
+        setCountdown(2)
+        await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
+        setCountdown(1)
+        
+        // Ignite engine
+        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.2, 0.8, 1], transition: { duration: 0.5, repeat: Infinity } })
+        smokeControls.start({ opacity: [0, 1], scale: [0, 2], transition: { duration: 1 } })
+        
+        await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
+        setCountdown(0)
+        await new Promise(r => setTimeout(r, 200))
+        setCountdown(null)
+        
+        // BLAST OFF
+        smokeControls.start({ scale: [2, 4], opacity: [1, 0], transition: { duration: 1 } })
+        
+        // Fly up and around
+        await aControls.start({
+          y: -200,
+          x: 50,
+          rotate: 45,
+          scale: 0.8,
+          transition: { duration: 0.8, ease: "easeIn" }
+        })
+        
+        // Fly around (orbit)
+        await aControls.start({
+          y: [-200, -50, 100, -200],
+          x: [50, 300, 200, -100],
+          rotate: [45, 135, 225, 315],
+          scale: [0.8, 0.6, 0.5, 0.8],
+          transition: { duration: 2, ease: "linear" }
+        })
+        
+        // Disappear right
+        await aControls.start({
+          x: typeof window !== "undefined" ? window.innerWidth : 1000,
+          y: -100,
+          rotate: 90,
+          transition: { duration: 0.5, ease: "easeIn" }
+        })
+        
+        // Stop fire
+        fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
+        
+        // Re-enter from top left to land
+        aControls.set({ x: -200, y: -200, rotate: 0 })
+        
+        await aControls.start({
+          x: 0,
+          y: 0,
+          scale: 1,
+          transition: { duration: 1, ease: "easeOut" }
+        })
+        
+        // Landed! Stop rumbling
+        yControls.stop()
+        dotControls.stop()
+        yControls.start({ x: 0, y: 0 })
+        dotControls.start({ x: 0, y: 0 })
+        
+      } else {
+        // RESET if hovered out early
+        hoverRef.current = false
+        isCancelled = true
+        setCountdown(null)
+        yControls.stop()
+        dotControls.stop()
+        aControls.stop()
+        fireControls.stop()
+        smokeControls.stop()
+        
+        yControls.start({ x: 0, y: 0 })
+        dotControls.start({ x: 0, y: 0 })
+        aControls.start({ x: 0, y: 0, rotate: 0, scale: 1, transition: { type: "spring" } })
+        fireControls.start({ opacity: 0, scale: 0 })
+        smokeControls.start({ opacity: 0, scale: 0 })
+      }
+    }
+    
+    runAnimation()
+  }, [isHovered, yControls, dotControls, aControls, fireControls, smokeControls])
+
+  return (
+    <div className="flex relative items-baseline">
+      <motion.span animate={yControls} className="inline-block relative z-20">Y</motion.span>
+      <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
+        A
+        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-20px] left-[50%] -translate-x-[50%] w-[10px] h-[20px] origin-top">
+          <RocketFire />
+        </motion.div>
+        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-30px] left-[50%] -translate-x-[50%] w-[30px] h-[30px] origin-center z-[-1]">
+          <RocketSmoke />
+        </motion.div>
+      </motion.span>
+      <motion.span animate={dotControls} className="inline-block relative z-20">.</motion.span>
+      
+      {countdown !== null && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute top-[-30px] left-[50%] -translate-x-[50%] text-red-500 font-black text-xl pointer-events-none drop-shadow-md z-50"
+        >
+          {countdown}
+        </motion.div>
+      )}
+    </div>
+  )
+}
+
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket">("cartoon")
 
   const handleMouseEnter = () => {
     if (!isHovered) {
-      setAnimType(Math.random() > 0.5 ? "cartoon" : "tumbler")
+      const types: ("cartoon" | "tumbler" | "rocket")[] = ["cartoon", "tumbler", "rocket"]
+      setAnimType(types[Math.floor(Math.random() * types.length)])
       setIsHovered(true)
     }
   }
@@ -580,8 +735,10 @@ export function AnimatedLogo() {
     >
       {animType === "cartoon" ? (
         <CartoonLogo isHovered={isHovered} />
-      ) : (
+      ) : animType === "tumbler" ? (
         <TumblerLogo isHovered={isHovered} />
+      ) : (
+        <RocketLogo isHovered={isHovered} />
       )}
     </Link>
   )
