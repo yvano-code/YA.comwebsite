@@ -38,7 +38,7 @@ export default function LandingPageDemo() {
         <section className="mt-20 md:mt-24 overflow-hidden">
           <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
             <div className="flex flex-col">
-              <h3 className="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase text-white leading-normal md:leading-snug"><span className="bg-black px-2 md:px-3 py-0.5 md:py-1 box-decoration-clone">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</span></h3>
+              <h3 className="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase leading-normal md:leading-snug">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</h3>
               <p className="text-[11px] md:text-[13px] font-bold tracking-[0.1em] uppercase text-gray-500 mt-1 md:mt-2">Selected Filmography</p>
             </div>
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
@@ -136,14 +136,14 @@ export default function LandingPageDemo() {
             {siteConfig.awards.map((award, idx) => (
               <div key={idx} className="group cursor-default relative">
                 <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
-                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 flex items-center gap-2">
+                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-black mb-4 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
                   {award.status}
                 </div>
                 <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
                   {award.title}
                 </h4>
-                <p className="text-[12px] md:text-[13px] leading-relaxed text-gray-600 font-medium max-w-sm">
+                <p className="text-[12px] md:text-[13px] leading-relaxed text-black font-medium max-w-sm">
                   {award.description}
                 </p>
               </div>
