@@ -936,19 +936,24 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
-const DUST_COUNT = 150;
+const DUST_COUNT = 300;
 const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   const angle = Math.random() * Math.PI * 2;
-  const radius = Math.random() * 350 + 20;
+  // Expansive radius (edge to edge viewport coverage)
+  const radius = Math.pow(Math.random(), 1.5) * 1800 + 20;
   const x = Math.cos(angle) * radius;
   const y = Math.sin(angle) * radius;
-  // Parallax depth! Higher Z means closer to the camera.
-  const z = (Math.random() - 0.5) * 1600;
-  const size = Math.random() * 6 + 2;
+  // Parallax depth! from -1000 to 2000
+  const z = (Math.random() * 3000) - 1000;
+  
+  const isBokeh = Math.random() > 0.85;
+  const size = isBokeh ? Math.random() * 25 + 8 : Math.random() * 5 + 1;
+  const blur = isBokeh ? size * 0.5 : Math.random() * 1.5;
+  
   const delay = Math.random() * 0.4;
   const colors = ["#fef08a", "#fde047", "#eab308", "#ca8a04", "#ffffff"];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  return { x, y, z, size, delay, color, angle };
+  return { x, y, z, size, blur, delay, color, angle };
 });
 
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
@@ -1019,12 +1024,16 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         swooshControls.start(i => {
           const p = dustParticles[i as number]
           return {
-            opacity: [0, 1, 0.8],
+            opacity: [0, 1, 0.6, 1, 0.8],
             x: [0, p.x],
             y: [0, p.y],
             z: [0, p.z],
             scale: [0, 1.2, 1],
-            transition: { duration: 1.5, type: "spring", bounce: 0.4, delay: p.delay }
+            transition: { 
+              duration: 2.5, 
+              type: "spring", bounce: 0.3, delay: p.delay,
+              opacity: { repeat: Infinity, duration: Math.random() * 2 + 1, repeatType: "mirror" }
+            }
           }
         })
 
@@ -1167,7 +1176,8 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   backgroundColor: p.color,
                   marginLeft: -p.size/2,
                   marginTop: -p.size/2,
-                  boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
+                  boxShadow: `0 0 ${p.size * 2}px ${p.color}, 0 0 ${p.size * 4}px ${p.color}`,
+                  filter: p.blur > 0 ? `blur(${p.blur}px)` : 'none',
                   transformStyle: "preserve-3d"
                 }}
               />
