@@ -1021,9 +1021,9 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
             key="aw-A-grid"
             className="flex flex-col items-center justify-center leading-[0.8]"
           >
-            {/* Top Line: CANADIAN AWARD */}
+            {/* Top Line: CANADIAN SCREEN */}
             <div className="flex items-baseline">
-              {"CANADIAN ".split("").map((c, i) => (
+              {"CANADIAN SCREEN".split("").map((c, i) => (
                 <motion.span 
                   key={`can-${i}`} 
                   custom={i}
@@ -1035,25 +1035,14 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   {c}
                 </motion.span>
               ))}
-              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
-              {"WARD".split("").map((c, i) => (
-                <motion.span 
-                  key={`ward-${i}`} 
-                  custom={i + 10}
-                  initial={getRandomSpill()} 
-                  animate={controls}
-                  className="inline-block whitespace-pre"
-                >
-                  {c}
-                </motion.span>
-              ))}
             </div>
             
-            {/* Bottom Line: SCREEN WINNER */}
+            {/* Bottom Line: AWARD WINNER */}
             <div className="flex items-baseline">
-              {"SCREEN WINNER".split("").map((c, i) => (
+              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+              {"WARD WINNER".split("").map((c, i) => (
                 <motion.span 
-                  key={`sw-${i}`} 
+                  key={`ward-${i}`} 
                   custom={i + 20}
                   initial={getRandomSpill()} 
                   animate={controls}
