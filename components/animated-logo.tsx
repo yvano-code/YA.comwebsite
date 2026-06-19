@@ -47,13 +47,13 @@ const MickeyShoe = ({ className, flipped = false }: { className?: string, flippe
   )
 }
 
-const RealShoe = ({ className, flipped = false }: { className?: string, flipped?: boolean }) => {
+const RealShoe = ({ className, style, flipped = false }: { className?: string, style?: React.CSSProperties, flipped?: boolean }) => {
   return (
     <img 
       src="/projects/shoes-nobg.png" 
       alt="Shoe" 
-      className={className} 
-      style={{ transform: flipped ? 'scaleX(-1)' : 'none', objectFit: 'contain' }}
+      className={`max-w-none ${className || ''}`} 
+      style={{ transform: flipped ? 'scaleX(-1)' : 'none', objectFit: 'contain', ...style }}
     />
   );
 };
