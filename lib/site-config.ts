@@ -228,6 +228,12 @@ export const siteConfig = {
       image: "", 
       href: "https://www.youtube.com/watch?v=y2CfIy8dmeA",
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
+      colorway: {
+        id: "chj",
+        blob1: "from-cyan-300/40 via-blue-300/40 to-transparent",
+        blob2: "from-blue-400/40 via-indigo-300/40 to-transparent",
+        blob3: "from-indigo-300/40 via-cyan-200/40 to-transparent"
+      },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
         { label: "Director", value: "Yvano Antonio" },
@@ -240,6 +246,12 @@ export const siteConfig = {
       image: "/projects/bbb/Still_2025-09-09_1.29.1.jpg", 
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
+      colorway: {
+        id: "bbb",
+        blob1: "from-amber-300/40 via-yellow-300/40 to-transparent",
+        blob2: "from-orange-300/40 via-amber-400/40 to-transparent",
+        blob3: "from-yellow-300/40 via-orange-200/40 to-transparent"
+      },
       credits: [
         { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
   
@@ -251,6 +263,12 @@ export const siteConfig = {
       title: "MOONGAZER | SHORT THRILLER", 
       image: "/projects/moongazer-thumbnail.jpg", 
       href: "https://youtu.be/U0j3r8ulTM4",
+      colorway: {
+        id: "moongazer",
+        blob1: "from-emerald-300/40 via-teal-300/40 to-transparent",
+        blob2: "from-teal-400/40 via-cyan-300/40 to-transparent",
+        blob3: "from-cyan-300/40 via-emerald-200/40 to-transparent"
+      },
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
         { label: "Director", value: "Yvano Antonio" },
@@ -264,6 +282,12 @@ export const siteConfig = {
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
       image: "/projects/fafiella_image_site.jpg", 
       href: "https://vimeo.com/895031625/d4268c2880",
+      colorway: {
+        id: "fafiella",
+        blob1: "from-rose-300/40 via-pink-300/40 to-transparent",
+        blob2: "from-pink-400/40 via-red-300/40 to-transparent",
+        blob3: "from-red-300/40 via-rose-200/40 to-transparent"
+      },
       credits: [
         { label: "Executive Producer", value: "POV Film" },
         { label: "Director", value: "Yvano Antonio" },
@@ -274,6 +298,12 @@ export const siteConfig = {
       title: "PRACTICALLY MAGIC | COMMERCIAL SPEC ", 
       image: "/projects/practically-magic-thumbnail.jpg", 
       href: "https://youtu.be/tbQP2YesXxI",
+      colorway: {
+        id: "practically-magic",
+        blob1: "from-violet-300/40 via-purple-300/40 to-transparent",
+        blob2: "from-purple-400/40 via-fuchsia-300/40 to-transparent",
+        blob3: "from-fuchsia-300/40 via-violet-200/40 to-transparent"
+      },
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
         { label: "Director", value: "Yvano Antonio" },
@@ -286,6 +316,12 @@ export const siteConfig = {
       title: "#BLACK | SHORT FILM | CSA WINNER ", 
       image: "/projects/black-bleed.png", 
       href: "https://youtu.be/-xLbpc2JCGg",
+      colorway: {
+        id: "black",
+        blob1: "from-slate-400/40 via-gray-400/40 to-transparent",
+        blob2: "from-gray-500/40 via-zinc-400/40 to-transparent",
+        blob3: "from-zinc-400/40 via-slate-300/40 to-transparent"
+      },
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
         { label: "Writer & Director", value: "Yvano Antonio" }

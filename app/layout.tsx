@@ -36,6 +36,7 @@ export const viewport: Viewport = {
 
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { DynamicBackground } from '@/components/dynamic-background'
 
 export default function RootLayout({
   children,
@@ -46,11 +47,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
         {/* Dynamic Liquid Glass Background Elements */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-2]">
-          <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-pink-300/40 via-purple-300/40 to-transparent blur-[100px] animate-pulse" style={{ animationDuration: '10s' }} />
-          <div className="absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-blue-300/40 via-cyan-300/40 to-transparent blur-[120px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
-          <div className="absolute -bottom-[20%] left-[20%] w-[80vw] h-[80vw] rounded-full bg-gradient-to-tr from-amber-200/40 via-orange-200/30 to-transparent blur-[150px] animate-pulse" style={{ animationDuration: '15s', animationDelay: '5s' }} />
-        </div>
+        <DynamicBackground />
         
         {/* Global Glass Overlay */}
         <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />

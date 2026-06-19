@@ -15,7 +15,22 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
   useEffect(() => {
     setShowOverlay(true)
     setHasStartedPlaying(false)
-  }, [activeIndex])
+    
+    // Dispatch background colorway
+    const colorway = projects[activeIndex]?.colorway
+    if (colorway) {
+      window.dispatchEvent(new CustomEvent('bg-change', { detail: colorway }))
+    } else {
+      window.dispatchEvent(new CustomEvent('bg-change', { detail: null }))
+    }
+  }, [activeIndex, projects])
+
+  // Revert background to neutral on unmount
+  useEffect(() => {
+    return () => {
+      window.dispatchEvent(new CustomEvent('bg-change', { detail: null }))
+    }
+  }, [])
 
   // Timer to hide overlay after 3 seconds, but ONLY if playing
   useEffect(() => {
