@@ -92,37 +92,33 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // 3. The Struggle (Trying to uproot itself)
-        // Yank Left!
-        yControls.start({ x: -20, y: 5, rotate: -30, scaleX: 0.7, scaleY: 1.5, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -20, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
+        // 3. The Struggle (Trying to get away from the A)
+        // Yank Left! (Away from A)
+        yControls.start({ x: -15, y: 15, rotate: -30, scaleX: 0.8, scaleY: 1.4, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -15, scale: 0.8, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
-        // Slam back down, stuck!
-        await yControls.start({ x: 0, y: 20, rotate: 0, scaleX: 1.6, scaleY: 0.4, transition: { duration: 0.15, type: "spring", stiffness: 400 } })
+        // Yank FURTHER Left!
+        yControls.start({ x: -25, y: 10, rotate: -40, scaleX: 0.7, scaleY: 1.6, transition: { duration: 0.2, ease: "easeOut" } })
+        await shadowControls.start({ x: -25, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
         if (isCancelled) return
 
-        // Yank Right!
-        yControls.start({ x: 20, y: 5, rotate: 30, scaleX: 0.7, scaleY: 1.5, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: 20, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
-        if (isCancelled) return
-
-        // Shake/vibrate violently (pulling with all its might)
+        // Shake/vibrate violently while pulling left with all its might!
         yControls.start({
-          x: [20, 15, 25, 18, 22, 17, 23, 20],
-          y: [5, 2, 8, 4, 7, 3, 8, 5],
-          rotate: [30, 25, 35, 28, 32, 27, 33, 30],
+          x: [-25, -28, -23, -27, -24, -29, -25, -26],
+          y: [10, 8, 12, 9, 11, 8, 12, 10],
+          rotate: [-40, -43, -37, -42, -38, -44, -39, -40],
           transition: { duration: 0.4 }
         })
         await shadowControls.start({
-          x: [20, 15, 25, 18, 22, 17, 23, 20],
+          x: [-25, -28, -23, -27, -24, -29, -25, -26],
           transition: { duration: 0.4 }
         })
         if (isCancelled) return
 
-        // Maximum stretch straight up right before it snaps free!
-        yControls.start({ x: 0, y: -25, rotate: 0, scaleX: 0.5, scaleY: 2.0, transition: { duration: 0.3, ease: "easeIn" } })
-        await shadowControls.start({ x: 0, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } })
+        // Maximum stretch straight left before it snaps free!
+        yControls.start({ x: -35, y: 5, rotate: -50, scaleX: 0.5, scaleY: 2.0, transition: { duration: 0.3, ease: "easeIn" } })
+        await shadowControls.start({ x: -35, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } })
         if (isCancelled) return
 
         // 4. POP free! (Cinematic break)
