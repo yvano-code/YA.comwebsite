@@ -20,16 +20,10 @@ export default function LandingPageDemo() {
          </div>
       </nav>
 
-      <header className="flex flex-col items-center justify-center pt-8 md:pt-16 pb-12 md:pb-20 text-center w-full overflow-visible">
-        <p className="text-xs md:text-sm font-medium text-gray-500 mb-6 md:mb-10 uppercase tracking-widest">Director</p>
-        
+      <header className="flex flex-col items-center justify-center pt-16 md:pt-32 pb-24 md:pb-32 text-center w-full overflow-visible">
         <div className="flex justify-center w-full">
           <AnimatedLogo />
         </div>
-        
-        <p className="text-base md:text-xl text-gray-800 mt-8 md:mt-12 max-w-lg mx-auto">
-          Selected works and projects by<br />Yvano Antonio
-        </p>
       </header>
 
       <main>
