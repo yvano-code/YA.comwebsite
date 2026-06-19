@@ -80,12 +80,12 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
 
         // 3. Expand "GOOD YUTE" to the left
-        bottomTextControls.start({ width: "auto", opacity: 1, transition: { duration: 0.5, ease: "easeOut" } })
+        bottomTextControls.start({ x: 0, transition: { duration: 0.5, ease: "easeOut" } })
 
       } else {
         // Reverse sequence
         // 1. Collapse "GOOD YUTE"
-        bottomTextControls.start({ width: 0, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } })
+        bottomTextControls.start({ x: "100%", transition: { duration: 0.3, ease: "easeIn" } })
         
         await new Promise(r => setTimeout(r, 350))
         if (isCancelled) return
@@ -126,13 +126,15 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         initial={{ y: 0 }}
         className="inline-flex relative z-20 items-baseline"
       >
-        <motion.div 
-          animate={bottomTextControls}
-          initial={{ width: 0, opacity: 0 }}
-          className="absolute right-full overflow-hidden flex justify-end whitespace-pre"
-        >
-          <span>GOOD YUTE</span>
-        </motion.div>
+        <div className="absolute right-full overflow-hidden flex whitespace-pre">
+          <motion.span 
+            animate={bottomTextControls}
+            initial={{ x: "100%" }}
+            className="inline-block"
+          >
+            GOOD YUTE&nbsp;
+          </motion.span>
+        </div>
         .
       </motion.span>
     </div>
