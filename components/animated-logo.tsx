@@ -1115,7 +1115,13 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       {isActive && (
         <div
           className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
-          style={{ whiteSpace: "nowrap", gap: "0.04em", lineHeight: 0.88, letterSpacing: "-0.02em" }}
+          style={{
+            whiteSpace: "nowrap",
+            gap: "0.06em",
+            lineHeight: 0.88,
+            letterSpacing: "-0.025em",
+            fontSize: "clamp(32px, 7.2vw, 84px)",
+          }}
         >
           {/* CANADIAN SCREEN */}
           <div className="flex items-baseline">
