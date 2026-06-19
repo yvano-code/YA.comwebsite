@@ -957,6 +957,10 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: "backIn" } })
         setYVisible(false)
 
+        // Hold A for a little bit longer
+        await new Promise(r => setTimeout(r, 450))
+        if (isCancelled) return
+
         // ── 2. Fade out A ────────────────────────────────────────────────────
         await aControls.start({ opacity: 0, transition: { duration: 0.28, ease: "easeInOut" } })
         if (isCancelled) return
@@ -966,40 +970,59 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         await new Promise(r => setTimeout(r, 40))
         if (isCancelled) return
 
-        // ── 4. Letters burst out from the center (where A was) ───────────────
-        gridControls.start({ scale: 1, opacity: 1, transition: { type: "spring", damping: 15, stiffness: 140 } })
-        await textControls.start((i) => ({
-          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
-          transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
-        }))
+        // ── 4. Fade in the target A (index 20) in its right spot ─────────────
+        gridControls.set({ scale: 1, opacity: 1 }) // Grid stays full size
+        await textControls.start(i => {
+          if (i === 20) return { opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
+          return {} // wait
+        })
         if (isCancelled) return
 
-        // ── 5. Hold, then reverse (tumble back into A) ───────────────────────
+        // ── 5. The rest of the letters burst out ─────────────────────────────
+        await textControls.start(i => {
+          if (i === 20) return {} // A is already visible
+          return {
+            opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
+            transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
+          }
+        })
+        if (isCancelled) return
+
+        // ── 6. Hold, then reverse ────────────────────────────────────────────
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
 
-          // Letters collapse back into a central tumble
-          textControls.start((i) => ({
-            opacity: 0, scale: 0,
-            rotate: (Math.random() - 0.5) * 200,
-            x: (Math.random() - 0.5) * 50,
-            y: (Math.random() - 0.5) * 50,
-            transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
-          }))
-          // Grid scales down to the A center
-          await gridControls.start({ scale: 0, opacity: 0, transition: { duration: 0.5, ease: "easeIn", delay: 0.1 } })
+          // Rest of letters collapse
+          textControls.start(i => {
+            if (i === 20) return {} // Hold A
+            return {
+              opacity: 0, scale: 0,
+              rotate: (Math.random() - 0.5) * 200,
+              x: (Math.random() - 0.5) * 50,
+              y: (Math.random() - 0.5) * 50,
+              transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
+            }
+          })
+          await new Promise(r => setTimeout(r, 600))
           if (isCancelled) return
 
-          // ── 6. Unmount grid ────────────────────────────────────────────────
+          // Fade out the target A
+          await textControls.start(i => {
+            if (i === 20) return { opacity: 0, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } }
+            return {}
+          })
+          if (isCancelled) return
+
+          // ── 7. Unmount grid ────────────────────────────────────────────────
           setIsActive(false)
           await new Promise(r => setTimeout(r, 40))
           if (isCancelled) return
 
-          // ── 7. Fade A back in ──────────────────────────────────────────────
+          // ── 8. Fade main A back in ─────────────────────────────────────────
           await aControls.start({ opacity: 1, transition: { duration: 0.35, ease: "easeOut" } })
           if (isCancelled) return
 
-          // ── 8. Fade Y + dot back in ────────────────────────────────────────
+          // ── 9. Fade Y + dot back in ────────────────────────────────────────
           setYVisible(true)
           await new Promise(r => setTimeout(r, 30))
           if (isCancelled) return
