@@ -1664,11 +1664,11 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
           <img 
             src="/projects/hat-nobg-cropped.png" 
             alt="Toronto Blue Jays Fitted Hat"
-            className="absolute z-20 drop-shadow-2xl pointer-events-none rotate-[-22deg]"
+            className="absolute z-20 drop-shadow-2xl pointer-events-none"
             style={{
-              width: "0.35em",
-              top: "0.12em",
-              left: "-0.05em"
+              width: "0.5em",
+              top: "0.14em",
+              left: "-0.1em"
             }}
           />
 
