@@ -9,25 +9,28 @@ import { getVideoEmbedUrl, getVideoThumbnailUrl } from "@/lib/utils"
 export function AccordionCarousel({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [showOverlay, setShowOverlay] = useState(true)
+  const [hasStartedPlaying, setHasStartedPlaying] = useState(false)
 
   // Reset overlay when active index changes
   useEffect(() => {
     setShowOverlay(true)
+    setHasStartedPlaying(false)
   }, [activeIndex])
 
-  // Timer to hide overlay after 3 seconds
+  // Timer to hide overlay after 3 seconds, but ONLY if playing
   useEffect(() => {
-    if (!showOverlay) return
+    if (!showOverlay || !hasStartedPlaying) return
     const timer = setTimeout(() => {
       setShowOverlay(false)
     }, 3000)
     return () => clearTimeout(timer)
-  }, [showOverlay, activeIndex])
+  }, [showOverlay, hasStartedPlaying, activeIndex])
 
   // Detect iframe clicks (since iframes swallow onClick events)
   useEffect(() => {
     const handleBlur = () => {
       if (document.activeElement?.tagName === 'IFRAME') {
+        setHasStartedPlaying(true)
         setShowOverlay(true)
         // Return focus to window so we can detect the next click
         setTimeout(() => {
@@ -45,7 +48,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
         const isActive = activeIndex === idx
         
         const isLocalVideo = !!project.href?.toLowerCase().match(/\.(mp4|webm|mov)$/)
-        const embedUrlActive = getVideoEmbedUrl(project.href, true, false)
+        const embedUrlActive = getVideoEmbedUrl(project.href, false, false) // <-- Changed autoplay to false
         const isVideo = !!embedUrlActive || isLocalVideo
         const thumbnailUrl = project.image || getVideoThumbnailUrl(project.href) || "/placeholder.svg"
 
@@ -79,8 +82,9 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                   isLocalVideo ? (
                     <video 
                       src={project.href} 
-                      autoPlay 
                       controls 
+                      onPlay={() => setHasStartedPlaying(true)}
+                      onPause={() => setShowOverlay(true)}
                       className="absolute inset-0 w-full h-full object-cover z-0"
                     />
                   ) : (
