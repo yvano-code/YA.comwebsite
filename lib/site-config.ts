@@ -231,9 +231,9 @@ export const siteConfig = {
       colorway: {
         id: "chj",
         baseBg: "bg-[#e2e8e6]",
-        blob1: "from-teal-800/80 via-emerald-800/80 to-teal-900/0",
-        blob2: "from-slate-800/80 via-gray-800/80 to-zinc-800/0",
-        blob3: "from-emerald-700/80 via-teal-800/80 to-cyan-900/0"
+        blob1: "from-teal-700/80 via-cyan-800/80 to-blue-900/0",
+        blob2: "from-red-900/80 via-rose-900/80 to-orange-900/0",
+        blob3: "from-amber-900/80 via-stone-800/80 to-emerald-900/0"
       },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
