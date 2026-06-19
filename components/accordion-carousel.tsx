@@ -70,86 +70,94 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               }
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-2xl ${
-              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:opacity-80 transition-opacity"
+            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/20 bg-white/10 backdrop-blur-2xl ${
+              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:bg-white/20 transition-colors"
             }`}
           >
+            {/* LIQUID GLASS ANIMATION: Starts as sharp thumbnail, blurs into glass background when active */}
+            <Image
+              src={thumbnailUrl}
+              alt={project.title}
+              fill
+              className={`absolute inset-0 object-cover z-0 pointer-events-none transition-all duration-700 ease-in-out ${isActive ? 'scale-150 blur-[40px] saturate-[2] opacity-50' : 'scale-100 blur-0 opacity-80 group-hover:opacity-100 group-hover:scale-105'}`}
+            />
+            {/* Liquid Glass Highlights & Reflections */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/20 opacity-60 z-0 pointer-events-none" />
+            <div className="absolute inset-0 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),inset_0_-1px_1px_rgba(0,0,0,0.2)] z-0 pointer-events-none" />
+
             {isActive ? (
-              // Active State Content
-              <div className="absolute inset-0 w-full h-full bg-black">
-                {/* Background Video/Image */}
-                {isVideo ? (
-                  isLocalVideo ? (
-                    <video 
-                      src={project.href} 
-                      controls 
-                      onPlay={() => setHasStartedPlaying(true)}
-                      onPause={() => setShowOverlay(true)}
-                      className="absolute inset-0 w-full h-full object-cover z-0"
-                    />
+              // Active State Content (Video inside the glass bezel)
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="absolute inset-0 w-full h-full p-2 md:p-3 flex flex-col z-10"
+              >
+                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-black/50 bg-black">
+                  {/* Background Video/Image */}
+                  {isVideo ? (
+                    isLocalVideo ? (
+                      <video 
+                        src={project.href} 
+                        controls 
+                        onPlay={() => setHasStartedPlaying(true)}
+                        onPause={() => setShowOverlay(true)}
+                        className="absolute inset-0 w-full h-full object-cover z-0"
+                      />
+                    ) : (
+                      <iframe 
+                        src={embedUrlActive || ""} 
+                        title={project.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                        className="absolute inset-0 w-full h-full border-0 z-0"
+                      />
+                    )
                   ) : (
-                    <iframe 
-                      src={embedUrlActive || ""} 
-                      title={project.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full border-0 z-0"
+                    <Image
+                      src={thumbnailUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover z-0"
                     />
-                  )
-                ) : (
-                  <Image
-                    src={thumbnailUrl}
-                    alt={project.title}
-                    fill
-                    className="object-cover z-0"
-                  />
-                )}
-                
-                {/* Overlay text */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: showOverlay ? 1 : 0, y: showOverlay ? 0 : 20 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-x-0 bottom-0 p-6 md:p-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"
-                >
-                  <h4 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-widest uppercase text-white drop-shadow-lg mb-2">
-                    {project.title}
-                  </h4>
-                  {project.subtitle && (
-                    <p className="text-[11px] md:text-[13px] leading-relaxed text-gray-300 font-bold uppercase tracking-[0.2em] mb-4">
-                      {project.subtitle}
-                    </p>
                   )}
-                  {project.credits && project.credits.length > 0 && (
-                    <div className="flex flex-wrap gap-4 mt-2">
-                      {project.credits.map((credit, i) => (
-                        <div key={i} className="text-[10px] md:text-[11px] tracking-[0.05em] bg-black/50 backdrop-blur-md px-3 py-1.5 rounded border border-white/10">
-                          <span className="font-bold text-gray-400 uppercase mr-2">{credit.label}:</span>
-                          <span className="text-white font-medium uppercase">{credit.value}</span>
-                        </div>
+                  
+                  {/* Overlay text */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: showOverlay ? 1 : 0, y: showOverlay ? 0 : 20 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-x-0 bottom-0 p-6 md:p-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"
+                  >
+                    <h4 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-widest uppercase text-white drop-shadow-lg mb-2">
+                      {project.title}
+                    </h4>
+                    {project.subtitle && (
+                      <p className="text-[11px] md:text-[13px] leading-relaxed text-gray-300 font-bold uppercase tracking-[0.2em] mb-4">
+                        {project.subtitle}
+                      </p>
+                    )}
+                    <div className="flex flex-col gap-1.5 border-l-2 border-white/30 pl-4 mt-4">
+                      {project.credits?.map((credit, i) => (
+                        <p key={i} className="text-[9px] md:text-[10px] tracking-widest text-gray-400 uppercase font-semibold">
+                          <span className="text-white font-bold mr-2">{credit.label}:</span>
+                          {credit.value}
+                        </p>
                       ))}
                     </div>
-                  )}
-                </motion.div>
-              </div>
+                  </motion.div>
+                </div>
+              </motion.div>
             ) : (
               // Inactive State Content
-              <div className="absolute inset-0 w-full h-full bg-black">
-                <Image
-                  src={thumbnailUrl}
-                  alt={project.title}
-                  fill
-                  className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  {/* Vertical Text */}
-                  <span 
-                    className="text-white font-bold tracking-[0.3em] uppercase whitespace-nowrap text-xs md:text-sm"
-                    style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-                  >
-                    {project.title}
-                  </span>
-                </div>
+              <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-10">
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-0" />
+                <span 
+                  className="whitespace-nowrap text-[10px] md:text-xs font-black tracking-[0.3em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] uppercase z-10"
+                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                >
+                  {project.title}
+                </span>
               </div>
             )}
           </motion.div>
