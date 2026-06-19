@@ -267,10 +267,10 @@ export const siteConfig = {
       href: "https://youtu.be/U0j3r8ulTM4",
       colorway: {
         id: "moongazer",
-        baseBg: "bg-[#dce5e4]",
-        blob1: "from-cyan-500/80 via-teal-500/80 to-slate-500/0",
-        blob2: "from-slate-400/80 via-cyan-500/80 to-blue-400/0",
-        blob3: "from-teal-400/80 via-emerald-500/80 to-cyan-400/0"
+        baseBg: "bg-[#c0cecc]", // deeper, moodier slate-teal
+        blob1: "from-teal-800/90 via-cyan-900/80 to-slate-900/0",
+        blob2: "from-slate-800/90 via-teal-900/80 to-blue-900/0",
+        blob3: "from-emerald-900/90 via-teal-800/80 to-cyan-900/0"
       },
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
