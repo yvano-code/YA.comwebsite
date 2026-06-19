@@ -126,7 +126,7 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         initial={{ y: 0 }}
         className="inline-flex relative z-20 items-baseline"
       >
-        <div className="absolute right-full overflow-hidden flex whitespace-pre">
+        <div className="absolute right-[100%] overflow-hidden flex whitespace-pre">
           <motion.span 
             animate={bottomTextControls}
             initial={{ x: "100%" }}
