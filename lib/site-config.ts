@@ -230,10 +230,10 @@ export const siteConfig = {
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
       colorway: {
         id: "chj",
-        baseBg: "bg-[#e2e8f0]", // Light slate base so black text is legible
-        blob1: "from-cyan-500/90 via-sky-400/80 to-blue-500/0", 
-        blob2: "from-orange-600/90 via-amber-600/80 to-yellow-600/0", 
-        blob3: "from-purple-300/80 via-fuchsia-200/70 to-white/0" 
+        baseBg: "bg-[#020617]", // slate-950 base
+        blob1: "from-slate-900/90 via-slate-800/80 to-black/0", // Deep dark background
+        blob2: "from-teal-900/80 via-cyan-900/80 to-slate-900/0", // Mid dark teal
+        blob3: "from-cyan-400/20 via-sky-300/10 to-transparent" // Soft light cyan highlight for contrast
       },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
@@ -323,10 +323,10 @@ export const siteConfig = {
       href: "https://youtu.be/-xLbpc2JCGg",
       colorway: {
         id: "black",
-        baseBg: "bg-[#18181b]", // zinc-900 base
-        blob1: "from-yellow-600/20 via-zinc-800/50 to-black/0", 
-        blob2: "from-zinc-800/80 via-black/80 to-zinc-900/0", 
-        blob3: "from-amber-600/10 via-zinc-900/50 to-black/0" 
+        baseBg: "bg-[#09090b]", // zinc-950 base
+        blob1: "from-zinc-900/90 via-zinc-800/80 to-black/0", // Deep dark
+        blob2: "from-zinc-800/80 via-zinc-700/80 to-zinc-900/0", // Mid dark
+        blob3: "from-zinc-400/20 via-zinc-300/10 to-transparent" // Soft light highlight for contrast
       },
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
