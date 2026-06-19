@@ -939,11 +939,12 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive]   = useState(false)
   const [yVisible, setYVisible]   = useState(true)
-  const yControls    = useAnimation()   // Y scale-fade
-  const aControls    = useAnimation()   // A fade
-  const dotControls  = useAnimation()   // dot fade
-  const textControls = useAnimation()   // letter individual spring
-  const gridControls = useAnimation()   // entire grid scale from A
+  const yControls        = useAnimation()   // Y scale-fade
+  const aControls        = useAnimation()   // Main A fade
+  const dotControls      = useAnimation()   // dot fade
+  const restTextControls = useAnimation()   // letter grid (excluding target A)
+  const aTextControls    = useAnimation()   // Target A in the grid
+  const gridControls     = useAnimation()   // entire grid wrapper
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -970,22 +971,19 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         await new Promise(r => setTimeout(r, 40))
         if (isCancelled) return
 
-        // ── 4. Fade in the target A (index 20) in its right spot ─────────────
+        // ── 4. Fade in the target A in its right spot ────────────────────────
         gridControls.set({ scale: 1, opacity: 1 }) // Grid stays full size
-        await textControls.start(i => {
-          if (i === 20) return { opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
-          return {} // wait
+        await aTextControls.start({ 
+          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, 
+          transition: { duration: 0.3, ease: "easeOut" } 
         })
         if (isCancelled) return
 
         // ── 5. The rest of the letters burst out ─────────────────────────────
-        await textControls.start(i => {
-          if (i === 20) return {} // A is already visible
-          return {
-            opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
-            transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
-          }
-        })
+        await restTextControls.start(i => ({
+          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
+          transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
+        }))
         if (isCancelled) return
 
         // ── 6. Hold, then reverse ────────────────────────────────────────────
@@ -993,23 +991,20 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           if (isCancelled) return
 
           // Rest of letters collapse
-          textControls.start(i => {
-            if (i === 20) return {} // Hold A
-            return {
-              opacity: 0, scale: 0,
-              rotate: (Math.random() - 0.5) * 200,
-              x: (Math.random() - 0.5) * 50,
-              y: (Math.random() - 0.5) * 50,
-              transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
-            }
-          })
+          restTextControls.start(i => ({
+            opacity: 0, scale: 0,
+            rotate: (Math.random() - 0.5) * 200,
+            x: (Math.random() - 0.5) * 50,
+            y: (Math.random() - 0.5) * 50,
+            transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
+          }))
           await new Promise(r => setTimeout(r, 600))
           if (isCancelled) return
 
           // Fade out the target A
-          await textControls.start(i => {
-            if (i === 20) return { opacity: 0, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } }
-            return {}
+          await aTextControls.start({ 
+            opacity: 0, scale: 0.5, 
+            transition: { duration: 0.3, ease: "easeIn" } 
           })
           if (isCancelled) return
 
@@ -1044,7 +1039,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
 
     runAnimation()
     return () => { isCancelled = true; clearTimeout(timeoutId) }
-  }, [isHovered, yControls, aControls, dotControls, textControls, gridControls])
+  }, [isHovered, yControls, aControls, dotControls, restTextControls, aTextControls, gridControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
@@ -1102,7 +1097,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   key={`cs-${i}`}
                   custom={i}
                   initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
-                  animate={textControls}
+                  animate={restTextControls}
                   className="inline-block whitespace-pre"
                   style={{ minWidth: c === " " ? "0.22em" : "auto" }}
                 >
@@ -1117,7 +1112,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   key={`aw-${i}`}
                   custom={i + 20}
                   initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
-                  animate={textControls}
+                  animate={i === 0 ? aTextControls : restTextControls}
                   className="inline-block whitespace-pre"
                   style={{ minWidth: c === " " ? "0.22em" : "auto" }}
                 >
