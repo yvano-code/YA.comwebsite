@@ -1331,7 +1331,7 @@ const GraffitiText = ({ className, preserveAspectRatio }: { className?: string, 
     </defs>
 
     {/* Background Brick Wall Section */}
-    <rect x="0" y="0" width="1000" height="600" fill="url(#brick)" opacity="0.8" rx="20" />
+    <rect x="-5000" y="-5000" width="10000" height="10000" fill="url(#brick)" opacity="0.8" />
 
     <g transform="translate(100, 100)">
       {/* --- MURAL BACKGROUND EFFECTS --- */}
@@ -1341,13 +1341,13 @@ const GraffitiText = ({ className, preserveAspectRatio }: { className?: string, 
       <circle cx="600" cy="150" r="280" fill="#facc15" opacity="0.15" filter="url(#sprayBlur)" />
 
       {/* Wild abstract graffiti background shapes */}
-      <path d="M -50,100 Q 150,-50 300,100 T 700,50 T 900,200" fill="none" stroke="#06b6d4" strokeWidth="30" strokeLinecap="round" opacity="0.4" />
-      <path d="M 100,400 Q 250,550 400,350 T 800,450" fill="none" stroke="#ec4899" strokeWidth="40" strokeLinecap="round" opacity="0.4" />
-      <path d="M 800,-50 Q 700,100 850,250 T 750,500" fill="none" stroke="#facc15" strokeWidth="25" strokeLinecap="round" opacity="0.4" />
+      <path d="M -1000,100 Q 150,-50 300,100 T 700,50 T 1500,200 T 2000,-100" fill="none" stroke="#06b6d4" strokeWidth="30" strokeLinecap="round" opacity="0.4" />
+      <path d="M -500,400 Q 250,550 400,350 T 800,450 T 1600,300" fill="none" stroke="#ec4899" strokeWidth="40" strokeLinecap="round" opacity="0.4" />
+      <path d="M 1800,-50 Q 700,100 850,250 T 750,500 T -200,600" fill="none" stroke="#facc15" strokeWidth="25" strokeLinecap="round" opacity="0.4" />
       
       {/* Background Drips */}
-      <path d="M 150,100 L 150,250 M 200,80 L 200,320 M 700,50 L 700,280 M 750,120 L 750,400" fill="none" stroke="#06b6d4" strokeWidth="8" strokeLinecap="round" opacity="0.4" />
-      <path d="M 300,350 L 300,550 M 450,400 L 450,600 M 600,380 L 600,580" fill="none" stroke="#ec4899" strokeWidth="12" strokeLinecap="round" opacity="0.4" />
+      <path d="M 150,100 L 150,250 M 200,80 L 200,320 M 700,50 L 700,280 M 750,120 L 750,400 M -200,100 L -200,400 M 1200,50 L 1200,500" fill="none" stroke="#06b6d4" strokeWidth="8" strokeLinecap="round" opacity="0.4" />
+      <path d="M 300,350 L 300,550 M 450,400 L 450,600 M 600,380 L 600,580 M 1000,200 L 1000,600 M -100,200 L -100,500" fill="none" stroke="#ec4899" strokeWidth="12" strokeLinecap="round" opacity="0.4" />
 
       {/* Dense Splatters */}
       <circle cx="100" cy="150" r="20" fill="#06b6d4" opacity="0.8" />
