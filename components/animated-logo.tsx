@@ -1305,50 +1305,45 @@ const KeffiyehBandana = ({ className }: { className?: string }) => (
 
 // ─── Graffiti Text SVG ────────────────────────────────────────────────────────
 const GraffitiText = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 520 120" className={className} style={{ overflow: "visible" }}>
+  <svg viewBox="0 0 540 140" className={className} style={{ overflow: "visible" }}>
     {/* angled transform - rotate ~-8deg */}
-    <g transform="rotate(-8, 260, 60)">
-      {/* CITY SLICKER */}
-      {/* Chunky outlined bold letters */}
+    <g transform="rotate(-8, 270, 70)">
+      {/* Pop Art / Graffiti Shadow (thick offset) */}
       <text
-        x="10" y="80"
-        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
-        fontSize="72"
+        x="18" y="86"
+        fontFamily="var(--font-modak), cursive"
+        fontSize="80"
         fontWeight="400"
         fill="#1a1a2e"
         stroke="#1a1a2e"
-        strokeWidth="6"
+        strokeWidth="12"
         strokeLinejoin="round"
         letterSpacing="2"
       >CITY SLICKER</text>
-      {/* White inner fill for contrast */}
+      {/* Thick white outline to separate from shadow and background */}
       <text
         x="10" y="80"
-        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
-        fontSize="72"
+        fontFamily="var(--font-modak), cursive"
+        fontSize="80"
         fontWeight="400"
-        fill="#f0e6d3"
+        fill="#ffffff"
+        stroke="#ffffff"
+        strokeWidth="16"
+        strokeLinejoin="round"
         letterSpacing="2"
       >CITY SLICKER</text>
-      {/* Highlight streak on letters */}
+      {/* The Black Font lettering (matching user request) */}
       <text
         x="10" y="80"
-        fontFamily="var(--font-sedgwick), 'Arial Black', sans-serif"
-        fontSize="72"
+        fontFamily="var(--font-modak), cursive"
+        fontSize="80"
         fontWeight="400"
-        fill="none"
-        stroke="rgba(255,255,255,0.25)"
-        strokeWidth="3"
+        fill="#1a1a2e"
+        stroke="#1a1a2e"
+        strokeWidth="4"
+        strokeLinejoin="round"
         letterSpacing="2"
       >CITY SLICKER</text>
-      {/* C drip — subtle paint drip from bottom of C */}
-      <path d="M 27,82 Q 24,95 26,115 Q 27,120 29,115 Q 31,100 28,82 Z"
-        fill="#1a1a2e" opacity="0.9" />
-      <ellipse cx="27.5" cy="116" rx="3" ry="4" fill="#1a1a2e" opacity="0.85" />
-      {/* second thin drip from C */}
-      <path d="M 18,84 Q 16,94 17,104 Q 18,108 20,104 Q 21,96 19,84 Z"
-        fill="#1a1a2e" opacity="0.7" />
-      <ellipse cx="18.5" cy="105" rx="2" ry="3" fill="#1a1a2e" opacity="0.7" />
     </g>
   </svg>
 )
