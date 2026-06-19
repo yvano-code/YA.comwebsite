@@ -95,18 +95,19 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               >
                 <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-black/10 bg-black">
                   {/* Background Video/Image */}
-                  {isVideo ? (
+                  {isVideo && hasStartedPlaying ? (
                     isLocalVideo ? (
                       <video 
                         src={project.href} 
                         controls 
+                        autoPlay
                         onPlay={() => setHasStartedPlaying(true)}
                         onPause={() => setShowOverlay(true)}
                         className="absolute inset-0 w-full h-full object-cover z-0"
                       />
                     ) : (
                       <iframe 
-                        src={embedUrlActive || ""} 
+                        src={getVideoEmbedUrl(project.href, true, false) || ""} 
                         title={project.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowFullScreen
@@ -114,12 +115,28 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                       />
                     )
                   ) : (
-                    <Image
-                      src={thumbnailUrl}
-                      alt={project.title}
-                      fill
-                      className="object-cover z-0"
-                    />
+                    <div className="absolute inset-0 w-full h-full z-0 group/play">
+                      <Image
+                        src={thumbnailUrl}
+                        alt={project.title}
+                        fill
+                        className="object-cover z-0"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover/play:bg-black/10 transition-colors z-10" />
+                      {isVideo && (
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setHasStartedPlaying(true);
+                          }}
+                          className="absolute inset-0 m-auto w-20 h-20 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/50 rounded-full flex items-center justify-center transition-all hover:scale-110 z-20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                        >
+                          <svg className="w-8 h-8 text-white ml-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </button>
+                      )}
+                    </div>
                   )}
                   
                   {/* Overlay text */}
