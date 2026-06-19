@@ -371,7 +371,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
             animate={yControls} 
             className="inline-block relative origin-bottom z-20"
           >
-            <span className="inline-block scale-y-[1.6] origin-bottom">Y</span>
+            Y
             {/* Limbs container */}
             <motion.div 
               animate={limbControls} 
@@ -432,8 +432,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         className="z-10 inline-block relative transition-opacity duration-300"
         style={{ opacity: isHovered ? 0.3 : 1 }}
       >
-        <span className="inline-block scale-y-[1.6] origin-bottom">A</span>
-        <span className="inline-block scale-y-[1.6] origin-bottom">.</span>
+        A.
       </span>
     </motion.div>
   )
@@ -571,7 +570,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
             minWidth: char === ' ' && isHovered ? '0.25em' : 'auto'
           }}
         >
-          <span className="inline-block scale-y-[1.6] origin-bottom">{char}</span>
+          {char}
         </motion.span>
       ))}
     </div>
@@ -794,9 +793,9 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
 
   return (
     <div className="flex relative items-baseline">
-      <motion.span animate={yControls} className="inline-block relative z-20"><span className="inline-block scale-y-[1.6] origin-bottom">Y</span></motion.span>
+      <motion.span animate={yControls} className="inline-block relative z-20">Y</motion.span>
       <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
-        <span className="inline-block scale-y-[1.6] origin-bottom">A</span>
+        A
         <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-20px] left-[50%] -translate-x-[50%] w-[10px] h-[20px] origin-top">
           <RocketFire />
         </motion.div>
@@ -804,7 +803,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
           <RocketSmoke />
         </motion.div>
       </motion.span>
-      <motion.span animate={dotControls} className="inline-block relative z-20"><span className="inline-block scale-y-[1.6] origin-bottom">.</span></motion.span>
+      <motion.span animate={dotControls} className="inline-block relative z-20">.</motion.span>
       
       {countdown !== null && (
         <motion.div 
@@ -839,7 +838,7 @@ export function AnimatedLogo() {
   return (
     <Link 
       href="/" 
-      className="text-3xl font-black tracking-tighter flex items-center h-12 z-50 cursor-pointer w-fit"
+      className="text-5xl md:text-6xl font-black tracking-tighter flex items-center z-50 cursor-pointer w-fit"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
