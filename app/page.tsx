@@ -13,7 +13,7 @@ export default function LandingPageDemo() {
   return (
     <div className="min-h-screen pb-24">
       {/* Navigation matching Awwwards, but using real links */}
-      <nav className="flex items-center justify-between px-6 md:px-12 pt-12 pb-8 md:pt-16 text-sm font-semibold tracking-wide">
+      <nav className="flex items-center justify-between px-6 md:px-12 pt-20 pb-8 md:pt-28 text-sm font-semibold tracking-wide">
          <AnimatedLogo />
 
          <div>
