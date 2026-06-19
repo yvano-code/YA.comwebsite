@@ -60,6 +60,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
   const wrapperControls = useAnimation()
   const xControls = useAnimation()
   const yControls = useAnimation()
+  const limbControls = useAnimation()
   // Skeletal limb controls
   const leftThighControls = useAnimation()
   const leftCalfControls = useAnimation()
