@@ -1305,46 +1305,90 @@ const KeffiyehBandana = ({ className }: { className?: string }) => (
 
 // ─── Graffiti Text SVG ────────────────────────────────────────────────────────
 const GraffitiText = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 540 140" className={className} style={{ overflow: "visible" }}>
-    {/* angled transform - rotate ~-8deg */}
-    <g transform="rotate(-8, 270, 70)">
-      {/* Pop Art / Graffiti Shadow (thick offset) */}
+  <svg viewBox="0 0 600 200" className={className} style={{ overflow: "visible" }}>
+    <g transform="rotate(-6, 280, 100)">
+      {/* --- BACKGROUND EFFECTS --- */}
+      {/* Spray paint halo */}
+      <ellipse cx="280" cy="100" rx="220" ry="80" fill="url(#haloGradient)" opacity="0.6" />
+      
+      {/* Cyan & Magenta Splatters */}
+      <circle cx="50" cy="140" r="12" fill="#06b6d4" opacity="0.8" />
+      <circle cx="80" cy="160" r="6" fill="#06b6d4" opacity="0.8" />
+      <circle cx="480" cy="40" r="15" fill="#ec4899" opacity="0.8" />
+      <circle cx="510" cy="20" r="8" fill="#ec4899" opacity="0.8" />
+      <circle cx="120" cy="30" r="10" fill="#facc15" opacity="0.8" />
+      <path d="M 40,130 Q 30,160 50,180 Q 70,160 60,130 Z" fill="#06b6d4" />
+      <path d="M 490,30 Q 520,20 540,50 Q 510,60 490,30 Z" fill="#ec4899" />
+
+      {/* Wildstyle Swooping Arrow Underneath */}
+      <path 
+        d="M 60,140 Q 200,200 480,120 L 460,100 L 540,110 L 490,160 L 470,135 Q 200,220 50,150 Z" 
+        fill="url(#arrowGradient)" 
+        stroke="#1a1a2e" 
+        strokeWidth="4" 
+        strokeLinejoin="round" 
+      />
+
+      {/* --- THE TEXT --- */}
+      {/* Black Drop Shadow */}
       <text
-        x="18" y="86"
-        fontFamily="var(--font-modak), cursive"
-        fontSize="80"
-        fontWeight="400"
+        x="24" y="124"
+        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+        fontSize="110"
         fill="#1a1a2e"
         stroke="#1a1a2e"
-        strokeWidth="12"
-        strokeLinejoin="round"
-        letterSpacing="2"
+        strokeWidth="6"
+        letterSpacing="-6"
       >CITY SLICKER</text>
-      {/* Thick white outline to separate from shadow and background */}
+      
+      {/* Thick White Outline */}
       <text
-        x="10" y="80"
-        fontFamily="var(--font-modak), cursive"
-        fontSize="80"
-        fontWeight="400"
+        x="16" y="116"
+        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+        fontSize="110"
         fill="#ffffff"
         stroke="#ffffff"
-        strokeWidth="16"
+        strokeWidth="14"
         strokeLinejoin="round"
-        letterSpacing="2"
+        letterSpacing="-6"
       >CITY SLICKER</text>
-      {/* The Black Font lettering (matching user request) */}
+
+      {/* Core Black Letters */}
       <text
-        x="10" y="80"
-        fontFamily="var(--font-modak), cursive"
-        fontSize="80"
-        fontWeight="400"
+        x="16" y="116"
+        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+        fontSize="110"
         fill="#1a1a2e"
         stroke="#1a1a2e"
-        strokeWidth="4"
+        strokeWidth="2"
         strokeLinejoin="round"
-        letterSpacing="2"
+        letterSpacing="-6"
       >CITY SLICKER</text>
+      
+      {/* White Highlights/Shine on letters */}
+      <text
+        x="12" y="112"
+        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+        fontSize="110"
+        fill="none"
+        stroke="rgba(255,255,255,0.4)"
+        strokeWidth="2"
+        letterSpacing="-6"
+      >CITY SLICKER</text>
+
     </g>
+
+    <defs>
+      <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor="#facc15" stopOpacity="0.4" />
+        <stop offset="100%" stopColor="#facc15" stopOpacity="0" />
+      </radialGradient>
+      <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#facc15" />
+        <stop offset="50%" stopColor="#f97316" />
+        <stop offset="100%" stopColor="#ef4444" />
+      </linearGradient>
+    </defs>
   </svg>
 )
 // ─── GraffitiLogo ─────────────────────────────────────────────────────────────
