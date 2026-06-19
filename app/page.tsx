@@ -15,19 +15,13 @@ export default function LandingPageDemo() {
       {/* Navigation matching Awwwards, but using real links */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-8 text-sm font-semibold tracking-wide">
          <AnimatedLogo />
-         <div className="hidden lg:flex items-center space-x-10">
-           {siteConfig.nav.map((item, idx) => (
-              <Link 
-                key={idx} 
-                href={item.href}
-                className="text-[11px] uppercase tracking-[0.2em] font-bold text-gray-500 hover:text-black transition-colors"
-              >
-                {item.label}
-              </Link>
-           ))}
+         <div className="hidden md:flex items-center justify-center flex-1 mx-4 lg:mx-8">
+           <h3 className="text-sm lg:text-xl xl:text-2xl font-black tracking-tighter uppercase leading-none text-center whitespace-nowrap">
+             FILM & TELEVISION <span className="mx-1 md:mx-2 text-gray-300">|</span> MUSIC VIDEO <span className="mx-1 md:mx-2 text-gray-300">|</span> COMMERCIAL <span className="mx-1 md:mx-2 text-gray-300">|</span> LIVE BROADCAST
+           </h3>
          </div>
          <div>
-            <Link href="/contact" className="bg-black text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition">Contact</Link>
+            <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
          </div>
       </nav>
 
@@ -38,8 +32,7 @@ export default function LandingPageDemo() {
         <section className="mt-20 md:mt-24 overflow-hidden">
           <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
             <div className="flex flex-col">
-              <h3 className="text-xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase leading-normal md:leading-snug">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</h3>
-              <p className="text-[11px] md:text-[13px] font-bold tracking-[0.1em] uppercase text-gray-500 mt-1 md:mt-2">Selected Filmography</p>
+              <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-normal md:leading-snug">Selected Filmography</h3>
             </div>
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
           </div>
