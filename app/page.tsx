@@ -13,13 +13,24 @@ export default function LandingPageDemo() {
   return (
     <div className="min-h-screen pb-24">
       {/* Navigation matching Awwwards, but using real links */}
-      <nav className="flex items-center justify-between px-6 md:px-12 pt-20 pb-8 md:pt-28 text-sm font-semibold tracking-wide">
-         <AnimatedLogo />
-
+      <nav className="flex items-center justify-between px-6 md:px-12 pt-8 pb-4 text-sm font-semibold tracking-wide">
+         <div></div> {/* Spacer */}
          <div>
             <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
          </div>
       </nav>
+
+      <header className="flex flex-col items-center justify-center pt-8 md:pt-16 pb-12 md:pb-20 text-center w-full overflow-visible">
+        <p className="text-xs md:text-sm font-medium text-gray-500 mb-6 md:mb-10 uppercase tracking-widest">Director</p>
+        
+        <div className="flex justify-center w-full">
+          <AnimatedLogo />
+        </div>
+        
+        <p className="text-base md:text-xl text-gray-800 mt-8 md:mt-12 max-w-lg mx-auto">
+          Selected works and projects by<br />Yvano Antonio
+        </p>
+      </header>
 
       <main>
         {/* Editorial Section Removed */}
