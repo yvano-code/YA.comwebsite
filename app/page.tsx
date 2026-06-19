@@ -20,7 +20,7 @@ export default function LandingPageDemo() {
          </div>
       </nav>
 
-      <header className="flex flex-col items-center justify-center pt-24 md:pt-56 pb-24 md:pb-32 text-center w-full overflow-visible">
+      <header className="flex flex-col items-center justify-center pt-24 md:pt-56 pb-32 md:pb-56 text-center w-full overflow-visible">
         <div className="flex justify-center w-full">
           <AnimatedLogo />
         </div>
