@@ -3,9 +3,6 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, useAnimation } from "framer-motion"
 import Link from "next/link"
-import { Lilita_One } from "next/font/google"
-
-const bubbleFont = Lilita_One({ subsets: ["latin"], weight: ["400"] })
 
 const MickeyGlove = ({ className }: { className?: string }) => {
   const shapes = (
@@ -841,7 +838,7 @@ export function AnimatedLogo() {
   return (
     <Link 
       href="/" 
-      className={`text-[90px] md:text-[120px] lg:text-[156px] leading-none tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto text-black text-3d ${bubbleFont.className}`}
+      className="text-[90px] md:text-[120px] lg:text-[156px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto text-black text-3d"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
