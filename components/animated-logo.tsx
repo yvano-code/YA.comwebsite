@@ -76,8 +76,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
 
   const damageMessages = [
     "YOU'RE A GOOD YUTE!",
-    "DON'T BE A DEGENERATE GAMBLER!",
-    "WE MISS YOU VIRGIL!"
+    "DON'T BE A DEGENERATE GAMBLER!"
   ];
   const [message, setMessage] = useState(damageMessages[0]);
 
@@ -699,14 +698,49 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         const w = typeof window !== "undefined" ? window.innerWidth : 1500;
         const h = typeof window !== "undefined" ? window.innerHeight : 1000;
         
-        // Take off perfectly vertically, then curve smoothly to the right
-        await aControls.start({
-          y: [20, -400, -300, -100, 100],
-          x: [0, 0, 300, 800, w + 200],
-          rotate: [0, 0, 45, 90, 100],
-          scale: [0.5, 1, 0.9, 0.7, 0.5],
-          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.3, 0.5, 0.7, 1] }
-        })
+        const paths = [
+          {
+            // Path 1: Orbit Right, Return from Bottom Left
+            takeoff: {
+              y: [20, -400, -300, -100, 100],
+              x: [0, 0, 300, 800, w + 200],
+              rotate: [0, 0, 45, 90, 100],
+              scale: [0.5, 1, 0.9, 0.7, 0.5],
+              transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.3, 0.5, 0.7, 1] }
+            },
+            teleport: { x: -100, y: h + 200, rotate: 45, scale: 0.5 },
+            landing: {
+              y: [h + 200, h * 0.7, h * 0.3, 0],
+              x: [-100, 150, 50, 0],
+              rotate: [45, 15, -10, 0],
+              scale: [0.5, 0.7, 0.9, 1],
+              transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
+            }
+          },
+          {
+            // Path 2: Vertical Space Shot, Return from Bottom Right
+            takeoff: {
+              y: [20, -300, -800],
+              x: [0, 0, 0],
+              rotate: [0, 0, 0],
+              scale: [0.5, 1, 0.3],
+              transition: { duration: 1.5, ease: "easeIn", times: [0, 0.5, 1] }
+            },
+            teleport: { x: w + 200, y: h + 200, rotate: -45, scale: 0.5 },
+            landing: {
+              y: [h + 200, h * 0.6, h * 0.2, 0],
+              x: [w + 200, 300, -100, 0],
+              rotate: [-45, -20, 10, 0],
+              scale: [0.5, 0.7, 0.9, 1],
+              transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
+            }
+          }
+        ];
+        
+        const selectedPath = paths[Math.floor(Math.random() * paths.length)];
+        
+        // Take off
+        await aControls.start(selectedPath.takeoff)
         
         if (isCancelled) return
 
@@ -714,8 +748,8 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
         // 3. Wraps around the Earth!
-        // Instantly teleport to the true BOTTOM LEFT of the viewport
-        aControls.set({ x: -100, y: h + 200, rotate: 45, scale: 0.5 })
+        // Instantly teleport to the start of the landing path
+        aControls.set(selectedPath.teleport)
         
         // Wait a tiny beat for suspense
         await new Promise(r => setTimeout(r, 200))
@@ -724,14 +758,8 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Retrorockets fire!
         fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.5, 1, 1.5], transition: { duration: 0.5, repeat: Infinity } })
         
-        // 4. Smooth Landing back to the start (Swoops UP from the bottom left corner)
-        await aControls.start({
-          y: [h + 200, h * 0.7, h * 0.3, 0],
-          x: [-100, 150, 50, 0],
-          rotate: [45, 15, -10, 0],
-          scale: [0.5, 0.7, 0.9, 1],
-          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.4, 0.7, 1] }
-        })
+        // 4. Smooth Landing back to the start
+        await aControls.start(selectedPath.landing)
         
         if (isCancelled) return
 
