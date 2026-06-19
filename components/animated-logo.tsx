@@ -565,9 +565,36 @@ const RocketFire = ({ className }: { className?: string }) => (
 
 const RocketSmoke = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 100 150" className={className} style={{ overflow: "visible" }}>
-    <path d="M 50,0 Q 20,50 0,150 Q 50,130 100,150 Q 80,50 50,0 Z" fill="#D1D5DB" opacity="0.8" />
-    <path d="M 50,20 Q 30,60 15,140 Q 50,120 85,140 Q 70,60 50,20 Z" fill="#9CA3AF" opacity="0.9" />
-    <path d="M 50,40 Q 40,70 30,130 Q 50,115 70,130 Q 60,70 50,40 Z" fill="#F3F4F6" opacity="1" />
+    <defs>
+      <filter id="blur">
+        <feGaussianBlur stdDeviation="3" />
+      </filter>
+    </defs>
+    <style>
+      {`
+        @keyframes billow {
+          0% { transform: scale(0.5) translateY(0) translateX(0); opacity: 0; }
+          20% { opacity: 0.9; }
+          100% { transform: scale(3) translateY(80px) translateX(var(--tx)); opacity: 0; }
+        }
+        .puff {
+          transform-origin: center top;
+          animation: billow 1s infinite ease-out;
+        }
+        .puff:nth-child(1) { --tx: -20px; animation-duration: 1.2s; animation-delay: 0s; }
+        .puff:nth-child(2) { --tx: 20px; animation-duration: 1.5s; animation-delay: 0.2s; }
+        .puff:nth-child(3) { --tx: -10px; animation-duration: 1.1s; animation-delay: 0.4s; }
+        .puff:nth-child(4) { --tx: 30px; animation-duration: 1.3s; animation-delay: 0.6s; }
+        .puff:nth-child(5) { --tx: 0px; animation-duration: 1.4s; animation-delay: 0.8s; }
+      `}
+    </style>
+    <g filter="url(#blur)">
+      <circle cx="50" cy="0" r="10" fill="#D1D5DB" className="puff" />
+      <circle cx="50" cy="0" r="12" fill="#9CA3AF" className="puff" />
+      <circle cx="50" cy="0" r="8" fill="#F3F4F6" className="puff" />
+      <circle cx="50" cy="0" r="15" fill="#6B7280" className="puff" />
+      <circle cx="50" cy="0" r="10" fill="#E5E7EB" className="puff" />
+    </g>
   </svg>
 )
 
@@ -617,17 +644,17 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         dotControls.start({ x: 0, y: 0 })
 
         // BLAST OFF
-        // Big puff of smoke on liftoff
-        smokeControls.start({ scale: [1, 4, 6], opacity: [0, 1, 0], transition: { duration: 1.5, ease: "easeOut" } })
+        // Thicken the billowing smoke
+        smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
         
-        // Smooth continuous flight path using a single tween with keyframes
+        // Crazy Loop-the-loop flight path!
         const distance = typeof window !== "undefined" ? window.innerWidth + 100 : 1500;
         await aControls.start({
-          y: [0, -100, -300, -150, -400],
-          x: [0, 50, 200, distance / 2, distance],
-          rotate: [0, 20, 60, 80, 90],
-          scale: [1, 0.9, 0.7, 0.5, 0.3],
-          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.2, 0.5, 0.8, 1] }
+          y: [0, -150, -200, -100, -200, -500],
+          x: [0, -20, -50, -20, 100, distance],
+          rotate: [0, -45, -135, -225, -315, -270],
+          scale: [1, 0.9, 0.8, 0.8, 0.7, 0.3],
+          transition: { duration: 3.5, ease: "easeInOut", times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
         })
         
         // Cut engines while off-screen
@@ -647,10 +674,6 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
           scale: [0.3, 0.6, 0.9, 1],
           transition: { duration: 1.5, ease: "easeInOut", times: [0, 0.5, 0.8, 1] }
         })
-        
-        // Landing impact smoke puff
-        smokeControls.set({ y: 0 })
-        smokeControls.start({ scale: [0, 3, 5], opacity: [0, 1, 0], transition: { duration: 1.5, ease: "easeOut" } })
         
         // Cut the engine on touchdown
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.3 } })
