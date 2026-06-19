@@ -955,11 +955,12 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
 
         // ── 1. Fade out Y + dot ──────────────────────────────────────────────
         dotControls.start({ opacity: 0, transition: { duration: 0.35, ease: "easeInOut" } })
-        yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: "backIn" } })
+        await yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: "backIn" } })
+        if (isCancelled) return
         setYVisible(false)
 
         // Hold A for a little bit longer
-        await new Promise(r => setTimeout(r, 450))
+        await new Promise(r => setTimeout(r, 250))
         if (isCancelled) return
 
         // ── 2. Fade out A ────────────────────────────────────────────────────
@@ -972,7 +973,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
 
         // ── 4. Fade in the target A in its right spot ────────────────────────
-        gridControls.set({ scale: 1, opacity: 1 }) // Grid stays full size
+        // grid initial is scale: 1, opacity: 1, so we don't need to set it
         await aTextControls.start({ 
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, 
           transition: { duration: 0.3, ease: "easeOut" } 
@@ -1075,7 +1076,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       {/* Centred text grid — Absolute so it centres perfectly over YA. */}
       {isActive && (
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
+          initial={{ scale: 1, opacity: 1 }}
           animate={gridControls}
           style={{ transformOrigin: "center center" }}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
