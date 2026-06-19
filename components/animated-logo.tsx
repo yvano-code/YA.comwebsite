@@ -1120,6 +1120,14 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   {c}
                 </motion.span>
               ))}
+              <motion.img
+                custom={35}
+                initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                animate={restTextControls}
+                src="/csa_award_transparent.png"
+                alt="Canadian Screen Award"
+                className="inline-block ml-[0.3em] h-[1.3em] w-auto object-contain translate-y-[0.15em]"
+              />
             </div>
           </div>
         </motion.div>
