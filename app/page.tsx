@@ -15,11 +15,7 @@ export default function LandingPageDemo() {
       {/* Navigation matching Awwwards, but using real links */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-8 text-sm font-semibold tracking-wide">
          <AnimatedLogo />
-         <div className="hidden md:flex items-center justify-center flex-1 mx-4 lg:mx-8">
-           <h3 className="text-[10px] md:text-xs lg:text-sm xl:text-base font-hanken-grotesk font-black tracking-[0.15em] uppercase leading-none text-center whitespace-nowrap">
-             FILM & TELEVISION <span className="mx-1 md:mx-3 text-black font-sans">|</span> MUSIC VIDEO <span className="mx-1 md:mx-3 text-black font-sans">|</span> COMMERCIAL <span className="mx-1 md:mx-3 text-black font-sans">|</span> LIVE BROADCAST
-           </h3>
-         </div>
+
          <div>
             <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
          </div>
