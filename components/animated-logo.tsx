@@ -939,18 +939,11 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive]   = useState(false)
   const [yVisible, setYVisible]   = useState(true)
-  const yControls   = useAnimation()   // Y scale-fade
-  const aControls   = useAnimation()   // A fade
-  const dotControls = useAnimation()   // dot fade
-  const textControls = useAnimation()  // letter grid
-
-  const getRandomSpill = () => ({
-    opacity: 0,
-    scale: 0.1,
-    rotate: (Math.random() - 0.5) * 360,
-    x: (Math.random() - 0.5) * 80,
-    y: (Math.random() - 0.5) * 80,
-  })
+  const yControls    = useAnimation()   // Y scale-fade
+  const aControls    = useAnimation()   // A fade
+  const dotControls  = useAnimation()   // dot fade
+  const textControls = useAnimation()   // letter individual spring
+  const gridControls = useAnimation()   // entire grid scale from A
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -961,11 +954,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
 
         // ── 1. Fade out Y + dot ──────────────────────────────────────────────
         dotControls.start({ opacity: 0, transition: { duration: 0.35, ease: "easeInOut" } })
-        await yControls.start({
-          scale: 0, opacity: 0,
-          transition: { duration: 0.42, ease: "backIn" }
-        })
-        if (isCancelled) return
+        yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: "backIn" } })
         setYVisible(false)
 
         // ── 2. Fade out A ────────────────────────────────────────────────────
@@ -977,27 +966,28 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         await new Promise(r => setTimeout(r, 40))
         if (isCancelled) return
 
-        // ── 4. Letters burst out ─────────────────────────────────────────────
+        // ── 4. Letters burst out from the center (where A was) ───────────────
+        gridControls.start({ scale: 1, opacity: 1, transition: { type: "spring", damping: 15, stiffness: 140 } })
         await textControls.start((i) => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
-          transition: {
-            type: "spring", damping: 12, stiffness: 130,
-            delay: (i as number) * 0.028
-          }
+          transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
         }))
         if (isCancelled) return
 
-        // ── 5. Hold, then reverse ────────────────────────────────────────────
+        // ── 5. Hold, then reverse (tumble back into A) ───────────────────────
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
 
-          // Letters collapse back inward
-          await textControls.start((i) => ({
-            opacity: 0, scale: 0.05,
+          // Letters collapse back into a central tumble
+          textControls.start((i) => ({
+            opacity: 0, scale: 0,
             rotate: (Math.random() - 0.5) * 200,
-            x: 0, y: 0,
+            x: (Math.random() - 0.5) * 50,
+            y: (Math.random() - 0.5) * 50,
             transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
           }))
+          // Grid scales down to the A center
+          await gridControls.start({ scale: 0, opacity: 0, transition: { duration: 0.5, ease: "easeIn", delay: 0.1 } })
           if (isCancelled) return
 
           // ── 6. Unmount grid ────────────────────────────────────────────────
@@ -1031,7 +1021,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
 
     runAnimation()
     return () => { isCancelled = true; clearTimeout(timeoutId) }
-  }, [isHovered, yControls, aControls, dotControls, textControls])
+  }, [isHovered, yControls, aControls, dotControls, textControls, gridControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
@@ -1064,49 +1054,56 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         .
       </motion.span>
 
-      {/* Centred text grid — fixed so it's always viewport-centred regardless of YA. position */}
+      {/* Centred text grid — Absolute so it centres perfectly over YA. */}
       {isActive && (
-        <div
-          className="fixed inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
-          style={{
-            fontSize: "clamp(32px, 7.2vw, 84px)",
-            letterSpacing: "-0.025em",
-            lineHeight: 0.88,
-            gap: "0.08em",
-            fontWeight: 900,
-          }}
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={gridControls}
+          style={{ transformOrigin: "center center" }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
-          {/* CANADIAN SCREEN */}
-          <div className="flex items-baseline">
-            {"CANADIAN SCREEN".split("").map((c, i) => (
-              <motion.span
-                key={`cs-${i}`}
-                custom={i}
-                initial={getRandomSpill()}
-                animate={textControls}
-                className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.22em" : "auto" }}
-              >
-                {c}
-              </motion.span>
-            ))}
+          <div
+            className="flex flex-col items-center justify-center"
+            style={{
+              fontSize: "clamp(32px, 7.2vw, 84px)",
+              letterSpacing: "-0.025em",
+              lineHeight: 0.88,
+              gap: "0.08em",
+              fontWeight: 900,
+            }}
+          >
+            {/* CANADIAN SCREEN */}
+            <div className="flex items-baseline">
+              {"CANADIAN SCREEN".split("").map((c, i) => (
+                <motion.span
+                  key={`cs-${i}`}
+                  custom={i}
+                  initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                  animate={textControls}
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === " " ? "0.22em" : "auto" }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
+            {/* AWARD WINNER */}
+            <div className="flex items-baseline">
+              {"AWARD WINNER".split("").map((c, i) => (
+                <motion.span
+                  key={`aw-${i}`}
+                  custom={i + 20}
+                  initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                  animate={textControls}
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === " " ? "0.22em" : "auto" }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
           </div>
-          {/* AWARD WINNER */}
-          <div className="flex items-baseline">
-            {"AWARD WINNER".split("").map((c, i) => (
-              <motion.span
-                key={`aw-${i}`}
-                custom={i + 20}
-                initial={getRandomSpill()}
-                animate={textControls}
-                className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.22em" : "auto" }}
-              >
-                {c}
-              </motion.span>
-            ))}
-          </div>
-        </div>
+        </motion.div>
       )}
     </div>
   )
