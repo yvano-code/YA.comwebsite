@@ -70,8 +70,8 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               }
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/20 bg-white/10 backdrop-blur-2xl ${
-              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:bg-white/20 transition-colors"
+            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.15)] bg-white/20 backdrop-blur-2xl ${
+              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] transition-shadow"
             }`}
           >
             {/* LIQUID GLASS ANIMATION: Starts as sharp thumbnail, blurs into glass background when active */}
@@ -79,11 +79,11 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               src={thumbnailUrl}
               alt={project.title}
               fill
-              className={`absolute inset-0 object-cover z-0 pointer-events-none transition-all duration-700 ease-in-out ${isActive ? 'scale-150 blur-[40px] saturate-[2] opacity-50' : 'scale-100 blur-0 opacity-80 group-hover:opacity-100 group-hover:scale-105'}`}
+              className={`absolute inset-0 object-cover z-0 pointer-events-none transition-all duration-700 ease-in-out ${isActive ? 'scale-125 blur-[30px] saturate-[1.5] opacity-80' : 'scale-100 blur-0 opacity-100'}`}
             />
-            {/* Liquid Glass Highlights & Reflections */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/20 opacity-60 z-0 pointer-events-none" />
-            <div className="absolute inset-0 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),inset_0_-1px_1px_rgba(0,0,0,0.2)] z-0 pointer-events-none" />
+            
+            {/* Clean Glass Highlights & Reflections (No dirty gradients) */}
+            <div className="absolute inset-0 shadow-[inset_0_2px_6px_rgba(255,255,255,0.6),inset_0_-1px_2px_rgba(255,255,255,0.2)] border border-white/50 z-0 pointer-events-none rounded-[inherit]" />
 
             {isActive ? (
               // Active State Content (Video inside the glass bezel)
@@ -93,7 +93,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="absolute inset-0 w-full h-full p-2 md:p-3 flex flex-col z-10"
               >
-                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-black/50 bg-black">
+                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-black/10 bg-black">
                   {/* Background Video/Image */}
                   {isVideo ? (
                     isLocalVideo ? (
@@ -110,7 +110,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                         title={project.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowFullScreen
-                        className="absolute inset-0 w-full h-full border-0 z-0"
+                        className="absolute inset-0 w-full h-full border-0 z-0 bg-black"
                       />
                     )
                   ) : (
@@ -149,15 +149,17 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 </div>
               </motion.div>
             ) : (
-              // Inactive State Content
+              // Inactive State Content - FULL COLOUR, NO GREYOUT
               <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-10">
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-0" />
-                <span 
-                  className="whitespace-nowrap text-[10px] md:text-xs font-black tracking-[0.3em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] uppercase z-10"
-                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-                >
-                  {project.title}
-                </span>
+                {/* Frosted Glass Pill for legibility instead of global greyout */}
+                <div className="bg-white/20 backdrop-blur-md border border-white/30 px-3 py-6 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:bg-white/30 transition-colors">
+                  <span 
+                    className="block whitespace-nowrap text-[10px] md:text-xs font-black tracking-[0.3em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] uppercase z-10"
+                    style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                  >
+                    {project.title}
+                  </span>
+                </div>
               </div>
             )}
           </motion.div>

@@ -44,8 +44,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-[radial-gradient(circle_farthest-corner_at_50%_50%,_var(--tw-gradient-stops))] from-white via-[#e4e4e7] to-[#52525b] bg-fixed bg-no-repeat text-black selection:bg-black selection:text-white min-h-screen`}>
-        <div className="flex min-h-screen flex-col">
+      <body className={`${inter.className} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
+        {/* Dynamic Liquid Glass Background Elements */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-2]">
+          <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-pink-300/40 via-purple-300/40 to-transparent blur-[100px] animate-pulse" style={{ animationDuration: '10s' }} />
+          <div className="absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-blue-300/40 via-cyan-300/40 to-transparent blur-[120px] animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
+          <div className="absolute -bottom-[20%] left-[20%] w-[80vw] h-[80vw] rounded-full bg-gradient-to-tr from-amber-200/40 via-orange-200/30 to-transparent blur-[150px] animate-pulse" style={{ animationDuration: '15s', animationDelay: '5s' }} />
+        </div>
+        
+        {/* Global Glass Overlay */}
+        <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />
+
+        <div className="flex min-h-screen flex-col relative z-0">
           <SiteHeader />
           <main className="flex-1">
             {children}
