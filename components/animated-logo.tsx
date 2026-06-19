@@ -942,9 +942,10 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const yControls        = useAnimation()   // Y scale-fade
   const aControls        = useAnimation()   // Main A fade
   const dotControls      = useAnimation()   // dot fade
-  const restTextControls = useAnimation()   // letter grid (excluding target A)
-  const aTextControls    = useAnimation()   // Target A in the grid
-  const gridControls     = useAnimation()   // entire grid wrapper
+  const aTextControls      = useAnimation()   // The specific 'A' in the grid
+  const restTextControls   = useAnimation()   // The rest of the grid text
+  const gridControls       = useAnimation()   // The whole grid wrapper
+  const swooshControls     = useAnimation()   // The golden swoosh effect
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -980,7 +981,13 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 5. The rest of the letters burst out ─────────────────────────────
+        // ── 5. The rest of the letters burst out + swoosh ───────────────────
+        swooshControls.start({
+          left: ["-50%", "150%"],
+          opacity: [0, 1, 0],
+          transition: { duration: 0.9, ease: "easeInOut" }
+        })
+
         await restTextControls.start(i => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
           transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
@@ -990,6 +997,13 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         // ── 6. Hold, then reverse ────────────────────────────────────────────
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
+
+          // Swoosh reverse
+          swooshControls.start({
+            left: ["150%", "-50%"],
+            opacity: [0, 1, 0],
+            transition: { duration: 0.7, ease: "easeInOut" }
+          })
 
           // Rest of letters collapse
           restTextControls.start(i => ({
@@ -1081,8 +1095,20 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           style={{ transformOrigin: "center center" }}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
+          {/* Swoosh Effect */}
+          <motion.div
+            initial={{ left: "-50%", opacity: 0 }}
+            animate={swooshControls}
+            className="absolute top-1/2 -translate-y-1/2 h-[200%] w-[150%] pointer-events-none flex items-center justify-center -rotate-12 mix-blend-screen"
+            style={{ zIndex: -1 }}
+          >
+             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-yellow-200 to-transparent blur-[1px] opacity-90" />
+             <div className="absolute w-full h-[12px] bg-gradient-to-r from-transparent via-yellow-400 to-transparent blur-md opacity-60" />
+             <div className="absolute w-full h-[40px] bg-gradient-to-r from-transparent via-yellow-600 to-transparent blur-xl opacity-30" />
+          </motion.div>
+
           <div
-            className="flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-center z-10 relative"
             style={{
               fontSize: "clamp(32px, 7.2vw, 84px)",
               letterSpacing: "-0.025em",
@@ -1124,7 +1150,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 custom={35}
                 initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
                 animate={restTextControls}
-                src="/csa_award_transparent.png"
+                src="/csa_award_clean.png"
                 alt="Canadian Screen Award"
                 className="inline-block ml-[0.3em] h-[1.3em] w-auto object-contain translate-y-[0.15em]"
               />
