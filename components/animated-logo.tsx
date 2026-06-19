@@ -940,24 +940,24 @@ const DUST_COUNT = 600;
 const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   const angle = Math.random() * Math.PI * 2;
   // Expansive radius (edge to edge viewport coverage)
-  const radius = Math.pow(Math.random(), 1.5) * 1800 + 20;
+  const radius = Math.pow(Math.random(), 1.5) * 2000 + 10;
   const x = Math.cos(angle) * radius;
   const y = Math.sin(angle) * radius;
   // Parallax depth! from -1500 to 2000
   const z = (Math.random() * 3500) - 1500;
   
-  const isBokeh = Math.random() > 0.90; // 10% are huge bokeh orbs, 90% are tiny specks
-  const size = isBokeh ? Math.random() * 20 + 5 : Math.random() * 3 + 0.5;
-  const blur = isBokeh ? size * 0.6 : 0;
+  // More plentiful, smaller speckles
+  const isBokeh = Math.random() > 0.90;
+  const size = isBokeh ? Math.random() * 20 + 6 : Math.random() * 2.5 + 0.5;
+  const blur = isBokeh ? size * 0.6 : Math.random() * 1.2;
   
-  const delay = Math.random() * 0.4;
-  const colors = ["#ffffff", "#fffbeb", "#fef08a", "#fde047", "#eab308"];
+  const delay = Math.random() * 0.5;
+  // Photorealistic warm lighting (from bright white hotspots to deep amber)
+  const colors = ["#ffffff", "#fffbeb", "#fef08a", "#fde047", "#eab308", "#ca8a04", "#a16207"];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  const haloColor = "#ca8a04"; // Rich gold halo
+  const twinkleDuration = Math.random() * 1.5 + 0.5;
   
-  const twinkleDuration = Math.random() * 2 + 1.5;
-  
-  return { x, y, z, size, blur, delay, color, haloColor, twinkleDuration, isBokeh, angle };
+  return { x, y, z, size, blur, delay, color, angle, twinkleDuration };
 });
 
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
@@ -1028,7 +1028,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         swooshControls.start(i => {
           const p = dustParticles[i as number]
           return {
-            opacity: [0, 1, 0.6, 1, 0.8],
+            opacity: [0, 1, 0.4, 1, 0.9],
             x: [0, p.x],
             y: [0, p.y],
             z: [0, p.z],
@@ -1036,7 +1036,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
             transition: { 
               duration: 2.5, 
               type: "spring", bounce: 0.3, delay: p.delay,
-              opacity: { repeat: Infinity, duration: p.twinkleDuration, repeatType: "mirror" }
+              opacity: { repeat: Infinity, duration: p.twinkleDuration, repeatType: "mirror", ease: "easeInOut" }
             }
           }
         })
@@ -1180,7 +1180,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   backgroundColor: p.color,
                   marginLeft: -p.size/2,
                   marginTop: -p.size/2,
-                  boxShadow: p.isBokeh ? `0 0 ${p.size * 1.5}px ${p.haloColor}` : `0 0 ${p.size}px ${p.color}, 0 0 ${p.size * 3}px ${p.haloColor}`,
+                  boxShadow: `0 0 ${p.size * 2}px ${p.color}, 0 0 ${p.size * 4}px ${p.color}`,
                   filter: p.blur > 0 ? `blur(${p.blur}px)` : 'none',
                   transformStyle: "preserve-3d"
                 }}
@@ -1195,7 +1195,6 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
               letterSpacing: "-0.025em",
               transform: "translateZ(0)",
               transformStyle: "preserve-3d",
-              textShadow: "0 0 15px rgba(250,204,21,0.5), 0 0 35px rgba(250,204,21,0.2)",
               lineHeight: 0.88,
               gap: "0.08em",
               fontWeight: 900,
