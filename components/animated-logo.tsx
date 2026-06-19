@@ -941,6 +941,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const controls = useAnimation()
   const yControls = useAnimation()
   const dotControls = useAnimation()
+  const aJumpControls = useAnimation()
 
   const getRandomSpill = () => ({
     opacity: 0,
@@ -956,13 +957,33 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
     
     const runAnimation = async () => {
       if (isHovered) {
+        // Bend knees (take off squash)
+        await aJumpControls.start({
+          scaleY: [1, 0.6, 1],
+          scaleX: [1, 1.4, 1],
+          transition: { duration: 0.4, times: [0, 0.6, 1], ease: "easeInOut" }
+        })
+        
+        if (isCancelled) return
+        
         setIsActive(true)
         
         yControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
         dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
 
+        // Stretch mid-air and landing squash (parallel with layout jump)
+        aJumpControls.start({
+          scaleY: [1, 1.3, 0.6, 1],
+          scaleX: [1, 0.8, 1.4, 1],
+          transition: { duration: 1.1, times: [0, 0.36, 0.72, 1], ease: "easeInOut" }
+        })
+
         // Wait a tiny bit for the conditionally rendered grid to mount in the DOM
         await new Promise(r => setTimeout(r, 50))
+        if (isCancelled) return
+        
+        // Wait for the jump to fully land before exploding
+        await new Promise(r => setTimeout(r, 1050))
         if (isCancelled) return
         
         controls.start((i) => ({
@@ -979,9 +1000,26 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           }))
           
           if (isCancelled) return
+          
+          // Bend knees to jump back
+          await aJumpControls.start({
+            scaleY: [1, 0.6, 1],
+            scaleX: [1, 1.4, 1],
+            transition: { duration: 0.4, times: [0, 0.6, 1], ease: "easeInOut" }
+          })
+          
+          if (isCancelled) return
+
           setIsActive(false)
           yControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
           dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
+          
+          // Stretch mid-air and landing squash on return
+          await aJumpControls.start({
+            scaleY: [1, 1.3, 0.6, 1],
+            scaleX: [1, 0.8, 1.4, 1],
+            transition: { duration: 1.1, times: [0, 0.36, 0.72, 1], ease: "easeInOut" }
+          })
         }, 4000)
       } else {
         if (isCancelled) return
@@ -989,6 +1027,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         yControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
         dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
         controls.start({ opacity: 0, scale: 0.1, x: 0, y: 0, transition: { duration: 0 } })
+        aJumpControls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0.3 } })
       }
     }
     
@@ -998,7 +1037,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       isCancelled = true
       clearTimeout(timeoutId)
     }
-  }, [isHovered, controls, yControls, dotControls])
+  }, [isHovered, controls, yControls, dotControls, aJumpControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
@@ -1015,7 +1054,15 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       {/* The A and the Explosion Container */}
       <motion.div layout className="relative z-30 flex flex-col items-center justify-center">
         {!isActive ? (
-          <motion.span key="aw-A-base" layoutId="aw-A" className="inline-block">A</motion.span>
+          <motion.span 
+            key="aw-A-base" 
+            layoutId="aw-A" 
+            className="inline-block origin-bottom"
+            animate={aJumpControls}
+            transition={{ layout: { type: "tween", ease: "easeInOut", duration: 0.8 } }}
+          >
+            A
+          </motion.span>
         ) : (
           <motion.div 
             key="aw-A-grid"
@@ -1039,7 +1086,14 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
             
             {/* Bottom Line: AWARD WINNER */}
             <div className="flex items-baseline">
-              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+              <motion.span 
+                layoutId="aw-A" 
+                className="inline-block origin-bottom"
+                animate={aJumpControls}
+                transition={{ layout: { type: "tween", ease: "easeInOut", duration: 0.8 } }}
+              >
+                A
+              </motion.span>
               {"WARD WINNER".split("").map((c, i) => (
                 <motion.span 
                   key={`ward-${i}`} 
