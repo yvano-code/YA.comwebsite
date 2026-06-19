@@ -923,21 +923,9 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
 
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive] = useState(false)
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-    
-    if (isHovered) {
-      setIsActive(true)
-      timeoutId = setTimeout(() => {
-        setIsActive(false)
-      }, 4000)
-    } else {
-      setIsActive(false)
-    }
-    
-    return () => clearTimeout(timeoutId)
-  }, [isHovered])
+  const controls = useAnimation()
+  const yControls = useAnimation()
+  const dotControls = useAnimation()
 
   const getRandomSpill = () => ({
     opacity: 0,
@@ -947,13 +935,60 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
     y: (Math.random() - 0.5) * 100,
   })
 
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    let isCancelled = false
+    
+    const runAnimation = async () => {
+      if (isHovered) {
+        setIsActive(true)
+        
+        yControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+        dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+
+        if (isCancelled) return
+        controls.start((i) => ({
+          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
+          transition: { type: "spring", damping: 15, delay: Math.random() * 0.2 }
+        }))
+
+        timeoutId = setTimeout(async () => {
+          if (isCancelled) return
+          
+          await controls.start((i) => ({
+            ...getRandomSpill(),
+            transition: { duration: 0.5 }
+          }))
+          
+          if (isCancelled) return
+          setIsActive(false)
+          yControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
+          dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
+        }, 4000)
+      } else {
+        if (isCancelled) return
+        setIsActive(false)
+        yControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
+        dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
+        controls.start({ opacity: 0, scale: 0.1, x: 0, y: 0, transition: { duration: 0 } })
+      }
+    }
+    
+    runAnimation()
+    
+    return () => {
+      isCancelled = true
+      clearTimeout(timeoutId)
+    }
+  }, [isHovered, controls, yControls, dotControls])
+
   return (
     <div className="flex relative items-baseline justify-center">
       {/* The Y */}
       <motion.span 
         layout 
-        animate={{ opacity: isActive ? 0 : 1, width: isActive ? 0 : "auto" }} 
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        animate={yControls}
+        initial={{ opacity: 1, width: "auto" }}
         className="inline-block whitespace-pre overflow-visible z-20"
       >
         Y
@@ -961,70 +996,65 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       
       {/* The A and the Explosion Container */}
       <motion.div layout className="relative z-30 flex flex-col items-center justify-center">
-        <AnimatePresence>
-          {!isActive ? (
-            <motion.span key="aw-A-base" layoutId="aw-A" className="inline-block">A</motion.span>
-          ) : (
-            <motion.div 
-              key="aw-A-grid"
-              className="flex flex-col items-center justify-center leading-[0.8]"
-            >
-              {/* Top Line: CANADIAN AWARD */}
-              <div className="flex items-baseline">
-                {"CANADIAN ".split("").map((c, i) => (
-                  <motion.span 
-                    key={`can-${i}`} 
-                    initial={getRandomSpill()} 
-                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
-                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
-                    className="inline-block whitespace-pre"
-                    style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
-                  >
-                    {c}
-                  </motion.span>
-                ))}
-                <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
-                {"WARD".split("").map((c, i) => (
-                  <motion.span 
-                    key={`ward-${i}`} 
-                    initial={getRandomSpill()} 
-                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
-                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
-                    className="inline-block whitespace-pre"
-                  >
-                    {c}
-                  </motion.span>
-                ))}
-              </div>
-              
-              {/* Bottom Line: SCREEN WINNER */}
-              <div className="flex items-baseline">
-                {"SCREEN WINNER".split("").map((c, i) => (
-                  <motion.span 
-                    key={`sw-${i}`} 
-                    initial={getRandomSpill()} 
-                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
-                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
-                    className="inline-block whitespace-pre"
-                    style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
-                  >
-                    {c}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isActive ? (
+          <motion.span key="aw-A-base" layoutId="aw-A" className="inline-block">A</motion.span>
+        ) : (
+          <motion.div 
+            key="aw-A-grid"
+            className="flex flex-col items-center justify-center leading-[0.8]"
+          >
+            {/* Top Line: CANADIAN AWARD */}
+            <div className="flex items-baseline">
+              {"CANADIAN ".split("").map((c, i) => (
+                <motion.span 
+                  key={`can-${i}`} 
+                  custom={i}
+                  initial={getRandomSpill()} 
+                  animate={controls}
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+              {"WARD".split("").map((c, i) => (
+                <motion.span 
+                  key={`ward-${i}`} 
+                  custom={i + 10}
+                  initial={getRandomSpill()} 
+                  animate={controls}
+                  className="inline-block whitespace-pre"
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
+            
+            {/* Bottom Line: SCREEN WINNER */}
+            <div className="flex items-baseline">
+              {"SCREEN WINNER".split("").map((c, i) => (
+                <motion.span 
+                  key={`sw-${i}`} 
+                  custom={i + 20}
+                  initial={getRandomSpill()} 
+                  animate={controls}
+                  className="inline-block whitespace-pre"
+                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                >
+                  {c}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* The Dot */}
       <motion.span 
         layout 
-        animate={{ opacity: isActive ? 0 : 1, width: isActive ? 0 : "auto" }} 
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        animate={dotControls}
+        initial={{ opacity: 1, width: "auto" }}
         className="inline-block whitespace-pre overflow-visible z-20"
       >
         .
