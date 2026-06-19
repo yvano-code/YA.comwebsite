@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, useAnimation, AnimatePresence } from "framer-motion"
+import { motion, useAnimation, AnimatePresence, useSpring, useTransform } from "framer-motion"
 import Link from "next/link"
 
 const MickeyGlove = ({ className }: { className?: string }) => {
@@ -936,6 +936,21 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+const DUST_COUNT = 150;
+const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
+  const angle = Math.random() * Math.PI * 2;
+  const radius = Math.random() * 350 + 20;
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+  // Parallax depth! Higher Z means closer to the camera.
+  const z = (Math.random() - 0.5) * 1600;
+  const size = Math.random() * 6 + 2;
+  const delay = Math.random() * 0.4;
+  const colors = ["#fef08a", "#fde047", "#eab308", "#ca8a04", "#ffffff"];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  return { x, y, z, size, delay, color, angle };
+});
+
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive]   = useState(false)
   const [yVisible, setYVisible]   = useState(true)
@@ -946,6 +961,25 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const restTextControls   = useAnimation()   // The rest of the grid text
   const gridControls       = useAnimation()   // The whole grid wrapper
   const swooshControls     = useAnimation()   // The golden swoosh effect
+
+  // Mouse tracking for 3D parallax
+  const mouseX = useSpring(0, { stiffness: 50, damping: 20 })
+  const mouseY = useSpring(0, { stiffness: 50, damping: 20 })
+
+  useEffect(() => {
+    if (!isActive) return
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2
+      const y = (e.clientY / window.innerHeight - 0.5) * 2
+      mouseX.set(x)
+      mouseY.set(y)
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [isActive, mouseX, mouseY])
+
+  const rotateX = useTransform(mouseY, [-1, 1], [15, -15])
+  const rotateY = useTransform(mouseX, [-1, 1], [-15, 15])
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -982,11 +1016,16 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
 
         // ── 5. The rest of the letters burst out + dust swirl ───────────────────
-        swooshControls.start({
-          rotate: [0, 180],
-          scale: [0.2, 1.2],
-          opacity: [0, 1, 0],
-          transition: { duration: 1.2, ease: "easeOut" }
+        swooshControls.start(i => {
+          const p = dustParticles[i as number]
+          return {
+            opacity: [0, 1, 0.8],
+            x: [0, p.x],
+            y: [0, p.y],
+            z: [0, p.z],
+            scale: [0, 1.2, 1],
+            transition: { duration: 1.5, type: "spring", bounce: 0.4, delay: p.delay }
+          }
         })
 
         await restTextControls.start(i => ({
@@ -1000,11 +1039,16 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           if (isCancelled) return
 
           // Swirl reverse
-          swooshControls.start({
-            rotate: [180, 0],
-            scale: [1.2, 0.2],
-            opacity: [0, 1, 0],
-            transition: { duration: 0.9, ease: "easeIn" }
+          swooshControls.start(i => {
+            const p = dustParticles[i as number]
+            return {
+              opacity: 0,
+              x: 0,
+              y: 0,
+              z: 0,
+              scale: 0,
+              transition: { duration: 0.8, ease: "easeInOut", delay: p.delay * 0.5 }
+            }
           })
 
           // Rest of letters collapse
@@ -1094,74 +1138,49 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         <motion.div
           initial={{ scale: 1, opacity: 1 }}
           animate={gridControls}
-          style={{ transformOrigin: "center center" }}
+          style={{ 
+            transformOrigin: "center center", 
+            perspective: "1200px", 
+            transformStyle: "preserve-3d",
+            rotateX, 
+            rotateY 
+          }}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
-          {/* Dust Swirl Effect */}
+          {/* Dust Swirl 3D Effect */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.2 }}
-            animate={swooshControls}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-screen"
-            style={{ width: "800px", height: "800px", zIndex: -1 }}
+            className="absolute top-1/2 left-1/2 pointer-events-none mix-blend-screen"
+            style={{ width: 0, height: 0, transformStyle: "preserve-3d" }}
+            animate={{ rotateZ: 360 }}
+            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
           >
-            <svg viewBox="0 0 800 800" className="w-full h-full opacity-80" style={{ filter: "drop-shadow(0 0 8px rgba(255,215,0,0.8))" }}>
-              <defs>
-                <linearGradient id="goldSwirl" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#fff" stopOpacity="0" />
-                  <stop offset="20%" stopColor="#fde047" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="#eab308" stopOpacity="1" />
-                  <stop offset="80%" stopColor="#a16207" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#451a03" stopOpacity="0" />
-                </linearGradient>
-                <radialGradient id="goldDust" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="1"/>
-                  <stop offset="40%" stopColor="#fef08a" stopOpacity="0.9"/>
-                  <stop offset="100%" stopColor="#ca8a04" stopOpacity="0"/>
-                </radialGradient>
-              </defs>
-              {/* Elegant swirling trails */}
-              <motion.path 
-                d="M 100 400 C 100 100, 700 100, 700 400 C 700 700, 200 700, 200 400 C 200 200, 600 200, 600 400 C 600 550, 300 550, 300 400" 
-                fill="none" 
-                stroke="url(#goldSwirl)" 
-                strokeWidth="4" 
-                strokeLinecap="round" 
+            {dustParticles.map((p, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                initial={{ opacity: 0, x: 0, y: 0, z: 0, scale: 0 }}
+                animate={swooshControls}
+                className="absolute rounded-full"
+                style={{
+                  width: p.size,
+                  height: p.size,
+                  backgroundColor: p.color,
+                  marginLeft: -p.size/2,
+                  marginTop: -p.size/2,
+                  boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
+                  transformStyle: "preserve-3d"
+                }}
               />
-              <motion.path 
-                d="M 700 400 C 700 700, 100 700, 100 400 C 100 100, 600 100, 600 400 C 600 600, 250 600, 250 400 C 250 250, 500 250, 500 400" 
-                fill="none" 
-                stroke="url(#goldSwirl)" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                className="opacity-60"
-              />
-              
-              {/* Gold Dust Particles */}
-              {Array.from({ length: 60 }).map((_, i) => {
-                const angle = (i * 137.5) * (Math.PI / 180)
-                const r = 40 + i * 4.5
-                const cx = 400 + r * Math.cos(angle)
-                const cy = 400 + r * Math.sin(angle)
-                const size = Math.random() * 6 + 1
-                return (
-                  <circle 
-                    key={i} 
-                    cx={cx} 
-                    cy={cy} 
-                    r={size} 
-                    fill="url(#goldDust)" 
-                    opacity={Math.random() * 0.7 + 0.3} 
-                  />
-                )
-              })}
-            </svg>
+            ))}
           </motion.div>
 
           <div
-            className="flex flex-col items-center justify-center z-10 relative"
+            className="flex flex-col items-center justify-center relative"
             style={{
               fontSize: "clamp(32px, 7.2vw, 84px)",
               letterSpacing: "-0.025em",
+              transform: "translateZ(0)",
+              transformStyle: "preserve-3d",
               lineHeight: 0.88,
               gap: "0.08em",
               fontWeight: 900,
