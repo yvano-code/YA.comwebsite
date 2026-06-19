@@ -84,9 +84,9 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 setShowOverlay(true)
               }
             }}
-            transition={{ type: "spring", stiffness: 100, damping: 24, mass: 1.2 }}
-            className={`relative rounded-2xl md:rounded-[2.5rem] overflow-hidden group shadow-[0_16px_40px_rgba(0,0,0,0.2)] bg-white/10 backdrop-blur-3xl ${
-              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:shadow-[0_24px_64px_rgba(0,0,0,0.3)] transition-all duration-500"
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.15)] bg-white/20 backdrop-blur-2xl ${
+              isActive ? "flex-grow cursor-default" : "w-12 md:w-24 cursor-pointer hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] transition-shadow"
             }`}
           >
             {/* LIQUID GLASS ANIMATION: Starts as sharp thumbnail, blurs into glass background when active */}
@@ -94,11 +94,11 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
               src={thumbnailUrl}
               alt={project.title}
               fill
-              className={`absolute inset-0 object-cover z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'scale-150 blur-[40px] saturate-[1.8] opacity-70' : 'scale-100 blur-0 opacity-100'}`}
+              className={`absolute inset-0 object-cover z-0 pointer-events-none transition-all duration-700 ease-in-out ${isActive ? 'scale-125 blur-[30px] saturate-[1.5] opacity-80' : 'scale-100 blur-0 opacity-100'}`}
             />
             
             {/* Clean Glass Highlights & Reflections (No dirty gradients) */}
-            <div className="absolute inset-0 shadow-[inset_0_2px_12px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(255,255,255,0.3)] border border-white/40 z-0 pointer-events-none rounded-[inherit] mix-blend-overlay" />
+            <div className="absolute inset-0 shadow-[inset_0_2px_6px_rgba(255,255,255,0.6),inset_0_-1px_2px_rgba(255,255,255,0.2)] border border-white/50 z-0 pointer-events-none rounded-[inherit]" />
 
             {isActive ? (
               // Active State Content (Video inside the glass bezel)
