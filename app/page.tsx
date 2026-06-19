@@ -158,7 +158,7 @@ export default function LandingPageDemo() {
               width={2500}
               height={600}
               unoptimized={true}
-              className="w-full h-auto object-contain mix-blend-multiply opacity-90 scale-[0.98]"
+              className="w-full h-auto object-contain mix-blend-darken contrast-125 grayscale opacity-80 scale-[0.98]"
             />
           </div>
         </section>

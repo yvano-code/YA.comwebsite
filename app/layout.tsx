@@ -55,7 +55,7 @@ export default function RootLayout({
         {/* Global Glass Overlay */}
         <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />
 
-        <div className="flex min-h-screen flex-col relative z-0">
+        <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">
             {children}
