@@ -14,3 +14,4 @@ node_modules
 .next/
 .DS_Storevenv_rembg/
 .vercel
+venv/
