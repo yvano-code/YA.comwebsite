@@ -323,10 +323,10 @@ export const siteConfig = {
       href: "https://youtu.be/-xLbpc2JCGg",
       colorway: {
         id: "black",
-        baseBg: "bg-[#e4e4e7]", // zinc-200 base
-        blob1: "from-yellow-400/90 via-yellow-500/80 to-amber-500/0", // The striking yellow text
-        blob2: "from-zinc-500/90 via-slate-600/80 to-gray-800/0", // Dark contrasting slate
-        blob3: "from-white/90 via-yellow-200/80 to-zinc-300/0" // Bright white flare for glass refraction
+        baseBg: "bg-[#18181b]", // zinc-900 base
+        blob1: "from-yellow-600/20 via-zinc-800/50 to-black/0", 
+        blob2: "from-zinc-800/80 via-black/80 to-zinc-900/0", 
+        blob3: "from-amber-600/10 via-zinc-900/50 to-black/0" 
       },
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
