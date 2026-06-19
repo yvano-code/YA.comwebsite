@@ -74,11 +74,20 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
   const dust2Controls = useAnimation()
   const speedLinesControls = useAnimation()
 
+  const damageMessages = [
+    "YOU'RE A GOOD YUTE!",
+    "DON'T BE A DEGENERATE GAMBLER!",
+    "WE MISS YOU VIRGIL!"
+  ];
+  const [message, setMessage] = useState(damageMessages[0]);
+
   useEffect(() => {
     let isCancelled = false
     
     const runSequence = async () => {
       if (isHovered) {
+        setMessage(damageMessages[Math.floor(Math.random() * damageMessages.length)]);
+        
         // 1. Limbs & shadow appear
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
@@ -319,7 +328,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
           className="absolute top-[40px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
           style={{ WebkitTextStroke: '1px black' }}
         >
-          YOU'RE A GOOD YUTE!
+          {message}
         </motion.div>
 
         {/* X-axis translation container */}
