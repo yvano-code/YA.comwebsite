@@ -613,46 +613,43 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         setCountdown(null)
         
         // BLAST OFF
-        smokeControls.start({ scale: [2, 4], opacity: [1, 0], transition: { duration: 1 } })
+        // Big puff of smoke on liftoff
+        smokeControls.start({ scale: [1, 4, 6], opacity: [0, 1, 0], transition: { duration: 1.5, ease: "easeOut" } })
         
-        // Fly up and around
+        // Smooth continuous flight path using a single tween with keyframes
+        const distance = typeof window !== "undefined" ? window.innerWidth + 100 : 1500;
         await aControls.start({
-          y: -200,
-          x: 50,
-          rotate: 45,
-          scale: 0.8,
-          transition: { duration: 0.8, ease: "easeIn" }
+          y: [0, -100, -300, -150, -400],
+          x: [0, 50, 200, distance / 2, distance],
+          rotate: [0, 20, 60, 80, 90],
+          scale: [1, 0.9, 0.7, 0.5, 0.3],
+          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.2, 0.5, 0.8, 1] }
         })
         
-        // Fly around (orbit)
-        await aControls.start({
-          y: [-200, -50, 100, -200],
-          x: [50, 300, 200, -100],
-          rotate: [45, 135, 225, 315],
-          scale: [0.8, 0.6, 0.5, 0.8],
-          transition: { duration: 2, ease: "linear" }
-        })
-        
-        // Disappear right
-        await aControls.start({
-          x: typeof window !== "undefined" ? window.innerWidth : 1000,
-          y: -100,
-          rotate: 90,
-          transition: { duration: 0.5, ease: "easeIn" }
-        })
-        
-        // Stop fire
+        // Cut engines while off-screen
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
-        // Re-enter from top left to land
-        aControls.set({ x: -200, y: -200, rotate: 0 })
+        // Re-enter from top left, diving in to land
+        aControls.set({ x: -400, y: -400, rotate: -45, scale: 0.3 })
         
+        // Retrorockets fire!
+        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1, 0.8, 1], transition: { duration: 0.5, repeat: Infinity } })
+        
+        // Landing flight path
         await aControls.start({
-          x: 0,
-          y: 0,
-          scale: 1,
-          transition: { duration: 1, ease: "easeOut" }
+          y: [-400, -200, -50, 0],
+          x: [-400, -150, -20, 0],
+          rotate: [-45, -20, -5, 0],
+          scale: [0.3, 0.6, 0.9, 1],
+          transition: { duration: 1.5, ease: "easeInOut", times: [0, 0.5, 0.8, 1] }
         })
+        
+        // Landing impact smoke puff
+        smokeControls.set({ y: 0 })
+        smokeControls.start({ scale: [0, 3, 5], opacity: [0, 1, 0], transition: { duration: 1.5, ease: "easeOut" } })
+        
+        // Cut the engine on touchdown
+        fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.3 } })
         
         // Landed! Stop rumbling
         yControls.stop()
