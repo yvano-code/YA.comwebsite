@@ -104,12 +104,17 @@
 }
 
 @layer utilities {
-  .glassy-text {
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.5);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+  .text-3d {
+    text-shadow: 
+      1px 1px 0 #333,
+      2px 2px 0 #333,
+      3px 3px 0 #333,
+      4px 4px 0 #333,
+      5px 5px 0 #333,
+      6px 6px 0 #333,
+      7px 7px 0 #333,
+      8px 8px 0 #333,
+      9px 9px 0 #333,
+      10px 10px 15px rgba(0,0,0,0.4);
   }
 }
