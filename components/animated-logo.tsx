@@ -938,8 +938,10 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
 
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive] = useState(false)
+  // "yVisible" controls whether the Y is rendered at all (scale fade out like StoryTeller's A morph)
+  const [yVisible, setYVisible] = useState(true)
   const controls = useAnimation()
-  const yControls = useAnimation()
+  const yScaleControls = useAnimation()  // scale-morph the Y out, like A->T in StoryTeller
   const dotControls = useAnimation()
   const aJumpControls = useAnimation()
 
@@ -957,77 +959,99 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
     
     const runAnimation = async () => {
       if (isHovered) {
-        // Bend knees (take off squash)
-        await aJumpControls.start({
-          scaleY: [1, 0.6, 1],
-          scaleX: [1, 1.4, 1],
-          transition: { duration: 0.4, times: [0, 0.6, 1], ease: "easeInOut" }
+
+        // ── STEP 1: Y shrinks away (scale morph out) ──────────────────────────
+        dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.5, ease: "easeInOut" } })
+        await yScaleControls.start({
+          scale: 0,
+          opacity: 0,
+          transition: { duration: 0.5, ease: "backIn" }
         })
-        
         if (isCancelled) return
-        
-        setIsActive(true)
-        
-        yControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
-        dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+        setYVisible(false)
 
-        // Stretch mid-air and landing squash (parallel with layout jump)
-        aJumpControls.start({
-          scaleY: [1, 1.3, 0.6, 1],
-          scaleX: [1, 0.8, 1.4, 1],
-          transition: { duration: 1.1, times: [0, 0.36, 0.72, 1], ease: "easeInOut" }
+        // ── STEP 2: A bends its knees (squash down, load up) ─────────────────
+        await aJumpControls.start({
+          scaleY: [1, 0.55, 1],
+          scaleX: [1, 1.5, 1],
+          transition: { duration: 0.55, times: [0, 0.65, 1], ease: "easeInOut" }
         })
+        if (isCancelled) return
 
-        // Wait a tiny bit for the conditionally rendered grid to mount in the DOM
+        // ── STEP 3: Mount the grid so the target position exists ─────────────
+        setIsActive(true)
         await new Promise(r => setTimeout(r, 50))
         if (isCancelled) return
-        
-        // Wait for the jump to fully land before exploding
-        await new Promise(r => setTimeout(r, 1050))
+
+        // ── STEP 4: A leaps — stretch up in air, then squash on landing ───────
+        // (layout transition moves A to the AWARD slot in parallel)
+        await aJumpControls.start({
+          scaleY: [1, 1.45, 0.55, 1],
+          scaleX: [1, 0.75, 1.5, 1],
+          transition: { duration: 1.4, times: [0, 0.35, 0.72, 1], ease: "easeInOut" }
+        })
         if (isCancelled) return
-        
+
+        // ── STEP 5: Letters burst out of the A ───────────────────────────────
         controls.start((i) => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
-          transition: { type: "spring", damping: 15, delay: Math.random() * 0.2 }
+          transition: { type: "spring", damping: 13, stiffness: 120, delay: (i as number) * 0.025 }
         }))
 
+        // ── STEP 6: Hold 4 s, then reverse ────────────────────────────────────
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
-          
+
+          // Letters suck back into A
           await controls.start((i) => ({
             ...getRandomSpill(),
-            transition: { duration: 0.5 }
+            transition: { duration: 0.55, delay: (i as number) * 0.015 }
           }))
-          
-          if (isCancelled) return
-          
-          // Bend knees to jump back
-          await aJumpControls.start({
-            scaleY: [1, 0.6, 1],
-            scaleX: [1, 1.4, 1],
-            transition: { duration: 0.4, times: [0, 0.6, 1], ease: "easeInOut" }
-          })
-          
           if (isCancelled) return
 
-          setIsActive(false)
-          yControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
-          dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
-          
-          // Stretch mid-air and landing squash on return
+          // ── STEP 7: A bends to jump back ─────────────────────────────────
           await aJumpControls.start({
-            scaleY: [1, 1.3, 0.6, 1],
-            scaleX: [1, 0.8, 1.4, 1],
-            transition: { duration: 1.1, times: [0, 0.36, 0.72, 1], ease: "easeInOut" }
+            scaleY: [1, 0.55, 1],
+            scaleX: [1, 1.5, 1],
+            transition: { duration: 0.55, times: [0, 0.65, 1], ease: "easeInOut" }
           })
+          if (isCancelled) return
+
+          // Unmount grid → layoutId transition carries A back to center
+          setIsActive(false)
+          await new Promise(r => setTimeout(r, 50))
+          if (isCancelled) return
+
+          // ── STEP 8: A lands back in center (stretch + squash) ─────────────
+          await aJumpControls.start({
+            scaleY: [1, 1.45, 0.55, 1],
+            scaleX: [1, 0.75, 1.5, 1],
+            transition: { duration: 1.4, times: [0, 0.35, 0.72, 1], ease: "easeInOut" }
+          })
+          if (isCancelled) return
+
+          // ── STEP 9: Y scales back in ──────────────────────────────────────
+          setYVisible(true)
+          await new Promise(r => setTimeout(r, 30)) // let Y mount
+          if (isCancelled) return
+          yScaleControls.start({
+            scale: 1,
+            opacity: 1,
+            transition: { duration: 0.5, ease: "backOut" }
+          })
+          dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0.5, ease: "easeInOut" } })
+
         }, 4000)
+
       } else {
+        // Immediate reset (mouse left before animation finished)
         if (isCancelled) return
         setIsActive(false)
-        yControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
+        setYVisible(true)
+        yScaleControls.start({ scale: 1, opacity: 1, transition: { duration: 0 } })
         dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
         controls.start({ opacity: 0, scale: 0.1, x: 0, y: 0, transition: { duration: 0 } })
-        aJumpControls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0.3 } })
+        aJumpControls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0 } })
       }
     }
     
@@ -1037,19 +1061,20 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       isCancelled = true
       clearTimeout(timeoutId)
     }
-  }, [isHovered, controls, yControls, dotControls, aJumpControls])
+  }, [isHovered, controls, yScaleControls, dotControls, aJumpControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
-      {/* The Y */}
-      <motion.span 
-        layout 
-        animate={yControls}
-        initial={{ opacity: 1, width: "auto" }}
-        className="inline-block whitespace-pre overflow-visible z-20"
-      >
-        Y
-      </motion.span>
+      {/* The Y — scale-morphs out first, like StoryTeller A->T but in reverse */}
+      {yVisible && (
+        <motion.span 
+          animate={yScaleControls}
+          initial={{ scale: 1, opacity: 1 }}
+          className="inline-block whitespace-pre overflow-visible z-20 origin-center"
+        >
+          Y
+        </motion.span>
+      )}
       
       {/* The A and the Explosion Container */}
       <motion.div layout className="relative z-30 flex flex-col items-center justify-center">
