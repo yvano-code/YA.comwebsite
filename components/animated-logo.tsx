@@ -838,7 +838,7 @@ export function AnimatedLogo() {
   return (
     <Link 
       href="/" 
-      className="text-[120px] md:text-[200px] lg:text-[280px] xl:text-[320px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto"
+      className="text-6xl md:text-8xl lg:text-[100px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
