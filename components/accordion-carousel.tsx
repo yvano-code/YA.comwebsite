@@ -109,12 +109,12 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 className="absolute inset-0 w-full h-full p-2 md:p-3 flex flex-col z-10"
               >
                 {/* AMBIENT BACKLIGHT BEHIND THE VIDEO */}
-                <div className="absolute inset-0 md:inset-1 z-0 pointer-events-none">
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl md:rounded-[2rem]">
                   <Image
                     src={thumbnailUrl}
                     alt="Ambient Backlight"
                     fill
-                    className="object-cover blur-3xl saturate-200 opacity-60 rounded-[3rem] scale-100 md:scale-105 translate-y-2 will-change-transform"
+                    className="object-cover blur-3xl saturate-200 opacity-60 scale-[1.5] md:scale-[2] will-change-transform"
                   />
                 </div>
 
