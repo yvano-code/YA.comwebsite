@@ -1735,8 +1735,8 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
                 <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
               <RealShoe 
-                className="absolute drop-shadow-2xl z-20" 
-                style={{ width: "0.8em", left: "-0.4em", bottom: "-0.3em" }}
+                className="absolute drop-shadow-2xl z-20 w-[120px] md:w-[180px] h-auto -translate-x-1/2" 
+                style={{ left: "5px", top: "10px" }}
                 flipped 
               />
             </motion.div>
@@ -1750,8 +1750,8 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
                 <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
               <RealShoe 
-                className="absolute drop-shadow-2xl z-20" 
-                style={{ width: "0.8em", left: "-0.4em", bottom: "-0.3em" }}
+                className="absolute drop-shadow-2xl z-20 w-[120px] md:w-[180px] h-auto -translate-x-1/2" 
+                style={{ left: "5px", top: "10px" }}
                 flipped 
               />
             </motion.div>
