@@ -1483,7 +1483,7 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         canControls.set({ opacity: 0 })
         puffControls.set({ opacity: 0, scale: 0 })
         // Mural container positioned slightly to the right of Y's spray position
-        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)", x: walkLeftDist + 50, y: -100 })
+        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)", x: 0, y: 0 })
         yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
         xControls.set({ x: 0, opacity: 1 })
 
