@@ -60,11 +60,15 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
   const wrapperControls = useAnimation()
   const xControls = useAnimation()
   const yControls = useAnimation()
-  const limbControls = useAnimation()
-  const leftLegControls = useAnimation()
-  const rightLegControls = useAnimation()
-  const leftArmControls = useAnimation()
-  const rightArmControls = useAnimation()
+  // Skeletal limb controls
+  const leftThighControls = useAnimation()
+  const leftCalfControls = useAnimation()
+  const rightThighControls = useAnimation()
+  const rightCalfControls = useAnimation()
+  const leftUpperArmControls = useAnimation()
+  const leftForearmControls = useAnimation()
+  const rightUpperArmControls = useAnimation()
+  const rightForearmControls = useAnimation()
   
   // Video game visual FX controls
   const shadowControls = useAnimation()
@@ -184,32 +188,48 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // 6. Start running (Realistic human stride)
+        // 6. Start running (Realistic skeletal sprint)
         const runDuration = 0.4; // Full cycle duration
         
-        // Left Leg & Right Arm move together
-        leftLegControls.start({
-          rotate: [-45, 45, -45],
-          y: [0, -10, 0], // slight lift when swinging back
+        // --- SKELETAL SPRINT ANIMATION ---
+        
+        // Left Leg
+        leftThighControls.start({
+          rotate: [-40, 40, -40], // Hip swinging
           transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
-        rightArmControls.start({
-          rotate: [-45, 45, -45],
-          x: [5, -5, 5],
-          y: [0, 5, 0],
+        leftCalfControls.start({
+          rotate: [10, 80, 10], // Knee bends sharply when lifted, straightens when planted
           transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
         
-        // Right Leg & Left Arm move together (opposite phase)
-        rightLegControls.start({
-          rotate: [45, -45, 45],
-          y: [-10, 0, -10],
+        // Right Arm (Moves with Left Leg)
+        rightUpperArmControls.start({
+          rotate: [-45, 30, -45], // Shoulder swinging
           transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
-        leftArmControls.start({
-          rotate: [45, -45, 45],
-          x: [-5, 5, -5],
-          y: [5, 0, 5],
+        rightForearmControls.start({
+          rotate: [-120, -50, -120], // Elbow stays bent, pumps hard
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        
+        // Right Leg
+        rightThighControls.start({
+          rotate: [40, -40, 40], // Hip swinging (opposite)
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        rightCalfControls.start({
+          rotate: [80, 10, 80], // Knee bends sharply when lifted
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        
+        // Left Arm (Moves with Right Leg)
+        leftUpperArmControls.start({
+          rotate: [30, -45, 30], // Shoulder swinging (opposite)
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        leftForearmControls.start({
+          rotate: [-50, -120, -50], // Elbow stays bent, pumps hard
           transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
         
@@ -245,10 +265,14 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
         
         // Stop animations after it disappears off-screen
-        leftLegControls.stop()
-        rightLegControls.stop()
-        leftArmControls.stop()
-        rightArmControls.stop()
+        leftThighControls.stop()
+        leftCalfControls.stop()
+        rightThighControls.stop()
+        rightCalfControls.stop()
+        leftUpperArmControls.stop()
+        leftForearmControls.stop()
+        rightUpperArmControls.stop()
+        rightForearmControls.stop()
         yControls.stop()
         speedLinesControls.stop()
         
@@ -258,10 +282,14 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         
       } else {
         // --- Reset immediately on unhover ---
-        leftLegControls.stop()
-        rightLegControls.stop()
-        leftArmControls.stop()
-        rightArmControls.stop()
+        leftThighControls.stop()
+        leftCalfControls.stop()
+        rightThighControls.stop()
+        rightCalfControls.stop()
+        leftUpperArmControls.stop()
+        leftForearmControls.stop()
+        rightUpperArmControls.stop()
+        rightForearmControls.stop()
         yControls.stop()
         xControls.stop()
         speedLinesControls.stop()
@@ -289,10 +317,14 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         shadowControls.start({ x: 0, y: 0, scale: 1, transition: { duration: 0 } })
         
         // Instantly reset rotations so they don't unwind 360 degrees
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
-        leftArmControls.set({ rotate: -30 })
-        rightArmControls.set({ rotate: 30 })
+        leftThighControls.set({ rotate: 0 })
+        leftCalfControls.set({ rotate: 0 })
+        rightThighControls.set({ rotate: 0 })
+        rightCalfControls.set({ rotate: 0 })
+        leftUpperArmControls.set({ rotate: 0 })
+        leftForearmControls.set({ rotate: -30 })
+        rightUpperArmControls.set({ rotate: 0 })
+        rightForearmControls.set({ rotate: 30 })
       }
     }
     
@@ -301,7 +333,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
     return () => {
       isCancelled = true
     }
-  }, [isHovered, wrapperControls, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
+  }, [isHovered, wrapperControls, xControls, yControls, limbControls, leftThighControls, leftCalfControls, rightThighControls, rightCalfControls, leftUpperArmControls, leftForearmControls, rightUpperArmControls, rightForearmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
 
   return (
     <motion.div animate={wrapperControls} className="flex relative items-baseline">
@@ -365,50 +397,32 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
               className="absolute inset-0 pointer-events-none opacity-0"
               initial={{ opacity: 0 }}
             >
-              {/* Left Arm (Rubber Hose Curve) */}
-              <motion.div 
-                animate={leftArmControls}
-                initial={{ rotate: -30 }}
-                className="absolute left-[-16px] top-[40%] w-[16px] h-[10px] origin-right z-10" 
-              >
-                <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                  <path d="M 16,5 Q 8,-5 0,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyGlove className="absolute left-[-14px] top-[-7px] w-[24px] h-[24px] -rotate-90 drop-shadow-md" />
+              {/* Left Arm (Skeletal Rig) */}
+              <motion.div animate={leftUpperArmControls} className="absolute left-[-2px] top-[14px] w-[5px] h-[18px] bg-black rounded-full origin-top z-10">
+                <motion.div animate={leftForearmControls} initial={{ rotate: -30 }} className="absolute left-0 bottom-[-15px] w-[5px] h-[18px] bg-black rounded-full origin-top">
+                  <MickeyGlove className="absolute left-[2.5px] top-[14px] -translate-x-1/2 w-[24px] h-[24px] drop-shadow-md -rotate-90 origin-center" />
+                </motion.div>
               </motion.div>
               
-              {/* Right Arm (Rubber Hose Curve) */}
-              <motion.div 
-                animate={rightArmControls}
-                initial={{ rotate: 30 }}
-                className="absolute right-[-16px] top-[40%] w-[16px] h-[10px] origin-left z-10" 
-              >
-                <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                  <path d="M 0,5 Q 8,-5 16,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyGlove className="absolute right-[-14px] top-[-7px] w-[24px] h-[24px] rotate-90 drop-shadow-md" />
+              {/* Right Arm (Skeletal Rig) */}
+              <motion.div animate={rightUpperArmControls} className="absolute right-[-2px] top-[14px] w-[5px] h-[18px] bg-[#333] rounded-full origin-top z-0">
+                <motion.div animate={rightForearmControls} initial={{ rotate: 30 }} className="absolute left-0 bottom-[-15px] w-[5px] h-[18px] bg-[#333] rounded-full origin-top">
+                  <MickeyGlove className="absolute left-[2.5px] top-[14px] -translate-x-1/2 w-[24px] h-[24px] drop-shadow-md brightness-75 rotate-90 origin-center scale-x-[-1]" />
+                </motion.div>
               </motion.div>
 
-              {/* Left Leg (Rubber Hose Curve) */}
-              <motion.div 
-                animate={leftLegControls}
-                className="absolute left-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
-              >
-                <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                  <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+              {/* Left Leg (Skeletal Rig) */}
+              <motion.div animate={leftThighControls} className="absolute left-[25%] bottom-[4px] w-[6px] h-[16px] bg-black rounded-full origin-top z-10">
+                <motion.div animate={leftCalfControls} className="absolute left-0 bottom-[-13px] w-[6px] h-[16px] bg-black rounded-full origin-top">
+                  <MickeyShoe className="absolute left-[3px] top-[10px] -translate-x-1/2 w-[28px] h-[24px] drop-shadow-md origin-center" flipped={true} />
+                </motion.div>
               </motion.div>
               
-              {/* Right Leg (Rubber Hose Curve) */}
-              <motion.div 
-                animate={rightLegControls}
-                className="absolute right-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
-              >
-                <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                  <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
+              {/* Right Leg (Skeletal Rig) */}
+              <motion.div animate={rightThighControls} className="absolute right-[25%] bottom-[4px] w-[6px] h-[16px] bg-[#333] rounded-full origin-top z-0">
+                <motion.div animate={rightCalfControls} className="absolute left-0 bottom-[-13px] w-[6px] h-[16px] bg-[#333] rounded-full origin-top">
+                  <MickeyShoe className="absolute left-[3px] top-[10px] -translate-x-1/2 w-[28px] h-[24px] drop-shadow-md brightness-75 origin-center" flipped={true} />
+                </motion.div>
               </motion.div>
             </motion.div>
           </motion.span>
