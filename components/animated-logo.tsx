@@ -674,28 +674,31 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         const w = typeof window !== "undefined" ? window.innerWidth : 1500;
         const h = typeof window !== "undefined" ? window.innerHeight : 1000;
         
-        const numWaypoints = Math.floor(Math.random() * 3) + 3; // 3 to 5 loops/turns
-        const xPath = [0];
-        const yPath = [0];
-        const rotatePath = [0];
-        const scalePath = [1];
+        // Always take off vertically first
+        const xPath = [0, (Math.random() - 0.5) * 100]; // Slight horizontal drift
+        const yPath = [0, -300]; // Straight up
+        const rotatePath = [0, (Math.random() - 0.5) * 30]; // Slight tilt
+        const scalePath = [1, 0.9];
         
-        let currentRot = 0;
+        let currentRot = rotatePath[1];
+        
+        // Add 2 to 3 visible loop-de-loops or zig-zags safely on screen
+        const numWaypoints = Math.floor(Math.random() * 2) + 2;
         
         for (let i = 0; i < numWaypoints; i++) {
-          xPath.push((Math.random() - 0.5) * w * 0.8);
-          yPath.push(-Math.random() * h * 0.6 - 100);
-          currentRot += (Math.random() - 0.5) * 360;
+          xPath.push((Math.random() - 0.5) * (w * 0.5)); // Keep horizontally central
+          yPath.push(-200 - Math.random() * 400); // Keep vertically visible
+          currentRot += (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 180);
           rotatePath.push(currentRot);
-          scalePath.push(0.9 - (i * 0.15));
+          scalePath.push(0.8 - (i * 0.1));
         }
         
-        // Final exit
-        const exitSide = Math.floor(Math.random() * 3);
-        if (exitSide === 0) { xPath.push(-w); yPath.push(-Math.random() * h); currentRot -= 90; }
-        else if (exitSide === 1) { xPath.push(w); yPath.push(-Math.random() * h); currentRot += 90; }
-        else { xPath.push((Math.random() - 0.5) * w); yPath.push(-h - 400); currentRot += (Math.random() > 0.5 ? 90 : -90); }
-        rotatePath.push(currentRot);
+        // Final exit - Always blast off upwards out of bounds
+        xPath.push((Math.random() - 0.5) * w);
+        yPath.push(-h - 500); // Way off top of screen
+        // Snap rotation to point generally upwards
+        currentRot = Math.round(currentRot / 360) * 360; 
+        rotatePath.push(currentRot + (Math.random() - 0.5) * 45);
         scalePath.push(0.3);
         
         await aControls.start({
