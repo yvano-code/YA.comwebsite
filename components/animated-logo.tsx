@@ -184,25 +184,33 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // 6. Start running (Rubber hose style)
-        // High leg pumping
-        leftLegControls.start({
-          rotate: [-80, 80],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
-        })
-        rightLegControls.start({
-          rotate: [80, -80],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeInOut" }
-        })
+        // 6. Start running (Realistic human stride)
+        const runDuration = 0.4; // Full cycle duration
         
-        // Windmilling arms (Cuphead style)
-        leftArmControls.start({
-          rotate: [0, -360],
-          transition: { repeat: Infinity, duration: 0.3, ease: "linear" }
+        // Left Leg & Right Arm move together
+        leftLegControls.start({
+          rotate: [-45, 45, -45],
+          y: [0, -10, 0], // slight lift when swinging back
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
         rightArmControls.start({
-          rotate: [0, 360],
-          transition: { repeat: Infinity, duration: 0.3, ease: "linear" }
+          rotate: [-45, 45, -45],
+          x: [5, -5, 5],
+          y: [0, 5, 0],
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        
+        // Right Leg & Left Arm move together (opposite phase)
+        rightLegControls.start({
+          rotate: [45, -45, 45],
+          y: [-10, 0, -10],
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
+        })
+        leftArmControls.start({
+          rotate: [45, -45, 45],
+          x: [-5, 5, -5],
+          y: [5, 0, 5],
+          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
         })
         
         // Bouncing up and down while leaning forward
