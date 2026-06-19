@@ -32,7 +32,7 @@ export default function LandingPageDemo() {
         <section className="mt-20 md:mt-24 overflow-hidden">
           <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
             <div className="flex flex-col">
-              <h3 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-normal md:leading-snug">Selected Filmography</h3>
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tighter uppercase leading-normal md:leading-snug">Selected Filmography</h3>
             </div>
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
           </div>
@@ -45,7 +45,7 @@ export default function LandingPageDemo() {
         <section className="mt-16 md:mt-20 overflow-hidden mb-12">
           <div className="px-6 md:px-12 mb-12 md:mb-16 flex items-end justify-between">
             <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8">
-              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Filmography & Credits</h3>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase">Filmography & Credits</h3>
               <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap sm:pb-1 md:pb-2">
                 VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
               </Link>
@@ -118,7 +118,7 @@ export default function LandingPageDemo() {
         <section className="mt-8 md:mt-12 px-6 md:px-12 pb-12 border-t border-black/10 pt-16 md:pt-24">
           <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h3 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-6">AWARDS & OFFICIAL SELECTIONS</h3>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase mb-6">AWARDS & OFFICIAL SELECTIONS</h3>
               <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
                 {siteConfig.accreditations}
               </p>
