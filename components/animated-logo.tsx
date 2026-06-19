@@ -664,28 +664,28 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Thicken the billowing smoke
         smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
         
-        // 3 Perfect Curated Flight Paths
+        // 3 Perfect Curated Flight Paths (Designed to stay visibly on-screen)
         const paths = [
           {
-            // Path 1: The Double Loop
-            x: [0, -20, -150, 0, 150, 0],
-            y: [0, -300, -200, -100, -300, -800],
-            rotate: [0, -45, -180, -270, -360, -360],
-            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+            // Path 1: The Cross-Screen Arc (Flies right and dives down into the page)
+            x: [0, 200, 600, 900, 1400, 1800],
+            y: [0, -20, 300, 150, -50, -300],
+            rotate: [0, 45, 120, 45, 30, 45],
+            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
           },
           {
-            // Path 2: The Wide Arc
-            x: [0, 50, 300, 200, -100, -200],
-            y: [0, -300, -400, -200, -300, -800],
-            rotate: [0, 45, 135, 225, 315, 360],
-            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+            // Path 2: The Deep Dive (Takes off right, dives deep, swoops up)
+            x: [0, 100, 400, 700, 1200, 1600],
+            y: [0, 100, 400, 200, 100, -200],
+            rotate: [0, 90, 150, 45, 60, 45],
+            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
           },
           {
-            // Path 3: The Corkscrew
-            x: [0, -100, 100, -100, 100, 0],
-            y: [0, -200, -300, -400, -500, -800],
-            rotate: [0, -45, 45, -45, 45, 0],
-            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+            // Path 3: The Zig Zag Sweep (Sweeps across the screen)
+            x: [0, 300, 400, 800, 1100, 1500],
+            y: [0, 50, 300, 100, 200, -200],
+            rotate: [0, 60, 160, 45, 120, 45],
+            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
           }
         ];
         
