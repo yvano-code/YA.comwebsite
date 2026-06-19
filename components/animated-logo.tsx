@@ -47,16 +47,7 @@ const MickeyShoe = ({ className, flipped = false }: { className?: string, flippe
   )
 }
 
-const RealShoe = ({ className, style, flipped = false }: { className?: string, style?: React.CSSProperties, flipped?: boolean }) => {
-  return (
-    <img 
-      src="/projects/shoes-nobg.png" 
-      alt="Shoe" 
-      className={`max-w-none ${className || ''}`} 
-      style={{ transform: flipped ? 'scaleX(-1)' : 'none', objectFit: 'contain', ...style }}
-    />
-  );
-};
+
 
 const DustCloud = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 50 50" className={className} style={{ overflow: "visible" }}>
@@ -1315,8 +1306,8 @@ const KeffiyehBandana = ({ className }: { className?: string }) => (
 )
 
 // ─── Graffiti Text SVG (Mural) ────────────────────────────────────────────────
-const GraffitiText = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 1000 600" className={className} style={{ overflow: "visible" }}>
+const GraffitiText = ({ className, preserveAspectRatio }: { className?: string, preserveAspectRatio?: string }) => (
+  <svg viewBox="0 0 1000 600" className={className} preserveAspectRatio={preserveAspectRatio} style={{ overflow: "visible" }}>
     <defs>
       {/* Brick Texture Pattern */}
       <pattern id="brick" width="80" height="40" patternUnits="userSpaceOnUse">
@@ -1628,26 +1619,14 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
     // Outer wrapper is static — only the Y's div (xControls) moves left. A. never moves.
     <div className="flex relative items-baseline">
 
-      {/* Massive Mural — appears to the right of Y, takes up huge space */}
+      {/* Massive Mural — edge to edge background */}
       <motion.div
         animate={graffitiControls}
         initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-        className="absolute pointer-events-none z-0"
-        style={{
-          left: 0,
-          top: "-50px",
-          width: "min(850px, 75vw)",
-          transformOrigin: "left center",
-        }}
+        className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center"
       >
-        <div 
-          className="w-full h-auto"
-          style={{ 
-            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%)", 
-            maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%)" 
-          }}
-        >
-          <GraffitiText className="w-full h-auto drop-shadow-2xl" />
+        <div className="w-full h-full opacity-60">
+          <GraffitiText className="w-full h-full" preserveAspectRatio="xMidYMid slice" />
         </div>
       </motion.div>
 
@@ -1734,11 +1713,7 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
               <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                 <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
-              <RealShoe 
-                className="absolute drop-shadow-2xl z-20 w-[120px] md:w-[180px] h-auto -translate-x-1/2" 
-                style={{ left: "5px", top: "10px" }}
-                flipped 
-              />
+              <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped />
             </motion.div>
 
             {/* Right Leg */}
@@ -1749,11 +1724,7 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
               <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
                 <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
               </svg>
-              <RealShoe 
-                className="absolute drop-shadow-2xl z-20 w-[120px] md:w-[180px] h-auto -translate-x-1/2" 
-                style={{ left: "5px", top: "10px" }}
-                flipped 
-              />
+              <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped />
             </motion.div>
           </motion.div>
         </motion.span>
