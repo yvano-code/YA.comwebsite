@@ -838,7 +838,11 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
 function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive] = useState(false)
   const dotControls = useAnimation()
-  const textControls = useAnimation()
+  
+  const aControls = useAnimation()
+  const tControls = useAnimation()
+  const storControls = useAnimation()
+  const ellerControls = useAnimation()
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -846,21 +850,37 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
     
     if (isHovered) {
       setIsActive(true)
-      // Dot just fades out, keeping width so layout doesn't shift
-      dotControls.start({ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+      dotControls.start({ opacity: 0, transition: { duration: 0.4 } })
       
-      textControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
+      // Clean scale morph for A -> T
+      aControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, ease: "backIn" } })
+      tControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.3, ease: "backOut" } })
+      
+      // Slide out from behind the anchors
+      storControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
+      ellerControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
 
       timeoutId = setTimeout(() => {
         if (isCancelled) return
         setIsActive(false)
-        textControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
-        dotControls.start({ opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } })
+        
+        // Slide back behind the anchors
+        storControls.start({ x: "100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
+        ellerControls.start({ x: "-100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
+        
+        // Clean scale morph for T -> A
+        tControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, delay: 0.2, ease: "backIn" } })
+        aControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.5, ease: "backOut" } })
+        
+        dotControls.start({ opacity: 1, transition: { duration: 0.4, delay: 0.5 } })
       }, 4000)
     } else {
       if (isCancelled) return
       setIsActive(false)
-      textControls.start({ opacity: 0, width: 0, transition: { duration: 0 } })
+      storControls.start({ x: "100%", transition: { duration: 0 } })
+      ellerControls.start({ x: "-100%", transition: { duration: 0 } })
+      aControls.start({ scale: 1, opacity: 1, transition: { duration: 0 } })
+      tControls.start({ scale: 0, opacity: 0, transition: { duration: 0 } })
       dotControls.start({ opacity: 1, transition: { duration: 0 } })
     }
     
@@ -868,35 +888,37 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
       isCancelled = true
       clearTimeout(timeoutId)
     }
-  }, [isHovered, dotControls, textControls])
+  }, [isHovered, dotControls, aControls, tControls, storControls, ellerControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
       {/* Y and STOR */}
       <span className="relative inline-block z-30">
         <div className="absolute right-[100%] top-0 flex items-baseline overflow-hidden h-full">
-          <motion.div animate={textControls} initial={{ opacity: 0, width: 0 }} className="flex justify-end whitespace-pre">
+          {/* x: 100% hides STOR entirely behind Y due to the right-[100%] container mask */}
+          <motion.div animate={storControls} initial={{ x: "100%" }} className="flex justify-end whitespace-pre pr-[0.05em] py-1">
             STOR
           </motion.div>
         </div>
-        Y
+        <span className="relative z-10">Y</span>
       </span>
       
       {/* A / T and ELLER */}
       <span className="relative inline-block z-30">
         {/* The base A dictates the layout width so it never shifts */}
-        <motion.span animate={{ opacity: isActive ? 0 : 1 }} transition={{ duration: 0.8, ease: "easeInOut" }} className="inline-block">
+        <motion.span animate={aControls} initial={{ scale: 1, opacity: 1 }} className="inline-block relative z-10 origin-center py-1">
           A
         </motion.span>
         
-        {/* The T fades in directly over the A */}
-        <motion.span animate={{ opacity: isActive ? 1 : 0 }} transition={{ duration: 0.8, ease: "easeInOut" }} className="absolute inset-0 flex items-center justify-center">
+        {/* The T scales in directly over the A */}
+        <motion.span animate={tControls} initial={{ scale: 0, opacity: 0 }} className="absolute inset-0 flex items-center justify-center z-20 origin-center py-1">
           T
         </motion.span>
 
         {/* ELLER rolls out to the right */}
         <div className="absolute left-[100%] top-0 flex items-baseline overflow-hidden h-full">
-          <motion.div animate={textControls} initial={{ opacity: 0, width: 0 }} className="flex justify-start whitespace-pre">
+          {/* x: -100% hides ELLER entirely behind A/T due to the left-[100%] container mask */}
+          <motion.div animate={ellerControls} initial={{ x: "-100%" }} className="flex justify-start whitespace-pre pr-[0.1em] py-1">
             ELLER
           </motion.div>
         </div>
