@@ -88,10 +88,12 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         setMessage(damageMessages[Math.floor(Math.random() * damageMessages.length)]);
         
         // 1. Limbs & shadow appear
+        if (isCancelled) return
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
         
         // 2. Anticipation Squash (Sink deep into the ground/A)
+        if (isCancelled) return
         await yControls.start({ 
           scaleX: 1.6, 
           scaleY: 0.4, // Squash way down
@@ -285,6 +287,7 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
         shadowControls.start({ opacity: 0, transition: { duration: 0 } })
         speedLinesControls.start({ opacity: 0, transition: { duration: 0 } })
         
+        if (isCancelled) return
         xControls.start({
           x: 0,
           opacity: 1,
@@ -478,6 +481,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   const hoverRef = useRef(false)
 
   useEffect(() => {
+    let isCancelled = false
     hoverRef.current = isHovered
     
     const runAnimation = async () => {
@@ -485,6 +489,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
         // --- HOVER IN SEQUENCE ---
         
         // 1. Spilling out like toys
+        if (isCancelled) return
         await controls.start((i) => ({
           ...getRandomSpill(),
           opacity: 1,
@@ -492,7 +497,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
           transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
         }))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current || isCancelled) return // Abort if mouse left
 
         // 2. Spell correctly briefly
         await controls.start((i) => ({
@@ -505,12 +510,12 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
           transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
         }))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current || isCancelled) return // Abort if mouse left
         
         // Pause briefly to read it
         await new Promise(r => setTimeout(r, 1800))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current || isCancelled) return // Abort if mouse left
 
         // 3. Collapse into a jumble
         await controls.start((i) => ({
@@ -521,6 +526,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
       } else {
         // --- HOVER OUT SEQUENCE ---
         
+        if (isCancelled) return
         // Mouse removed: go back to "YA."
         controls.start((i) => {
           if (isYA(i)) {
@@ -549,6 +555,10 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
     }
 
     runAnimation()
+
+    return () => {
+      isCancelled = true
+    }
   }, [isHovered, controls])
 
   return (
@@ -635,6 +645,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
     const runAnimation = async () => {
       if (isHovered) {
         // 1. Countdown
+        if (isCancelled) return
         setCountdown(3)
         // rumble Y and Dot
         yControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
@@ -661,6 +672,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Stop rumbling Y and Dot at liftoff
         yControls.stop()
         dotControls.stop()
+        if (isCancelled) return
         yControls.start({ x: 0, y: 0 })
         dotControls.start({ x: 0, y: 0 })
 
@@ -789,6 +801,10 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
     }
     
     runAnimation()
+
+    return () => {
+      isCancelled = true
+    }
   }, [isHovered, yControls, dotControls, aControls, fireControls, smokeControls])
 
   return (
