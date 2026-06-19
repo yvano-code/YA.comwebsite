@@ -705,15 +705,15 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
               y: [20, -400, -300, -100, 100],
               x: [0, 0, 300, 800, w + 200],
               rotate: [0, 0, 45, 90, 100],
-              scale: [0.5, 1, 0.9, 0.7, 0.5],
+              scale: [1, 0.9, 0.7, 0.4, 0.1],
               transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.3, 0.5, 0.7, 1] }
             },
-            teleport: { x: -100, y: h + 200, rotate: 45, scale: 0.5 },
+            teleport: { x: -100, y: h + 200, rotate: 45, scale: 0.1 },
             landing: {
               y: [h + 200, h * 0.7, h * 0.3, 0],
               x: [-100, 150, 50, 0],
               rotate: [45, 15, -10, 0],
-              scale: [0.5, 0.7, 0.9, 1],
+              scale: [0.1, 0.4, 0.7, 1],
               transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
             }
           },
@@ -723,15 +723,15 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
               y: [20, -300, -800],
               x: [0, 0, 0],
               rotate: [0, 0, 0],
-              scale: [0.5, 1, 0.3],
+              scale: [1, 0.6, 0.1],
               transition: { duration: 1.5, ease: "easeIn", times: [0, 0.5, 1] }
             },
-            teleport: { x: w + 200, y: h + 200, rotate: -45, scale: 0.5 },
+            teleport: { x: w + 200, y: h + 200, rotate: -45, scale: 0.1 },
             landing: {
               y: [h + 200, h * 0.6, h * 0.2, 0],
               x: [w + 200, 300, -100, 0],
               rotate: [-45, -20, 10, 0],
-              scale: [0.5, 0.7, 0.9, 1],
+              scale: [0.1, 0.4, 0.7, 1],
               transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
             }
           }
@@ -796,10 +796,10 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
       <motion.span animate={yControls} className="inline-block relative z-20">Y</motion.span>
       <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
         A
-        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-20px] left-[50%] -translate-x-[50%] w-[10px] h-[20px] origin-top">
+        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-60px] left-[50%] -translate-x-[50%] w-[30px] h-[60px] origin-top">
           <RocketFire />
         </motion.div>
-        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-30px] left-[50%] -translate-x-[50%] w-[30px] h-[30px] origin-center z-[-1]">
+        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-80px] left-[50%] -translate-x-[50%] w-[80px] h-[80px] origin-center z-[-1]">
           <RocketSmoke />
         </motion.div>
       </motion.span>
