@@ -1629,7 +1629,15 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
           transformOrigin: "left center",
         }}
       >
-        <GraffitiText className="w-full h-auto drop-shadow-2xl" />
+        <div 
+          className="w-full h-auto"
+          style={{ 
+            WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%)", 
+            maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%)" 
+          }}
+        >
+          <GraffitiText className="w-full h-auto drop-shadow-2xl" />
+        </div>
       </motion.div>
 
       {/* ── Y's world: this is the only element that translates left ── */}
@@ -1652,12 +1660,11 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         >
           Y
 
-          {/* New Era Fitted Hat */}
+          {/* New Era Fitted Hat (Left branch of Y) */}
           <img 
-            src="/projects/new-era-toronto-blue-jays-black-throwback.jpg" 
+            src="/projects/hat-nobg.png" 
             alt="Toronto Blue Jays Fitted Hat"
-            className="absolute top-[10%] left-[50%] w-[160%] max-w-none h-auto -translate-x-[50%] -translate-y-[80%] z-20 drop-shadow-xl pointer-events-none rotate-[-12deg]"
-            style={{ mixBlendMode: 'darken' }}
+            className="absolute top-[5%] left-[20%] w-[100%] max-w-none h-auto -translate-x-[50%] -translate-y-[70%] z-20 drop-shadow-2xl pointer-events-none rotate-[-20deg]"
           />
 
           {/* Shadow */}
