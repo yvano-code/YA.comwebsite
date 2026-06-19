@@ -183,15 +183,12 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
             ) : (
               // Inactive State Content - FULL COLOUR, NO GREYOUT
               <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-10">
-                {/* Frosted Glass Pill for legibility instead of global greyout */}
-                <div className="bg-white/20 backdrop-blur-md border border-white/30 px-3 py-6 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:bg-white/30 transition-colors">
-                  <span 
-                    className="block whitespace-nowrap text-[10px] md:text-xs font-black tracking-[0.3em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] uppercase z-10"
-                    style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-                  >
-                    {project.title}
-                  </span>
-                </div>
+                <span 
+                  className="block whitespace-nowrap text-[10px] md:text-xs font-black tracking-[0.3em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] uppercase z-10"
+                  style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                >
+                  {project.title}
+                </span>
               </div>
             )}
           </motion.div>
