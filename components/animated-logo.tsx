@@ -714,11 +714,11 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
           {
             // Path 1: Orbit Right, Return from Bottom Left
             takeoff: {
-              y: [20, -400, -300, -100, 100],
-              x: [0, 0, 300, 800, w + 200],
-              rotate: [0, 0, 45, 90, 100],
-              scale: [1, 0.9, 0.7, 0.4, 0.1],
-              transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.3, 0.5, 0.7, 1] }
+              y: [20, -200, -600, -700, -400],
+              x: [0, 20, 200, 600, w + 200],
+              rotate: [0, 10, 45, 75, 90],
+              scale: [1, 0.8, 0.6, 0.4, 0.1],
+              transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.2, 0.5, 0.8, 1] }
             },
             teleport: { x: -100, y: h + 200, rotate: 45, scale: 0.1 },
             landing: {
