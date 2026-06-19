@@ -946,7 +946,10 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         yControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
         dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
 
+        // Wait a tiny bit for the conditionally rendered grid to mount in the DOM
+        await new Promise(r => setTimeout(r, 50))
         if (isCancelled) return
+        
         controls.start((i) => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
           transition: { type: "spring", damping: 15, delay: Math.random() * 0.2 }
