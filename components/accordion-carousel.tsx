@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import type { Project } from "@/lib/site-config"
@@ -8,6 +8,36 @@ import { getVideoEmbedUrl, getVideoThumbnailUrl } from "@/lib/utils"
 
 export function AccordionCarousel({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [showOverlay, setShowOverlay] = useState(true)
+
+  // Reset overlay when active index changes
+  useEffect(() => {
+    setShowOverlay(true)
+  }, [activeIndex])
+
+  // Timer to hide overlay after 3 seconds
+  useEffect(() => {
+    if (!showOverlay) return
+    const timer = setTimeout(() => {
+      setShowOverlay(false)
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [showOverlay, activeIndex])
+
+  // Detect iframe clicks (since iframes swallow onClick events)
+  useEffect(() => {
+    const handleBlur = () => {
+      if (document.activeElement?.tagName === 'IFRAME') {
+        setShowOverlay(true)
+        // Return focus to window so we can detect the next click
+        setTimeout(() => {
+          window.focus()
+        }, 100)
+      }
+    }
+    window.addEventListener('blur', handleBlur)
+    return () => window.removeEventListener('blur', handleBlur)
+  }, [])
 
   return (
     <div className="flex w-full h-[60vh] min-h-[500px] max-h-[800px] gap-2 md:gap-4 px-6 md:px-12 pb-12 overflow-hidden">
@@ -23,8 +53,18 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
           <motion.div
             key={project.title}
             layout
+            onMouseEnter={() => {
+              if (isActive) setShowOverlay(true)
+            }}
+            onMouseMove={() => {
+              if (isActive) setShowOverlay(true)
+            }}
             onClick={() => {
-              if (!isActive) setActiveIndex(idx)
+              if (!isActive) {
+                setActiveIndex(idx)
+              } else {
+                setShowOverlay(true)
+              }
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className={`relative rounded-2xl md:rounded-[2rem] overflow-hidden group shadow-2xl ${
@@ -64,8 +104,8 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 {/* Overlay text */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
+                  animate={{ opacity: showOverlay ? 1 : 0, y: showOverlay ? 0 : 20 }}
+                  transition={{ duration: 0.5 }}
                   className="absolute inset-x-0 bottom-0 p-6 md:p-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"
                 >
                   <h4 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-widest uppercase text-white drop-shadow-lg mb-2">
