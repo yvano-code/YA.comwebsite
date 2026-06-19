@@ -288,9 +288,9 @@ export const siteConfig = {
       colorway: {
         id: "fafiella",
         baseBg: "bg-[#fdf2f8]", // Very light pink tint
-        blob1: "from-pink-600/80 via-fuchsia-600/80 to-rose-600/0",
-        blob2: "from-fuchsia-500/80 via-pink-700/80 to-pink-600/0",
-        blob3: "from-rose-500/80 via-pink-600/80 to-fuchsia-500/0"
+        blob1: "from-pink-400/90 via-rose-400/80 to-pink-600/0",
+        blob2: "from-pink-200/90 via-pink-100/90 to-rose-200/0", // The bright glowing halo
+        blob3: "from-rose-700/80 via-pink-600/80 to-fuchsia-700/0" // The deeper shadows
       },
       credits: [
         { label: "Executive Producer", value: "POV Film" },
