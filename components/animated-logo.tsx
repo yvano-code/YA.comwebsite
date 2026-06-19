@@ -55,7 +55,7 @@ const DustCloud = ({ className }: { className?: string }) => (
   </svg>
 )
 
-function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete: () => void }) {
+function CartoonLogo({ isHovered }: { isHovered: boolean }) {
   // Cinematic animation controls
   const wrapperControls = useAnimation()
   const xControls = useAnimation()
@@ -78,7 +78,7 @@ function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
     let isCancelled = false
     
     const runSequence = async () => {
-      if (isPlaying) {
+      if (isHovered) {
         // 1. Limbs & shadow appear
         limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
         shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
@@ -248,7 +248,6 @@ function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
         xControls.start({ opacity: 0, transition: { duration: 0 } })
         shadowControls.start({ opacity: 0, transition: { duration: 0 } })
         
-        onComplete()
       } else {
         // --- Reset immediately on unhover ---
         leftLegControls.stop()
@@ -294,7 +293,7 @@ function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
     return () => {
       isCancelled = true
     }
-  }, [isPlaying, wrapperControls, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
+  }, [isHovered, wrapperControls, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
 
   return (
     <motion.div animate={wrapperControls} className="flex relative items-baseline">
@@ -410,7 +409,7 @@ function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
       {/* The "A." takes cinematic focus styling */}
       <span 
         className="z-10 inline-block relative transition-opacity duration-300"
-        style={{ opacity: isPlaying ? 0.3 : 1 }}
+        style={{ opacity: isHovered ? 0.3 : 1 }}
       >
         A.
       </span>
@@ -418,7 +417,7 @@ function CartoonLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
   )
 }
 
-function TumblerLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete: () => void }) {
+function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   const controls = useAnimation()
   
   // The full string we want to animate
@@ -455,9 +454,13 @@ function TumblerLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
     }
   }
 
+  const hoverRef = useRef(false)
+
   useEffect(() => {
+    hoverRef.current = isHovered
+    
     const runAnimation = async () => {
-      if (isPlaying) {
+      if (isHovered) {
         // --- HOVER IN SEQUENCE ---
         
         // 1. Spilling out like toys
@@ -467,6 +470,8 @@ function TumblerLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
           width: "auto",
           transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
         }))
+        
+        if (!hoverRef.current) return // Abort if mouse left
 
         // 2. Spell correctly briefly
         await controls.start((i) => ({
@@ -479,17 +484,18 @@ function TumblerLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete
           transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
         }))
         
+        if (!hoverRef.current) return // Abort if mouse left
+        
         // Pause briefly to read it
         await new Promise(r => setTimeout(r, 800))
+        
+        if (!hoverRef.current) return // Abort if mouse left
 
         // 3. Collapse into a jumble
         await controls.start((i) => ({
           ...getRandomJumble(),
           transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
         }))
-        
-        await new Promise(r => setTimeout(r, 1000))
-        onComplete()
         
       } else {
         // --- HOVER OUT SEQUENCE ---
@@ -565,7 +571,7 @@ const RocketSmoke = ({ className }: { className?: string }) => (
   </svg>
 )
 
-function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete: () => void }) {
+function RocketLogo({ isHovered }: { isHovered: boolean }) {
   const yControls = useAnimation()
   const aControls = useAnimation()
   const dotControls = useAnimation()
@@ -575,8 +581,11 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
   const hoverRef = useRef(false)
 
   useEffect(() => {
+    hoverRef.current = isHovered
+    let isCancelled = false
+    
     const runAnimation = async () => {
-      if (isPlaying) {
+      if (isHovered) {
         // 1. Countdown
         setCountdown(3)
         // rumble Y and Dot
@@ -585,8 +594,10 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
         aControls.start({ y: [0, -2, 0], transition: { repeat: Infinity, duration: 0.1 } })
         
         await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(2)
         await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(1)
         
         // Ignite engine
@@ -594,6 +605,7 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
         smokeControls.start({ opacity: [0, 1], scale: [0, 2], transition: { duration: 1 } })
         
         await new Promise(r => setTimeout(r, 1000))
+        if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(0)
         await new Promise(r => setTimeout(r, 200))
         setCountdown(null)
@@ -643,10 +655,10 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
         // Cut the engine on touchdown
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.3 } })
         
-        onComplete()
-        
       } else {
         // RESET state instantly
+        hoverRef.current = false
+        isCancelled = true
         setCountdown(null)
         yControls.stop()
         dotControls.stop()
@@ -654,16 +666,16 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
         fireControls.stop()
         smokeControls.stop()
         
-        yControls.set({ x: 0, y: 0 })
-        dotControls.set({ x: 0, y: 0 })
-        aControls.set({ x: 0, y: 0, rotate: 0, scale: 1 })
-        fireControls.set({ opacity: 0, scale: 0 })
-        smokeControls.set({ opacity: 0, scale: 0, y: 0 })
+        yControls.start({ x: 0, y: 0 })
+        dotControls.start({ x: 0, y: 0 })
+        aControls.start({ x: 0, y: 0, rotate: 0, scale: 1, transition: { type: "spring" } })
+        fireControls.start({ opacity: 0, scale: 0 })
+        smokeControls.start({ opacity: 0, scale: 0, y: 0 })
       }
     }
     
     runAnimation()
-  }, [isPlaying, yControls, dotControls, aControls, fireControls, smokeControls])
+  }, [isHovered, yControls, dotControls, aControls, fireControls, smokeControls])
 
   return (
     <div className="flex relative items-baseline">
@@ -694,19 +706,19 @@ function RocketLogo({ isPlaying, onComplete }: { isPlaying: boolean, onComplete:
 }
 
 export function AnimatedLogo() {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket">("cartoon")
 
   const handleMouseEnter = () => {
-    if (!isPlaying) {
+    if (!isHovered) {
       const types: ("cartoon" | "tumbler" | "rocket")[] = ["cartoon", "tumbler", "rocket"]
       setAnimType(types[Math.floor(Math.random() * types.length)])
-      setIsPlaying(true)
+      setIsHovered(true)
     }
   }
 
-  const handleComplete = () => {
-    setIsPlaying(false)
+  const handleMouseLeave = () => {
+    setIsHovered(false)
   }
 
   return (
@@ -714,13 +726,14 @@ export function AnimatedLogo() {
       href="/" 
       className="text-3xl font-black tracking-tighter flex items-center h-12 z-50 cursor-pointer w-fit"
       onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {animType === "cartoon" ? (
-        <CartoonLogo isPlaying={isPlaying} onComplete={handleComplete} />
+        <CartoonLogo isHovered={isHovered} />
       ) : animType === "tumbler" ? (
-        <TumblerLogo isPlaying={isPlaying} onComplete={handleComplete} />
+        <TumblerLogo isHovered={isHovered} />
       ) : (
-        <RocketLogo isPlaying={isPlaying} onComplete={handleComplete} />
+        <RocketLogo isHovered={isHovered} />
       )}
     </Link>
   )
