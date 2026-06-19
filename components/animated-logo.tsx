@@ -981,11 +981,12 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 5. The rest of the letters burst out + swoosh ───────────────────
+        // ── 5. The rest of the letters burst out + dust swirl ───────────────────
         swooshControls.start({
-          left: ["-50%", "150%"],
+          rotate: [0, 180],
+          scale: [0.2, 1.2],
           opacity: [0, 1, 0],
-          transition: { duration: 0.9, ease: "easeInOut" }
+          transition: { duration: 1.2, ease: "easeOut" }
         })
 
         await restTextControls.start(i => ({
@@ -998,11 +999,12 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
 
-          // Swoosh reverse
+          // Swirl reverse
           swooshControls.start({
-            left: ["150%", "-50%"],
+            rotate: [180, 0],
+            scale: [1.2, 0.2],
             opacity: [0, 1, 0],
-            transition: { duration: 0.7, ease: "easeInOut" }
+            transition: { duration: 0.9, ease: "easeIn" }
           })
 
           // Rest of letters collapse
@@ -1095,16 +1097,64 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           style={{ transformOrigin: "center center" }}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
-          {/* Swoosh Effect */}
+          {/* Dust Swirl Effect */}
           <motion.div
-            initial={{ left: "-50%", opacity: 0 }}
+            initial={{ opacity: 0, scale: 0.2 }}
             animate={swooshControls}
-            className="absolute top-1/2 -translate-y-1/2 h-[200%] w-[150%] pointer-events-none flex items-center justify-center -rotate-12 mix-blend-screen"
-            style={{ zIndex: -1 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-screen"
+            style={{ width: "800px", height: "800px", zIndex: -1 }}
           >
-             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-yellow-200 to-transparent blur-[1px] opacity-90" />
-             <div className="absolute w-full h-[12px] bg-gradient-to-r from-transparent via-yellow-400 to-transparent blur-md opacity-60" />
-             <div className="absolute w-full h-[40px] bg-gradient-to-r from-transparent via-yellow-600 to-transparent blur-xl opacity-30" />
+            <svg viewBox="0 0 800 800" className="w-full h-full opacity-80" style={{ filter: "drop-shadow(0 0 8px rgba(255,215,0,0.8))" }}>
+              <defs>
+                <linearGradient id="goldSwirl" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+                  <stop offset="20%" stopColor="#fde047" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#eab308" stopOpacity="1" />
+                  <stop offset="80%" stopColor="#a16207" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#451a03" stopOpacity="0" />
+                </linearGradient>
+                <radialGradient id="goldDust" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="1"/>
+                  <stop offset="40%" stopColor="#fef08a" stopOpacity="0.9"/>
+                  <stop offset="100%" stopColor="#ca8a04" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              {/* Elegant swirling trails */}
+              <motion.path 
+                d="M 100 400 C 100 100, 700 100, 700 400 C 700 700, 200 700, 200 400 C 200 200, 600 200, 600 400 C 600 550, 300 550, 300 400" 
+                fill="none" 
+                stroke="url(#goldSwirl)" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+              />
+              <motion.path 
+                d="M 700 400 C 700 700, 100 700, 100 400 C 100 100, 600 100, 600 400 C 600 600, 250 600, 250 400 C 250 250, 500 250, 500 400" 
+                fill="none" 
+                stroke="url(#goldSwirl)" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                className="opacity-60"
+              />
+              
+              {/* Gold Dust Particles */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                const angle = (i * 137.5) * (Math.PI / 180)
+                const r = 40 + i * 4.5
+                const cx = 400 + r * Math.cos(angle)
+                const cy = 400 + r * Math.sin(angle)
+                const size = Math.random() * 6 + 1
+                return (
+                  <circle 
+                    key={i} 
+                    cx={cx} 
+                    cy={cy} 
+                    r={size} 
+                    fill="url(#goldDust)" 
+                    opacity={Math.random() * 0.7 + 0.3} 
+                  />
+                )
+              })}
+            </svg>
           </motion.div>
 
           <div
