@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, useAnimation } from "framer-motion"
+import { motion, useAnimation, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 
 const MickeyGlove = ({ className }: { className?: string }) => {
@@ -961,60 +961,63 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       
       {/* The A and the Explosion Container */}
       <motion.div layout className="relative z-30 flex flex-col items-center justify-center">
-        {!isActive ? (
-          <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
-        ) : (
-          <motion.div 
-            className="flex flex-col items-center justify-center leading-[0.8]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {/* Top Line: CANADIAN AWARD */}
-            <div className="flex items-baseline">
-              {"CANADIAN ".split("").map((c, i) => (
-                <motion.span 
-                  key={`can-${i}`} 
-                  initial={getRandomSpill()} 
-                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
-                  className="inline-block whitespace-pre"
-                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
-                >
-                  {c}
-                </motion.span>
-              ))}
-              <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
-              {"WARD".split("").map((c, i) => (
-                <motion.span 
-                  key={`ward-${i}`} 
-                  initial={getRandomSpill()} 
-                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
-                  className="inline-block whitespace-pre"
-                >
-                  {c}
-                </motion.span>
-              ))}
-            </div>
-            
-            {/* Bottom Line: SCREEN WINNER */}
-            <div className="flex items-baseline">
-              {"SCREEN WINNER".split("").map((c, i) => (
-                <motion.span 
-                  key={`sw-${i}`} 
-                  initial={getRandomSpill()} 
-                  animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
-                  transition={{ type: "spring", damping: 15, delay: Math.random() * 0.2 }} 
-                  className="inline-block whitespace-pre"
-                  style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
-                >
-                  {c}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {!isActive ? (
+            <motion.span key="aw-A-base" layoutId="aw-A" className="inline-block">A</motion.span>
+          ) : (
+            <motion.div 
+              key="aw-A-grid"
+              className="flex flex-col items-center justify-center leading-[0.8]"
+            >
+              {/* Top Line: CANADIAN AWARD */}
+              <div className="flex items-baseline">
+                {"CANADIAN ".split("").map((c, i) => (
+                  <motion.span 
+                    key={`can-${i}`} 
+                    initial={getRandomSpill()} 
+                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
+                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
+                    className="inline-block whitespace-pre"
+                    style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                  >
+                    {c}
+                  </motion.span>
+                ))}
+                <motion.span layoutId="aw-A" className="inline-block">A</motion.span>
+                {"WARD".split("").map((c, i) => (
+                  <motion.span 
+                    key={`ward-${i}`} 
+                    initial={getRandomSpill()} 
+                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
+                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
+                    className="inline-block whitespace-pre"
+                  >
+                    {c}
+                  </motion.span>
+                ))}
+              </div>
+              
+              {/* Bottom Line: SCREEN WINNER */}
+              <div className="flex items-baseline">
+                {"SCREEN WINNER".split("").map((c, i) => (
+                  <motion.span 
+                    key={`sw-${i}`} 
+                    initial={getRandomSpill()} 
+                    animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }} 
+                    exit={{ ...getRandomSpill(), transition: { duration: 0.4 } }}
+                    transition={{ type: "spring", damping: 15, delay: Math.random() * 0.1 }} 
+                    className="inline-block whitespace-pre"
+                    style={{ minWidth: c === ' ' ? '0.25em' : 'auto' }}
+                  >
+                    {c}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* The Dot */}
