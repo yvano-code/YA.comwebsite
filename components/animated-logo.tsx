@@ -937,225 +937,123 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
 }
 
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
-  const [isActive, setIsActive] = useState(false)
-  const [yVisible, setYVisible] = useState(true)
-  const controls    = useAnimation()   // letter grid
+  const [isActive, setIsActive]   = useState(false)
+  const [yVisible, setYVisible]   = useState(true)
   const yControls   = useAnimation()   // Y scale-fade
+  const aControls   = useAnimation()   // A fade
   const dotControls = useAnimation()   // dot fade
-  const aControls   = useAnimation()   // A position + squash/stretch
-
-  const aRef      = useRef<HTMLSpanElement>(null)  // real A (always in DOM)
-  const slotRef   = useRef<HTMLSpanElement>(null)  // invisible A-slot inside grid
+  const textControls = useAnimation()  // letter grid
 
   const getRandomSpill = () => ({
     opacity: 0,
     scale: 0.1,
     rotate: (Math.random() - 0.5) * 360,
-    x:      (Math.random() - 0.5) * 100,
-    y:      (Math.random() - 0.5) * 100,
+    x: (Math.random() - 0.5) * 80,
+    y: (Math.random() - 0.5) * 80,
   })
-
-  // Returns pixel offset from A to its landing slot
-  const measureDelta = () => {
-    const aR    = aRef.current?.getBoundingClientRect()
-    const slotR = slotRef.current?.getBoundingClientRect()
-    if (!aR || !slotR) return { dx: 0, dy: 0 }
-    return {
-      dx: slotR.left - aR.left,
-      dy: slotR.top  - aR.top,
-    }
-  }
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
     let isCancelled = false
 
-    const bendKnees = () =>
-      aControls.start({
-        scaleY: [1, 0.48, 1],
-        scaleX: [1, 1.65, 1],
-        transition: { duration: 0.42, times: [0, 0.62, 1], ease: "easeInOut" },
-      })
-
-    const leap = (dx: number, dy: number) =>
-      aControls.start({
-        x: dx,
-        y: [0, dy - 110, dy],      // arc: shoot up, land at target
-        scaleY: [1, 1.55, 0.48, 1],
-        scaleX: [1, 0.68, 1.55, 1],
-        transition: {
-          duration: 1.1,
-          x:      { ease: [0.42, 0, 0.58, 1], duration: 1.1 },
-          y:      { ease: "easeInOut", times: [0, 0.38, 1], duration: 1.1 },
-          scaleY: { ease: "easeInOut", times: [0, 0.30, 0.70, 1], duration: 1.1 },
-          scaleX: { ease: "easeInOut", times: [0, 0.30, 0.70, 1], duration: 1.1 },
-        },
-      })
-
-    const leapBack = (fromDx: number, fromDy: number) =>
-      aControls.start({
-        x: [fromDx, fromDx, 0],
-        y: [fromDy, fromDy - 110, 0],
-        scaleY: [1, 1.55, 0.48, 1],
-        scaleX: [1, 0.68, 1.55, 1],
-        transition: {
-          duration: 1.1,
-          x:      { ease: [0.42, 0, 0.58, 1], duration: 1.1, times: [0, 0.1, 1] },
-          y:      { ease: "easeInOut", times: [0, 0.38, 1], duration: 1.1 },
-          scaleY: { ease: "easeInOut", times: [0, 0.30, 0.70, 1], duration: 1.1 },
-          scaleX: { ease: "easeInOut", times: [0, 0.30, 0.70, 1], duration: 1.1 },
-        },
-      })
-
     const runAnimation = async () => {
       if (isHovered) {
 
-        // ── 1. Y shrinks away ────────────────────────────────────────────────
-        dotControls.start({ opacity: 0, width: 0, transition: { duration: 0.45, ease: "easeInOut" } })
-        await yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: [0.55, 0, 1, 0.45] } })
+        // ── 1. Fade out Y + dot ──────────────────────────────────────────────
+        dotControls.start({ opacity: 0, transition: { duration: 0.35, ease: "easeInOut" } })
+        await yControls.start({
+          scale: 0, opacity: 0,
+          transition: { duration: 0.42, ease: "backIn" }
+        })
         if (isCancelled) return
         setYVisible(false)
 
-        // ── 2. A bends knees ─────────────────────────────────────────────────
-        await bendKnees()
+        // ── 2. Fade out A ────────────────────────────────────────────────────
+        await aControls.start({ opacity: 0, transition: { duration: 0.28, ease: "easeInOut" } })
         if (isCancelled) return
 
-        // ── 3. Mount grid so slotRef exists ──────────────────────────────────
+        // ── 3. Mount grid ────────────────────────────────────────────────────
         setIsActive(true)
-        await new Promise(r => setTimeout(r, 50))  // one paint tick
+        await new Promise(r => setTimeout(r, 40))
         if (isCancelled) return
 
-        // ── 4. Measure then leap ─────────────────────────────────────────────
-        const { dx, dy } = measureDelta()
-        await leap(dx, dy)
-        if (isCancelled) return
-
-        // ── 5. Letters burst out ─────────────────────────────────────────────
-        controls.start(i => ({
+        // ── 4. Letters burst out ─────────────────────────────────────────────
+        await textControls.start((i) => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
-          transition: { type: "spring", damping: 14, stiffness: 130, delay: (i as number) * 0.022 },
+          transition: {
+            type: "spring", damping: 12, stiffness: 130,
+            delay: (i as number) * 0.028
+          }
         }))
+        if (isCancelled) return
 
-        // ── 6. Hold, then reverse ────────────────────────────────────────────
+        // ── 5. Hold, then reverse ────────────────────────────────────────────
         timeoutId = setTimeout(async () => {
           if (isCancelled) return
 
-          // Letters suck in
-          await controls.start(i => ({
-            ...getRandomSpill(),
-            transition: { duration: 0.45, delay: (i as number) * 0.012 },
+          // Letters collapse back inward
+          await textControls.start((i) => ({
+            opacity: 0, scale: 0.05,
+            rotate: (Math.random() - 0.5) * 200,
+            x: 0, y: 0,
+            transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
           }))
           if (isCancelled) return
 
-          // A bends knees at AWARD slot
-          await bendKnees()
-          if (isCancelled) return
-
-          // Unmount grid
+          // ── 6. Unmount grid ────────────────────────────────────────────────
           setIsActive(false)
-
-          // ── 7. A leaps back ──────────────────────────────────────────────
-          await leapBack(dx, dy)
+          await new Promise(r => setTimeout(r, 40))
           if (isCancelled) return
 
-          // Hard-reset x/y so they don't drift over multiple hovers
-          aControls.set({ x: 0, y: 0 })
+          // ── 7. Fade A back in ──────────────────────────────────────────────
+          await aControls.start({ opacity: 1, transition: { duration: 0.35, ease: "easeOut" } })
+          if (isCancelled) return
 
-          // ── 8. Y reappears ───────────────────────────────────────────────
+          // ── 8. Fade Y + dot back in ────────────────────────────────────────
           setYVisible(true)
           await new Promise(r => setTimeout(r, 30))
           if (isCancelled) return
-          yControls.start({ scale: 1, opacity: 1, transition: { duration: 0.42, ease: [0, 0.55, 0.45, 1] } })
-          dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0.45, ease: "easeInOut" } })
+          yControls.start({ scale: 1, opacity: 1, transition: { duration: 0.45, ease: "backOut" } })
+          dotControls.start({ opacity: 1, transition: { duration: 0.4, ease: "easeInOut" } })
 
         }, 4000)
 
       } else {
-        // Abort / immediate reset
-        if (isCancelled) return
+        // ── Instant reset on unhover ─────────────────────────────────────────
+        clearTimeout(timeoutId)
         setIsActive(false)
         setYVisible(true)
-        aControls.stop()
-        aControls.set({ x: 0, y: 0, scaleX: 1, scaleY: 1 })
-        yControls.start({ scale: 1, opacity: 1, transition: { duration: 0 } })
-        dotControls.start({ opacity: 1, width: "auto", transition: { duration: 0 } })
-        controls.start({ opacity: 0, scale: 0.1, x: 0, y: 0, transition: { duration: 0 } })
+        aControls.set({ opacity: 1 })
+        yControls.set({ scale: 1, opacity: 1 })
+        dotControls.set({ opacity: 1 })
       }
     }
 
     runAnimation()
     return () => { isCancelled = true; clearTimeout(timeoutId) }
-  }, [isHovered, controls, yControls, dotControls, aControls])
+  }, [isHovered, yControls, aControls, dotControls, textControls])
 
   return (
     <div className="flex relative items-baseline justify-center">
-      {/* Y — scale-fades out */}
+      {/* Y */}
       {yVisible && (
         <motion.span
           animate={yControls}
           initial={{ scale: 1, opacity: 1 }}
-          className="inline-block whitespace-pre z-20 origin-center"
+          className="inline-block origin-center z-20"
         >
           Y
         </motion.span>
       )}
 
-      {/* A — single node, always in normal flex flow.
-           Moves purely via x/y transforms so layout never shifts. */}
+      {/* A — fades in/out */}
       <motion.span
-        ref={aRef}
         animate={aControls}
-        initial={{ x: 0, y: 0, scaleX: 1, scaleY: 1 }}
-        className="inline-block origin-bottom z-40 relative"
+        initial={{ opacity: 1 }}
+        className="inline-block z-20"
       >
         A
       </motion.span>
-
-      {/* Letter grid — centred both horizontally and between rows */}
-      {isActive && (
-        <div
-          className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
-          style={{
-            whiteSpace: "nowrap",
-            gap: "0.06em",
-            lineHeight: 0.88,
-            letterSpacing: "-0.025em",
-            fontSize: "clamp(32px, 7.2vw, 84px)",
-          }}
-        >
-          {/* CANADIAN SCREEN */}
-          <div className="flex items-baseline">
-            {"CANADIAN SCREEN".split("").map((c, i) => (
-              <motion.span
-                key={`cs-${i}`}
-                custom={i}
-                initial={getRandomSpill()}
-                animate={controls}
-                className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.2em" : "auto" }}
-              >
-                {c}
-              </motion.span>
-            ))}
-          </div>
-          {/* AWARD WINNER — invisible A slot anchors the jump target */}
-          <div className="flex items-baseline">
-            <span ref={slotRef} className="inline-block invisible" aria-hidden>A</span>
-            {"WARD WINNER".split("").map((c, i) => (
-              <motion.span
-                key={`ww-${i}`}
-                custom={i + 20}
-                initial={getRandomSpill()}
-                animate={controls}
-                className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.2em" : "auto" }}
-              >
-                {c}
-              </motion.span>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Dot */}
       <motion.span
@@ -1165,9 +1063,56 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       >
         .
       </motion.span>
+
+      {/* Centred text grid — fixed so it's always viewport-centred regardless of YA. position */}
+      {isActive && (
+        <div
+          className="fixed inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
+          style={{
+            fontSize: "clamp(32px, 7.2vw, 84px)",
+            letterSpacing: "-0.025em",
+            lineHeight: 0.88,
+            gap: "0.08em",
+            fontWeight: 900,
+          }}
+        >
+          {/* CANADIAN SCREEN */}
+          <div className="flex items-baseline">
+            {"CANADIAN SCREEN".split("").map((c, i) => (
+              <motion.span
+                key={`cs-${i}`}
+                custom={i}
+                initial={getRandomSpill()}
+                animate={textControls}
+                className="inline-block whitespace-pre"
+                style={{ minWidth: c === " " ? "0.22em" : "auto" }}
+              >
+                {c}
+              </motion.span>
+            ))}
+          </div>
+          {/* AWARD WINNER */}
+          <div className="flex items-baseline">
+            {"AWARD WINNER".split("").map((c, i) => (
+              <motion.span
+                key={`aw-${i}`}
+                custom={i + 20}
+                initial={getRandomSpill()}
+                animate={textControls}
+                className="inline-block whitespace-pre"
+                style={{ minWidth: c === " " ? "0.22em" : "auto" }}
+              >
+                {c}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+
 
 // ─── Spray Can SVG ────────────────────────────────────────────────────────────
 const SprayCan = ({ className }: { className?: string }) => (
