@@ -1303,82 +1303,16 @@ const KeffiyehBandana = ({ className }: { className?: string }) => (
   </svg>
 )
 
-// ─── Graffiti Text SVG ────────────────────────────────────────────────────────
+// ─── Graffiti Text SVG (Mural) ────────────────────────────────────────────────
 const GraffitiText = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 600 200" className={className} style={{ overflow: "visible" }}>
-    <g transform="rotate(-6, 280, 100)">
-      {/* --- BACKGROUND EFFECTS --- */}
-      {/* Spray paint halo */}
-      <ellipse cx="280" cy="100" rx="220" ry="80" fill="url(#haloGradient)" opacity="0.6" />
-      
-      {/* Cyan & Magenta Splatters */}
-      <circle cx="50" cy="140" r="12" fill="#06b6d4" opacity="0.8" />
-      <circle cx="80" cy="160" r="6" fill="#06b6d4" opacity="0.8" />
-      <circle cx="480" cy="40" r="15" fill="#ec4899" opacity="0.8" />
-      <circle cx="510" cy="20" r="8" fill="#ec4899" opacity="0.8" />
-      <circle cx="120" cy="30" r="10" fill="#facc15" opacity="0.8" />
-      <path d="M 40,130 Q 30,160 50,180 Q 70,160 60,130 Z" fill="#06b6d4" />
-      <path d="M 490,30 Q 520,20 540,50 Q 510,60 490,30 Z" fill="#ec4899" />
-
-      {/* Wildstyle Swooping Arrow Underneath */}
-      <path 
-        d="M 60,140 Q 200,200 480,120 L 460,100 L 540,110 L 490,160 L 470,135 Q 200,220 50,150 Z" 
-        fill="url(#arrowGradient)" 
-        stroke="#1a1a2e" 
-        strokeWidth="4" 
-        strokeLinejoin="round" 
-      />
-
-      {/* --- THE TEXT --- */}
-      {/* Black Drop Shadow */}
-      <text
-        x="24" y="124"
-        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-        fontSize="110"
-        fill="#1a1a2e"
-        stroke="#1a1a2e"
-        strokeWidth="6"
-        letterSpacing="-6"
-      >CITY SLICKER</text>
-      
-      {/* Thick White Outline */}
-      <text
-        x="16" y="116"
-        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-        fontSize="110"
-        fill="#ffffff"
-        stroke="#ffffff"
-        strokeWidth="14"
-        strokeLinejoin="round"
-        letterSpacing="-6"
-      >CITY SLICKER</text>
-
-      {/* Core Black Letters */}
-      <text
-        x="16" y="116"
-        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-        fontSize="110"
-        fill="#1a1a2e"
-        stroke="#1a1a2e"
-        strokeWidth="2"
-        strokeLinejoin="round"
-        letterSpacing="-6"
-      >CITY SLICKER</text>
-      
-      {/* White Highlights/Shine on letters */}
-      <text
-        x="12" y="112"
-        fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-        fontSize="110"
-        fill="none"
-        stroke="rgba(255,255,255,0.4)"
-        strokeWidth="2"
-        letterSpacing="-6"
-      >CITY SLICKER</text>
-
-    </g>
-
+  <svg viewBox="0 0 1000 600" className={className} style={{ overflow: "visible" }}>
     <defs>
+      {/* Brick Texture Pattern */}
+      <pattern id="brick" width="80" height="40" patternUnits="userSpaceOnUse">
+        <rect width="80" height="40" fill="none" />
+        <path d="M 0,20 L 80,20 M 40,0 L 40,20 M 0,20 L 0,40 M 80,20 L 80,40" stroke="rgba(0,0,0,0.08)" strokeWidth="2" />
+      </pattern>
+      
       <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stopColor="#facc15" stopOpacity="0.4" />
         <stop offset="100%" stopColor="#facc15" stopOpacity="0" />
@@ -1388,7 +1322,100 @@ const GraffitiText = ({ className }: { className?: string }) => (
         <stop offset="50%" stopColor="#f97316" />
         <stop offset="100%" stopColor="#ef4444" />
       </linearGradient>
+      
+      <filter id="sprayBlur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" />
+      </filter>
     </defs>
+
+    {/* Background Brick Wall Section */}
+    <rect x="0" y="0" width="1000" height="600" fill="url(#brick)" opacity="0.8" rx="20" />
+
+    <g transform="translate(100, 100)">
+      {/* --- MURAL BACKGROUND EFFECTS --- */}
+      {/* Massive Spray paint halos */}
+      <circle cx="400" cy="200" r="350" fill="#ec4899" opacity="0.15" filter="url(#sprayBlur)" />
+      <circle cx="200" cy="300" r="250" fill="#06b6d4" opacity="0.15" filter="url(#sprayBlur)" />
+      <circle cx="600" cy="150" r="280" fill="#facc15" opacity="0.15" filter="url(#sprayBlur)" />
+
+      {/* Wild abstract graffiti background shapes */}
+      <path d="M -50,100 Q 150,-50 300,100 T 700,50 T 900,200" fill="none" stroke="#06b6d4" strokeWidth="30" strokeLinecap="round" opacity="0.4" />
+      <path d="M 100,400 Q 250,550 400,350 T 800,450" fill="none" stroke="#ec4899" strokeWidth="40" strokeLinecap="round" opacity="0.4" />
+      <path d="M 800,-50 Q 700,100 850,250 T 750,500" fill="none" stroke="#facc15" strokeWidth="25" strokeLinecap="round" opacity="0.4" />
+      
+      {/* Background Drips */}
+      <path d="M 150,100 L 150,250 M 200,80 L 200,320 M 700,50 L 700,280 M 750,120 L 750,400" fill="none" stroke="#06b6d4" strokeWidth="8" strokeLinecap="round" opacity="0.4" />
+      <path d="M 300,350 L 300,550 M 450,400 L 450,600 M 600,380 L 600,580" fill="none" stroke="#ec4899" strokeWidth="12" strokeLinecap="round" opacity="0.4" />
+
+      {/* Dense Splatters */}
+      <circle cx="100" cy="150" r="20" fill="#06b6d4" opacity="0.8" />
+      <circle cx="140" cy="180" r="10" fill="#06b6d4" opacity="0.8" />
+      <circle cx="850" cy="80" r="30" fill="#ec4899" opacity="0.8" />
+      <circle cx="800" cy="40" r="15" fill="#ec4899" opacity="0.8" />
+      <circle cx="250" cy="60" r="18" fill="#facc15" opacity="0.8" />
+      <circle cx="650" cy="450" r="25" fill="#facc15" opacity="0.8" />
+      <circle cx="700" cy="480" r="12" fill="#facc15" opacity="0.8" />
+
+      {/* Main Center Text Area */}
+      <g transform="translate(100, 100) rotate(-6, 300, 100)">
+        
+        {/* Wildstyle Swooping Arrow Underneath */}
+        <path 
+          d="M 60,180 Q 250,260 580,140 L 550,110 L 650,130 L 590,190 L 560,155 Q 250,290 50,195 Z" 
+          fill="url(#arrowGradient)" 
+          stroke="#1a1a2e" 
+          strokeWidth="6" 
+          strokeLinejoin="round" 
+        />
+
+        {/* --- THE TEXT --- */}
+        {/* Black Drop Shadow */}
+        <text
+          x="44" y="144"
+          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+          fontSize="140"
+          fill="#1a1a2e"
+          stroke="#1a1a2e"
+          strokeWidth="8"
+          letterSpacing="-8"
+        >CITY SLICKER</text>
+        
+        {/* Thick White Outline */}
+        <text
+          x="32" y="132"
+          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+          fontSize="140"
+          fill="#ffffff"
+          stroke="#ffffff"
+          strokeWidth="18"
+          strokeLinejoin="round"
+          letterSpacing="-8"
+        >CITY SLICKER</text>
+
+        {/* Core Black Letters */}
+        <text
+          x="32" y="132"
+          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+          fontSize="140"
+          fill="#1a1a2e"
+          stroke="#1a1a2e"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          letterSpacing="-8"
+        >CITY SLICKER</text>
+        
+        {/* White Highlights/Shine on letters */}
+        <text
+          x="26" y="126"
+          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
+          fontSize="140"
+          fill="none"
+          stroke="rgba(255,255,255,0.4)"
+          strokeWidth="3"
+          letterSpacing="-8"
+        >CITY SLICKER</text>
+      </g>
+    </g>
   </svg>
 )
 // ─── GraffitiLogo ─────────────────────────────────────────────────────────────
@@ -1440,8 +1467,9 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
 
     const runAnimation = async () => {
       if (isHovered) {
-        const walkLeftDist = typeof window !== "undefined" ? -(window.innerWidth * 0.22) : -220
-        const walkOffDist = typeof window !== "undefined" ? walkLeftDist - window.innerWidth * 0.55 : -800
+        // Y walks left to make room for the massive mural
+        const walkLeftDist = typeof window !== "undefined" ? -(window.innerWidth * 0.15) : -150
+        const walkOffDist = typeof window !== "undefined" ? walkLeftDist - window.innerWidth * 0.6 : -800
 
         leftLegControls.stop(); rightLegControls.stop(); leftArmControls.stop(); yControls.stop()
         limbControls.set({ opacity: 0 })
@@ -1452,7 +1480,8 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         rightLegControls.set({ rotate: 0 })
         canControls.set({ opacity: 0 })
         puffControls.set({ opacity: 0, scale: 0 })
-        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)", x: walkLeftDist + 60, y: -20 })
+        // Mural container positioned slightly to the right of Y's spray position
+        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)", x: walkLeftDist + 50, y: -100 })
         yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
         xControls.set({ x: 0, opacity: 1 })
 
@@ -1488,14 +1517,14 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 4. Walk LEFT toward the wall (only Y moves) ───────────────────────
+        // ── 4. Walk LEFT toward the wall ───────────────────────
         startWalk(0.42)
         // Flip to face left
         yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
 
         await xControls.start({
           x: walkLeftDist,
-          transition: { duration: 1.6, ease: [0.4, 0, 0.6, 1] }
+          transition: { duration: 1.2, ease: [0.4, 0, 0.6, 1] }
         })
         if (isCancelled) return
 
@@ -1514,7 +1543,7 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 7. Spray! Paint puff bursts, graffiti reveals ─────────────────────
+        // ── 7. Spray! Paint puff bursts, huge mural reveals ─────────────────────
         puffControls.start({
           opacity: [0, 0.9, 0.7, 0.5, 0],
           scale: [0.2, 1.4, 1.8, 2.2, 2.8],
@@ -1523,13 +1552,13 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
           transition: { duration: 2.2, ease: "easeOut", times: [0, 0.2, 0.45, 0.7, 1] }
         })
 
-        // Graffiti wipes in from left to right as paint settles
+        // Mural wipes in from left to right as paint settles
         await new Promise(r => setTimeout(r, 400))
         if (isCancelled) return
         await graffitiControls.start({
           opacity: 1,
           clipPath: "inset(0 0% 0 0)",
-          transition: { duration: 1.6, ease: [0.2, 0, 0.4, 1] }
+          transition: { duration: 2.0, ease: [0.2, 0, 0.4, 1] }
         })
         if (isCancelled) return
 
@@ -1548,36 +1577,18 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
         })
         if (isCancelled) return
 
-        // ── 9. Walk off frame LEFT ────────────────────────────────────────────
+        // ── 9. Y leaves the frame entirely (walks off left) ───────────────────
         startWalk(0.35)
         yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
 
         await xControls.start({
           x: walkOffDist,
-          transition: { duration: 1.2, ease: "easeIn" }
+          transition: { duration: 1.5, ease: "easeIn" }
         })
         if (isCancelled) return
 
         stopWalk()
-
-        // ── 10. Text fades slowly, then hide Y until unhover ───────────────────
-        await new Promise(r => setTimeout(r, 600))
-        if (isCancelled) return
-        await graffitiControls.start({ opacity: 0, transition: { duration: 1.5, ease: "easeOut" } })
-        if (isCancelled) return
-
-        // Hide instantly off-screen until unhover resets it
-        xControls.set({ opacity: 0 })
-        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
-        limbControls.set({ opacity: 0 })
-        shadowControls.set({ opacity: 0 })
-        canControls.set({ opacity: 0 })
-        puffControls.set({ opacity: 0, scale: 0, x: 0 })
-        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)" })
-        rightArmControls.set({ rotate: 30 })
-        leftArmControls.set({ rotate: -30 })
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
+        // Y stays offscreen, mural stays permanently while hovered!
 
       } else {
         // Instant reset on unhover
@@ -1606,19 +1617,19 @@ function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
     // Outer wrapper is static — only the Y's div (xControls) moves left. A. never moves.
     <div className="flex relative items-baseline">
 
-      {/* Graffiti — appears to the RIGHT of wherever Y is standing, OUTSIDE xControls */}
+      {/* Massive Mural — appears to the right of Y, takes up huge space */}
       <motion.div
         animate={graffitiControls}
         initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
         className="absolute pointer-events-none z-0"
         style={{
           left: 0,
-          top: "-20px",
-          width: "min(400px, 42vw)",
+          top: "-50px",
+          width: "min(850px, 75vw)",
           transformOrigin: "left center",
         }}
       >
-        <GraffitiText className="w-full h-auto" />
+        <GraffitiText className="w-full h-auto drop-shadow-2xl" />
       </motion.div>
 
       {/* ── Y's world: this is the only element that translates left ── */}
