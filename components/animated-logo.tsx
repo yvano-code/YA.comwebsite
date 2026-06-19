@@ -837,86 +837,79 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
 
 function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive] = useState(false)
-  const fullText = "STORY TELLER.".split("")
-  
-  const isY = (i: number) => i === 4
-  const isA = (i: number) => i === 6
-  const isDot = (i: number) => i === 12
-  const isYA = (i: number) => isY(i) || isA(i) || isDot(i)
+  const dotControls = useAnimation()
+  const textControls = useAnimation()
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
+    let isCancelled = false
     
     if (isHovered) {
       setIsActive(true)
+      // Dot just fades out, keeping width so layout doesn't shift
+      dotControls.start({ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+      
+      textControls.start({ opacity: 1, width: "auto", transition: { duration: 0.8, ease: "easeInOut" } })
+
       timeoutId = setTimeout(() => {
+        if (isCancelled) return
         setIsActive(false)
+        textControls.start({ opacity: 0, width: 0, transition: { duration: 0.8, ease: "easeInOut" } })
+        dotControls.start({ opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } })
       }, 4000)
     } else {
+      if (isCancelled) return
       setIsActive(false)
+      textControls.start({ opacity: 0, width: 0, transition: { duration: 0 } })
+      dotControls.start({ opacity: 1, transition: { duration: 0 } })
     }
     
-    return () => clearTimeout(timeoutId)
-  }, [isHovered])
+    return () => {
+      isCancelled = true
+      clearTimeout(timeoutId)
+    }
+  }, [isHovered, dotControls, textControls])
 
   return (
-    <div className="flex relative items-baseline">
-      {fullText.map((char, i) => {
-        const isAlwaysVisible = isYA(i) && !isDot(i)
-        const isDotChar = isDot(i)
+    <div className="flex relative items-baseline justify-center">
+      {/* Y and STOR */}
+      <span className="relative inline-block z-30">
+        <div className="absolute right-[100%] top-0 flex items-baseline overflow-hidden h-full">
+          <motion.div animate={textControls} initial={{ opacity: 0, width: 0 }} className="flex justify-end whitespace-pre">
+            STOR
+          </motion.div>
+        </div>
+        Y
+      </span>
+      
+      {/* A / T and ELLER */}
+      <span className="relative inline-block z-30">
+        {/* The base A dictates the layout width so it never shifts */}
+        <motion.span animate={{ opacity: isActive ? 0 : 1 }} transition={{ duration: 0.8, ease: "easeInOut" }} className="inline-block">
+          A
+        </motion.span>
         
-        let targetOpacity = 0
-        let targetWidth: number | "auto" = 0
-        
-        if (isAlwaysVisible) {
-          targetOpacity = 1
-          targetWidth = "auto"
-        } else if (isDotChar) {
-          targetOpacity = isActive ? 0 : 1
-          targetWidth = isActive ? 0 : "auto"
-        } else {
-          targetOpacity = isActive ? 1 : 0
-          targetWidth = isActive ? "auto" : 0
-        }
+        {/* The T fades in directly over the A */}
+        <motion.span animate={{ opacity: isActive ? 1 : 0 }} transition={{ duration: 0.8, ease: "easeInOut" }} className="absolute inset-0 flex items-center justify-center">
+          T
+        </motion.span>
 
-        return (
-          <motion.span
-            key={i}
-            animate={{ opacity: targetOpacity, width: targetWidth }}
-            initial={{ 
-              opacity: isYA(i) ? 1 : 0, 
-              width: isYA(i) ? "auto" : 0 
-            }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
-            style={{ 
-              overflow: 'visible',
-              minWidth: char === ' ' && isActive ? '0.25em' : 'auto'
-            }}
-          >
-            {isA(i) ? (
-              <span className="relative inline-block text-left">
-                <motion.span 
-                  className="absolute inset-0"
-                  animate={{ opacity: isActive ? 0 : 1 }}
-                  initial={{ opacity: 1 }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
-                >
-                  A
-                </motion.span>
-                <motion.span
-                  className="relative"
-                  animate={{ opacity: isActive ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
-                >
-                  T
-                </motion.span>
-              </span>
-            ) : char}
-          </motion.span>
-        )
-      })}
+        {/* ELLER rolls out to the right */}
+        <div className="absolute left-[100%] top-0 flex items-baseline overflow-hidden h-full">
+          <motion.div animate={textControls} initial={{ opacity: 0, width: 0 }} className="flex justify-start whitespace-pre">
+            ELLER
+          </motion.div>
+        </div>
+      </span>
+
+      {/* The Dot */}
+      <motion.span 
+        animate={dotControls}
+        initial={{ opacity: 1 }}
+        className="inline-block whitespace-pre overflow-visible z-20"
+      >
+        .
+      </motion.span>
     </div>
   )
 }
