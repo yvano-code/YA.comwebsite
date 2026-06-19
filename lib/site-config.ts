@@ -231,9 +231,9 @@ export const siteConfig = {
       colorway: {
         id: "chj",
         baseBg: "bg-[#e2e8e6]",
-        blob1: "from-teal-700/80 via-cyan-800/80 to-blue-900/0",
-        blob2: "from-red-900/80 via-rose-900/80 to-orange-900/0",
-        blob3: "from-amber-900/80 via-stone-800/80 to-emerald-900/0"
+        blob1: "from-teal-400/80 via-cyan-500/80 to-blue-600/0",
+        blob2: "from-red-500/80 via-rose-500/80 to-orange-500/0",
+        blob3: "from-amber-400/80 via-yellow-500/80 to-emerald-400/0"
       },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
@@ -250,9 +250,9 @@ export const siteConfig = {
       colorway: {
         id: "bbb",
         baseBg: "bg-[#e8e3e1]",
-        blob1: "from-rose-900/80 via-red-900/80 to-stone-900/0",
-        blob2: "from-stone-800/80 via-amber-900/80 to-orange-900/0",
-        blob3: "from-red-900/80 via-rose-900/80 to-amber-900/0"
+        blob1: "from-rose-500/80 via-red-500/80 to-stone-500/0",
+        blob2: "from-stone-400/80 via-amber-500/80 to-orange-500/0",
+        blob3: "from-red-400/80 via-rose-400/80 to-amber-400/0"
       },
       credits: [
         { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
@@ -268,9 +268,9 @@ export const siteConfig = {
       colorway: {
         id: "moongazer",
         baseBg: "bg-[#dce5e4]",
-        blob1: "from-cyan-900/80 via-teal-900/80 to-slate-900/0",
-        blob2: "from-slate-800/80 via-cyan-900/80 to-blue-900/0",
-        blob3: "from-teal-800/80 via-emerald-900/80 to-cyan-900/0"
+        blob1: "from-cyan-500/80 via-teal-500/80 to-slate-500/0",
+        blob2: "from-slate-400/80 via-cyan-500/80 to-blue-400/0",
+        blob3: "from-teal-400/80 via-emerald-500/80 to-cyan-400/0"
       },
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
@@ -288,9 +288,9 @@ export const siteConfig = {
       colorway: {
         id: "fafiella",
         baseBg: "bg-[#fce7f3]", // slightly deeper pink tint
-        blob1: "from-pink-600/90 via-rose-700/80 to-fuchsia-800/0", // Dark edge top-left
-        blob2: "from-rose-800/90 via-pink-700/80 to-fuchsia-900/0", // Dark edge bottom-right
-        blob3: "from-pink-200/90 via-pink-300/90 to-rose-300/0" // Lighter center halo
+        blob1: "from-pink-400/90 via-rose-500/80 to-fuchsia-600/0", // Dark edge top-left
+        blob2: "from-rose-500/90 via-pink-400/80 to-fuchsia-500/0", // Dark edge bottom-right
+        blob3: "from-pink-100/90 via-pink-200/90 to-rose-200/0" // Lighter center halo
       },
       credits: [
         { label: "Executive Producer", value: "POV Film" },
@@ -305,9 +305,9 @@ export const siteConfig = {
       colorway: {
         id: "practically-magic",
         baseBg: "bg-[#e8e4db]",
-        blob1: "from-orange-800/80 via-amber-800/80 to-yellow-800/0",
-        blob2: "from-red-900/80 via-orange-900/80 to-amber-900/0",
-        blob3: "from-stone-700/80 via-amber-800/80 to-orange-800/0"
+        blob1: "from-orange-400/80 via-amber-400/80 to-yellow-400/0",
+        blob2: "from-red-500/80 via-orange-500/80 to-amber-400/0",
+        blob3: "from-stone-400/80 via-amber-400/80 to-orange-400/0"
       },
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
@@ -324,9 +324,9 @@ export const siteConfig = {
       colorway: {
         id: "black",
         baseBg: "bg-[#dadadd]",
-        blob1: "from-zinc-800/80 via-stone-800/80 to-gray-800/0",
-        blob2: "from-neutral-900/80 via-zinc-900/80 to-stone-900/0",
-        blob3: "from-slate-800/80 via-gray-900/80 to-neutral-800/0"
+        blob1: "from-zinc-400/80 via-stone-400/80 to-gray-400/0",
+        blob2: "from-neutral-500/80 via-zinc-400/80 to-stone-400/0",
+        blob3: "from-slate-400/80 via-gray-400/80 to-neutral-400/0"
       },
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },

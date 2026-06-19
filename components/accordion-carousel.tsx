@@ -108,7 +108,25 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="absolute inset-0 w-full h-full p-2 md:p-3 flex flex-col z-10"
               >
-                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-2xl border border-black/10 bg-black">
+                {/* AMBIENT BACKLIGHT BEHIND THE VIDEO */}
+                <div className="absolute inset-2 md:inset-3 z-0">
+                  <Image
+                    src={thumbnailUrl}
+                    alt="Ambient Backlight"
+                    fill
+                    className="object-cover blur-[40px] saturate-[2.5] opacity-80 mix-blend-screen scale-105"
+                  />
+                  <div className="absolute inset-0 blur-[60px] saturate-[3] opacity-60 mix-blend-color-dodge">
+                    <Image
+                      src={thumbnailUrl}
+                      alt="Ambient Glow"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 bg-black z-10">
                   {/* Background Video/Image */}
                   {isVideo && hasStartedPlaying ? (
                     isLocalVideo ? (
