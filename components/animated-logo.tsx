@@ -440,59 +440,60 @@ function CartoonLogo({ isHovered }: { isHovered: boolean }) {
 
 function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   const controls = useAnimation()
+  const hoverRef = useRef(false)
   
-  // The full string we want to animate
-  const fullText = "YVANO ANTONIO.".split("")
+  const variants = [
+    { text: "YVANO ANTONIO.", yIndex: 0, aIndex: 6, dotIndex: 13 },
+    { text: "STORY TELLER*AWARD*WINNER.", yIndex: 4, aIndex: 13, dotIndex: 25 }
+  ]
   
-  // Which letters correspond to "YA."? 
-  // Y = 0, A in ANTONIO = 6, . = 13
-  const isY = (i: number) => i === 0
-  const isA = (i: number) => i === 6
-  const isDot = (i: number) => i === 13
+  const [activeVariant, setActiveVariant] = useState(variants[0])
+
+  const fullText = activeVariant.text.split("")
+  
+  const isY = (i: number) => i === activeVariant.yIndex
+  const isA = (i: number) => i === activeVariant.aIndex
+  const isDot = (i: number) => i === activeVariant.dotIndex
   const isYA = (i: number) => isY(i) || isA(i) || isDot(i)
 
-  // Random positions for the "spilling out" phase
   const getRandomSpill = () => {
-    // Spill outwards from center
     const angle = Math.random() * Math.PI * 2
-    const distance = Math.random() * 60 + 20
+    const distance = Math.random() * 80 + 30
     return {
       x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance - 20, // slightly upwards
+      y: Math.sin(angle) * distance - 20,
       rotate: (Math.random() - 0.5) * 180,
       scale: Math.random() * 0.4 + 0.8,
     }
   }
 
-  // Random positions for the "jumble" phase (landed)
   const getRandomJumble = () => {
-    // Pile up loosely at the bottom
     return {
-      x: (Math.random() - 0.5) * 120, // Spread horizontally
-      y: Math.random() * 20 + 10,     // Fall down slightly
+      x: (Math.random() - 0.5) * 150,
+      y: Math.random() * 30 + 10,
       rotate: (Math.random() - 0.5) * 120,
       scale: 1,
     }
   }
 
-  const hoverRef = useRef(false)
-
   useEffect(() => {
+    if (isHovered && !hoverRef.current) {
+      setActiveVariant(variants[Math.floor(Math.random() * variants.length)])
+    }
     hoverRef.current = isHovered
     
     const runAnimation = async () => {
       if (isHovered) {
-        // --- HOVER IN SEQUENCE ---
-        
         // 1. Spilling out like toys
         await controls.start((i) => ({
           ...getRandomSpill(),
           opacity: 1,
           width: "auto",
+          fontSize: "inherit",
           transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
         }))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current) return
 
         // 2. Spell correctly briefly
         await controls.start((i) => ({
@@ -502,15 +503,16 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
           scale: 1,
           opacity: 1,
           width: "auto",
+          fontSize: "inherit",
           transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
         }))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current) return
         
         // Pause briefly to read it
         await new Promise(r => setTimeout(r, 1800))
         
-        if (!hoverRef.current) return // Abort if mouse left
+        if (!hoverRef.current) return
 
         // 3. Collapse into a jumble
         await controls.start((i) => ({
@@ -519,8 +521,6 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
         }))
         
       } else {
-        // --- HOVER OUT SEQUENCE ---
-        
         // Mouse removed: go back to "YA."
         controls.start((i) => {
           if (isYA(i)) {
@@ -531,6 +531,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
               scale: 1,
               opacity: 1,
               width: "auto",
+              fontSize: "inherit",
               transition: { type: "spring", stiffness: 300, damping: 20 }
             }
           } else {
@@ -541,6 +542,7 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
               scale: 0,
               opacity: 0,
               width: 0,
+              fontSize: 0,
               transition: { duration: 0.3 }
             }
           }
@@ -552,27 +554,31 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
   }, [isHovered, controls])
 
   return (
-    <div className="flex relative items-baseline">
-      {fullText.map((char, i) => (
-        <motion.span
-          key={i}
-          custom={i}
-          animate={controls}
-          initial={
-            isYA(i) 
-              ? { opacity: 1, scale: 1, x: 0, y: 0, rotate: 0, width: "auto" } 
-              : { opacity: 0, scale: 0, x: 0, y: 0, rotate: 0, width: 0 }
-          }
-          className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
-          style={{ 
-            overflow: 'visible',
-            // Add a slight min-width to space to ensure it renders correctly when width is auto
-            minWidth: char === ' ' && isHovered ? '0.25em' : 'auto'
-          }}
-        >
-          {char}
-        </motion.span>
-      ))}
+    <div className="relative text-center leading-[0.85]">
+      {fullText.map((char, i) => {
+        if (char === '*') {
+          return <br key={`${activeVariant.text}-br-${i}`} className={isHovered ? "block" : "hidden"} />
+        }
+        return (
+          <motion.span
+            key={`${activeVariant.text}-${i}`}
+            custom={i}
+            animate={controls}
+            initial={
+              isYA(i) 
+                ? { opacity: 1, scale: 1, x: 0, y: 0, rotate: 0, width: "auto", fontSize: "inherit" } 
+                : { opacity: 0, scale: 0, x: 0, y: 0, rotate: 0, width: 0, fontSize: 0 }
+            }
+            className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
+            style={{ 
+              overflow: 'visible',
+              minWidth: char === ' ' && isHovered ? '0.25em' : 'auto'
+            }}
+          >
+            {char}
+          </motion.span>
+        )
+      })}
     </div>
   )
 }
