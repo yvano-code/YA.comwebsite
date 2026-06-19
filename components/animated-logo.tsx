@@ -1111,11 +1111,11 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         A
       </motion.span>
 
-      {/* Letter grid — absolutely centred, doesn't disturb A's flex position */}
+      {/* Letter grid — centred both horizontally and between rows */}
       {isActive && (
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-start leading-none pointer-events-none"
-          style={{ whiteSpace: "nowrap" }}
+          className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
+          style={{ whiteSpace: "nowrap", gap: "0.04em", lineHeight: 0.88, letterSpacing: "-0.02em" }}
         >
           {/* CANADIAN SCREEN */}
           <div className="flex items-baseline">
@@ -1126,13 +1126,13 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 initial={getRandomSpill()}
                 animate={controls}
                 className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.25em" : "auto" }}
+                style={{ minWidth: c === " " ? "0.2em" : "auto" }}
               >
                 {c}
               </motion.span>
             ))}
           </div>
-          {/* AWARD WINNER — invisible A slot + WARD WINNER */}
+          {/* AWARD WINNER — invisible A slot anchors the jump target */}
           <div className="flex items-baseline">
             <span ref={slotRef} className="inline-block invisible" aria-hidden>A</span>
             {"WARD WINNER".split("").map((c, i) => (
@@ -1142,7 +1142,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 initial={getRandomSpill()}
                 animate={controls}
                 className="inline-block whitespace-pre"
-                style={{ minWidth: c === " " ? "0.25em" : "auto" }}
+                style={{ minWidth: c === " " ? "0.2em" : "auto" }}
               >
                 {c}
               </motion.span>
