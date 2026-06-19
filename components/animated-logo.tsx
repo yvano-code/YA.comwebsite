@@ -655,43 +655,39 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Thicken the billowing smoke
         smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
         
-        // Random Flight Path Generation
-        const w = typeof window !== "undefined" ? window.innerWidth : 1500;
-        const h = typeof window !== "undefined" ? window.innerHeight : 1000;
+        // 3 Perfect Curated Flight Paths
+        const paths = [
+          {
+            // Path 1: The Double Loop
+            x: [0, -20, -150, 0, 150, 0],
+            y: [0, -300, -200, -100, -300, -800],
+            rotate: [0, -45, -180, -270, -360, -360],
+            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+          },
+          {
+            // Path 2: The Wide Arc
+            x: [0, 50, 300, 200, -100, -200],
+            y: [0, -300, -400, -200, -300, -800],
+            rotate: [0, 45, 135, 225, 315, 360],
+            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+          },
+          {
+            // Path 3: The Corkscrew
+            x: [0, -100, 100, -100, 100, 0],
+            y: [0, -200, -300, -400, -500, -800],
+            rotate: [0, -45, 45, -45, 45, 0],
+            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.3],
+          }
+        ];
         
-        // Always take off vertically first
-        const xPath = [0, (Math.random() - 0.5) * 100]; // Slight horizontal drift
-        const yPath = [0, -300]; // Straight up
-        const rotatePath = [0, (Math.random() - 0.5) * 30]; // Slight tilt
-        const scalePath = [1, 0.9];
-        
-        let currentRot = rotatePath[1];
-        
-        // Add 2 to 3 visible loop-de-loops or zig-zags safely on screen
-        const numWaypoints = Math.floor(Math.random() * 2) + 2;
-        
-        for (let i = 0; i < numWaypoints; i++) {
-          xPath.push((Math.random() - 0.5) * (w * 0.5)); // Keep horizontally central
-          yPath.push(-200 - Math.random() * 400); // Keep vertically visible
-          currentRot += (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 180);
-          rotatePath.push(currentRot);
-          scalePath.push(0.8 - (i * 0.1));
-        }
-        
-        // Final exit - Always blast off upwards out of bounds
-        xPath.push((Math.random() - 0.5) * w);
-        yPath.push(-h - 500); // Way off top of screen
-        // Snap rotation to point generally upwards
-        currentRot = Math.round(currentRot / 360) * 360; 
-        rotatePath.push(currentRot + (Math.random() - 0.5) * 45);
-        scalePath.push(0.3);
+        const selectedPath = paths[Math.floor(Math.random() * paths.length)];
         
         await aControls.start({
-          y: yPath,
-          x: xPath,
-          rotate: rotatePath,
-          scale: scalePath,
-          transition: { duration: 3.5, ease: "easeInOut" }
+          y: selectedPath.y,
+          x: selectedPath.x,
+          rotate: selectedPath.rotate,
+          scale: selectedPath.scale,
+          transition: { duration: 3.5, ease: "easeInOut", times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
         })
         
         // Cut engines while off-screen
