@@ -660,28 +660,28 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Thicken the billowing smoke
         smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
         
-        // 3 Perfect Curated Flight Paths (Designed to stay visibly on-screen)
+        // 3 BRAND NEW Curated Flight Paths (Completely different moving animations)
         const paths = [
           {
-            // Path 1: The Cross-Screen Arc (Flies right and dives down into the page)
-            x: [0, 200, 600, 900, 1400, 1800],
-            y: [0, -20, 300, 150, -50, -300],
-            rotate: [0, 45, 120, 45, 30, 45],
-            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
+            // Path 1: The Drone Sweep (Hovers precisely like a drone, scanning across)
+            x: [0, 200, 200, 800, 800, 1500],
+            y: [0, 50, 150, 150, 250, 250],
+            rotate: [0, 90, 180, 90, 180, 90],
+            scale: [1, 0.9, 0.9, 0.8, 0.8, 0.5],
           },
           {
-            // Path 2: The Deep Dive (Takes off right, dives deep, swoops up)
-            x: [0, 100, 400, 700, 1200, 1600],
-            y: [0, 100, 400, 200, 100, -200],
-            rotate: [0, 90, 150, 45, 60, 45],
-            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
+            // Path 2: The Ricochet (Dives deep, bounces up, dives again)
+            x: [0, 300, 600, 900, 1200, 1600],
+            y: [0, 600, 100, 500, 200, -100],
+            rotate: [0, 160, 20, 160, 20, 90],
+            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.4],
           },
           {
-            // Path 3: The Zig Zag Sweep (Sweeps across the screen)
-            x: [0, 300, 400, 800, 1100, 1500],
-            y: [0, 50, 300, 100, 200, -200],
-            rotate: [0, 60, 160, 45, 120, 45],
-            scale: [1, 1, 0.9, 0.8, 0.7, 0.3],
+            // Path 3: The Firework Spiral (Spins rapidly while drifting down and right)
+            x: [0, 200, 150, 400, 350, 600, 550, 1200],
+            y: [0, 100, 200, 300, 400, 500, 600, 800],
+            rotate: [0, 90, 180, 270, 360, 450, 540, 630],
+            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3],
           }
         ];
         
