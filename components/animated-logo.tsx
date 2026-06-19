@@ -656,70 +656,67 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         yControls.start({ x: 0, y: 0 })
         dotControls.start({ x: 0, y: 0 })
 
-        // BLAST OFF
-        // Thicken the billowing smoke
-        smokeControls.start({ scale: [1, 3], opacity: [0, 1], transition: { duration: 0.5, ease: "easeOut" } })
-        
-        // 3 BRAND NEW Curated Flight Paths (Completely different moving animations)
-        const paths = [
-          {
-            // Path 1: The Drone Sweep (Hovers precisely like a drone, scanning across)
-            x: [0, 200, 200, 800, 800, 1500],
-            y: [0, 50, 150, 150, 250, 250],
-            rotate: [0, 90, 180, 90, 180, 90],
-            scale: [1, 0.9, 0.9, 0.8, 0.8, 0.5],
-          },
-          {
-            // Path 2: The Ricochet (Dives deep, bounces up, dives again)
-            x: [0, 300, 600, 900, 1200, 1600],
-            y: [0, 600, 100, 500, 200, -100],
-            rotate: [0, 160, 20, 160, 20, 90],
-            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.4],
-          },
-          {
-            // Path 3: The Firework Spiral (Spins rapidly while drifting down and right)
-            x: [0, 200, 150, 400, 350, 600, 550, 1200],
-            y: [0, 100, 200, 300, 400, 500, 600, 800],
-            rotate: [0, 90, 180, 270, 360, 450, 540, 630],
-            scale: [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3],
-          }
-        ];
-        
-        const selectedPath = paths[Math.floor(Math.random() * paths.length)];
+        // BLAST OFF SEQUENCE
+        // 1. Implosion! Sucks in smoke and fire, squashes down
+        smokeControls.start({ scale: [2, 0], opacity: [1, 0], transition: { duration: 0.3, ease: "easeIn" } })
+        fireControls.start({ scale: [1, 0], opacity: [1, 0], transition: { duration: 0.3, ease: "easeIn" } })
         
         await aControls.start({
-          y: selectedPath.y,
-          x: selectedPath.x,
-          rotate: selectedPath.rotate,
-          scale: selectedPath.scale,
-          transition: { duration: 3.5, ease: "easeInOut", times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
+          scaleX: 1.5,
+          scaleY: 0.5,
+          y: 20,
+          transition: { duration: 0.3 }
         })
         
-        // Cut engines while off-screen
+        if (isCancelled) return
+
+        // 2. EXPLOSION and Vertical Burst!
+        smokeControls.start({ scale: [0, 5], opacity: [0, 1, 0], transition: { duration: 1.0, ease: "easeOut" } })
+        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.8, 1.2, 1.8], transition: { duration: 0.5, repeat: Infinity } })
+        
+        const w = typeof window !== "undefined" ? window.innerWidth : 1500;
+        
+        // Take off perfectly vertically, then curve smoothly to the right
+        await aControls.start({
+          y: [20, -400, -300, -100, 100],
+          x: [0, 0, 300, 800, w + 200],
+          rotate: [0, 0, 45, 90, 100],
+          scale: [0.5, 1, 0.9, 0.7, 0.5],
+          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.3, 0.5, 0.7, 1] }
+        })
+        
+        if (isCancelled) return
+
+        // Cut engines momentarily while off-screen
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
-        // Re-enter from random location
-        const reEnterSide = Math.random() > 0.5 ? -1 : 1;
-        const startX = reEnterSide * (400 + Math.random() * 200);
-        const startY = -400 - Math.random() * 300;
-        const startRot = reEnterSide * -(45 + Math.random() * 45);
+        // 3. Wraps around the Earth!
+        // Instantly teleport to the left side of the screen
+        aControls.set({ x: -w - 200, y: 100, rotate: -100, scale: 0.5 })
         
-        aControls.set({ x: startX, y: startY, rotate: startRot, scale: 0.3 })
+        // Wait a tiny beat for suspense
+        await new Promise(r => setTimeout(r, 200))
+        if (isCancelled) return
         
         // Retrorockets fire!
-        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1, 0.8, 1], transition: { duration: 0.5, repeat: Infinity } })
+        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.5, 1, 1.5], transition: { duration: 0.5, repeat: Infinity } })
         
-        // Landing flight path
+        // 4. Smooth Landing back to the start
         await aControls.start({
-          y: [startY, startY / 2, -50, 0],
-          x: [startX, startX / 2, startX / 8, 0],
-          rotate: [startRot, startRot / 2, startRot / 8, 0],
-          scale: [0.3, 0.6, 0.9, 1],
-          transition: { duration: 1.5, ease: "easeInOut", times: [0, 0.5, 0.8, 1] }
+          y: [100, -100, -200, -50, 0],
+          x: [-w - 200, -800, -400, -100, 0],
+          rotate: [-100, -60, -30, -10, 0],
+          scale: [0.5, 0.7, 0.8, 0.9, 1],
+          transition: { duration: 2.5, ease: "easeInOut", times: [0, 0.4, 0.6, 0.8, 1] }
         })
         
+        if (isCancelled) return
+
         // Cut the engine on touchdown
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.3 } })
+        
+        // Small puff of smoke on touchdown
+        smokeControls.start({ scale: [0, 1.5], opacity: [0, 0.5, 0], y: [0, 20], transition: { duration: 0.5 } })
         
       } else {
         // RESET state instantly
