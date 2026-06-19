@@ -42,14 +42,29 @@ export function DynamicBackground() {
         <motion.div 
           key={colorway.id}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{ opacity: 0.65 }} // Dimmed overall master opacity
           exit={{ opacity: 0 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
           className="absolute inset-0"
         >
-          <div className={`absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br ${colorway.blob1} blur-[100px] animate-pulse`} style={{ animationDuration: '10s' }} />
-          <div className={`absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl ${colorway.blob2} blur-[120px] animate-pulse`} style={{ animationDuration: '12s', animationDelay: '2s' }} />
-          <div className={`absolute -bottom-[20%] left-[20%] w-[80vw] h-[80vw] rounded-full bg-gradient-to-tr ${colorway.blob3} blur-[150px] animate-pulse`} style={{ animationDuration: '15s', animationDelay: '5s' }} />
+          {/* Blob 1 - Slow sweep across top */}
+          <motion.div 
+            className={`absolute -top-[20%] -left-[10%] w-[80vw] h-[60vw] rounded-[100%] bg-gradient-to-br ${colorway.blob1} blur-[120px] opacity-80 mix-blend-multiply`} 
+            animate={{ x: ["0vw", "30vw", "0vw"], y: ["0vh", "10vh", "0vh"] }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Blob 2 - Slow sweep across bottom right */}
+          <motion.div 
+            className={`absolute -bottom-[20%] -right-[10%] w-[70vw] h-[70vw] rounded-[100%] bg-gradient-to-tl ${colorway.blob2} blur-[120px] opacity-70 mix-blend-multiply`} 
+            animate={{ x: ["0vw", "-40vw", "0vw"], y: ["0vh", "-20vh", "0vh"] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Blob 3 - Center breathing drift */}
+          <motion.div 
+            className={`absolute top-[10%] left-[10%] w-[90vw] h-[80vw] rounded-[100%] bg-gradient-to-tr ${colorway.blob3} blur-[140px] opacity-60 mix-blend-multiply`} 
+            animate={{ scale: [1, 1.15, 1], x: ["0vw", "10vw", "0vw"] }}
+            transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }}
+          />
         </motion.div>
       </AnimatePresence>
     </div>
