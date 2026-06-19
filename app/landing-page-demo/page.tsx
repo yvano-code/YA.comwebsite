@@ -5,6 +5,7 @@ import { AnimatedLogo } from "@/components/animated-logo"
 import Image from "next/image"
 import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
+import { AccordionCarousel } from "@/components/accordion-carousel"
 
 export default function LandingPageDemo() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
@@ -43,148 +44,8 @@ export default function LandingPageDemo() {
             <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
           </div>
 
-          {/* Horizontal Scroll Container */}
-          <div className="flex overflow-x-auto gap-6 md:gap-12 px-6 md:px-12 pb-8 md:pb-12 snap-x snap-mandatory hide-scrollbar">
-            {siteConfig.projects.map((project, idx) => (
-              <div key={idx} className="flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] snap-center group">
-                <div 
-                  className={`block relative aspect-[16/9] bg-black rounded-2xl md:rounded-[2rem] overflow-hidden mb-6 transition-transform duration-500 shadow-xl ${playingVideo !== idx ? 'group-hover:scale-[1.02] cursor-pointer' : ''}`}
-                  onClick={(e) => {
-                    if (project.href && playingVideo !== idx) {
-                      e.preventDefault();
-                      setPlayingVideo(idx);
-                    }
-                  }}
-                >
-                  {playingVideo === idx && project.href ? (
-                    (() => {
-                      const isYoutube = project.href.includes('youtube.com') || project.href.includes('youtu.be');
-                      const isVimeo = project.href.includes('vimeo.com');
-                      
-                      if (isYoutube) {
-                        let youtubeId = '';
-                        const match = project.href.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-                        if (match) youtubeId = match[1];
-                        return (
-                          <iframe
-                            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&controls=1`}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="absolute inset-0 w-full h-full border-0 z-30"
-                          ></iframe>
-                        );
-                      }
-
-                      if (isVimeo) {
-                        const vimeoMatch = project.href.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
-                        if (vimeoMatch) {
-                          const vimeoId = vimeoMatch[1];
-                          const vimeoHash = vimeoMatch[2];
-                          const vimeoSrc = `https://player.vimeo.com/video/${vimeoId}?autoplay=1${vimeoHash ? `&h=${vimeoHash}` : ''}`;
-                          return (
-                            <iframe
-                              src={vimeoSrc}
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                              className="absolute inset-0 w-full h-full border-0 z-30"
-                            ></iframe>
-                          );
-                        }
-                      }
-
-                      return (
-                        <video 
-                          src={project.href} 
-                          controls
-                          autoPlay 
-                          className="absolute inset-0 w-full h-full object-cover z-30"
-                        />
-                      );
-                    })()
-                  ) : project.image || project.href ? (
-                    (() => {
-                      const img = project.image || project.href;
-                      const isYoutube = img.includes('youtube.com') || img.includes('youtu.be');
-                      const isVideo = img.toLowerCase().endsWith('.mp4') || img.toLowerCase().endsWith('.mov');
-                      
-                      let resolvedSrc = img;
-                      if (isYoutube) {
-                        let youtubeId = '';
-                        const imgMatch = img.match(/img\.youtube\.com\/vi\/([^/]+)/);
-                        if (imgMatch) {
-                          youtubeId = imgMatch[1];
-                        } else {
-                          const match = img.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-                          if (match) youtubeId = match[1];
-                        }
-                        resolvedSrc = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
-                      }
-
-                      return isVideo ? (
-                        <video 
-                          src={resolvedSrc} 
-                          autoPlay 
-                          muted 
-                          loop 
-                          playsInline 
-                          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                        />
-                      ) : (
-                        <Image 
-                          src={resolvedSrc}
-                          alt={project.title}
-                          fill
-                          unoptimized={true}
-                          className="object-cover opacity-90 group-hover:opacity-100 transition-transform duration-700 group-hover:scale-105"
-                        />
-                      );
-                    })()
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/30 text-xs tracking-widest font-bold">
-                      NO MEDIA
-                    </div>
-                  )}
-
-                  {/* Play Button Overlay */}
-                  {playingVideo !== idx && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-                      {/* Gradient for text readability */}
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
-                      
-                      {/* Title Overlay */}
-                      <h4 className="text-[16px] md:text-[20px] lg:text-[26px] font-black tracking-widest uppercase text-white drop-shadow-lg text-center px-4 relative z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-500 mb-4">
-                        {project.title}
-                      </h4>
-
-                      {/* Play Button */}
-                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/10 group-hover:border-white/40 transition-all duration-500 transform group-hover:scale-110 relative z-30">
-                        <svg className="w-4 h-4 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Text Outside */}
-                <div className="px-2 mt-4">
-                  {project.subtitle && (
-                    <p className="text-[10px] md:text-[11px] leading-relaxed text-gray-500 font-medium uppercase tracking-wide mb-4">{project.subtitle}</p>
-                  )}
-                  {project.credits && project.credits.length > 0 && (
-                    <div className="flex flex-col gap-2 border-l-2 border-black/10 pl-4 mt-2">
-                      {project.credits.map((credit, i) => (
-                        <div key={i} className="text-[10px] md:text-[11px] tracking-[0.05em]">
-                          <span className="font-bold text-gray-400 uppercase mr-2">{credit.label}:</span>
-                          <span className="text-gray-800 font-medium uppercase">{credit.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Accordion Carousel Container */}
+          <AccordionCarousel projects={siteConfig.projects} />
         </section>
 
         {/* Filmography Horizontal Scroll Section */}
