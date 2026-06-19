@@ -17,7 +17,7 @@ export default function LandingPageDemo() {
          <AnimatedLogo />
          <div className="hidden md:flex items-center justify-center flex-1 mx-4 lg:mx-8">
            <h3 className="text-sm lg:text-xl xl:text-2xl font-black tracking-tighter uppercase leading-none text-center whitespace-nowrap">
-             FILM & TELEVISION <span className="mx-1 md:mx-2 text-gray-300">|</span> MUSIC VIDEO <span className="mx-1 md:mx-2 text-gray-300">|</span> COMMERCIAL <span className="mx-1 md:mx-2 text-gray-300">|</span> LIVE BROADCAST
+             FILM & TELEVISION <span className="mx-1 md:mx-2 text-black">|</span> MUSIC VIDEO <span className="mx-1 md:mx-2 text-black">|</span> COMMERCIAL <span className="mx-1 md:mx-2 text-black">|</span> LIVE BROADCAST
            </h3>
          </div>
          <div>
