@@ -248,7 +248,7 @@ export const siteConfig = {
       ]
     },
     { 
-      title: "MOONGAZER | SHORT HORROR FILM", 
+      title: "MOONGAZER | SHORT THRILLER", 
       image: "/projects/moongazer-thumbnail.jpg", 
       href: "https://youtu.be/U0j3r8ulTM4",
       credits: [
