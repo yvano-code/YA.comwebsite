@@ -230,10 +230,10 @@ export const siteConfig = {
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
       colorway: {
         id: "chj",
-        baseBg: "bg-[#e2e8e6]",
-        blob1: "from-teal-400/80 via-cyan-500/80 to-blue-600/0",
-        blob2: "from-red-500/80 via-rose-500/80 to-orange-500/0",
-        blob3: "from-amber-400/80 via-yellow-500/80 to-emerald-400/0"
+        baseBg: "bg-[#27323f]", // Deep slate-blue base
+        blob1: "from-cyan-900/90 via-sky-800/80 to-blue-900/0", // The right hue of blue
+        blob2: "from-orange-900/90 via-amber-900/80 to-yellow-900/0", // The right dark brown/orange
+        blob3: "from-purple-200/80 via-fuchsia-100/70 to-white/0" // The purply white mix
       },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
