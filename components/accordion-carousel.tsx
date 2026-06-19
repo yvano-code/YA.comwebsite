@@ -98,7 +98,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
             />
             
             {/* Clean Glass Highlights & Reflections (No dirty gradients) */}
-            <div className="absolute inset-0 shadow-[inset_0_2px_6px_rgba(255,255,255,0.6),inset_0_-1px_2px_rgba(255,255,255,0.2)] border border-white/50 z-0 pointer-events-none rounded-[inherit]" />
+            <div className="absolute inset-0 shadow-[inset_0_2px_6px_rgba(255,255,255,0.6),inset_0_-1px_2px_rgba(255,255,255,0.2)] z-0 pointer-events-none rounded-[inherit]" />
 
             {isActive ? (
               // Active State Content (Video inside the glass bezel)
@@ -118,7 +118,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                   />
                 </div>
 
-                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)] border border-white/10 bg-black z-10">
+                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)] bg-black z-10">
                   {/* Background Video/Image */}
                   {isVideo && hasStartedPlaying ? (
                     isLocalVideo ? (
