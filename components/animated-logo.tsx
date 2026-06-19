@@ -819,13 +819,99 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
+function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
+  const [isActive, setIsActive] = useState(false)
+  const fullText = "STORY TELLER.".split("")
+  
+  const isY = (i: number) => i === 4
+  const isA = (i: number) => i === 6
+  const isDot = (i: number) => i === 12
+  const isYA = (i: number) => isY(i) || isA(i) || isDot(i)
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    
+    if (isHovered) {
+      setIsActive(true)
+      timeoutId = setTimeout(() => {
+        setIsActive(false)
+      }, 4000)
+    } else {
+      setIsActive(false)
+    }
+    
+    return () => clearTimeout(timeoutId)
+  }, [isHovered])
+
+  return (
+    <div className="flex relative items-baseline">
+      {fullText.map((char, i) => {
+        const isAlwaysVisible = isYA(i) && !isDot(i)
+        const isDotChar = isDot(i)
+        
+        let targetOpacity = 0
+        let targetWidth: number | "auto" = 0
+        
+        if (isAlwaysVisible) {
+          targetOpacity = 1
+          targetWidth = "auto"
+        } else if (isDotChar) {
+          targetOpacity = isActive ? 0 : 1
+          targetWidth = isActive ? 0 : "auto"
+        } else {
+          targetOpacity = isActive ? 1 : 0
+          targetWidth = isActive ? "auto" : 0
+        }
+
+        return (
+          <motion.span
+            key={i}
+            animate={{ opacity: targetOpacity, width: targetWidth }}
+            initial={{ 
+              opacity: isYA(i) ? 1 : 0, 
+              width: isYA(i) ? "auto" : 0 
+            }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
+            style={{ 
+              overflow: 'visible',
+              minWidth: char === ' ' && isActive ? '0.25em' : 'auto'
+            }}
+          >
+            {isA(i) ? (
+              <span className="relative inline-block text-left">
+                <motion.span 
+                  className="absolute inset-0"
+                  animate={{ opacity: isActive ? 0 : 1 }}
+                  initial={{ opacity: 1 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                >
+                  A
+                </motion.span>
+                <motion.span
+                  className="relative"
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                >
+                  T
+                </motion.span>
+              </span>
+            ) : char}
+          </motion.span>
+        )
+      })}
+    </div>
+  )
+}
+
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller">("cartoon")
 
   const handleMouseEnter = () => {
     if (!isHovered) {
-      const types: ("cartoon" | "tumbler" | "rocket")[] = ["cartoon", "tumbler", "rocket"]
+      const types: ("cartoon" | "tumbler" | "rocket" | "storyteller")[] = ["cartoon", "tumbler", "rocket", "storyteller"]
       setAnimType(types[Math.floor(Math.random() * types.length)])
       setIsHovered(true)
     }
@@ -846,10 +932,11 @@ export function AnimatedLogo() {
         <CartoonLogo isHovered={isHovered} />
       ) : animType === "tumbler" ? (
         <TumblerLogo isHovered={isHovered} />
+      ) : animType === "storyteller" ? (
+        <StoryTellerLogo isHovered={isHovered} />
       ) : (
         <RocketLogo isHovered={isHovered} />
       )}
     </Link>
   )
 }
-
