@@ -230,9 +230,10 @@ export const siteConfig = {
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
       colorway: {
         id: "chj",
-        blob1: "from-cyan-300/40 via-blue-300/40 to-transparent",
-        blob2: "from-blue-400/40 via-indigo-300/40 to-transparent",
-        blob3: "from-indigo-300/40 via-cyan-200/40 to-transparent"
+        baseBg: "bg-[#e2e8e6]",
+        blob1: "from-teal-800/80 via-emerald-800/80 to-teal-900/0",
+        blob2: "from-slate-800/80 via-gray-800/80 to-zinc-800/0",
+        blob3: "from-emerald-700/80 via-teal-800/80 to-cyan-900/0"
       },
       credits: [ 
         { label: "Executive Producer", value: "HNTRS CLUB INC." },
@@ -248,9 +249,10 @@ export const siteConfig = {
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
       colorway: {
         id: "bbb",
-        blob1: "from-amber-300/40 via-yellow-300/40 to-transparent",
-        blob2: "from-orange-300/40 via-amber-400/40 to-transparent",
-        blob3: "from-yellow-300/40 via-orange-200/40 to-transparent"
+        baseBg: "bg-[#e8e3e1]",
+        blob1: "from-rose-900/80 via-red-900/80 to-stone-900/0",
+        blob2: "from-stone-800/80 via-amber-900/80 to-orange-900/0",
+        blob3: "from-red-900/80 via-rose-900/80 to-amber-900/0"
       },
       credits: [
         { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
@@ -265,9 +267,10 @@ export const siteConfig = {
       href: "https://youtu.be/U0j3r8ulTM4",
       colorway: {
         id: "moongazer",
-        blob1: "from-emerald-300/40 via-teal-300/40 to-transparent",
-        blob2: "from-teal-400/40 via-cyan-300/40 to-transparent",
-        blob3: "from-cyan-300/40 via-emerald-200/40 to-transparent"
+        baseBg: "bg-[#dce5e4]",
+        blob1: "from-cyan-900/80 via-teal-900/80 to-slate-900/0",
+        blob2: "from-slate-800/80 via-cyan-900/80 to-blue-900/0",
+        blob3: "from-teal-800/80 via-emerald-900/80 to-cyan-900/0"
       },
       credits: [
         { label: "Executive Producer", value: "OYA Media Group" },
@@ -284,9 +287,10 @@ export const siteConfig = {
       href: "https://vimeo.com/895031625/d4268c2880",
       colorway: {
         id: "fafiella",
-        blob1: "from-rose-300/40 via-pink-300/40 to-transparent",
-        blob2: "from-pink-400/40 via-red-300/40 to-transparent",
-        blob3: "from-red-300/40 via-rose-200/40 to-transparent"
+        baseBg: "bg-[#e8dfe2]",
+        blob1: "from-rose-800/80 via-pink-800/80 to-fuchsia-900/0",
+        blob2: "from-pink-900/80 via-rose-900/80 to-red-900/0",
+        blob3: "from-fuchsia-800/80 via-purple-900/80 to-pink-900/0"
       },
       credits: [
         { label: "Executive Producer", value: "POV Film" },
@@ -300,9 +304,10 @@ export const siteConfig = {
       href: "https://youtu.be/tbQP2YesXxI",
       colorway: {
         id: "practically-magic",
-        blob1: "from-violet-300/40 via-purple-300/40 to-transparent",
-        blob2: "from-purple-400/40 via-fuchsia-300/40 to-transparent",
-        blob3: "from-fuchsia-300/40 via-violet-200/40 to-transparent"
+        baseBg: "bg-[#e8e4db]",
+        blob1: "from-orange-800/80 via-amber-800/80 to-yellow-800/0",
+        blob2: "from-red-900/80 via-orange-900/80 to-amber-900/0",
+        blob3: "from-stone-700/80 via-amber-800/80 to-orange-800/0"
       },
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
@@ -318,9 +323,10 @@ export const siteConfig = {
       href: "https://youtu.be/-xLbpc2JCGg",
       colorway: {
         id: "black",
-        blob1: "from-slate-400/40 via-gray-400/40 to-transparent",
-        blob2: "from-gray-500/40 via-zinc-400/40 to-transparent",
-        blob3: "from-zinc-400/40 via-slate-300/40 to-transparent"
+        baseBg: "bg-[#dadadd]",
+        blob1: "from-zinc-800/80 via-stone-800/80 to-gray-800/0",
+        blob2: "from-neutral-900/80 via-zinc-900/80 to-stone-900/0",
+        blob3: "from-slate-800/80 via-gray-900/80 to-neutral-800/0"
       },
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },

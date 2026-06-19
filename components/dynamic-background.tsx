@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 export type Colorway = {
   id: string
+  baseBg: string
   blob1: string
   blob2: string
   blob3: string
@@ -12,9 +13,10 @@ export type Colorway = {
 
 const NEUTRAL_COLORWAY: Colorway = {
   id: "neutral",
-  blob1: "from-zinc-300/40 via-gray-200/40 to-transparent",
-  blob2: "from-gray-300/40 via-slate-200/40 to-transparent",
-  blob3: "from-slate-200/40 via-zinc-200/40 to-transparent"
+  baseBg: "bg-[#e5e5eb]", // Slightly darker off-white for drama
+  blob1: "from-zinc-400/50 via-gray-300/50 to-transparent",
+  blob2: "from-gray-400/50 via-slate-300/50 to-transparent",
+  blob3: "from-slate-300/50 via-zinc-300/50 to-transparent"
 }
 
 export function DynamicBackground() {
@@ -35,7 +37,7 @@ export function DynamicBackground() {
   }, [])
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-2] bg-[#f0f0f5]">
+    <div className={`fixed inset-0 overflow-hidden pointer-events-none z-[-2] transition-colors duration-[1500ms] ease-in-out ${colorway.baseBg}`}>
       <AnimatePresence mode="popLayout">
         <motion.div 
           key={colorway.id}
