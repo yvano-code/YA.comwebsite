@@ -57,393 +57,90 @@ const DustCloud = ({ className }: { className?: string }) => (
   </svg>
 )
 
-function CartoonLogo({ isHovered }: { isHovered: boolean }) {
-  // Cinematic animation controls
-  const wrapperControls = useAnimation()
-  const xControls = useAnimation()
-  const yControls = useAnimation()
-  const limbControls = useAnimation()
-  const leftLegControls = useAnimation()
-  const rightLegControls = useAnimation()
-  const leftArmControls = useAnimation()
-  const rightArmControls = useAnimation()
-  
-  // Video game visual FX controls
-  const shadowControls = useAnimation()
-  const popControls = useAnimation()
-  const damageControls = useAnimation()
-  const dust1Controls = useAnimation()
-  const dust2Controls = useAnimation()
-  const speedLinesControls = useAnimation()
-
-  const damageMessages = [
-    "YOU'RE A GOOD YUTE!",
-    "DON'T BE A DEGENERATE GAMBLER!"
-  ];
-  const [message, setMessage] = useState(damageMessages[0]);
+function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
+  const topTextControls = useAnimation()
+  const bottomTextControls = useAnimation()
+  const dotControls = useAnimation()
 
   useEffect(() => {
     let isCancelled = false
-    
+
     const runSequence = async () => {
       if (isHovered) {
-        setMessage(damageMessages[Math.floor(Math.random() * damageMessages.length)]);
+        // 1. Expand "OU'RE "
+        topTextControls.start({ width: "auto", opacity: 1, transition: { duration: 0.4, ease: "easeOut" } })
         
-        // 1. Limbs & shadow appear
-        if (isCancelled) return
-        limbControls.start({ opacity: 1, transition: { duration: 0.1 } })
-        shadowControls.start({ opacity: 0.3, transition: { duration: 0.1 } })
-        
-        // 2. Anticipation Squash (Sink deep into the ground/A)
-        if (isCancelled) return
-        await yControls.start({ 
-          scaleX: 1.6, 
-          scaleY: 0.4, // Squash way down
-          y: 20, // Sink deep into the floor
-          transition: { duration: 0.3, ease: "easeOut" } 
-        })
+        await new Promise(r => setTimeout(r, 450))
         if (isCancelled) return
 
-        // 3. The Struggle (Trying to get away from the A)
-        // Yank Left! (Away from A)
-        yControls.start({ x: -15, y: 15, rotate: -30, scaleX: 0.8, scaleY: 1.4, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -15, scale: 0.8, transition: { duration: 0.2, ease: "easeOut" } })
+        // 2. Drop the dot (one line down)
+        dotControls.start({ y: "0.88em", transition: { type: "spring", stiffness: 300, damping: 15 } })
+        
+        await new Promise(r => setTimeout(r, 250))
         if (isCancelled) return
 
-        // Yank FURTHER Left!
-        yControls.start({ x: -25, y: 10, rotate: -40, scaleX: 0.7, scaleY: 1.6, transition: { duration: 0.2, ease: "easeOut" } })
-        await shadowControls.start({ x: -25, scale: 0.7, transition: { duration: 0.2, ease: "easeOut" } })
-        if (isCancelled) return
+        // 3. Expand "GOOD YUTE" to the left
+        bottomTextControls.start({ width: "auto", opacity: 1, transition: { duration: 0.5, ease: "easeOut" } })
 
-        // Shake/vibrate violently while pulling left with all its might!
-        yControls.start({
-          x: [-25, -28, -23, -27, -24, -29, -25, -26],
-          y: [10, 8, 12, 9, 11, 8, 12, 10],
-          rotate: [-40, -43, -37, -42, -38, -44, -39, -40],
-          transition: { duration: 0.4 }
-        })
-        await shadowControls.start({
-          x: [-25, -28, -23, -27, -24, -29, -25, -26],
-          transition: { duration: 0.4 }
-        })
-        if (isCancelled) return
-
-        // Maximum stretch straight left before it snaps free!
-        yControls.start({ x: -35, y: 5, rotate: -50, scaleX: 0.5, scaleY: 2.0, transition: { duration: 0.3, ease: "easeIn" } })
-        await shadowControls.start({ x: -35, scale: 0.5, transition: { duration: 0.3, ease: "easeIn" } })
-        if (isCancelled) return
-
-        // 4. POP free! (Cinematic break)
-        popControls.start({
-          scale: [0, 2.5],
-          opacity: [1, 0],
-          borderWidth: [6, 0],
-          transition: { duration: 0.4, ease: "easeOut" }
-        })
-        damageControls.start({
-          opacity: [0, 1, 1, 0],
-          y: [0, -30, -40],
-          x: [0, 10, 20],
-          scale: [0.5, 1.3, 1],
-          rotate: [0, 5, 10],
-          transition: { duration: 3.0, ease: "easeOut", times: [0, 0.1, 0.9, 1] }
-        })
-        
-        // Jump up and right in a huge arc (squash in air)
-        yControls.start({
-          x: 10,
-          y: -40,
-          rotate: [ -30, 10, 30 ], // flip forward
-          scaleX: 1,
-          scaleY: 1,
-          transition: { type: "spring", stiffness: 300, damping: 15 }
-        })
-        await shadowControls.start({
-          x: 10,
-          scale: 0.4,
-          opacity: 0.1,
-          transition: { type: "spring", stiffness: 300, damping: 15 }
-        })
-        if (isCancelled) return
-
-        // 5. Heavy Landing (Impact)
-        wrapperControls.start({
-          y: [0, 6, -3, 2, 0],
-          transition: { duration: 0.3, ease: "easeInOut" }
-        })
-        dust1Controls.start({
-          scale: [0, 1.5],
-          x: [-10, -30],
-          y: [15, 5],
-          opacity: [0.8, 0],
-          transition: { duration: 0.5, ease: "easeOut" }
-        })
-        dust2Controls.start({
-          scale: [0, 1.5],
-          x: [10, 30],
-          y: [15, 5],
-          opacity: [0.8, 0],
-          transition: { duration: 0.5, ease: "easeOut" }
-        })
-        
-        // Squash on impact
-        yControls.start({
-          y: 20,
-          rotate: 0, 
-          scaleX: 1.4,
-          scaleY: 0.6,
-          transition: { type: "spring", stiffness: 500, damping: 15 }
-        })
-        await shadowControls.start({
-          scale: 1.2,
-          opacity: 0.5,
-          transition: { type: "spring", stiffness: 500, damping: 15 }
-        })
-        if (isCancelled) return
-
-        // 6. Start running (Realistic human stride)
-        const runDuration = 0.4; // Full cycle duration
-        
-        // Left Leg & Right Arm move together
-        leftLegControls.start({
-          rotate: [-45, 45, -45],
-          y: [0, -10, 0], // slight lift when swinging back
-          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
-        })
-        rightArmControls.start({
-          rotate: [-45, 45, -45],
-          x: [5, -5, 5],
-          y: [0, 5, 0],
-          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
-        })
-        
-        // Right Leg & Left Arm move together (opposite phase)
-        rightLegControls.start({
-          rotate: [45, -45, 45],
-          y: [-10, 0, -10],
-          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
-        })
-        leftArmControls.start({
-          rotate: [45, -45, 45],
-          x: [-5, 5, -5],
-          y: [5, 0, 5],
-          transition: { repeat: Infinity, duration: runDuration, ease: "easeInOut" }
-        })
-        
-        // Bouncing up and down while leaning forward
-        yControls.start({
-          y: [15, 0],
-          rotate: 35,
-          scaleX: 1.1,
-          scaleY: 0.9,
-          skewX: -10, // wind resistance
-          transition: { y: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" } }
-        })
-        shadowControls.start({
-          scale: [1, 0.7],
-          opacity: [0.4, 0.2],
-          transition: { repeat: Infinity, repeatType: "reverse", duration: 0.1, ease: "easeOut" }
-        })
-        
-        // Speed lines FX
-        speedLinesControls.start({
-          opacity: [0, 1, 0],
-          x: [0, -30],
-          transition: { repeat: Infinity, duration: 0.15 }
-        })
-
-        // Run straight right to edge of screen
-        const distance = typeof window !== "undefined" ? window.innerWidth + 100 : 2000;
-        await xControls.start({
-          x: distance,
-          transition: { duration: 1.5, ease: "easeIn" }
-        })
-        
-        if (isCancelled) return
-        
-        // Stop animations after it disappears off-screen
-        leftLegControls.stop()
-        rightLegControls.stop()
-        leftArmControls.stop()
-        rightArmControls.stop()
-        yControls.stop()
-        speedLinesControls.stop()
-        
-        // Hide instantly
-        xControls.start({ opacity: 0, transition: { duration: 0 } })
-        shadowControls.start({ opacity: 0, transition: { duration: 0 } })
-        
       } else {
-        // --- Reset immediately on unhover ---
-        leftLegControls.stop()
-        rightLegControls.stop()
-        leftArmControls.stop()
-        rightArmControls.stop()
-        yControls.stop()
-        xControls.stop()
-        speedLinesControls.stop()
-        popControls.stop()
-        damageControls.stop()
+        // Reverse sequence
+        // 1. Collapse "GOOD YUTE"
+        bottomTextControls.start({ width: 0, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } })
         
-        limbControls.start({ opacity: 0, transition: { duration: 0 } })
-        shadowControls.start({ opacity: 0, transition: { duration: 0 } })
-        speedLinesControls.start({ opacity: 0, transition: { duration: 0 } })
-        
+        await new Promise(r => setTimeout(r, 350))
         if (isCancelled) return
-        xControls.start({
-          x: 0,
-          opacity: 1,
-          transition: { type: "spring", stiffness: 300, damping: 20 }
-        })
-        yControls.start({
-          x: 0,
-          y: 0,
-          rotate: 0,
-          scaleX: 1,
-          scaleY: 1,
-          skewX: 0,
-          transition: { type: "spring", stiffness: 300, damping: 20 }
-        })
-        shadowControls.start({ x: 0, y: 0, scale: 1, transition: { duration: 0 } })
+
+        // 2. Raise the dot
+        dotControls.start({ y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
         
-        // Instantly reset rotations so they don't unwind 360 degrees
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
-        leftArmControls.set({ rotate: -30 })
-        rightArmControls.set({ rotate: 30 })
+        await new Promise(r => setTimeout(r, 200))
+        if (isCancelled) return
+
+        // 3. Collapse "OU'RE "
+        topTextControls.start({ width: 0, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } })
       }
     }
-    
+
     runSequence()
-    
-    return () => {
-      isCancelled = true
-    }
-  }, [isHovered, wrapperControls, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, shadowControls, popControls, damageControls, dust1Controls, dust2Controls, speedLinesControls])
+
+    return () => { isCancelled = true }
+  }, [isHovered, topTextControls, bottomTextControls, dotControls])
 
   return (
-    <motion.div animate={wrapperControls} className="flex relative items-baseline">
-      <span className="relative inline-block z-20">
-        
-        {/* Video Game Damage Text */}
-        <motion.div
-          animate={damageControls}
-          initial={{ opacity: 0, y: 0, scale: 0.5 }}
-          className="absolute top-[40px] left-[30px] text-yellow-400 font-black text-2xl italic drop-shadow-[0_4px_0_rgba(0,0,0,1)] whitespace-nowrap z-[100] pointer-events-none tracking-tighter origin-top-left"
-          style={{ WebkitTextStroke: '1px black' }}
-        >
-          {message}
-        </motion.div>
-
-        {/* X-axis translation container */}
-        <motion.div animate={xControls} className="inline-block relative z-20">
-          
-          {/* Ground Shadow */}
-          <motion.div 
-            animate={shadowControls}
-            initial={{ opacity: 0 }}
-            className="absolute bottom-[-6px] left-[0px] w-[20px] h-[4px] bg-black rounded-full blur-[2px]"
-          />
-
-          {/* Cinematic Breakout Pop Ring */}
-          <motion.div 
-            animate={popControls}
-            initial={{ opacity: 0, scale: 0 }}
-            className="absolute top-[50%] right-[-10px] w-[40px] h-[40px] -mt-[20px] rounded-full border-black z-0 pointer-events-none"
-          />
-
-          {/* Impact Dust Clouds */}
-          <motion.div animate={dust1Controls} initial={{ opacity: 0 }} className="absolute bottom-[-10px] left-[-10px] w-[20px] h-[20px] pointer-events-none">
-            <DustCloud />
-          </motion.div>
-          <motion.div animate={dust2Controls} initial={{ opacity: 0 }} className="absolute bottom-[-10px] right-[-10px] w-[20px] h-[20px] pointer-events-none">
-            <DustCloud />
-          </motion.div>
-
-          {/* Speed lines */}
-          <motion.div 
-            animate={speedLinesControls} 
-            initial={{ opacity: 0 }} 
-            className="absolute inset-0 pointer-events-none z-0"
-          >
-            <div className="absolute top-[30%] right-[120%] w-[30px] h-[2px] bg-black/40 rounded-full" />
-            <div className="absolute top-[60%] right-[140%] w-[50px] h-[2px] bg-black/30 rounded-full" />
-            <div className="absolute top-[80%] right-[110%] w-[20px] h-[2px] bg-black/50 rounded-full" />
-          </motion.div>
-
-          {/* Y-axis translation, rotation, and bounce container */}
-          <motion.span 
-            animate={yControls} 
-            className="inline-block relative origin-bottom z-20"
-          >
-            Y
-            {/* Limbs container */}
-            <motion.div 
-              animate={limbControls} 
-              className="absolute inset-0 pointer-events-none opacity-0"
-              initial={{ opacity: 0 }}
-            >
-              {/* Left Arm (Rubber Hose Curve) */}
-              <motion.div 
-                animate={leftArmControls}
-                initial={{ rotate: -30 }}
-                className="absolute left-[-16px] top-[40%] w-[16px] h-[10px] origin-right z-10" 
-              >
-                <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                  <path d="M 16,5 Q 8,-5 0,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyGlove className="absolute left-[-14px] top-[-7px] w-[24px] h-[24px] -rotate-90 drop-shadow-md" />
-              </motion.div>
-              
-              {/* Right Arm (Rubber Hose Curve) */}
-              <motion.div 
-                animate={rightArmControls}
-                initial={{ rotate: 30 }}
-                className="absolute right-[-16px] top-[40%] w-[16px] h-[10px] origin-left z-10" 
-              >
-                <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                  <path d="M 0,5 Q 8,-5 16,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyGlove className="absolute right-[-14px] top-[-7px] w-[24px] h-[24px] rotate-90 drop-shadow-md" />
-              </motion.div>
-
-              {/* Left Leg (Rubber Hose Curve) */}
-              <motion.div 
-                animate={leftLegControls}
-                className="absolute left-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
-              >
-                <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                  <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
-              </motion.div>
-              
-              {/* Right Leg (Rubber Hose Curve) */}
-              <motion.div 
-                animate={rightLegControls}
-                className="absolute right-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0" 
-              >
-                <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                  <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-                </svg>
-                <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped={true} />
-              </motion.div>
-            </motion.div>
-          </motion.span>
-        </motion.div>
-      </span>
-      {/* The "A." takes cinematic focus styling */}
-      <span 
-        className="z-10 inline-block relative transition-opacity duration-300"
-        style={{ opacity: isHovered ? 0.3 : 1 }}
+    <div className="flex relative items-baseline font-black leading-[0.88] tracking-tighter z-20">
+      {/* Top Line */}
+      <span className="inline-block relative z-20">Y</span>
+      
+      <motion.div 
+        animate={topTextControls} 
+        initial={{ width: 0, opacity: 0 }}
+        className="overflow-hidden flex items-baseline whitespace-pre"
       >
-        A.
-      </span>
-    </motion.div>
+        <span>OU'RE </span>
+      </motion.div>
+      
+      <span className="inline-block relative z-20">A</span>
+      
+      <motion.span 
+        animate={dotControls}
+        initial={{ y: 0 }}
+        className="inline-flex relative z-20 items-baseline"
+      >
+        <motion.div 
+          animate={bottomTextControls}
+          initial={{ width: 0, opacity: 0 }}
+          className="absolute right-full overflow-hidden flex justify-end whitespace-pre"
+        >
+          <span>GOOD YUTE</span>
+        </motion.div>
+        .
+      </motion.span>
+    </div>
   )
 }
 
 function TumblerLogo({ isHovered }: { isHovered: boolean }) {
+
   const controls = useAnimation()
   
   // The full string we want to animate
@@ -1764,7 +1461,7 @@ export function AnimatedLogo() {
       onMouseLeave={handleMouseLeave}
     >
       {animType === "cartoon" ? (
-        <CartoonLogo isHovered={isHovered} />
+        <GoodYuteLogo isHovered={isHovered} />
       ) : animType === "tumbler" ? (
         <TumblerLogo isHovered={isHovered} />
       ) : animType === "storyteller" ? (
