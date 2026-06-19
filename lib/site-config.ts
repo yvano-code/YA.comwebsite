@@ -304,10 +304,10 @@ export const siteConfig = {
       href: "https://youtu.be/tbQP2YesXxI",
       colorway: {
         id: "practically-magic",
-        baseBg: "bg-[#e8e4db]",
-        blob1: "from-orange-400/80 via-amber-400/80 to-yellow-400/0",
-        blob2: "from-red-500/80 via-orange-500/80 to-amber-400/0",
-        blob3: "from-stone-400/80 via-amber-400/80 to-orange-400/0"
+        baseBg: "bg-[#fdf6ec]",
+        blob1: "from-orange-500/90 via-red-500/80 to-amber-500/0",
+        blob2: "from-red-600/90 via-orange-600/80 to-rose-500/0",
+        blob3: "from-amber-500/90 via-orange-400/80 to-yellow-500/0"
       },
       credits: [
         { label: "Executive Producer", value: "Khara Martin" },
