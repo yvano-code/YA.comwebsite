@@ -1162,7 +1162,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         >
           {/* Dust Swirl 3D Effect */}
           <motion.div
-            className="absolute top-1/2 left-1/2 pointer-events-none mix-blend-screen"
+            className="absolute top-1/2 left-1/2 pointer-events-none mix-blend-screen dark:mix-blend-color-dodge brightness-125 dark:brightness-150"
             style={{ width: 0, height: 0, transformStyle: "preserve-3d" }}
             animate={{ rotateZ: 360 }}
             transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
