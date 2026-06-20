@@ -1,173 +1,138 @@
 "use client"
 
-import { useState } from "react"
-import { AnimatedLogo } from "@/components/animated-logo"
+import { useRef, useState } from "react"
+import { AnimatedLogo, TumblerLogo } from "@/components/animated-logo"
+import { AccordionCarousel } from "@/components/accordion-carousel"
+import { FilmCarousel } from "@/components/film-carousel"
+import { siteConfig } from "@/lib/site-config"
 import Image from "next/image"
 import Link from "next/link"
-import { siteConfig } from "@/lib/site-config"
-import { AccordionCarousel } from "@/components/accordion-carousel"
 
-export default function LandingPageDemo() {
-  const [playingVideo, setPlayingVideo] = useState<number | null>(null);
-
+export default function HomePage3() {
+  const [isFooterHovered, setIsFooterHovered] = useState(false);
   return (
-    <div className="min-h-screen pb-24">
-      {/* Navigation matching Awwwards, but using real links */}
-      <nav className="flex items-center justify-between px-6 md:px-12 pt-8 pb-4 text-sm font-semibold tracking-wide">
-         <div></div> {/* Spacer */}
-         <div>
-            <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
-         </div>
-      </nav>
-
-      <header className="flex flex-col items-center justify-center pt-24 md:pt-56 pb-32 md:pb-56 text-center w-full overflow-visible">
-        <div className="flex justify-center w-full">
+    <div className="w-full relative overflow-x-hidden">
+      {/* ── HERO SECTION (Normal Document Flow) ── */}
+      <header className="relative w-full min-h-[100vh] flex flex-col items-center justify-center z-0">
+        <div className="flex items-center justify-center w-full flex-grow">
           <AnimatedLogo />
         </div>
       </header>
 
-      <main>
-        {/* Editorial Section Removed */}
+      {/* ── DYNAMIC CONTENT SECTIONS ── */}
+      <div className="relative z-10 w-full pt-16 md:pt-24 pb-24">
+        
+        {/* Permanent Content Nav */}
+        <nav className="absolute top-0 w-full flex items-center justify-between px-6 md:px-12 pt-8 pb-4 text-sm font-semibold tracking-wide">
+               <div className="flex gap-4">
+                  <Link href="/homepage1" className="bg-white text-black px-4 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10">Homepage 1</Link>
+                  <Link href="/homepage2" className="bg-white text-black px-4 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10">Homepage 2</Link>
+               </div>
+               <div>
+                  <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
+               </div>
+            </nav>
 
-        {/* Film & TV Horizontal Scroll Section */}
-        <section className="mt-20 md:mt-24 overflow-hidden">
-          <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between">
-            <div className="flex flex-col">
-              <h3 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tighter uppercase leading-normal md:leading-snug">FILM & TELEVISION | MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST</h3>
-            </div>
-            <Link href="/film-tv" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity border-b border-black pb-1 hidden sm:block">View All Projects ↗</Link>
-          </div>
-
-          {/* Accordion Carousel Container */}
-          <AccordionCarousel projects={siteConfig.projects} />
-        </section>
-
-        {/* Filmography Horizontal Scroll Section */}
-        <section className="mt-16 md:mt-20 overflow-hidden mb-12">
-          <div className="px-6 md:px-12 mb-12 md:mb-16 flex items-end justify-between">
-            <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8">
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase">Filmography & Credits</h3>
-              <Link href="https://www.imdb.com/name/nm10645603/" target="_blank" className="text-[11px] md:text-[13px] font-bold tracking-[0.2em] uppercase hover:opacity-50 transition-opacity flex items-center gap-2 whitespace-nowrap sm:pb-1 md:pb-2">
-                VIEW FULL IMDB <span className="text-lg leading-none">↗</span>
-              </Link>
-            </div>
-            <div className="flex gap-4 items-center sm:pb-1 md:pb-2">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 hidden md:block">Scroll to explore</span>
-              <svg className="w-4 h-4 text-gray-400 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </div>
-          </div>
-
-          <div className="flex overflow-x-auto gap-4 md:gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory hide-scrollbar">
-            {[...siteConfig.imdbCredits].reverse().map((credit, idx) => (
-              <div key={idx} className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-black transition-all duration-500 rounded-3xl overflow-hidden p-8 flex flex-col justify-between min-h-[300px] md:min-h-[380px] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] cursor-pointer border border-white/5">
+            <main>
+              <section className="mt-8 md:mt-12 relative">
+                {/* Subtle Glow Background */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[150%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.7)_0%,rgba(255,255,255,0.2)_40%,transparent_70%)] blur-[100px] pointer-events-none z-0 mix-blend-overlay" />
                 
-                {/* Image Background */}
-                {credit.image && (
-                  <>
-                    {/* Image Wrapper for Scaling */}
-                    <div 
-                      className="absolute inset-0 w-full h-full z-0 overflow-hidden" 
-                      style={
-                        // @ts-ignore
-                        credit.imageScale ? { transform: `scale(${credit.imageScale})` } : undefined
-                      }
-                    >
-                      <Image 
-                        src={credit.image}
-                        alt={credit.title}
-                        fill
-                        unoptimized={true}
-                        className="object-cover transition-transform duration-700 group-hover:scale-105 origin-center"
-                      />
-                    </div>
-                    {/* Gradients */}
-                    <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-                      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                      <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
-                    </div>
-                  </>
-                )}
-
-                {/* Top: Year and Type Pill */}
-                <div className="relative z-10 flex justify-between items-start w-full">
-                  <span className="text-[14px] md:text-[16px] font-bold tracking-[0.3em] text-white/90 drop-shadow-md">
-                    {credit.year.split('').join(' ')}
-                  </span>
-                  <span className="text-[10px] md:text-[11px] font-bold tracking-widest text-white uppercase px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/10 shadow-sm">
-                    {credit.type}
-                  </span>
-                </div>
-
-                {/* Bottom: Title and Roles */}
-                <div className="relative z-10 mt-auto pt-8">
-                  {credit.note && (
-                    <p className="text-[10px] md:text-[11px] font-bold tracking-widest text-white/80 uppercase mb-2 drop-shadow-md">{credit.note}</p>
-                  )}
-                  <h4 className="text-[22px] md:text-[26px] font-black uppercase tracking-tight mb-4 text-white leading-tight drop-shadow-lg">{credit.title}</h4>
-                  <div className="pt-4 border-t border-white/20">
-                    <p className="text-[12px] md:text-[13px] font-extrabold text-white/90 uppercase tracking-wide">
-                       {credit.roles.join(", ")}
-                    </p>
+                <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between relative z-10">
+                  <div className="flex flex-col">
+                    <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85] pb-4 drop-shadow-sm">
+                      <span className="text-black">KEY </span>
+                      <span className="text-black/30">CREATIONS</span>
+                    </h3>
                   </div>
+                  
                 </div>
+
+                <div className="relative z-10 overflow-hidden pb-12">
+                  <AccordionCarousel projects={siteConfig.projects} />
+                </div>
+              </section>
+
+
+
+              {/* Accreditations Section */}
+              <section className="mt-12 md:mt-16 px-6 md:px-12 pb-12 pt-12 md:pt-16">
+                <div className="mb-16 md:mb-24">
+                  <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
+                    <span className="block text-black">AWARDS &</span>
+                    <span className="block text-black/30">OFFICIAL SELECTIONS</span>
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 mb-16">
+                  {siteConfig.awards.map((award, idx) => (
+                    <div key={idx} className={`relative lg:px-8 ${idx !== 0 ? 'lg:border-l lg:border-black/10' : 'lg:pl-0'}`}>
+                      <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-black/50 mb-4 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
+                        {award.status}
+                      </div>
+                      <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 text-black">
+                        {award.title}
+                      </h4>
+                      <p className="text-[12px] md:text-[13px] leading-relaxed text-black/70 font-medium max-w-sm">
+                        {award.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Laurels Banner Images */}
+                <div className="w-full flex flex-col items-center pt-8 pb-0 gap-0 -mb-20 md:-mb-36 lg:-mb-72">
+                  <Image 
+                    src="/projects/bbt_laurels_transparent.png"
+                    alt="Festival Laurels"
+                    width={2000}
+                    height={400}
+                    className="w-[89%] h-auto object-contain opacity-90 mix-blend-darken drop-shadow-sm relative z-10"
+                  />
+                  <Image 
+                    src="/projects/official_selects_1_nobg.png"
+                    alt="Official Selection"
+                    width={2000}
+                    height={400}
+                    className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm -mt-[10%] md:-mt-[12%] lg:-mt-[15%] relative z-0"
+                  />
+                </div>
+              </section>
+              {/* Filmography Section matching Homepage 2 */}
+              <FilmCarousel />
+            </main>
+
+            {/* Footer */}
+            <footer className="w-full mt-24 pb-12 flex flex-col items-center justify-center text-center z-10 relative">
+              <div 
+                className="text-[40px] md:text-[50px] lg:text-[70px] font-black tracking-tighter uppercase leading-[0.85] mb-6 cursor-pointer flex items-center justify-center h-[80px] md:h-[100px] lg:h-[120px]"
+                onMouseEnter={() => setIsFooterHovered(true)}
+                onMouseLeave={() => setIsFooterHovered(false)}
+              >
+                <TumblerLogo isHovered={isFooterHovered} />
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Accreditations Section */}
-        <section className="mt-8 md:mt-12 px-6 md:px-12 pb-12 border-t border-black/10 pt-16 md:pt-24">
-          <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase mb-6">AWARDS & OFFICIAL SELECTIONS</h3>
-              <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
-                {siteConfig.accreditations}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 mb-16">
-            {siteConfig.awards.map((award, idx) => (
-              <div key={idx} className="group cursor-default relative">
-                <div className="absolute -left-4 top-1 w-1.5 h-1.5 rounded-full bg-[#E05D4C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"></div>
-                <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-black mb-4 flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 group-hover:bg-[#E05D4C] transition-colors duration-300 md:hidden"></div>
-                  {award.status}
-                </div>
-                <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 group-hover:text-[#E05D4C] transition-colors duration-300">
-                  {award.title}
-                </h4>
-                <p className="text-[12px] md:text-[13px] leading-relaxed text-black font-medium max-w-sm">
-                  {award.description}
+              <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-black/50 flex justify-center items-center px-4 w-full">
+                <p className="whitespace-nowrap">
+                  FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL{" "}
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-black hover:text-black/70 transition-colors">
+                    {siteConfig.contact.email}
+                  </a>
                 </p>
               </div>
-            ))}
-          </div>
+            </footer>
 
-          {/* Laurels Banner Images */}
-          <div className="w-full flex flex-col items-center pt-8 pb-8 gap-8 md:gap-12">
-            <Image 
-              src="/projects/bbt_laurels.webp"
-              alt="Festival Laurels Row 1"
-              width={2500}
-              height={600}
-              unoptimized={true}
-              className="w-full h-auto object-contain mix-blend-darken contrast-125 grayscale scale-[0.98]"
-            />
-          </div>
-        </section>
-      </main>
-
-      {/* Global Style for hiding scrollbar */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}} />
+            {/* Global Style for hiding scrollbar */}
+            <style dangerouslySetInnerHTML={{__html: `
+              .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+              }
+              .hide-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+            `}} />
+      </div>
     </div>
   )
 }

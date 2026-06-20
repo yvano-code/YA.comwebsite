@@ -1,7 +1,26 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, useAnimation, AnimatePresence, useSpring, useTransform } from "framer-motion"
+import { motion, useAnimation, AnimatePresence, useSpring, useTransform, MotionValue } from "framer-motion"
+
+
+function useSafeAnimation() {
+  const controls = useAnimation();
+  if (!(controls as any)._isPatched) {
+    const origStart = controls.start;
+    controls.start = async (...args: any[]) => {
+      try {
+        return await origStart.apply(controls, args);
+      } catch (e: any) {
+        if (e && e.message && e.message.includes("mounted")) return;
+        throw e;
+      }
+    };
+    (controls as any)._isPatched = true;
+  }
+  return controls;
+}
+
 import Link from "next/link"
 
 const MickeyGlove = ({ className }: { className?: string }) => {
@@ -58,9 +77,10 @@ const DustCloud = ({ className }: { className?: string }) => (
 )
 
 function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
-  const topTextControls = useAnimation()
-  const bottomTextControls = useAnimation()
-  const dotControls = useAnimation()
+  const topTextControls = useSafeAnimation()
+  const bottomTextControls = useSafeAnimation()
+  const dotControls = useSafeAnimation()
+  const exclamationControls = useSafeAnimation()
 
   useEffect(() => {
     let isCancelled = false
@@ -82,21 +102,33 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         // 3. Expand "GOOD YUTE" to the left
         bottomTextControls.start({ x: 0, transition: { duration: 0.5, ease: "easeOut" } })
 
+        await new Promise(r => setTimeout(r, 500))
+        if (isCancelled) return
+
+        // 4. Reveal exclamation mark vertically
+        exclamationControls.start({ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 0.25, ease: "easeOut" } })
+
       } else {
         // Reverse sequence
-        // 1. Collapse "GOOD YUTE"
+        // 1. Hide exclamation mark vertically
+        exclamationControls.start({ clipPath: "inset(100% 0% 0% 0%)", transition: { duration: 0.2, ease: "easeIn" } })
+        
+        await new Promise(r => setTimeout(r, 250))
+        if (isCancelled) return
+
+        // 2. Collapse "GOOD YUTE"
         bottomTextControls.start({ x: "100%", transition: { duration: 0.3, ease: "easeIn" } })
         
         await new Promise(r => setTimeout(r, 350))
         if (isCancelled) return
 
-        // 2. Raise the dot
+        // 3. Raise the dot
         dotControls.start({ y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } })
         
         await new Promise(r => setTimeout(r, 200))
         if (isCancelled) return
 
-        // 3. Collapse "OU'RE "
+        // 4. Collapse "OU'RE "
         topTextControls.start({ width: 0, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } })
       }
     }
@@ -104,7 +136,7 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
     runSequence()
 
     return () => { isCancelled = true }
-  }, [isHovered, topTextControls, bottomTextControls, dotControls])
+  }, [isHovered, topTextControls, bottomTextControls, dotControls, exclamationControls])
 
   return (
     <div className="flex relative items-baseline font-black leading-[0.88] tracking-tighter z-20">
@@ -135,15 +167,66 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
             GOOD YUTE&nbsp;
           </motion.span>
         </div>
-        .
+        <span className="relative inline-flex items-baseline justify-center">
+          <span className="opacity-0 pointer-events-none">!</span>
+          <span className="absolute inset-0 pointer-events-none flex items-baseline justify-center">.</span>
+          <motion.span 
+            animate={exclamationControls}
+            initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+            className="absolute inset-0 pointer-events-none flex items-baseline justify-center"
+          >
+            !
+          </motion.span>
+        </span>
       </motion.span>
     </div>
   )
 }
 
-function TumblerLogo({ isHovered }: { isHovered: boolean }) {
+const TOY_COLORS = [
+  { color: '#ef4444', extrude: '#991b1b' }, // Red
+  { color: '#3b82f6', extrude: '#1e3a8a' }, // Blue
+  { color: '#eab308', extrude: '#854d0e' }, // Yellow
+  { color: '#22c55e', extrude: '#166534' }, // Green
+  { color: '#f97316', extrude: '#9a3412' }, // Orange
+  { color: '#ec4899', extrude: '#831843' }, // Pink
+  { color: '#8b5cf6', extrude: '#4c1d95' }, // Purple
+  { color: '#14b8a6', extrude: '#0f766e' }, // Teal
+];
 
-  const controls = useAnimation()
+const SPECIFIC_COLORS: Record<number, { color: string, extrude: string }> = {
+  0: { color: '#00c2ff', extrude: '#007ab8' }, // Bright Sky Blue
+  6: { color: '#f97316', extrude: '#9a3412' }, // Orange
+  13: { color: '#00f5d4', extrude: '#00a398' } // Bright Teal
+};
+
+const getToyStyle = (index: number, char: string) => {
+  if (char === ' ') return {};
+  const style = SPECIFIC_COLORS[index] || TOY_COLORS[index % TOY_COLORS.length];
+  return {
+    color: style.color,
+    fontFamily: '"Arial Rounded MT Bold", "Varela Round", "Fredoka One", "Comic Sans MS", sans-serif',
+    textShadow: `
+      0px 1px 0px ${style.extrude},
+      0px 2px 0px ${style.extrude},
+      0px 3px 0px ${style.extrude},
+      0px 4px 0px ${style.extrude},
+      0px 5px 0px ${style.extrude},
+      0px 6px 0px ${style.extrude},
+      0px 7px 0px ${style.extrude},
+      0px 8px 0px ${style.extrude},
+      0px 9px 0px ${style.extrude},
+      0px 10px 0px ${style.extrude},
+      0px 11px 0px ${style.extrude},
+      0px 12px 0px ${style.extrude},
+      0px 20px 15px rgba(0,0,0,0.4)
+    `,
+  };
+};
+
+export function TumblerLogo({ isHovered }: { isHovered: boolean }) {
+
+  const controls = useSafeAnimation()
   
   // The full string we want to animate
   const fullText = "YVANO ANTONIO.".split("")
@@ -278,7 +361,8 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
           style={{ 
             overflow: 'visible',
             // Add a slight min-width to space to ensure it renders correctly when width is auto
-            minWidth: char === ' ' && isHovered ? '0.25em' : 'auto'
+            minWidth: char === ' ' && isHovered ? '0.25em' : 'auto',
+            ...getToyStyle(i, char)
           }}
         >
           {char}
@@ -289,53 +373,19 @@ function TumblerLogo({ isHovered }: { isHovered: boolean }) {
 }
 
 const RocketFire = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 20 40" className={className} style={{ overflow: "visible" }}>
-    <path d="M 10,0 C 15,10 20,20 10,40 C 0,20 5,10 10,0 Z" fill="#F97316" />
-    <path d="M 10,5 C 13,15 15,25 10,35 C 5,25 7,15 10,5 Z" fill="#FBBF24" />
-  </svg>
+  <img src="/rocket-fire.png" alt="Rocket Fire" className={`object-contain rotate-180 ${className}`} style={{ filter: "drop-shadow(0px 10px 10px rgba(255, 100, 0, 0.5))" }} />
 )
 
 const RocketSmoke = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 150" className={className} style={{ overflow: "visible" }}>
-    <defs>
-      <filter id="blur">
-        <feGaussianBlur stdDeviation="3" />
-      </filter>
-    </defs>
-    <style>
-      {`
-        @keyframes billow {
-          0% { transform: scale(0.5) translateY(0) translateX(0); opacity: 0; }
-          20% { opacity: 0.9; }
-          100% { transform: scale(3) translateY(80px) translateX(var(--tx)); opacity: 0; }
-        }
-        .puff {
-          transform-origin: center top;
-          animation: billow 1s infinite ease-out;
-        }
-        .puff:nth-child(1) { --tx: -20px; animation-duration: 1.2s; animation-delay: 0s; }
-        .puff:nth-child(2) { --tx: 20px; animation-duration: 1.5s; animation-delay: 0.2s; }
-        .puff:nth-child(3) { --tx: -10px; animation-duration: 1.1s; animation-delay: 0.4s; }
-        .puff:nth-child(4) { --tx: 30px; animation-duration: 1.3s; animation-delay: 0.6s; }
-        .puff:nth-child(5) { --tx: 0px; animation-duration: 1.4s; animation-delay: 0.8s; }
-      `}
-    </style>
-    <g filter="url(#blur)">
-      <circle cx="50" cy="0" r="10" fill="#D1D5DB" className="puff" />
-      <circle cx="50" cy="0" r="12" fill="#9CA3AF" className="puff" />
-      <circle cx="50" cy="0" r="8" fill="#F3F4F6" className="puff" />
-      <circle cx="50" cy="0" r="15" fill="#6B7280" className="puff" />
-      <circle cx="50" cy="0" r="10" fill="#E5E7EB" className="puff" />
-    </g>
-  </svg>
+  <img src="/rocket-smoke.png" alt="Rocket Smoke" className={`object-contain ${className}`} style={{ filter: "drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.2))" }} />
 )
 
 function RocketLogo({ isHovered }: { isHovered: boolean }) {
-  const yControls = useAnimation()
-  const aControls = useAnimation()
-  const dotControls = useAnimation()
-  const fireControls = useAnimation()
-  const smokeControls = useAnimation()
+  const yControls = useSafeAnimation()
+  const aControls = useSafeAnimation()
+  const dotControls = useSafeAnimation()
+  const fireControls = useSafeAnimation()
+  const smokeControls = useSafeAnimation()
   const [countdown, setCountdown] = useState<number | null>(null)
   const hoverRef = useRef(false)
 
@@ -361,8 +411,14 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         setCountdown(1)
         
         // Ignite engine
-        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.2, 0.8, 1], transition: { duration: 0.5, repeat: Infinity } })
-        smokeControls.start({ opacity: [0, 1], scale: [0, 2], transition: { duration: 1 } })
+        fireControls.start({ 
+          opacity: 1, 
+          scale: 1,
+          scaleX: 0.8, 
+          scaleY: 1, 
+          transition: { duration: 0.5, ease: "easeOut" } 
+        })
+        smokeControls.start({ opacity: [0, 1], scale: [0, 1.5], y: 0, transition: { duration: 1 } })
         
         await new Promise(r => setTimeout(r, 1000))
         if (!hoverRef.current) { isCancelled = true; return }
@@ -398,8 +454,8 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
 
         // 2. EXPLOSION and Vertical Burst!
-        smokeControls.start({ scale: [0, 5], opacity: [0, 1, 0], transition: { duration: 1.0, ease: "easeOut" } })
-        fireControls.start({ opacity: [0, 1, 0.8, 1], scale: [0.5, 2.0, 1.5, 2.0], transition: { duration: 0.5, repeat: Infinity } })
+        smokeControls.start({ y: [0, 200], scale: [1.5, 6], opacity: [1, 0], transition: { duration: 0.8, ease: "easeOut" } })
+        fireControls.start({ opacity: 1, scaleX: 0.6, scaleY: 2.0, transition: { duration: 0.3, ease: "easeOut" } })
         
         // VERY IMPORTANT: Restore scaleX and scaleY to 1 during launch so it looks normal upon return!
         aControls.start({
@@ -469,15 +525,26 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
         
         // Retrorockets fire!
-        fireControls.start({ opacity: [0, 1, 0.5, 1], scale: [0.5, 1.5, 1, 1.5], transition: { duration: 0.5, repeat: Infinity } })
+        fireControls.start({ 
+          opacity: [0, 1, 1, 0], 
+          scaleX: [0, 0.8, 0.5, 0], 
+          scaleY: [0, 2.0, 1.5, 0], 
+          transition: { duration: 2.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" } 
+        })
+        smokeControls.start({
+          opacity: [0, 1, 1, 0],
+          scale: [0, 1.5, 1.5, 0],
+          y: 0,
+          transition: { duration: 2.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" }
+        })
         
         // 4. Smooth Landing back to the start
         await aControls.start(selectedPath.landing)
         
         if (isCancelled) return
 
-        // Cut the engine on touchdown
-        fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.3 } })
+        // Cut the engine on touchdown (already faded out by the landing transition)
+        fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
         // Small puff of smoke on touchdown
         smokeControls.start({ scale: [0, 1.5], opacity: [0, 0.5, 0], y: [0, 20], transition: { duration: 0.5 } })
@@ -513,11 +580,29 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
       <motion.span animate={yControls} className="inline-block relative z-20">Y</motion.span>
       <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
         A
-        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-60px] left-[50%] -translate-x-[50%] w-[30px] h-[60px] origin-top">
-          <RocketFire />
+        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute top-[85%] left-[50%] -translate-x-[50%] w-[0.8em] h-[1.5em] origin-top">
+          <RocketFire className="w-full h-full" />
         </motion.div>
-        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0 }} className="absolute bottom-[-80px] left-[50%] -translate-x-[50%] w-[80px] h-[80px] origin-center z-[-1]">
-          <RocketSmoke />
+        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0, y: 0 }} className="absolute top-[100%] left-[50%] -translate-x-[50%] w-[3em] h-[3em] origin-top z-[-1]">
+          {/* Main big puff */}
+          <RocketSmoke className="absolute inset-0 w-full h-full" />
+          
+          {/* Billowing trailing puffs to create a spreading smoke column */}
+          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -60, -100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0 }} className="absolute inset-0">
+            <RocketSmoke className="w-full h-full" />
+          </motion.div>
+          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 60, 100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.3 }} className="absolute inset-0">
+            <RocketSmoke className="w-full h-full" />
+          </motion.div>
+          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -30, -50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.6 }} className="absolute inset-0">
+            <RocketSmoke className="w-full h-full" />
+          </motion.div>
+          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 30, 50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.9 }} className="absolute inset-0">
+            <RocketSmoke className="w-full h-full" />
+          </motion.div>
+          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 0, 0], y: [0, 60, 150], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 1.2 }} className="absolute inset-0">
+            <RocketSmoke className="w-full h-full" />
+          </motion.div>
         </motion.div>
       </motion.span>
       <motion.span animate={dotControls} className="inline-block relative z-20">.</motion.span>
@@ -538,12 +623,12 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
 
 function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive] = useState(false)
-  const dotControls = useAnimation()
+  const dotControls = useSafeAnimation()
   
-  const aControls = useAnimation()
-  const tControls = useAnimation()
-  const storControls = useAnimation()
-  const ellerControls = useAnimation()
+  const aControls = useSafeAnimation()
+  const tControls = useSafeAnimation()
+  const storControls = useSafeAnimation()
+  const ellerControls = useSafeAnimation()
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -561,28 +646,19 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
       storControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
       ellerControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
 
-      timeoutId = setTimeout(() => {
-        if (isCancelled) return
-        setIsActive(false)
-        
-        // Slide back behind the anchors
-        storControls.start({ x: "100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
-        ellerControls.start({ x: "-100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
-        
-        // Clean scale morph for T -> A
-        tControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, delay: 0.2, ease: "backIn" } })
-        aControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.5, ease: "backOut" } })
-        
-        dotControls.start({ opacity: 1, transition: { duration: 0.4, delay: 0.5 } })
-      }, 4000)
     } else {
       if (isCancelled) return
       setIsActive(false)
-      storControls.start({ x: "100%", transition: { duration: 0 } })
-      ellerControls.start({ x: "-100%", transition: { duration: 0 } })
-      aControls.start({ scale: 1, opacity: 1, transition: { duration: 0 } })
-      tControls.start({ scale: 0, opacity: 0, transition: { duration: 0 } })
-      dotControls.start({ opacity: 1, transition: { duration: 0 } })
+      
+      // Slide back behind the anchors
+      storControls.start({ x: "100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
+      ellerControls.start({ x: "-100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
+      
+      // Clean scale morph for T -> A
+      tControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, delay: 0.2, ease: "backIn" } })
+      aControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.5, ease: "backOut" } })
+      
+      dotControls.start({ opacity: 1, transition: { duration: 0.4, delay: 0.5 } })
     }
     
     return () => {
@@ -637,7 +713,7 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
-const DUST_COUNT = 600;
+const DUST_COUNT = 1200;
 const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   const angle = Math.random() * Math.PI * 2;
   // Expansive radius (edge to edge viewport coverage)
@@ -649,28 +725,43 @@ const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   
   // More plentiful, smaller speckles
   const isBokeh = Math.random() > 0.90;
-  const size = isBokeh ? Math.random() * 20 + 6 : Math.random() * 2.5 + 0.5;
-  const blur = isBokeh ? size * 0.6 : Math.random() * 1.2;
+  const size = isBokeh ? Math.random() * 24 + 8 : Math.random() * 3.5 + 0.8;
+  const blur = isBokeh ? size * 0.5 : Math.random() * 1.0;
   
-  const delay = Math.random() * 0.5;
-  // Photorealistic warm lighting (from bright white hotspots to deep amber)
-  const colors = ["#ffffff", "#fffbeb", "#fef08a", "#fde047", "#eab308", "#ca8a04", "#a16207"];
+  const delay = Math.random() * 0.4;
+  // Photorealistic warm lighting with heavily weighted bright whites and soft yellows
+  const colors = [
+    "#ffffff", "#ffffff", "#ffffff", "#ffffff", 
+    "#fffbeb", "#fffbeb", 
+    "#fef08a", "#fef08a", 
+    "#fde047", "#eab308", "#ca8a04", "#a16207"
+  ];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  const twinkleDuration = Math.random() * 1.5 + 0.5;
+  const twinkleDuration = Math.random() * 1.0 + 0.3; // Faster, punchier twinkle
   
   return { x, y, z, size, blur, delay, color, angle, twinkleDuration };
 });
 
+const getInitialPos = () => ({
+  rotate: (Math.random() - 0.5) * 180,
+  x: (Math.random() - 0.5) * 60,
+  y: (Math.random() - 0.5) * 60
+});
+
+const csInitial = "CANADIAN SCREEN".split("").map(() => getInitialPos());
+const awInitial = "AWARD WINNER".split("").map(() => getInitialPos());
+const csaInitial = getInitialPos();
+
 function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
   const [isActive, setIsActive]   = useState(false)
   const [yVisible, setYVisible]   = useState(true)
-  const yControls        = useAnimation()   // Y scale-fade
-  const aControls        = useAnimation()   // Main A fade
-  const dotControls      = useAnimation()   // dot fade
-  const aTextControls      = useAnimation()   // The specific 'A' in the grid
-  const restTextControls   = useAnimation()   // The rest of the grid text
-  const gridControls       = useAnimation()   // The whole grid wrapper
-  const swooshControls     = useAnimation()   // The golden swoosh effect
+  const yControls        = useSafeAnimation()   // Y scale-fade
+  const aControls        = useSafeAnimation()   // Main A fade
+  const dotControls      = useSafeAnimation()   // dot fade
+  const aTextControls      = useSafeAnimation()   // The specific 'A' in the grid
+  const restTextControls   = useSafeAnimation()   // The rest of the grid text
+  const gridControls       = useSafeAnimation()   // The whole grid wrapper
+  const swooshControls     = useSafeAnimation()   // The golden swoosh effect
 
   // Mouse tracking for 3D parallax
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 })
@@ -748,59 +839,6 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         }))
         if (isCancelled) return
 
-        // ── 6. Hold, then reverse ────────────────────────────────────────────
-        timeoutId = setTimeout(async () => {
-          if (isCancelled) return
-
-          // Swirl reverse
-          swooshControls.start(i => {
-            const p = dustParticles[i as number]
-            return {
-              opacity: 0,
-              x: 0,
-              y: 0,
-              z: 0,
-              scale: 0,
-              transition: { duration: 0.8, ease: "easeInOut", delay: p.delay * 0.5 }
-            }
-          })
-
-          // Rest of letters collapse
-          restTextControls.start(i => ({
-            opacity: 0, scale: 0,
-            rotate: (Math.random() - 0.5) * 200,
-            x: (Math.random() - 0.5) * 50,
-            y: (Math.random() - 0.5) * 50,
-            transition: { duration: 0.45, delay: (i as number) * 0.012, ease: "easeIn" }
-          }))
-          await new Promise(r => setTimeout(r, 600))
-          if (isCancelled) return
-
-          // Fade out the target A
-          await aTextControls.start({ 
-            opacity: 0, scale: 0.5, 
-            transition: { duration: 0.3, ease: "easeIn" } 
-          })
-          if (isCancelled) return
-
-          // ── 7. Unmount grid ────────────────────────────────────────────────
-          setIsActive(false)
-          await new Promise(r => setTimeout(r, 40))
-          if (isCancelled) return
-
-          // ── 8. Fade main A back in ─────────────────────────────────────────
-          await aControls.start({ opacity: 1, transition: { duration: 0.35, ease: "easeOut" } })
-          if (isCancelled) return
-
-          // ── 9. Fade Y + dot back in ────────────────────────────────────────
-          setYVisible(true)
-          await new Promise(r => setTimeout(r, 30))
-          if (isCancelled) return
-          yControls.start({ scale: 1, opacity: 1, transition: { duration: 0.45, ease: "backOut" } })
-          dotControls.start({ opacity: 1, transition: { duration: 0.4, ease: "easeInOut" } })
-
-        }, 4000)
-
       } else {
         // ── Instant reset on unhover ─────────────────────────────────────────
         clearTimeout(timeoutId)
@@ -876,14 +914,13 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 animate={swooshControls}
                 className="absolute rounded-full"
                 style={{
-                  width: p.size,
-                  height: p.size,
-                  backgroundColor: p.color,
-                  marginLeft: -p.size/2,
-                  marginTop: -p.size/2,
-                  boxShadow: `0 0 ${p.size * 2}px ${p.color}, 0 0 ${p.size * 4}px ${p.color}`,
-                  filter: p.blur > 0 ? `blur(${p.blur}px)` : 'none',
-                  transformStyle: "preserve-3d"
+                  width: p.size * 4,
+                  height: p.size * 4,
+                  background: `radial-gradient(circle at center, ${p.color} 0%, transparent 70%)`,
+                  marginLeft: -(p.size * 4) / 2,
+                  marginTop: -(p.size * 4) / 2,
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, opacity"
                 }}
               />
             ))}
@@ -907,7 +944,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 <motion.span
                   key={`cs-${i}`}
                   custom={i}
-                  initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                  initial={{ opacity: 0, scale: 0, ...csInitial[i] }}
                   animate={restTextControls}
                   className="inline-block whitespace-pre"
                   style={{ minWidth: c === " " ? "0.22em" : "auto" }}
@@ -922,7 +959,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                 <motion.span
                   key={`aw-${i}`}
                   custom={i + 20}
-                  initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                  initial={{ opacity: 0, scale: 0, ...awInitial[i] }}
                   animate={i === 0 ? aTextControls : restTextControls}
                   className="inline-block whitespace-pre"
                   style={{ minWidth: c === " " ? "0.22em" : "auto" }}
@@ -932,7 +969,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
               ))}
               <motion.img
                 custom={35}
-                initial={{ opacity: 0, scale: 0, rotate: (Math.random() - 0.5) * 180, x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 60 }}
+                initial={{ opacity: 0, scale: 0, ...csaInitial }}
                 animate={restTextControls}
                 src="/csa_award_clean.png"
                 alt="Canadian Screen Award"
@@ -966,487 +1003,16 @@ const SprayCan = ({ className }: { className?: string }) => (
   </svg>
 )
 
-// ─── Paint Puff SVG ───────────────────────────────────────────────────────────
-const PaintPuff = ({ color = "#1a1a2e", className }: { color?: string; className?: string }) => (
-  <svg viewBox="0 0 80 60" className={className} style={{ overflow: "visible" }}>
-    <ellipse cx="40" cy="30" rx="35" ry="22" fill={color} opacity="0.85" />
-    <ellipse cx="20" cy="22" rx="18" ry="14" fill={color} opacity="0.7" />
-    <ellipse cx="60" cy="20" rx="16" ry="12" fill={color} opacity="0.7" />
-    <ellipse cx="40" cy="14" rx="14" ry="10" fill={color} opacity="0.6" />
-    <ellipse cx="30" cy="36" rx="10" ry="8" fill={color} opacity="0.5" />
-    <ellipse cx="52" cy="38" rx="12" ry="8" fill={color} opacity="0.5" />
-  </svg>
-)
 
-// ─── Keffiyeh Bandana SVG ───────────────────────────────────────────────────
-const KeffiyehBandana = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 50 40" className={className} style={{ overflow: "visible" }}>
-    <defs>
-      <pattern id="keffiyehPattern" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
-        {/* Sand/Desert base color */}
-        <rect width="8" height="8" fill="#dcbfa6" />
-        {/* Black houndstooth/checkered marks */}
-        <path d="M 0,0 h 4 v 4 h -4 z" fill="#1a1a2e" />
-        <path d="M 4,4 h 4 v 4 h -4 z" fill="#1a1a2e" />
-      </pattern>
-    </defs>
-    
-    {/* Main wrap around the face */}
-    <path d="M 5,10 Q 25,-5 45,10 L 40,30 Q 25,45 10,30 Z" fill="url(#keffiyehPattern)" />
-    
-    {/* Folds/creases for realism */}
-    <path d="M 10,15 Q 25,25 40,15" fill="none" stroke="#1a1a2e" strokeWidth="1.5" opacity="0.4" />
-    <path d="M 15,22 Q 25,32 35,22" fill="none" stroke="#1a1a2e" strokeWidth="1" opacity="0.3" />
-    
-    {/* Dangling tails tied at the back or sides */}
-    <path d="M 8,28 Q -5,40 -10,55 Q 0,50 5,35 Z" fill="url(#keffiyehPattern)" />
-    <path d="M 42,28 Q 55,40 60,55 Q 50,50 45,35 Z" fill="url(#keffiyehPattern)" />
-  </svg>
-)
-
-// ─── Graffiti Text SVG (Mural) ────────────────────────────────────────────────
-const GraffitiText = ({ className, preserveAspectRatio }: { className?: string, preserveAspectRatio?: string }) => (
-  <svg viewBox="0 0 1000 600" className={className} preserveAspectRatio={preserveAspectRatio} style={{ overflow: "visible" }}>
-    <defs>
-      {/* Brick Texture Pattern */}
-      <pattern id="brick" width="80" height="40" patternUnits="userSpaceOnUse">
-        <rect width="80" height="40" fill="none" />
-        <path d="M 0,20 L 80,20 M 40,0 L 40,20 M 0,20 L 0,40 M 80,20 L 80,40" stroke="rgba(0,0,0,0.08)" strokeWidth="2" />
-      </pattern>
-      
-      <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#facc15" stopOpacity="0.4" />
-        <stop offset="100%" stopColor="#facc15" stopOpacity="0" />
-      </radialGradient>
-      <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#facc15" />
-        <stop offset="50%" stopColor="#f97316" />
-        <stop offset="100%" stopColor="#ef4444" />
-      </linearGradient>
-      
-      <filter id="sprayBlur" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="8" />
-      </filter>
-    </defs>
-
-    {/* Background Brick Wall Section */}
-    <rect x="-5000" y="-5000" width="10000" height="10000" fill="url(#brick)" opacity="0.8" />
-
-    <g transform="translate(100, 100)">
-      {/* --- MURAL BACKGROUND EFFECTS --- */}
-      {/* Massive Spray paint halos */}
-      <circle cx="400" cy="200" r="350" fill="#ec4899" opacity="0.15" filter="url(#sprayBlur)" />
-      <circle cx="200" cy="300" r="250" fill="#06b6d4" opacity="0.15" filter="url(#sprayBlur)" />
-      <circle cx="600" cy="150" r="280" fill="#facc15" opacity="0.15" filter="url(#sprayBlur)" />
-
-      {/* Wild abstract graffiti background shapes */}
-      <path d="M -1000,100 Q 150,-50 300,100 T 700,50 T 1500,200 T 2000,-100" fill="none" stroke="#06b6d4" strokeWidth="30" strokeLinecap="round" opacity="0.4" />
-      <path d="M -500,400 Q 250,550 400,350 T 800,450 T 1600,300" fill="none" stroke="#ec4899" strokeWidth="40" strokeLinecap="round" opacity="0.4" />
-      <path d="M 1800,-50 Q 700,100 850,250 T 750,500 T -200,600" fill="none" stroke="#facc15" strokeWidth="25" strokeLinecap="round" opacity="0.4" />
-      
-      {/* Background Drips */}
-      <path d="M 150,100 L 150,250 M 200,80 L 200,320 M 700,50 L 700,280 M 750,120 L 750,400 M -200,100 L -200,400 M 1200,50 L 1200,500" fill="none" stroke="#06b6d4" strokeWidth="8" strokeLinecap="round" opacity="0.4" />
-      <path d="M 300,350 L 300,550 M 450,400 L 450,600 M 600,380 L 600,580 M 1000,200 L 1000,600 M -100,200 L -100,500" fill="none" stroke="#ec4899" strokeWidth="12" strokeLinecap="round" opacity="0.4" />
-
-      {/* Dense Splatters */}
-      <circle cx="100" cy="150" r="20" fill="#06b6d4" opacity="0.8" />
-      <circle cx="140" cy="180" r="10" fill="#06b6d4" opacity="0.8" />
-      <circle cx="850" cy="80" r="30" fill="#ec4899" opacity="0.8" />
-      <circle cx="800" cy="40" r="15" fill="#ec4899" opacity="0.8" />
-      <circle cx="250" cy="60" r="18" fill="#facc15" opacity="0.8" />
-      <circle cx="650" cy="450" r="25" fill="#facc15" opacity="0.8" />
-      <circle cx="700" cy="480" r="12" fill="#facc15" opacity="0.8" />
-
-      {/* Main Center Text Area */}
-      <g transform="translate(140, 100) rotate(-6, 300, 100)">
-        
-        {/* Wildstyle Swooping Arrow Underneath */}
-        <path 
-          d="M 60,180 Q 250,260 580,140 L 550,110 L 650,130 L 590,190 L 560,155 Q 250,290 50,195 Z" 
-          fill="url(#arrowGradient)" 
-          stroke="#1a1a2e" 
-          strokeWidth="6" 
-          strokeLinejoin="round" 
-        />
-
-        {/* --- THE TEXT --- */}
-        {/* Black Drop Shadow */}
-        <text
-          x="44" y="144"
-          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-          fontSize="140"
-          fill="#1a1a2e"
-          stroke="#1a1a2e"
-          strokeWidth="8"
-          letterSpacing="-8"
-        >CITY SLICKER</text>
-        
-        {/* Thick White Outline */}
-        <text
-          x="32" y="132"
-          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-          fontSize="140"
-          fill="#ffffff"
-          stroke="#ffffff"
-          strokeWidth="18"
-          strokeLinejoin="round"
-          letterSpacing="-8"
-        >CITY SLICKER</text>
-
-        {/* Core Black Letters */}
-        <text
-          x="32" y="132"
-          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-          fontSize="140"
-          fill="#1a1a2e"
-          stroke="#1a1a2e"
-          strokeWidth="3"
-          strokeLinejoin="round"
-          letterSpacing="-8"
-        >CITY SLICKER</text>
-        
-        {/* White Highlights/Shine on letters */}
-        <text
-          x="26" y="126"
-          fontFamily="var(--font-sedgwick-display), 'Permanent Marker', cursive"
-          fontSize="140"
-          fill="none"
-          stroke="rgba(255,255,255,0.4)"
-          strokeWidth="3"
-          letterSpacing="-8"
-        >CITY SLICKER</text>
-      </g>
-    </g>
-  </svg>
-)
-// ─── GraffitiLogo ─────────────────────────────────────────────────────────────
-function GraffitiLogo({ isHovered }: { isHovered: boolean }) {
-  // xControls moves ONLY the Y character leftward — A. is outside this element
-  const xControls        = useAnimation()
-  const yControls        = useAnimation()  // squash/stretch/bounce on the Y
-  const limbControls     = useAnimation()
-  const leftLegControls  = useAnimation()
-  const rightLegControls = useAnimation()
-  const leftArmControls  = useAnimation()
-  const rightArmControls = useAnimation()
-  const canControls      = useAnimation()
-  const puffControls     = useAnimation()
-  const graffitiControls = useAnimation()
-  const shadowControls   = useAnimation()
-
-  useEffect(() => {
-    let isCancelled = false
-
-    // Walk cycle helper
-    const startWalk = (speed = 0.38) => {
-      leftLegControls.start({
-        rotate: [-40, 40, -40],
-        y: [0, -8, 0],
-        transition: { repeat: Infinity, duration: speed, ease: "easeInOut" }
-      })
-      rightLegControls.start({
-        rotate: [40, -40, 40],
-        y: [-8, 0, -8],
-        transition: { repeat: Infinity, duration: speed, ease: "easeInOut" }
-      })
-      leftArmControls.start({
-        rotate: [35, -35, 35],
-        transition: { repeat: Infinity, duration: speed, ease: "easeInOut" }
-      })
-      yControls.start({
-        y: [8, 0],
-        scaleX: 1,
-        scaleY: 1,
-        transition: { y: { repeat: Infinity, repeatType: "reverse", duration: speed / 2 } }
-      })
-    }
-    const stopWalk = () => {
-      leftLegControls.stop()
-      rightLegControls.stop()
-      leftArmControls.stop()
-    }
-
-    const runAnimation = async () => {
-      if (isHovered) {
-        // Y walks left to make room for the massive mural
-        const walkLeftDist = typeof window !== "undefined" ? -(window.innerWidth * 0.15) : -150
-        const walkOffDist = typeof window !== "undefined" ? walkLeftDist - window.innerWidth * 0.6 : -800
-
-        leftLegControls.stop(); rightLegControls.stop(); leftArmControls.stop(); yControls.stop()
-        limbControls.set({ opacity: 0 })
-        shadowControls.set({ opacity: 0 })
-        rightArmControls.set({ rotate: 30 })
-        leftArmControls.set({ rotate: -30 })
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
-        canControls.set({ opacity: 0 })
-        puffControls.set({ opacity: 0, scale: 0 })
-        // Mural container positioned slightly to the right of Y's spray position
-        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)", x: 0, y: 0 })
-        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
-        xControls.set({ x: 0, opacity: 1 })
-
-        // ── 1. Anticipation squash ─────────────────────────────────────────────
-        await yControls.start({
-          scaleX: 1.5, scaleY: 0.5, y: 18,
-          transition: { duration: 0.25, ease: "easeOut" }
-        })
-        if (isCancelled) return
-
-        // Limbs pop in
-        limbControls.start({ opacity: 1, transition: { duration: 0.05 } })
-        shadowControls.start({ opacity: 0.3, transition: { duration: 0.05 } })
-        canControls.start({ opacity: 1, transition: { duration: 0.05 } })
-
-        // ── 2. Jump up ────────────────────────────────────────────────────────
-        await yControls.start({
-          y: -50, scaleX: 0.8, scaleY: 1.3, rotate: -10,
-          transition: { type: "spring", stiffness: 350, damping: 12 }
-        })
-        if (isCancelled) return
-
-        // ── 3. Land ───────────────────────────────────────────────────────────
-        await yControls.start({
-          y: 12, scaleX: 1.35, scaleY: 0.65, rotate: 0,
-          transition: { type: "spring", stiffness: 400, damping: 14 }
-        })
-        if (isCancelled) return
-        // settle
-        await yControls.start({
-          y: 0, scaleX: 1, scaleY: 1,
-          transition: { type: "spring", stiffness: 300, damping: 18 }
-        })
-        if (isCancelled) return
-
-        // ── 4. Walk LEFT toward the wall ───────────────────────
-        startWalk(0.42)
-        // Flip to face left
-        yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
-
-        await xControls.start({
-          x: walkLeftDist,
-          transition: { duration: 1.2, ease: [0.4, 0, 0.6, 1] }
-        })
-        if (isCancelled) return
-
-        // ── 5. Stop walking, face the wall (turn right again) ─────────────────
-        stopWalk()
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
-        await yControls.start({ y: 0, scaleX: 1, scaleY: 1, rotate: 0, transition: { duration: 0.15 } })
-        if (isCancelled) return
-
-        // ── 6. Raise spray arm ────────────────────────────────────────────────
-        // right arm lifts into spray position
-        await rightArmControls.start({
-          rotate: -110, y: -8,
-          transition: { duration: 0.4, ease: "easeOut" }
-        })
-        if (isCancelled) return
-
-        // ── 7. Spray! Paint puff bursts, huge mural reveals ─────────────────────
-        puffControls.start({
-          opacity: [0, 0.9, 0.7, 0.5, 0],
-          scale: [0.2, 1.4, 1.8, 2.2, 2.8],
-          x: [10, 40, 80, 130, 180],
-          y: [0, -10, -5, 0, 5],
-          transition: { duration: 2.2, ease: "easeOut", times: [0, 0.2, 0.45, 0.7, 1] }
-        })
-
-        // Mural wipes in from left to right as paint settles
-        await new Promise(r => setTimeout(r, 400))
-        if (isCancelled) return
-        await graffitiControls.start({
-          opacity: 1,
-          clipPath: "inset(0 0% 0 0)",
-          transition: { duration: 2.0, ease: [0.2, 0, 0.4, 1] }
-        })
-        if (isCancelled) return
-
-        // ── 8. Admire the work briefly ────────────────────────────────────────
-        // small nod — bob up/down
-        await yControls.start({
-          y: [-4, 0, -4, 0],
-          transition: { duration: 0.8, times: [0, 0.3, 0.65, 1], ease: "easeInOut" }
-        })
-        if (isCancelled) return
-
-        // Lower spray arm
-        await rightArmControls.start({
-          rotate: 30, y: 0,
-          transition: { duration: 0.35, ease: "easeIn" }
-        })
-        if (isCancelled) return
-
-        // ── 9. Y leaves the frame entirely (walks off left) ───────────────────
-        startWalk(0.35)
-        yControls.start({ scaleX: -1, transition: { duration: 0.1 } })
-
-        await xControls.start({
-          x: walkOffDist,
-          transition: { duration: 1.5, ease: "easeIn" }
-        })
-        if (isCancelled) return
-
-        stopWalk()
-        // Y stays offscreen, mural stays permanently while hovered!
-
-      } else {
-        // Instant reset on unhover
-        if (isCancelled) return
-        leftLegControls.stop(); rightLegControls.stop()
-        leftArmControls.stop(); yControls.stop()
-        limbControls.set({ opacity: 0 })
-        shadowControls.set({ opacity: 0 })
-        canControls.set({ opacity: 0 })
-        puffControls.set({ opacity: 0, scale: 0, x: 0 })
-        graffitiControls.set({ opacity: 0, clipPath: "inset(0 100% 0 0)" })
-        xControls.set({ x: 0, opacity: 1 })
-        yControls.set({ y: 0, rotate: 0, scaleX: 1, scaleY: 1 })
-        rightArmControls.set({ rotate: 30 })
-        leftArmControls.set({ rotate: -30 })
-        leftLegControls.set({ rotate: 0 })
-        rightLegControls.set({ rotate: 0 })
-      }
-    }
-
-    runAnimation()
-    return () => { isCancelled = true }
-  }, [isHovered, xControls, yControls, limbControls, leftLegControls, rightLegControls, leftArmControls, rightArmControls, canControls, puffControls, graffitiControls, shadowControls])
-
-  return (
-    // Outer wrapper is static — only the Y's div (xControls) moves left. A. never moves.
-    <div className="flex relative items-baseline">
-
-      {/* Massive Mural — edge to edge background */}
-      <motion.div
-        animate={graffitiControls}
-        initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-        className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center"
-      >
-        <div className="w-full h-full opacity-60">
-          <GraffitiText className="w-full h-full" preserveAspectRatio="xMidYMid slice" />
-        </div>
-      </motion.div>
-
-      {/* ── Y's world: this is the only element that translates left ── */}
-      <motion.div animate={xControls} className="relative inline-block z-20">
-
-        {/* Paint puff — erupts rightward from the can */}
-        <motion.div
-          animate={puffControls}
-          initial={{ opacity: 0, scale: 0 }}
-          className="absolute z-30 pointer-events-none"
-          style={{ top: "-20px", left: "30px", width: "80px", height: "60px" }}
-        >
-          <PaintPuff color="#1a1a2e" className="w-full h-full" />
-        </motion.div>
-
-        {/* Y character: squash/stretch/bounce */}
-        <motion.span
-          animate={yControls}
-          className="inline-block relative origin-bottom"
-        >
-          Y
-
-          {/* New Era Fitted Hat (Left branch of Y) */}
-          <img 
-            src="/projects/hat-nobg-cropped.png" 
-            alt="Toronto Blue Jays Fitted Hat"
-            className="absolute z-20 drop-shadow-2xl pointer-events-none -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: "1em",
-              top: "0.28em",
-              left: "0.15em"
-            }}
-          />
-
-          {/* Shadow */}
-          <motion.div
-            animate={shadowControls}
-            initial={{ opacity: 0 }}
-            className="absolute bottom-[-6px] left-[0px] w-[20px] h-[4px] bg-black rounded-full blur-[2px]"
-          />
-
-          {/* All limbs */}
-          <motion.div
-            animate={limbControls}
-            initial={{ opacity: 0 }}
-            className="absolute inset-0 pointer-events-none"
-          >
-            {/* Left Arm (free, swings) */}
-            <motion.div
-              animate={leftArmControls}
-              initial={{ rotate: -30 }}
-              className="absolute left-[-16px] top-[40%] w-[16px] h-[10px] origin-right z-10"
-            >
-              <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                <path d="M 16,5 Q 8,-5 0,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-              </svg>
-              <MickeyGlove className="absolute left-[-14px] top-[-7px] w-[24px] h-[24px] -rotate-90 drop-shadow-md" />
-            </motion.div>
-
-            {/* Right Arm — holds the spray can */}
-            <motion.div
-              animate={rightArmControls}
-              initial={{ rotate: 30 }}
-              className="absolute right-[-18px] top-[35%] w-[16px] h-[10px] origin-left z-10"
-            >
-              <svg viewBox="0 0 16 10" className="absolute inset-0 overflow-visible">
-                <path d="M 0,5 Q 8,-5 16,5" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-              </svg>
-              <motion.div
-                animate={canControls}
-                initial={{ opacity: 0 }}
-                className="absolute right-[-18px] top-[-28px] w-[18px] h-[36px]"
-              >
-                <SprayCan className="w-full h-full" />
-              </motion.div>
-            </motion.div>
-
-            {/* Left Leg */}
-            <motion.div
-              animate={leftLegControls}
-              className="absolute left-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0"
-            >
-              <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                <path d="M 5,0 Q -5,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-              </svg>
-              <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped />
-            </motion.div>
-
-            {/* Right Leg */}
-            <motion.div
-              animate={rightLegControls}
-              className="absolute right-[25%] bottom-[-16px] w-[10px] h-[16px] origin-top z-0"
-            >
-              <svg viewBox="0 0 10 16" className="absolute inset-0 overflow-visible">
-                <path d="M 5,0 Q 15,8 5,16" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" />
-              </svg>
-              <MickeyShoe className="absolute left-[-9px] bottom-[-12px] w-[28px] h-[24px] drop-shadow-md" flipped />
-            </motion.div>
-          </motion.div>
-        </motion.span>
-      </motion.div>
-
-      {/* A. — completely static, never moves */}
-      <span
-        className="inline-block transition-opacity duration-300"
-        style={{ opacity: isHovered ? 0.3 : 1 }}
-      >
-        A.
-      </span>
-    </div>
-  )
-}
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner" | "graffiti">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner">("cartoon")
 
   const handleMouseEnter = () => {
     if (!isHovered) {
-      const types: ("cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner" | "graffiti")[] = ["cartoon", "tumbler", "rocket", "storyteller", "awardwinner", "graffiti"]
-      setAnimType(types[Math.floor(Math.random() * types.length)])
+      const allTypes: ("cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "storyteller", "awardwinner"]
+      const availableTypes = allTypes.filter(type => type !== animType)
+      setAnimType(availableTypes[Math.floor(Math.random() * availableTypes.length)])
       setIsHovered(true)
     }
   }
@@ -1470,8 +1036,6 @@ export function AnimatedLogo() {
         <StoryTellerLogo isHovered={isHovered} />
       ) : animType === "awardwinner" ? (
         <AwardWinnerLogo isHovered={isHovered} />
-      ) : animType === "graffiti" ? (
-        <GraffitiLogo isHovered={isHovered} />
       ) : (
         <RocketLogo isHovered={isHovered} />
       )}

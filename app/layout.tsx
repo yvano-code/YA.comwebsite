@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
-import { DynamicBackground } from '@/components/dynamic-background'
+import { InteractiveLavaLamp } from '@/components/interactive-lava-lamp'
 
 export default function RootLayout({
   children,
@@ -52,7 +52,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
         {/* Dynamic Liquid Glass Background Elements */}
-        <DynamicBackground />
+        <InteractiveLavaLamp />
         
         {/* Global Glass Overlay */}
         <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />

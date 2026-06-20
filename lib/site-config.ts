@@ -196,7 +196,6 @@ export const siteConfig = {
     }
   ],
 
-  // ── AWARDS ────────────────────────────────────────────────────────────────
   awards: [
     {
       title: "Canadian Screen Award (2021)",
@@ -209,14 +208,14 @@ export const siteConfig = {
       description: "#BLACK — Best Documentary"
     },
     {
+      title: "Gary International Black Film Festival (2020)",
+      status: "Winner",
+      description: "Being Black in Toronto (2020) — Best Youth Film"
+    },
+    {
       title: "Hollywood North Film Awards (2020)",
       status: "Nominated",
       description: "#BLACK — Best VFX & Color, Best Editing of a Canadian Short Doc"
-    },
-    {
-      title: "Gary International Black Film Festival (2020)",
-      status: "Nominated / Selected",
-      description: "Being Black in Toronto (2020) — Best Youth Film"
     }
   ],
 

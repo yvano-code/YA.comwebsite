@@ -40,7 +40,9 @@ function MailIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   const pathname = usePathname()
-  const { social, contact } = siteConfig
+  const { contact } = siteConfig
+
+  if (pathname === "/") return null
 
   return (
     <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden">
