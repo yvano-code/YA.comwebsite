@@ -19,8 +19,8 @@ export default function HomePage3() {
         </div>
 
          {/* Permanent Content Nav (Text Only) */}
-         <nav className="absolute bottom-[27vh] w-full flex items-center justify-center px-6 md:px-12 pb-4 text-sm font-semibold z-50">
-               <div className="text-[9.5px] md:text-[11.5px] lg:text-[13.5px] font-medium tracking-[0.25em] uppercase text-black/50 flex flex-wrap items-center justify-center gap-4 md:gap-8 w-full max-w-[90vw] text-center">
+         <nav className="absolute bottom-[27vh] w-full flex items-center justify-center px-4 md:px-12 pb-4 text-sm font-semibold z-50">
+               <div className="text-[9.5px] md:text-[11.5px] lg:text-[13.5px] font-medium tracking-[0.25em] uppercase text-black/50 flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-8 w-full max-w-[90vw] text-center">
                   <span className="whitespace-nowrap">FILM & TELEVISION</span>
                   <span className="text-black/20 font-light hidden md:inline">|</span>
                   <span className="whitespace-nowrap">MUSIC VIDEO</span>
@@ -42,7 +42,7 @@ export default function HomePage3() {
                 
                 <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-start sm:items-end justify-between relative z-10 flex-col sm:flex-row gap-8">
                   <div className="flex flex-col">
-                    <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85] pb-4 drop-shadow-sm">
+                    <h3 className="text-[48px] sm:text-[60px] md:text-[81px] font-black tracking-tighter uppercase leading-[0.85] pb-4 drop-shadow-sm">
                       <span className="text-black">KEY </span>
                       <span className="text-black/30">CREATIONS</span>
                     </h3>
@@ -71,7 +71,7 @@ export default function HomePage3() {
               {/* Accreditations Section */}
               <section className="mt-12 md:mt-16 px-6 md:px-12 pb-12 pt-12 md:pt-16">
                 <div className="mb-16 md:mb-24">
-                  <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
+                  <h3 className="text-[48px] sm:text-[60px] md:text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
                     <span className="block text-black">AWARDS &</span>
                     <span className="block text-black/30">OFFICIAL SELECTIONS</span>
                   </h3>
@@ -125,8 +125,8 @@ export default function HomePage3() {
               >
                 <TumblerLogo isHovered={isFooterHovered} />
               </div>
-              <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-black/50 flex justify-center items-center px-4 w-full">
-                <p className="whitespace-nowrap">
+              <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-black/50 flex justify-center items-center px-4 w-full text-center">
+                <p className="max-w-[90vw] leading-relaxed">
                   FOR BOOKINGS, COLLABORATIONS AND GENERAL INQUIRIES PLEASE EMAIL{" "}
                   <a href={`mailto:${siteConfig.contact.email}`} className="text-black hover:text-black/70 transition-colors">
                     {siteConfig.contact.email}

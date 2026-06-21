@@ -76,7 +76,7 @@ const DustCloud = ({ className }: { className?: string }) => (
   </svg>
 )
 
-function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
+export function GoodYuteLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
   const topTextControls = useSafeAnimation()
   const bottomTextControls = useSafeAnimation()
   const dotControls = useSafeAnimation()
@@ -84,6 +84,10 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
 
   useEffect(() => {
     let isCancelled = false
+    topTextControls.stop()
+    bottomTextControls.stop()
+    dotControls.stop()
+    exclamationControls.stop()
 
     const runSequence = async () => {
       if (isHovered) {
@@ -99,8 +103,9 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         await new Promise(r => setTimeout(r, 250))
         if (isCancelled) return
 
-        // 3. Expand "GOOD YUTE" to the left
+        // 3. Expand "GOOD YUTE" to the left, and shift the whole line right to center it
         bottomTextControls.start({ x: 0, transition: { duration: 0.5, ease: "easeOut" } })
+        dotControls.start({ x: "1.25em", transition: { duration: 0.5, ease: "easeOut" } })
 
         await new Promise(r => setTimeout(r, 500))
         if (isCancelled) return
@@ -116,8 +121,9 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
         await new Promise(r => setTimeout(r, 250))
         if (isCancelled) return
 
-        // 2. Collapse "GOOD YUTE"
+        // 2. Collapse "GOOD YUTE" and move dot back to original X position
         bottomTextControls.start({ x: "100%", transition: { duration: 0.3, ease: "easeIn" } })
+        dotControls.start({ x: 0, transition: { duration: 0.3, ease: "easeIn" } })
         
         await new Promise(r => setTimeout(r, 350))
         if (isCancelled) return
@@ -155,7 +161,7 @@ function GoodYuteLogo({ isHovered }: { isHovered: boolean }) {
       
       <motion.span 
         animate={dotControls}
-        initial={{ y: 0 }}
+        initial={{ y: 0, x: 0 }}
         className="inline-flex relative z-20 items-baseline"
       >
         <div className="absolute right-[100%] overflow-hidden flex whitespace-pre">
@@ -224,7 +230,7 @@ const getToyStyle = (index: number, char: string) => {
   };
 };
 
-export function TumblerLogo({ isHovered }: { isHovered: boolean }) {
+export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
 
   const controls = useSafeAnimation()
   
@@ -266,6 +272,7 @@ export function TumblerLogo({ isHovered }: { isHovered: boolean }) {
 
   useEffect(() => {
     let isCancelled = false
+    controls.stop()
     hoverRef.current = isHovered
     
     const runAnimation = async () => {
@@ -306,7 +313,7 @@ export function TumblerLogo({ isHovered }: { isHovered: boolean }) {
           ...getRandomJumble(),
           transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
         }))
-        
+
       } else {
         // --- HOVER OUT SEQUENCE ---
         
@@ -380,7 +387,25 @@ const RocketSmoke = ({ className }: { className?: string }) => (
   <img src="/rocket-smoke.png" alt="Rocket Smoke" className={`object-contain ${className}`} style={{ filter: "drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.2))" }} />
 )
 
-function RocketLogo({ isHovered }: { isHovered: boolean }) {
+const NasaY = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 80 100" className={className} fill="none" stroke="currentColor" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M 15 15 C 15 50, 40 60, 40 85 M 65 15 C 65 40, 40 60, 40 60" />
+  </svg>
+)
+
+const NasaA = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 80 100" className={className} fill="none" stroke="currentColor" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M 15 85 L 40 15 L 65 85" />
+  </svg>
+)
+
+const NasaDot = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 30 100" className={className} fill="currentColor">
+    <circle cx="15" cy="85" r="9" />
+  </svg>
+)
+
+export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
   const yControls = useSafeAnimation()
   const aControls = useSafeAnimation()
   const dotControls = useSafeAnimation()
@@ -393,6 +418,12 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
     hoverRef.current = isHovered
     let isCancelled = false
     
+    yControls.stop()
+    aControls.stop()
+    dotControls.stop()
+    fireControls.stop()
+    smokeControls.stop()
+
     const runAnimation = async () => {
       if (isHovered) {
         // 1. Countdown
@@ -483,7 +514,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
               x: [-100, 150, 50, 0],
               rotate: [45, 15, -10, 0],
               scale: [0.1, 0.4, 0.7, 1],
-              transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
+              transition: { duration: 0.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
             }
           },
           {
@@ -493,7 +524,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
               x: [0, 0, 0],
               rotate: [0, 0, 0],
               scale: [1, 0.6, 0.1],
-              transition: { duration: 1.5, ease: "easeIn", times: [0, 0.5, 1] }
+              transition: { duration: 2.0, ease: "easeIn", times: [0, 0.5, 1] }
             },
             teleport: { x: w + 200, y: h + 200, rotate: -45, scale: 0.1 },
             landing: {
@@ -501,7 +532,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
               x: [w + 200, 300, -100, 0],
               rotate: [-45, -20, 10, 0],
               scale: [0.1, 0.4, 0.7, 1],
-              transition: { duration: 2.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
+              transition: { duration: 0.5, ease: "easeOut", times: [0, 0.4, 0.7, 1] }
             }
           }
         ];
@@ -521,7 +552,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         aControls.set(selectedPath.teleport)
         
         // Wait a tiny beat for suspense
-        await new Promise(r => setTimeout(r, 200))
+        await new Promise(r => setTimeout(r, 800))
         if (isCancelled) return
         
         // Retrorockets fire!
@@ -529,13 +560,13 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
           opacity: [0, 1, 1, 0], 
           scaleX: [0, 0.8, 0.5, 0], 
           scaleY: [0, 2.0, 1.5, 0], 
-          transition: { duration: 2.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" } 
+          transition: { duration: 0.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" } 
         })
         smokeControls.start({
           opacity: [0, 1, 1, 0],
           scale: [0, 1.5, 1.5, 0],
           y: 0,
-          transition: { duration: 2.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" }
+          transition: { duration: 0.5, times: [0, 0.1, 0.9, 1], ease: "easeInOut" }
         })
         
         // 4. Smooth Landing back to the start
@@ -549,22 +580,23 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
         // Small puff of smoke on touchdown
         smokeControls.start({ scale: [0, 1.5], opacity: [0, 0.5, 0], y: [0, 20], transition: { duration: 0.5 } })
         
+        // Wait 0.5 seconds at the end of the animation and then trigger next animation
+        await new Promise(r => setTimeout(r, 500))
+        if (isCancelled) return
+        if (onAnimationComplete) {
+          onAnimationComplete()
+        }
       } else {
-        // RESET state instantly
-        hoverRef.current = false
-        isCancelled = true
         setCountdown(null)
-        yControls.stop()
-        dotControls.stop()
         aControls.stop()
         fireControls.stop()
         smokeControls.stop()
         
-        yControls.start({ x: 0, y: 0 })
-        dotControls.start({ x: 0, y: 0 })
-        aControls.start({ x: 0, y: 0, rotate: 0, scale: 1, transition: { type: "spring" } })
-        fireControls.start({ opacity: 0, scale: 0 })
-        smokeControls.start({ opacity: 0, scale: 0, y: 0 })
+        yControls.start({ x: 0, y: 0, transition: { duration: 0.5 } })
+        dotControls.start({ x: 0, y: 0, transition: { duration: 0.5 } })
+        aControls.start({ x: 0, y: 0, rotate: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } })
+        fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.5 } })
+        smokeControls.start({ opacity: 0, scale: 0, y: 0, transition: { duration: 0.5 } })
       }
     }
     
@@ -576,18 +608,17 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
   }, [isHovered, yControls, dotControls, aControls, fireControls, smokeControls])
 
   return (
-    <div className="flex relative items-baseline">
-      <motion.span animate={yControls} className="inline-block relative z-20">Y</motion.span>
+    <div className="flex relative items-baseline gap-[2px] text-[#fc3d21]">
+      <motion.span animate={yControls} className="inline-block relative z-20">
+        <NasaY className="w-[0.8em] h-[1em] -scale-x-100" />
+      </motion.span>
       <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
-        A
-        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute top-[85%] left-[50%] -translate-x-[50%] w-[0.8em] h-[1.5em] origin-top">
-          <RocketFire className="w-full h-full" />
+        <NasaA className="w-[0.8em] h-[1em]" />
+        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute top-[80%] left-[50%] -translate-x-[50%] w-[0.6em] h-[1.5em] origin-top z-0">
+          <RocketFire className="w-full h-full text-[#fc3d21]" />
         </motion.div>
         <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0, y: 0 }} className="absolute top-[100%] left-[50%] -translate-x-[50%] w-[3em] h-[3em] origin-top z-[-1]">
-          {/* Main big puff */}
           <RocketSmoke className="absolute inset-0 w-full h-full" />
-          
-          {/* Billowing trailing puffs to create a spreading smoke column */}
           <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -60, -100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0 }} className="absolute inset-0">
             <RocketSmoke className="w-full h-full" />
           </motion.div>
@@ -605,7 +636,9 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
           </motion.div>
         </motion.div>
       </motion.span>
-      <motion.span animate={dotControls} className="inline-block relative z-20">.</motion.span>
+      <motion.span animate={dotControls} className="inline-block relative z-20">
+        <NasaDot className="w-[0.3em] h-[1em]" />
+      </motion.span>
       
       {countdown !== null && (
         <motion.div 
@@ -621,7 +654,7 @@ function RocketLogo({ isHovered }: { isHovered: boolean }) {
   )
 }
 
-function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
+export function StoryTellerLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
   const [isActive, setIsActive] = useState(false)
   const dotControls = useSafeAnimation()
   
@@ -630,90 +663,110 @@ function StoryTellerLogo({ isHovered }: { isHovered: boolean }) {
   const storControls = useSafeAnimation()
   const ellerControls = useSafeAnimation()
 
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-    let isCancelled = false
-    
-    if (isHovered) {
-      setIsActive(true)
-      dotControls.start({ opacity: 0, transition: { duration: 0.4 } })
-      
-      // Clean scale morph for A -> T
-      aControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, ease: "backIn" } })
-      tControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.3, ease: "backOut" } })
-      
-      // Slide out from behind the anchors
-      storControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
-      ellerControls.start({ x: "0%", transition: { type: "spring", damping: 15, stiffness: 100, delay: 0.4 } })
+  let isCancelled = false
 
+  useEffect(() => {
+    if (isHovered) {
+      if (isCancelled) return
+      
+      aControls.start({ scale: 0.8, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } })
+      tControls.start({ scale: 1, opacity: 1, transition: { duration: 0.4, ease: "easeOut", delay: 0.1 } })
+      storControls.start({ x: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 } })
+      ellerControls.start({ x: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 } })
     } else {
       if (isCancelled) return
-      setIsActive(false)
       
-      // Slide back behind the anchors
-      storControls.start({ x: "100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
-      ellerControls.start({ x: "-100%", transition: { type: "spring", damping: 15, stiffness: 100 } })
-      
-      // Clean scale morph for T -> A
-      tControls.start({ scale: 0, opacity: 0, transition: { duration: 0.3, delay: 0.2, ease: "backIn" } })
-      aControls.start({ scale: 1, opacity: 1, transition: { duration: 0.3, delay: 0.5, ease: "backOut" } })
-      
-      dotControls.start({ opacity: 1, transition: { duration: 0.4, delay: 0.5 } })
+      storControls.start({ x: "100%", opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } })
+      ellerControls.start({ x: "-100%", opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } })
+      tControls.start({ scale: 0.8, opacity: 0, transition: { duration: 0.3, ease: "easeIn", delay: 0.1 } })
+      aControls.start({ scale: 1, opacity: 1, transition: { duration: 0.4, ease: "easeOut", delay: 0.2 } })
     }
     
     return () => {
       isCancelled = true
-      clearTimeout(timeoutId)
     }
-  }, [isHovered, dotControls, aControls, tControls, storControls, ellerControls])
+  }, [isHovered, storControls, ellerControls, tControls, aControls])
+
+  const imgClass = "h-[1.2em] w-auto shrink-0 inline-block object-contain -mr-[0.02em]"
 
   return (
-    <div className="flex relative items-baseline justify-center">
-      {/* Y and STOR */}
-      <span className="relative inline-block z-30">
-        <div className="absolute right-[100%] top-0 flex items-baseline overflow-hidden h-full">
-          {/* x: 100% hides STOR entirely behind Y due to the right-[100%] container mask */}
-          <motion.div animate={storControls} initial={{ x: "100%" }} className="flex justify-end whitespace-pre pr-[0.05em] py-1">
-            STOR
+    <div className="flex relative items-center justify-center py-4">
+      {/* LEFT WING */}
+      <div className="flex items-center justify-end relative z-10">
+        <div 
+          className="absolute right-[50%] top-[-0.5em] bottom-[-0.5em] flex items-center overflow-hidden pr-[0.4em] pl-[0.5em] z-0 min-w-max"
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
+        >
+          <motion.div 
+            animate={storControls} 
+            initial={{ x: "100%", opacity: 0 }} 
+            className="flex justify-end whitespace-nowrap min-w-max"
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="flex items-center min-w-max">
+              <img src="/3d_text_fur_S.png?v=6" alt="S" className={imgClass} />
+              <img src="/3d_text_fur_T.png?v=6" alt="T" className={imgClass} />
+              <img src="/3d_text_fur_O.png?v=6" alt="O" className={imgClass} />
+              <img src="/3d_text_fur_R.png?v=6" alt="R" className={imgClass} />
+            </div>
           </motion.div>
         </div>
-        <span className="relative z-10">Y</span>
-      </span>
-      
-      {/* A / T and ELLER */}
-      <span className="relative inline-block z-30">
-        {/* The base A dictates the layout width so it never shifts */}
-        <motion.span animate={aControls} initial={{ scale: 1, opacity: 1 }} className="inline-block relative z-10 origin-center py-1">
-          A
-        </motion.span>
         
-        {/* The T scales in directly over the A */}
-        <motion.span animate={tControls} initial={{ scale: 0, opacity: 0 }} className="absolute inset-0 flex items-center justify-center z-20 origin-center py-1">
-          T
-        </motion.span>
+        <div className="relative z-10 flex items-center">
+          <img src="/3d_text_fur_Y.png?v=6" alt="Y" className={imgClass} />
+        </div>
+      </div>
 
-        {/* ELLER rolls out to the right */}
-        <div className="absolute left-[100%] top-0 flex items-baseline overflow-hidden h-full">
-          {/* x: -100% hides ELLER entirely behind A/T due to the left-[100%] container mask */}
-          <motion.div animate={ellerControls} initial={{ x: "-100%" }} className="flex justify-start whitespace-pre pr-[0.1em] py-1">
-            ELLER
+      {/* RIGHT WING */}
+      <div className="flex items-center justify-start relative z-10">
+        <div className="relative z-20 flex items-center justify-center h-[1.2em] w-[1.2em]">
+          <motion.div
+            animate={aControls}
+            initial={{ scale: 1, opacity: 1 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <img src="/3d_text_fur_A.png?v=6" alt="A" className={imgClass} />
+          </motion.div>
+          
+          <motion.div
+            animate={tControls}
+            initial={{ scale: 0.6, opacity: 0 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <img src="/3d_text_fur_T.png?v=6" alt="T" className={imgClass} />
           </motion.div>
         </div>
-      </span>
 
-      {/* The Dot */}
-      <motion.span 
-        animate={dotControls}
-        initial={{ opacity: 1 }}
-        className="inline-block whitespace-pre overflow-visible z-20"
-      >
-        .
-      </motion.span>
+        <div 
+          className="absolute left-[50%] top-[-0.5em] bottom-[-0.5em] flex items-center overflow-hidden pl-[0.7em] pr-[0.5em] z-0 min-w-max"
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
+        >
+          <motion.div 
+            animate={ellerControls} 
+            initial={{ x: "-100%", opacity: 0 }} 
+            className="flex justify-start whitespace-nowrap min-w-max"
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="flex items-center min-w-max">
+              <img src="/3d_text_fur_E.png?v=6" alt="E" className={imgClass} />
+              <img src="/3d_text_fur_L.png?v=6" alt="L" className={imgClass} />
+              <img src="/3d_text_fur_L.png?v=6" alt="L" className={imgClass} />
+              <img src="/3d_text_fur_E.png?v=6" alt="E" className={imgClass} />
+              <img src="/3d_text_fur_R.png?v=6" alt="R" className={imgClass} />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+      
+      {/* THE DOT */}
+      <div className="inline-block relative z-20 ml-1 h-[1em] flex items-end">
+         <img src="/3d_text_O.png?v=4" alt="." className="h-[0.3em] w-auto inline-block object-contain drop-shadow-2xl opacity-0" />
+      </div>
     </div>
   )
 }
 
-const DUST_COUNT = 1200;
+const DUST_COUNT = 150;
 const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   const angle = Math.random() * Math.PI * 2;
   // Expansive radius (edge to edge viewport coverage)
@@ -723,10 +776,10 @@ const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
   // Parallax depth! from -1500 to 2000
   const z = (Math.random() * 3500) - 1500;
   
-  // More plentiful, smaller speckles
-  const isBokeh = Math.random() > 0.90;
-  const size = isBokeh ? Math.random() * 24 + 8 : Math.random() * 3.5 + 0.8;
-  const blur = isBokeh ? size * 0.5 : Math.random() * 1.0;
+  // More bokeh for heavy depth of field effect
+  const isBokeh = Math.random() > 0.80;
+  const size = isBokeh ? Math.random() * 20 + 8 : Math.random() * 4 + 1.5;
+  const blur = isBokeh ? size * 0.8 : Math.random() * 3.0;
   
   const delay = Math.random() * 0.4;
   // Photorealistic warm lighting with heavily weighted bright whites and soft yellows
@@ -737,7 +790,7 @@ const dustParticles = Array.from({ length: DUST_COUNT }).map((_, i) => {
     "#fde047", "#eab308", "#ca8a04", "#a16207"
   ];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  const twinkleDuration = Math.random() * 1.0 + 0.3; // Faster, punchier twinkle
+  const twinkleDuration = Math.random() * 2.0 + 1.5; // Much slower, subtler twinkle
   
   return { x, y, z, size, blur, delay, color, angle, twinkleDuration };
 });
@@ -752,10 +805,9 @@ const csInitial = "CANADIAN SCREEN".split("").map(() => getInitialPos());
 const awInitial = "AWARD WINNER".split("").map(() => getInitialPos());
 const csaInitial = getInitialPos();
 
-function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
+export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
   const [isActive, setIsActive]   = useState(false)
-  const [yVisible, setYVisible]   = useState(true)
-  const yControls        = useSafeAnimation()   // Y scale-fade
+  const yControls        = useSafeAnimation()
   const aControls        = useSafeAnimation()   // Main A fade
   const dotControls      = useSafeAnimation()   // dot fade
   const aTextControls      = useSafeAnimation()   // The specific 'A' in the grid
@@ -787,52 +839,51 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
     let isCancelled = false
 
     const runAnimation = async () => {
+      yControls.stop()
+      aControls.stop()
+      dotControls.stop()
+      aTextControls.stop()
+      restTextControls.stop()
+      swooshControls.stop()
+
       if (isHovered) {
-
-        // ── 1. Fade out Y + dot ──────────────────────────────────────────────
-        dotControls.start({ opacity: 0, transition: { duration: 0.35, ease: "easeInOut" } })
-        await yControls.start({ scale: 0, opacity: 0, transition: { duration: 0.42, ease: "backIn" } })
-        if (isCancelled) return
-        setYVisible(false)
-
-        // Hold A for a little bit longer
-        await new Promise(r => setTimeout(r, 250))
+        // 1. Hold for 500ms before exploding
+        await new Promise(r => setTimeout(r, 500))
         if (isCancelled) return
 
-        // ── 2. Fade out A ────────────────────────────────────────────────────
-        await aControls.start({ opacity: 0, transition: { duration: 0.28, ease: "easeInOut" } })
-        if (isCancelled) return
+        // 2. Explode
+        dotControls.start({ opacity: 0, transition: { duration: 0.3, ease: "easeInOut" } })
+        yControls.start({ scale: 0.8, opacity: 0, transition: { duration: 0.3, ease: "easeOut" } })
+        aControls.start({ scale: 0.8, opacity: 0, transition: { duration: 0.3, ease: "easeOut" } })
 
-        // ── 3. Mount grid ────────────────────────────────────────────────────
         setIsActive(true)
-        await new Promise(r => setTimeout(r, 40))
+        await new Promise(r => setTimeout(r, 50))
         if (isCancelled) return
 
-        // ── 4. Fade in the target A in its right spot ────────────────────────
-        // grid initial is scale: 1, opacity: 1, so we don't need to set it
-        await aTextControls.start({ 
-          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, 
-          transition: { duration: 0.3, ease: "easeOut" } 
-        })
-        if (isCancelled) return
-
-        // ── 5. The rest of the letters burst out + dust swirl ───────────────────
         swooshControls.start(i => {
           const p = dustParticles[i as number]
           return {
-            opacity: [0, 1, 0.4, 1, 0.9],
+            opacity: [0, 0.6, 0.2, 0.5, 0.3],
             x: [0, p.x],
             y: [0, p.y],
             z: [0, p.z],
             scale: [0, 1.2, 1],
             transition: { 
-              duration: 2.5, 
-              type: "spring", bounce: 0.3, delay: p.delay,
+              duration: 3.0, 
+              type: "spring", bounce: 0.1, delay: p.delay,
               opacity: { repeat: Infinity, duration: p.twinkleDuration, repeatType: "mirror", ease: "easeInOut" }
             }
           }
         })
 
+        await new Promise(r => setTimeout(r, 250))
+        if (isCancelled) return
+
+        aTextControls.start({ 
+          opacity: 1, scale: 1, rotate: 0, x: 0, y: 0, 
+          transition: { type: "spring", damping: 12, stiffness: 130 } 
+        })
+        
         await restTextControls.start(i => ({
           opacity: 1, scale: 1, rotate: 0, x: 0, y: 0,
           transition: { type: "spring", damping: 12, stiffness: 130, delay: (i as number) * 0.015 }
@@ -840,38 +891,54 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
         if (isCancelled) return
 
       } else {
-        // ── Instant reset on unhover ─────────────────────────────────────────
         clearTimeout(timeoutId)
-        setIsActive(false)
-        setYVisible(true)
-        aControls.set({ opacity: 1 })
-        yControls.set({ scale: 1, opacity: 1 })
-        dotControls.set({ opacity: 1 })
+        if (isActive) {
+          aTextControls.start({ opacity: 0, scale: 0.95, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
+          restTextControls.start({ opacity: 0, scale: 0.95, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
+          swooshControls.start({ opacity: 0, scale: 0.8, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
+          timeoutId = setTimeout(() => {
+            if (!isCancelled) setIsActive(false)
+          }, 500)
+        }
+
+        const smoothTransition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+        yControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 0 } })
+        aControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 0.08 } })
+        dotControls.start({ opacity: 1, transition: { ...smoothTransition, delay: 0.16 } })
       }
     }
 
     runAnimation()
     return () => { isCancelled = true; clearTimeout(timeoutId) }
-  }, [isHovered, yControls, aControls, dotControls, restTextControls, aTextControls, gridControls])
+  }, [isHovered, yControls, aControls, dotControls, restTextControls, aTextControls, gridControls, dustParticles, swooshControls])
 
   return (
-    <div className="flex relative items-baseline justify-center">
-      {/* Y */}
-      {yVisible && (
-        <motion.span
-          animate={yControls}
-          initial={{ scale: 1, opacity: 1 }}
-          className="inline-block origin-center z-20"
-        >
-          Y
-        </motion.span>
-      )}
+    <div 
+      className="flex relative items-baseline justify-center uppercase"
+      style={{
+        fontFamily: '"Avenir Next", Montserrat, "Century Gothic", sans-serif',
+        fontWeight: 200,
+        letterSpacing: "0.15em",
+      }}
+    >
+      {/* Y (Trophy) */}
+      <motion.span
+        animate={yControls}
+        initial={{ scale: 1, opacity: 1 }}
+        className="inline-flex items-center origin-center z-20"
+      >
+        <img 
+          src="/csa_award_statue_nobg_v3.png" 
+          alt="Canadian Screen Award Statue" 
+          className="h-[2.2em] w-auto object-contain mr-[0.2em]" 
+        />
+      </motion.span>
 
       {/* A — fades in/out */}
       <motion.span
         animate={aControls}
         initial={{ opacity: 1 }}
-        className="inline-block z-20"
+        className="inline-block z-20 -translate-y-[0.1em]"
       >
         A
       </motion.span>
@@ -880,7 +947,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
       <motion.span
         animate={dotControls}
         initial={{ opacity: 1 }}
-        className="inline-block z-20"
+        className="inline-block z-20 -translate-y-[0.1em]"
       >
         .
       </motion.span>
@@ -899,12 +966,35 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           }}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
+          {/* Intense Central Core Light */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ 
+              opacity: [0, 0.7, 0.4, 0.8, 0.5], 
+              scale: [0.5, 1.2, 1, 1.3, 1.1] 
+            }}
+            transition={{ 
+              duration: 3, 
+              delay: 0.8, 
+              repeat: Infinity, 
+              repeatType: "reverse", 
+              ease: "easeInOut" 
+            }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[800px] aspect-square rounded-full pointer-events-none mix-blend-screen"
+            style={{
+              background: "radial-gradient(circle at center, rgba(255,250,200,0.4) 0%, rgba(253,224,71,0.15) 30%, transparent 70%)",
+              filter: "blur(40px)",
+              transformStyle: "preserve-3d",
+              transform: "translateZ(-100px)"
+            }}
+          />
+
           {/* Dust Swirl 3D Effect */}
           <motion.div
             className="absolute top-1/2 left-1/2 pointer-events-none mix-blend-screen dark:mix-blend-color-dodge brightness-125 dark:brightness-150"
             style={{ width: 0, height: 0, transformStyle: "preserve-3d" }}
             animate={{ rotateZ: 360 }}
-            transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+            transition={{ repeat: Infinity, duration: 150, ease: "linear" }}
           >
             {dustParticles.map((p, i) => (
               <motion.div
@@ -919,6 +1009,7 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   background: `radial-gradient(circle at center, ${p.color} 0%, transparent 70%)`,
                   marginLeft: -(p.size * 4) / 2,
                   marginTop: -(p.size * 4) / 2,
+                  filter: `blur(${p.blur}px)`,
                   transformStyle: "preserve-3d",
                   willChange: "transform, opacity"
                 }}
@@ -927,15 +1018,16 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
           </motion.div>
 
           <div
-            className="flex flex-col items-center justify-center relative"
+            className="flex flex-col items-center justify-center relative uppercase"
             style={{
-              fontSize: "clamp(32px, 7.2vw, 84px)",
-              letterSpacing: "-0.025em",
+              fontSize: "clamp(24px, 5.5vw, 64px)", // slightly smaller to accommodate wide tracking
+              letterSpacing: "0.15em",
+              fontFamily: '"Avenir Next", Montserrat, "Century Gothic", sans-serif',
               transform: "translateZ(0)",
               transformStyle: "preserve-3d",
-              lineHeight: 0.88,
-              gap: "0.08em",
-              fontWeight: 900,
+              lineHeight: 1.1,
+              gap: "0.15em",
+              fontWeight: 300,
             }}
           >
             {/* CANADIAN SCREEN */}
@@ -967,14 +1059,6 @@ function AwardWinnerLogo({ isHovered }: { isHovered: boolean }) {
                   {c}
                 </motion.span>
               ))}
-              <motion.img
-                custom={35}
-                initial={{ opacity: 0, scale: 0, ...csaInitial }}
-                animate={restTextControls}
-                src="/csa_award_clean.png"
-                alt="Canadian Screen Award"
-                className="absolute right-[-1.6em] bottom-[-0.2em] h-[2.8em] w-auto object-contain origin-bottom"
-              />
             </div>
           </div>
         </motion.div>
@@ -1006,39 +1090,69 @@ const SprayCan = ({ className }: { className?: string }) => (
 
 export function AnimatedLogo() {
   const [isHovered, setIsHovered] = useState(false)
-  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner">("cartoon")
+  const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner" | null>(null)
+
+  useEffect(() => {
+    const allTypes: ("cartoon" | "tumbler" | "rocket" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "awardwinner"]
+    setAnimType(allTypes[Math.floor(Math.random() * allTypes.length)])
+  }, [])
 
   const handleMouseEnter = () => {
-    if (!isHovered) {
-      const allTypes: ("cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "storyteller", "awardwinner"]
-      const availableTypes = allTypes.filter(type => type !== animType)
-      setAnimType(availableTypes[Math.floor(Math.random() * availableTypes.length)])
-      setIsHovered(true)
+    setIsHovered(true)
+  }
+
+  const cycleAnimation = () => {
+    let timeoutMs = 800
+    if (animType === "cartoon") {
+      timeoutMs = 1200
+    } else if (animType === "tumbler") {
+      timeoutMs = 1000
     }
+    
+    setTimeout(() => {
+      setAnimType(prev => {
+        const allTypes: ("cartoon" | "tumbler" | "rocket" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "awardwinner"]
+        const availableTypes = allTypes.filter(type => type !== prev)
+        return availableTypes[Math.floor(Math.random() * availableTypes.length)]
+      })
+    }, timeoutMs)
   }
 
   const handleMouseLeave = () => {
     setIsHovered(false)
+    cycleAnimation()
+  }
+
+  if (!animType) {
+    return (
+      <div className="text-[70px] md:text-[90px] lg:text-[120px] leading-none font-black tracking-tighter flex items-center justify-center z-50 w-fit mx-auto text-transparent select-none pointer-events-none py-4">
+        YA
+      </div>
+    )
   }
 
   return (
     <Link 
       href="/" 
-      className="text-[90px] md:text-[120px] lg:text-[156px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto text-black"
+      className="text-[70px] md:text-[90px] lg:text-[120px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto text-black"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {animType === "cartoon" ? (
-        <GoodYuteLogo isHovered={isHovered} />
-      ) : animType === "tumbler" ? (
-        <TumblerLogo isHovered={isHovered} />
-      ) : animType === "storyteller" ? (
-        <StoryTellerLogo isHovered={isHovered} />
-      ) : animType === "awardwinner" ? (
-        <AwardWinnerLogo isHovered={isHovered} />
-      ) : (
-        <RocketLogo isHovered={isHovered} />
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div key={animType} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+          {animType === "cartoon" ? (
+            <GoodYuteLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+          ) : animType === "tumbler" ? (
+            <TumblerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+          ) : animType === "storyteller" ? (
+            <StoryTellerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+          ) : animType === "awardwinner" ? (
+            <AwardWinnerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+          ) : (
+            <RocketLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </Link>
   )
 }
