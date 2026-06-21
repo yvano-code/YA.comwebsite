@@ -17,28 +17,30 @@ export default function HomePage3() {
         <div className="flex items-center justify-center w-full flex-grow">
           <AnimatedLogo />
         </div>
+
+         {/* Permanent Content Nav (Text Only) */}
+         <nav className="absolute bottom-[27vh] w-full flex items-center justify-center px-6 md:px-12 pb-4 text-sm font-semibold z-50">
+               <div className="text-[9.5px] md:text-[11.5px] lg:text-[13.5px] font-medium tracking-[0.25em] uppercase text-black/50 flex flex-wrap items-center justify-center gap-4 md:gap-8 w-full max-w-[90vw] text-center">
+                  <span className="whitespace-nowrap">FILM & TELEVISION</span>
+                  <span className="text-black/20 font-light hidden md:inline">|</span>
+                  <span className="whitespace-nowrap">MUSIC VIDEO</span>
+                  <span className="text-black/20 font-light hidden md:inline">|</span>
+                  <span className="whitespace-nowrap">COMMERCIAL</span>
+                  <span className="text-black/20 font-light hidden md:inline">|</span>
+                  <span className="whitespace-nowrap">LIVE BROADCAST</span>
+               </div>
+         </nav>
       </header>
 
       {/* ── DYNAMIC CONTENT SECTIONS ── */}
       <div className="relative z-10 w-full pt-16 md:pt-24 pb-24">
-        
-        {/* Permanent Content Nav */}
-        <nav className="absolute top-0 w-full flex items-center justify-between px-6 md:px-12 pt-8 pb-4 text-sm font-semibold tracking-wide">
-               <div className="flex gap-4">
-                  <Link href="/homepage1" className="bg-white text-black px-4 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10">Homepage 1</Link>
-                  <Link href="/homepage2" className="bg-white text-black px-4 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10">Homepage 2</Link>
-               </div>
-               <div>
-                  <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap">Contact</Link>
-               </div>
-            </nav>
 
             <main>
               <section className="mt-8 md:mt-12 relative">
                 {/* Subtle Glow Background */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[150%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.7)_0%,rgba(255,255,255,0.2)_40%,transparent_70%)] blur-[100px] pointer-events-none z-0 mix-blend-overlay" />
                 
-                <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-end justify-between relative z-10">
+                <div className="px-6 md:px-12 mb-8 md:mb-10 flex items-start sm:items-end justify-between relative z-10 flex-col sm:flex-row gap-8">
                   <div className="flex flex-col">
                     <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85] pb-4 drop-shadow-sm">
                       <span className="text-black">KEY </span>
@@ -46,6 +48,17 @@ export default function HomePage3() {
                     </h3>
                   </div>
                   
+                  {/* Navigation Links (Archived per request) */}
+                  {/*
+                  <div className="flex flex-col items-start sm:items-end gap-3 z-10 pb-4">
+                     <Link href="https://yvanoantonio.com/contact" className="bg-black text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition whitespace-nowrap w-full sm:w-auto text-center">Contact</Link>
+                     <div className="flex flex-wrap sm:flex-col items-start sm:items-end gap-2 mt-2 w-full sm:w-auto">
+                        <Link href="/homepage1" className="bg-white text-black px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10 w-full sm:w-auto text-center">Homepage 1</Link>
+                        <Link href="/homepage2" className="bg-white text-black px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 transition whitespace-nowrap border border-black/10 w-full sm:w-auto text-center">Homepage 2</Link>
+                        <Link href="/animation-test" className="bg-amber-100 text-amber-900 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-amber-200 transition whitespace-nowrap border border-amber-200 w-full sm:w-auto text-center">Animation Lab</Link>
+                     </div>
+                  </div>
+                  */}
                 </div>
 
                 <div className="relative z-10 overflow-hidden pb-12">
