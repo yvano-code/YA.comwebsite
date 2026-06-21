@@ -15,3 +15,9 @@ node_modules
 .DS_Storevenv_rembg/
 .vercel
 venv/
+
+venv-rembg/
+venv_rembg/
+venv/
+*.pyc
+__pycache__/
