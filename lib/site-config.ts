@@ -228,6 +228,7 @@ export const siteConfig = {
   projects: [
     { 
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
+      category: "Live Broadcast | Limited Series",
       image: "https://img.youtube.com/vi/y2CfIy8dmeA/maxresdefault.jpg", 
       href: "https://www.youtube.com/watch?v=y2CfIy8dmeA",
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
@@ -247,6 +248,7 @@ export const siteConfig = {
     },
     { 
       title: "BAKED BUTTER BISCUITS | LIMITED SERIES | PILOT EPISODE", 
+      category: "Limited Series",
       image: "/projects/bbb/Still_2025-09-09_1.29.1.jpg", 
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
@@ -266,6 +268,7 @@ export const siteConfig = {
     },
     { 
       title: "MOONGAZER | SHORT THRILLER", 
+      category: "Short Film",
       image: "/projects/moongazer-thumbnail.jpg", 
       href: "https://youtu.be/U0j3r8ulTM4",
       colorway: {
@@ -286,6 +289,7 @@ export const siteConfig = {
     },
     { 
       title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
+      category: "Music Video",
       image: "/projects/fafiella_image_site.jpg", 
       href: "https://vimeo.com/895031625/d4268c2880",
       colorway: {
@@ -305,6 +309,7 @@ export const siteConfig = {
     },
     { 
       title: "PRACTICALLY MAGIC | COMMERCIAL SPEC ", 
+      category: "Commercial Spec",
       image: "/projects/practically-magic-thumbnail.jpg", 
       href: "https://youtu.be/tbQP2YesXxI",
       colorway: {
@@ -324,6 +329,7 @@ export const siteConfig = {
     },
     { 
       title: "#BLACK | SHORT FILM | CSA WINNER ", 
+      category: "Short Film",
       image: "/projects/black-bleed.png", 
       href: "https://youtu.be/-xLbpc2JCGg",
       colorway: {
@@ -340,6 +346,7 @@ export const siteConfig = {
     },
     { 
       title: "SOLITAR | ORIGINAL SERIES", 
+      category: "Original Series",
       image: "https://img.youtube.com/vi/wZeOlWtLdI0/maxresdefault.jpg", 
       href: "https://www.youtube.com/watch?v=wZeOlWtLdI0",
       subtitle: "THE THEME SONG + FIRE BLAZE ft. Rich Kidd",

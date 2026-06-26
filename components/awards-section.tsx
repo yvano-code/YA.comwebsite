@@ -15,17 +15,17 @@ export function AwardsSection() {
       <section className="w-full pt-8 relative z-10">
         <div className="px-6 flex items-end justify-between mb-8 lg:mb-16">
           <h3 className="text-4xl md:text-5xl lg:text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block ml-[-0.035em] text-black">CREDITS &</span>
-            <span className="block text-black/30">FILMOGRAPHY</span>
+            <span className="block ml-[-0.035em] text-black lg:text-white">CREDITS &</span>
+            <span className="block text-black/30 lg:text-white/30">FILMOGRAPHY</span>
           </h3>
           
-          <div className="flex items-center gap-1.5 mb-1 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 backdrop-blur-sm shadow-inner cursor-pointer" onClick={() => window.scrollBy({ left: window.innerWidth * 0.7, behavior: 'smooth' })}>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-black/60">Swipe</span>
+          <div className="flex items-center gap-1.5 mb-1 px-3 py-1.5 rounded-full bg-black/5 lg:bg-white/5 border border-black/10 lg:border-white/10 backdrop-blur-sm shadow-inner cursor-pointer" onClick={() => window.scrollBy({ left: window.innerWidth * 0.7, behavior: 'smooth' })}>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-black/60 lg:text-white/60">Swipe</span>
             <motion.div
               animate={{ x: [0, 4, 0] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             >
-              <ArrowRight className="w-3 h-3 text-black/60" />
+              <ArrowRight className="w-3 h-3 text-black/60 lg:text-white/60" />
             </motion.div>
           </div>
         </div>

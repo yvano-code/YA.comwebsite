@@ -39,8 +39,9 @@ export function DesktopReelsShowcase() {
       {projects.map((project, idx) => {
         // Fallbacks for data
         const year = "2024" 
-        const category = project.title.includes("SERIES") ? "SERIES" : 
-                         project.title.includes("COMMERCIAL") ? "COMMERCIAL" : "SHORT FILM"
+        // @ts-ignore
+        const category = project.category || (project.title.includes("SERIES") ? "SERIES" : 
+                         project.title.includes("COMMERCIAL") ? "COMMERCIAL" : "SHORT FILM")
         
         // Extract a clean title (removing the tags after the pipe)
         const cleanTitle = project.title.split("|")[0].trim()
@@ -92,7 +93,7 @@ export function DesktopReelsShowcase() {
               )}
                   
               {/* Dark Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none z-10" />
+              <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none z-10 transition-opacity duration-1000 ${isPlaying ? 'opacity-0 delay-[2000ms]' : 'opacity-100'}`} />
 
               {/* Play Button Overlay */}
               {!isPlaying && isVideo && (
@@ -131,7 +132,7 @@ export function DesktopReelsShowcase() {
               </div>
 
               {/* === Bottom Left Content === */}
-              <div className="absolute bottom-8 left-8 lg:bottom-12 lg:left-12 z-20 pointer-events-none">
+              <div className={`absolute bottom-8 left-8 lg:bottom-12 lg:left-12 z-20 pointer-events-none transition-opacity duration-1000 ${isPlaying ? 'opacity-0 delay-[2000ms]' : 'opacity-100'}`}>
                 <p className="text-[10px] lg:text-xs font-bold tracking-[0.3em] uppercase mb-3 text-white/80">
                   {category}
                 </p>
