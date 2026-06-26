@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import dynamic from "next/dynamic"
 
-const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false })
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false })
 import { siteConfig } from "@/lib/site-config"
 import { getVideoEmbedUrl } from "@/lib/utils"
 
