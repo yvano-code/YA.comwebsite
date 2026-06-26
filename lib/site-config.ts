@@ -288,7 +288,7 @@ export const siteConfig = {
       ]
     },
     { 
-      title: "FAFIÉLLA | HONESTLY | MUSIC VIDEO", 
+      title: "FAFIÉLLA - HONESTLY | MUSIC VIDEO", 
       category: "Music Video",
       image: "/projects/fafiella_image_site.jpg", 
       href: "https://vimeo.com/895031625/d4268c2880",
