@@ -345,8 +345,8 @@ export const siteConfig = {
       ]
     },
     { 
-      title: "SOLITAR | ORIGINAL SERIES", 
-      category: "Original Series",
+      title: "SOLITAR - FIRE BLAZE | MUSIC VIDEO", 
+      category: "Music Video",
       image: "https://img.youtube.com/vi/wZeOlWtLdI0/maxresdefault.jpg", 
       href: "https://www.youtube.com/watch?v=wZeOlWtLdI0",
       subtitle: "THE THEME SONG + FIRE BLAZE ft. Rich Kidd",
