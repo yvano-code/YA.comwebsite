@@ -50,6 +50,7 @@ export function DesktopReelsShowcase() {
                     src={project.href} 
                     controls 
                     autoPlay
+                    playsInline
                     className="absolute inset-0 w-full h-full object-cover z-0"
                   />
                 ) : (

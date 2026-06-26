@@ -19,6 +19,7 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
       const base = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
       if (!base) return null;
       const params = new URLSearchParams();
+      params.set('playsinline', '1');
       if (autoplay || preview) params.set('autoplay', '1');
       if (preview) {
         params.set('mute', '1');
@@ -38,6 +39,7 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
       if (videoId && !isNaN(Number(videoId))) {
         let base = `https://player.vimeo.com/video/${videoId}`;
         const params = new URLSearchParams();
+        params.set('playsinline', '1');
         if (hash) params.set('h', hash);
         if (autoplay || preview) params.set('autoplay', '1');
         if (preview) {
