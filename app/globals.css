@@ -1,3 +1,4 @@
+/* Trigger CSS HMR */
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
@@ -94,11 +95,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden; /* Prevent rocket animation from creating horizontal scroll */
   }
   html {
     @apply font-sans;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    overflow-x: hidden; /* Belt-and-suspenders: block horizontal panning at document level */
   }
   html::-webkit-scrollbar {
     display: none;
@@ -117,5 +120,21 @@
       4px 4px 6px rgba(0, 0, 0, 0.9),
       1px 1px 2px rgba(0, 0, 0, 0.8),
       8px 8px 15px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
   }
 }

@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site-config"
 export function SiteHeader() {
   const pathname = usePathname()
 
-  if (pathname === '/') return null
+  if (pathname === '/clips' || pathname === '/landing-page-demo') return null
 
   return (
     <header className="relative z-50 flex flex-col items-center gap-4 px-6 pt-12 pb-8 text-center">

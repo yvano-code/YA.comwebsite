@@ -37,11 +37,17 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light',
   themeColor: 'white',
+  viewportFit: 'cover',
 }
 
-import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
-import { InteractiveLavaLamp } from '@/components/interactive-lava-lamp'
+import { MobileBottomNav } from '@/components/mobile-bottom-nav'
+import { DesktopBottomNav } from '@/components/desktop-bottom-nav'
+import dynamic from 'next/dynamic'
+
+const InteractiveLavaLamp = dynamic(
+  () => import('@/components/interactive-lava-lamp').then((mod) => mod.InteractiveLavaLamp)
+)
 
 export default function RootLayout({
   children,
@@ -50,20 +56,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-screen relative`}>
+      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-[100dvh] relative`}>
+        {/* Patch for Brave Browser Wallet injecting broken scripts and crashing Next.js Dev Server */}
+        <script dangerouslySetInnerHTML={{ __html: `if (typeof window !== 'undefined' && !window.ethereum) { window.ethereum = {}; }` }} />
+        
         {/* Dynamic Liquid Glass Background Elements */}
         <InteractiveLavaLamp />
         
         {/* Global Glass Overlay */}
-        <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[-1] border-b border-white/40" />
+        <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] pointer-events-none z-[0] border-b border-white/40" />
 
         <div className="flex min-h-screen flex-col">
-          <SiteHeader />
           <main className="flex-1">
             {children}
           </main>
           <SiteFooter />
         </div>
+        <DesktopBottomNav />
+        <MobileBottomNav />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

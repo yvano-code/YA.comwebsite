@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { siteConfig } from "@/lib/site-config"
+import { TumblerLogo } from "@/components/animated-logo"
 
 function TiktokIcon({ className }: { className?: string }) {
   return (
@@ -42,25 +43,36 @@ export function SiteFooter() {
   const pathname = usePathname()
   const { contact } = siteConfig
 
-  if (pathname === "/") return null
+  if (pathname === "/" || pathname === "/clips" || pathname === "/my-ya" || pathname === "/reels") return null
 
   return (
     <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden">
       <div className="w-full flex justify-center relative pt-8">
-        {/* Massive Name */}
-        <div className="pt-8 overflow-hidden">
-          <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none whitespace-nowrap text-center px-4 transform scale-y-[1.3] origin-bottom">
-            YVANO ANTONIO.
-          </h2>
+        
+        {/* ── DESKTOP ONLY: Massive Name & Blurb ── */}
+        <div className="hidden md:flex w-full justify-center relative">
+          <div className="pt-8 overflow-hidden">
+            <h2 className="text-[10.5vw] md:text-[11vw] lg:text-[11.5vw] font-black tracking-tighter text-[#e60000] leading-none whitespace-nowrap text-center px-4 transform scale-y-[1.3] origin-bottom">
+              YVANO ANTONIO.
+            </h2>
+          </div>
+
+          {/* Overlapping Blurb */}
+          <div className="absolute top-0 md:top-2 right-4 md:right-8 lg:right-[4%] z-10 text-right md:text-left opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <p className="text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] uppercase tracking-[0.1em] font-extrabold text-black md:whitespace-nowrap leading-relaxed max-w-[200px] md:max-w-none ml-auto">
+              For bookings, collaborations and general inquiries please email <br className="md:hidden" />
+              <a href={`mailto:${contact.email}`} className="text-black hover:text-[#e60000] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#e60000]">{contact.email}</a>
+            </p>
+          </div>
         </div>
 
-        {/* Overlapping Blurb */}
-        <div className="absolute top-0 md:top-2 right-4 md:right-8 lg:right-[4%] z-10 text-right md:text-left opacity-60 hover:opacity-100 transition-opacity duration-300">
-          <p className="text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] uppercase tracking-[0.1em] font-extrabold text-black md:whitespace-nowrap leading-relaxed max-w-[200px] md:max-w-none ml-auto">
-            For bookings, collaborations and general inquiries please email <br className="md:hidden" />
-            <a href={`mailto:${contact.email}`} className="text-black hover:text-[#e60000] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#e60000]">{contact.email}</a>
-          </p>
+        {/* ── MOBILE ONLY: YA Toy Tumblr Animation ── */}
+        <div className="md:hidden flex flex-col items-center justify-center w-full mt-8">
+           <div className="w-full flex items-center justify-center text-[8vw]">
+             <TumblerLogo muteSound={true} isHovered={false} />
+           </div>
         </div>
+
       </div>
     </footer>
   )

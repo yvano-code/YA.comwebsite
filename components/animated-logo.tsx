@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { motion, useAnimation, AnimatePresence, useSpring, useTransform, MotionValue } from "framer-motion"
+import { playSciFiSound, playRocketSound, playBabasSample, playBinauralShimmer } from "@/lib/sensory"
 
 
 function useSafeAnimation() {
@@ -91,6 +92,8 @@ export function GoodYuteLogo({ isHovered, onAnimationComplete }: { isHovered: bo
 
     const runSequence = async () => {
       if (isHovered) {
+        // Sound removed as requested
+
         // 1. Expand "OU'RE "
         topTextControls.start({ width: "auto", opacity: 1, transition: { duration: 0.4, ease: "easeOut" } })
         
@@ -217,20 +220,12 @@ const getToyStyle = (index: number, char: string) => {
       0px 2px 0px ${style.extrude},
       0px 3px 0px ${style.extrude},
       0px 4px 0px ${style.extrude},
-      0px 5px 0px ${style.extrude},
-      0px 6px 0px ${style.extrude},
-      0px 7px 0px ${style.extrude},
-      0px 8px 0px ${style.extrude},
-      0px 9px 0px ${style.extrude},
-      0px 10px 0px ${style.extrude},
-      0px 11px 0px ${style.extrude},
-      0px 12px 0px ${style.extrude},
-      0px 20px 15px rgba(0,0,0,0.4)
+      0px 8px 10px rgba(0,0,0,0.3)
     `,
   };
 };
 
-export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
+export function TumblerLogo({ isHovered, onAnimationComplete, isVertical = false, muteSound = false }: { isHovered: boolean, onAnimationComplete?: () => void, isVertical?: boolean, muteSound?: boolean }) {
 
   const controls = useSafeAnimation()
   
@@ -244,29 +239,48 @@ export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boo
   const isDot = (i: number) => i === 13
   const isYA = (i: number) => isY(i) || isA(i) || isDot(i)
 
-  // Random positions for the "spilling out" phase
-  const getRandomSpill = () => {
-    // Spill outwards from center
-    const angle = Math.random() * Math.PI * 2
-    const distance = Math.random() * 60 + 20
-    return {
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance - 20, // slightly upwards
-      rotate: (Math.random() - 0.5) * 180,
-      scale: Math.random() * 0.4 + 0.8,
-    }
-  }
+  // Pre-compute stable random positions so they don't change on re-renders
+  const spillPositions = useMemo(() => {
+    return fullText.map(() => {
+      if (isVertical) {
+        return {
+          x: `${(Math.random() - 0.5) * 45}vw`,
+          y: `${(Math.random() - 0.5) * 35}vh`,
+          rotate: (Math.random() - 0.5) * 180,
+          scale: Math.random() * 0.3 + 0.8,
+        }
+      }
+      const angle = Math.random() * Math.PI * 2
+      const distance = Math.random() * 60 + 20
+      return {
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance - 20,
+        rotate: (Math.random() - 0.5) * 180,
+        scale: Math.random() * 0.4 + 0.8,
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVertical])
 
-  // Random positions for the "jumble" phase (landed)
-  const getRandomJumble = () => {
-    // Pile up loosely at the bottom
-    return {
-      x: (Math.random() - 0.5) * 120, // Spread horizontally
-      y: Math.random() * 20 + 10,     // Fall down slightly
-      rotate: (Math.random() - 0.5) * 120,
-      scale: 1,
-    }
-  }
+  const jumblePositions = useMemo(() => {
+    return fullText.map(() => {
+      if (isVertical) {
+        return {
+          x: `${(Math.random() - 0.5) * 45}vw`,
+          y: `${(Math.random() * 15) + 10}vh`,
+          rotate: (Math.random() - 0.5) * 120,
+          scale: 1,
+        }
+      }
+      return {
+        x: (Math.random() - 0.5) * 120,
+        y: Math.random() * 20 + 10,
+        rotate: (Math.random() - 0.5) * 120,
+        scale: 1,
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVertical])
 
   const hoverRef = useRef(false)
 
@@ -276,41 +290,60 @@ export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boo
     hoverRef.current = isHovered
     
     const runAnimation = async () => {
-      if (isHovered) {
+if (isHovered) {
         // --- HOVER IN SEQUENCE ---
         
         // 1. Spilling out like toys
         if (isCancelled) return
+        if (!muteSound) playSciFiSound('whoosh', 0)
         await controls.start((i) => ({
-          ...getRandomSpill(),
+          ...spillPositions[i],
           opacity: 1,
           width: "auto",
           transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
         }))
         
-        if (!hoverRef.current || isCancelled) return // Abort if mouse left
-
-        // 2. Spell correctly briefly
-        await controls.start((i) => ({
-          x: 0,
-          y: 0,
-          rotate: 0,
-          scale: 1,
-          opacity: 1,
-          width: "auto",
-          transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
-        }))
+        if (!hoverRef.current || isCancelled) return
         
-        if (!hoverRef.current || isCancelled) return // Abort if mouse left
+        // 2. Spell correctly briefly
+        if (!muteSound) playSciFiSound('blip', 0)
+        await controls.start((i) => {
+          let xValue: number | string = 0;
+          let yValue: number | string = 0;
+
+          if (isVertical) {
+            // Stacked: YVANO on top, ANTONIO. on bottom
+            if (i <= 4) {
+              xValue = "1.1em";
+              yValue = "-0.55em";
+            } else if (i >= 6) {
+              xValue = "-1.3em";
+              yValue = "0.55em";
+            }
+          }
+
+          return {
+            x: xValue,
+            y: yValue,
+            rotate: 0,
+            scale: 1,
+            opacity: 1,
+            width: "auto",
+            transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
+          }
+        })
+        
+        if (!hoverRef.current || isCancelled) return
         
         // Pause briefly to read it
         await new Promise(r => setTimeout(r, 1800))
         
-        if (!hoverRef.current || isCancelled) return // Abort if mouse left
+        if (!hoverRef.current || isCancelled) return
 
         // 3. Collapse into a jumble
+        if (!muteSound) playSciFiSound('rumble', 0)
         await controls.start((i) => ({
-          ...getRandomJumble(),
+          ...jumblePositions[i],
           transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
         }))
 
@@ -318,6 +351,7 @@ export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boo
         // --- HOVER OUT SEQUENCE ---
         
         if (isCancelled) return
+        if (!muteSound) playSciFiSound('rewind', 0)
         // Mouse removed: go back to "YA."
         controls.start((i) => {
           if (isYA(i)) {
@@ -350,10 +384,10 @@ export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boo
     return () => {
       isCancelled = true
     }
-  }, [isHovered, controls])
+  }, [isHovered, controls, spillPositions, jumblePositions])
 
   return (
-    <div className="flex relative items-baseline">
+    <div className="flex relative items-baseline" style={{ willChange: 'transform' }}>
       {fullText.map((char, i) => (
         <motion.span
           key={i}
@@ -367,6 +401,7 @@ export function TumblerLogo({ isHovered, onAnimationComplete }: { isHovered: boo
           className={`inline-block origin-center whitespace-pre ${isYA(i) ? 'z-20' : 'z-10'}`}
           style={{ 
             overflow: 'visible',
+            willChange: 'transform, opacity',
             // Add a slight min-width to space to ensure it renders correctly when width is auto
             minWidth: char === ' ' && isHovered ? '0.25em' : 'auto',
             ...getToyStyle(i, char)
@@ -412,6 +447,7 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
   const fireControls = useSafeAnimation()
   const smokeControls = useSafeAnimation()
   const [countdown, setCountdown] = useState<number | null>(null)
+  const [smokeActive, setSmokeActive] = useState(false) // Gate infinite smoke puff loops to avoid wasted GPU when hidden
   const hoverRef = useRef(false)
 
   useEffect(() => {
@@ -429,6 +465,8 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         // 1. Countdown
         if (isCancelled) return
         setCountdown(3)
+        playRocketSound('beep')
+        playRocketSound('eruption')
         // rumble Y and Dot
         yControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
         dotControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
@@ -437,11 +475,14 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         await new Promise(r => setTimeout(r, 1000))
         if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(2)
+        playRocketSound('beep')
         await new Promise(r => setTimeout(r, 1000))
         if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(1)
+        playRocketSound('beep')
         
         // Ignite engine
+        setSmokeActive(true)
         fireControls.start({ 
           opacity: 1, 
           scale: 1,
@@ -465,6 +506,7 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         dotControls.start({ x: 0, y: 0 })
 
         // BLAST OFF SEQUENCE
+        playRocketSound('blastoff')
         // 1. The Implosion / Anticipation Squash
         // It smoothly squashes down to build energy
         await aControls.start({
@@ -577,8 +619,9 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         // Cut the engine on touchdown (already faded out by the landing transition)
         fireControls.start({ opacity: 0, scale: 0, transition: { duration: 0.1 } })
         
-        // Small puff of smoke on touchdown
-        smokeControls.start({ scale: [0, 1.5], opacity: [0, 0.5, 0], y: [0, 20], transition: { duration: 0.5 } })
+        // Small puff of smoke on touchdown, then disable the infinite loops
+        await smokeControls.start({ scale: [0, 1.5], opacity: [0, 0.5, 0], y: [0, 20], transition: { duration: 0.5 } })
+        setSmokeActive(false)
         
         // Wait 0.5 seconds at the end of the animation and then trigger next animation
         await new Promise(r => setTimeout(r, 500))
@@ -588,6 +631,7 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         }
       } else {
         setCountdown(null)
+        setSmokeActive(false)
         aControls.stop()
         fireControls.stop()
         smokeControls.stop()
@@ -609,34 +653,39 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
 
   return (
     <div className="flex relative items-baseline gap-[2px] text-[#fc3d21]">
-      <motion.span animate={yControls} className="inline-block relative z-20">
+      <motion.span animate={yControls} className="inline-block relative z-20" style={{ willChange: 'transform' }}>
         <NasaY className="w-[0.8em] h-[1em] -scale-x-100" />
       </motion.span>
-      <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom">
+      <motion.span animate={aControls} className="inline-block relative z-30 origin-bottom" style={{ willChange: 'transform' }}>
         <NasaA className="w-[0.8em] h-[1em]" />
-        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute top-[80%] left-[50%] -translate-x-[50%] w-[0.6em] h-[1.5em] origin-top z-0">
+        <motion.div animate={fireControls} initial={{ opacity: 0, scale: 0 }} className="absolute top-[80%] left-[50%] -translate-x-[50%] w-[0.6em] h-[1.5em] origin-top z-0" style={{ willChange: 'transform, opacity' }}>
           <RocketFire className="w-full h-full text-[#fc3d21]" />
         </motion.div>
-        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0, y: 0 }} className="absolute top-[100%] left-[50%] -translate-x-[50%] w-[3em] h-[3em] origin-top z-[-1]">
+        <motion.div animate={smokeControls} initial={{ opacity: 0, scale: 0, y: 0 }} className="absolute top-[100%] left-[50%] -translate-x-[50%] w-[3em] h-[3em] origin-top z-[-1]" style={{ willChange: 'transform, opacity' }}>
           <RocketSmoke className="absolute inset-0 w-full h-full" />
-          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -60, -100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0 }} className="absolute inset-0">
-            <RocketSmoke className="w-full h-full" />
-          </motion.div>
-          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 60, 100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.3 }} className="absolute inset-0">
-            <RocketSmoke className="w-full h-full" />
-          </motion.div>
-          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -30, -50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.6 }} className="absolute inset-0">
-            <RocketSmoke className="w-full h-full" />
-          </motion.div>
-          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 30, 50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.9 }} className="absolute inset-0">
-            <RocketSmoke className="w-full h-full" />
-          </motion.div>
-          <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 0, 0], y: [0, 60, 150], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 1.2 }} className="absolute inset-0">
-            <RocketSmoke className="w-full h-full" />
-          </motion.div>
+          {/* Smoke puff loops only mount when active to avoid wasting GPU on hidden infinite animations */}
+          {smokeActive && (
+            <>
+              <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -60, -100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0 }} className="absolute inset-0" style={{ willChange: 'transform, opacity' }}>
+                <RocketSmoke className="w-full h-full" />
+              </motion.div>
+              <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 60, 100], y: [0, 40, 100], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.3 }} className="absolute inset-0" style={{ willChange: 'transform, opacity' }}>
+                <RocketSmoke className="w-full h-full" />
+              </motion.div>
+              <motion.div animate={{ scale: [1, 2.5, 4], x: [0, -30, -50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.6 }} className="absolute inset-0" style={{ willChange: 'transform, opacity' }}>
+                <RocketSmoke className="w-full h-full" />
+              </motion.div>
+              <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 30, 50], y: [0, 80, 180], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.9 }} className="absolute inset-0" style={{ willChange: 'transform, opacity' }}>
+                <RocketSmoke className="w-full h-full" />
+              </motion.div>
+              <motion.div animate={{ scale: [1, 2.5, 4], x: [0, 0, 0], y: [0, 60, 150], opacity: [0.8, 1, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 1.2 }} className="absolute inset-0" style={{ willChange: 'transform, opacity' }}>
+                <RocketSmoke className="w-full h-full" />
+              </motion.div>
+            </>
+          )}
         </motion.div>
       </motion.span>
-      <motion.span animate={dotControls} className="inline-block relative z-20">
+      <motion.span animate={dotControls} className="inline-block relative z-20" style={{ willChange: 'transform' }}>
         <NasaDot className="w-[0.3em] h-[1em]" />
       </motion.span>
       
@@ -847,6 +896,7 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
       swooshControls.stop()
 
       if (isHovered) {
+        playBinauralShimmer()
         // 1. Hold for 500ms before exploding
         await new Promise(r => setTimeout(r, 500))
         if (isCancelled) return
@@ -914,7 +964,7 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
 
   return (
     <div 
-      className="flex relative items-baseline justify-center uppercase"
+      className="flex relative items-baseline justify-center uppercase text-[1.4em]"
       style={{
         fontFamily: '"Avenir Next", Montserrat, "Century Gothic", sans-serif',
         fontWeight: 200,

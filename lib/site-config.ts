@@ -26,11 +26,13 @@ export const siteConfig = {
 
   // Top navigation links.
   nav: [
-    { label: "DEMO REEL", href: "/" },
+    { label: "HOME", href: "/" },
+    { label: "REELS", href: "/reels" },
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
+    { label: "AWARDS", href: "/awards" },
     { label: "ACCREDITATIONS", href: "/imdb" },
-    { label: "LANDING DEMO", href: "/landing-page-demo" },
+    { label: "PROFILE", href: "/my-ya" },
     { label: "CONTACT", href: "/contact" },
   ],
 
@@ -141,14 +143,16 @@ export const siteConfig = {
       year: "2022",
       roles: ["Still Photographer"],
       type: "Film",
-      image: "https://image.tmdb.org/t/p/w500/kJmau4bZMuGNUYp2owHp51rHrfz.jpg"
+      image: "https://image.tmdb.org/t/p/w500/kJmau4bZMuGNUYp2owHp51rHrfz.jpg",
+      imagePosition: "top"
     },
     {
       title: "Reel Black: Our Film Stories",
       year: "2022",
       roles: ["Still Photographer"],
       type: "Short",
-      image: "/projects/reel-black.jpg"
+      image: "/projects/reel-black.jpg",
+      imagePosition: "top"
     },
     {
       title: "MoonGazer",
@@ -224,7 +228,7 @@ export const siteConfig = {
   projects: [
     { 
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
-      image: "", 
+      image: "https://img.youtube.com/vi/y2CfIy8dmeA/maxresdefault.jpg", 
       href: "https://www.youtube.com/watch?v=y2CfIy8dmeA",
       subtitle: "CLUBHOUSE JAMZ IS A WEEKLY LIVE MUSIC COUNTDOWN SHOW JUST LIKE 106 & PARK. BASED IN TORONTO, CANADA, CLUBHOUSE JAMZ IS PERFORMED IN FRONT OF A LIVE STUDIO AUDIENCE AND BROADCASTED LIVE TO TWITCH AND YOUTUBE.",
       colorway: {
@@ -242,7 +246,7 @@ export const siteConfig = {
       ]
     },
     { 
-      title: "BAKED BUTTER BISCUITS | SERIES PILOT EPISODE ", 
+      title: "BAKED BUTTER BISCUITS | LIMITED SERIES | PILOT EPISODE", 
       image: "/projects/bbb/Still_2025-09-09_1.29.1.jpg", 
       href: "/projects/bbb/BBB_Pilot_Hero_V1.mp4",
       subtitle: "In a world where absurdity and reality constantly collide, three Black twenty-somethings navigate their identity and personal chaos with sharp humour and surreal twists.",
@@ -254,10 +258,10 @@ export const siteConfig = {
         blob3: "from-red-400/80 via-rose-400/80 to-amber-400/0"
       },
       credits: [
-        { label: "Executive Producer", value: "Good Yute Lifestyle & A.M Studios" },
-  
-        { label: "Writer & Director", value: "Yvano Antonio & Ananse Arthur"},
-       
+        { label: "Co-Creators", value: "Yvano Antonio & Ananse" },
+        { label: "Co-Directors", value: "Yvano Antonio & Ananse" },
+        { label: "DOP", value: "Samuel Mapaderun" },
+        { label: "Starring", value: "Khara Martin, Ananse, Yvano Antonio" }
       ]
     },
     { 
@@ -294,6 +298,8 @@ export const siteConfig = {
       credits: [
         { label: "Executive Producer", value: "POV Film" },
         { label: "Director", value: "Yvano Antonio" },
+        { label: "Producer", value: "Ananse" },
+        { label: "Cinematographer", value: "Ananse" },
         { label: "Starring", value: "Fafiélla" }
       ]
     },
@@ -330,6 +336,25 @@ export const siteConfig = {
       credits: [
         { label: "Executive Producer", value: "Fabienne Colas Foundation" },
         { label: "Writer & Director", value: "Yvano Antonio" }
+      ]
+    },
+    { 
+      title: "SOLITAR | ORIGINAL SERIES", 
+      image: "https://img.youtube.com/vi/wZeOlWtLdI0/maxresdefault.jpg", 
+      href: "https://www.youtube.com/watch?v=wZeOlWtLdI0",
+      subtitle: "THE THEME SONG + FIRE BLAZE ft. Rich Kidd",
+      colorway: {
+        id: "solitar",
+        baseBg: "bg-[#0f172a]", 
+        blob1: "from-blue-900/90 via-indigo-900/80 to-slate-900/0",
+        blob2: "from-slate-900/90 via-blue-900/80 to-indigo-900/0",
+        blob3: "from-indigo-800/90 via-blue-800/80 to-slate-900/0"
+      },
+      credits: [
+        { label: "Producer", value: "Talawa Media" },
+        { label: "Director", value: "Yvano Antonio" },
+        { label: "Creative Director", value: "Maria Monet" },
+        { label: "DOP", value: "Lucas Joseph" }
       ]
     },
   ],

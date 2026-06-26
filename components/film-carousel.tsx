@@ -12,7 +12,7 @@ export function FilmCarousel() {
       {/* Section Header */}
       <div className="px-4 md:px-6 flex items-end justify-between mb-12">
         <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8 mb-4">
-          <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
+          <h3 className="text-[48px] sm:text-[60px] md:text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
             <span className="block ml-[-0.035em] text-black">CREDITS &</span>
             <span className="block text-black/40">FILMOGRAPHY</span>
           </h3>

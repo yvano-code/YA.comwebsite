@@ -40,9 +40,10 @@ export function InteractiveLavaLamp() {
   return (
     <div className="fixed inset-0 pointer-events-none z-[-2] overflow-hidden bg-[#faf9f6]">
       {/* Blob 1 - Top Left (Cyan/Blue) */}
-      <motion.div style={{ x: shiftX1, y: shiftY1 }} className="absolute inset-0 opacity-[0.52]">
+      <motion.div style={{ x: shiftX1, y: shiftY1, willChange: 'transform' }} className="absolute inset-0 opacity-[0.52]">
         <motion.div 
-          className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(186,230,253,0.8)_0%,transparent_70%)] blur-[100px]"
+          className="absolute top-[10%] left-[10%] w-[45vw] h-[45vw] md:w-[35vw] md:h-[35vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(186,230,253,0.8)_0%,transparent_70%)] blur-[50px] md:blur-[100px]"
+          style={{ willChange: 'transform' }}
           animate={{
             scale: [1, 1.2, 1],
             x: ["0%", "25%", "0%"],
@@ -54,9 +55,10 @@ export function InteractiveLavaLamp() {
       </motion.div>
 
       {/* Blob 2 - Bottom Right (Pink/Orange) */}
-      <motion.div style={{ x: shiftX2, y: shiftY2 }} className="absolute inset-0 opacity-[0.45]">
+      <motion.div style={{ x: shiftX2, y: shiftY2, willChange: 'transform' }} className="absolute inset-0 opacity-[0.45]">
         <motion.div 
-          className="absolute -bottom-[20%] -right-[10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(254,205,211,0.8)_0%,rgba(255,237,213,0.5)_40%,transparent_70%)] blur-[120px]"
+          className="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] md:w-[40vw] md:h-[40vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(254,205,211,0.8)_0%,rgba(255,237,213,0.5)_40%,transparent_70%)] blur-[60px] md:blur-[120px]"
+          style={{ willChange: 'transform' }}
           animate={{
             scale: [1, 1.3, 1],
             x: ["0%", "-30%", "0%"],
@@ -68,9 +70,10 @@ export function InteractiveLavaLamp() {
       </motion.div>
 
       {/* Blob 3 - Center (Warm Cream/Yellow) */}
-      <motion.div style={{ x: shiftX3, y: shiftY3 }} className="absolute inset-0 opacity-[0.37]">
+      <motion.div style={{ x: shiftX3, y: shiftY3, willChange: 'transform' }} className="absolute inset-0 opacity-[0.37]">
         <motion.div 
-          className="absolute top-[20%] left-[20%] w-[80vw] h-[60vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(254,240,138,0.6)_0%,transparent_70%)] blur-[140px]"
+          className="absolute top-[30%] left-[30%] w-[60vw] h-[45vw] md:w-[50vw] md:h-[35vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(254,240,138,0.6)_0%,transparent_70%)] blur-[70px] md:blur-[140px]"
+          style={{ willChange: 'transform' }}
           animate={{
             scale: [1, 1.1, 1.2, 1],
             x: ["0%", "15%", "-15%", "0%"],

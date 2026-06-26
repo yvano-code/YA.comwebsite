@@ -67,12 +67,15 @@ export function getVideoThumbnailUrl(url: string | undefined): string | null {
       } else {
         videoId = new URL(url).pathname.slice(1);
       }
-      return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
+      return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
     }
 
     if (url.includes('vimeo.com/')) {
       const parts = new URL(url).pathname.split('/').filter(Boolean);
       const videoId = parts[0];
+      const hash = parts[1];
+      // Vumbnail does not support unlisted Vimeo videos (with a hash in the URL).
+      if (hash) return null;
       return videoId && !isNaN(Number(videoId)) ? `https://vumbnail.com/${videoId}.jpg` : null;
     }
 

@@ -1,0 +1,150 @@
+  // Random positions for the "spilling out" phase
+  const getRandomSpill = () => {
+    if (isVertical) {
+      return {
+        x: `${(Math.random() - 0.5) * 70}vw`,
+        y: `${(Math.random() - 0.5) * 70}vh`,
+        rotate: (Math.random() - 0.5) * 180,
+        scale: Math.random() * 0.3 + 0.8,
+      }
+    }
+    const angle = Math.random() * Math.PI * 2
+    const distance = Math.random() * 60 + 20
+    return {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance - 20,
+      rotate: (Math.random() - 0.5) * 180,
+      scale: Math.random() * 0.4 + 0.8,
+    }
+  }
+
+  // Random positions for the "jumble" phase (landed)
+  const getRandomJumble = () => {
+    if (isVertical) {
+      return {
+        x: `${(Math.random() - 0.5) * 60}vw`,
+        y: `${(Math.random() * 30) + 15}vh`, // Fall loosely to lower half but not off-screen
+        rotate: (Math.random() - 0.5) * 120,
+        scale: 1,
+      }
+    }
+    return {
+      x: (Math.random() - 0.5) * 120,
+      y: Math.random() * 20 + 10,
+      rotate: (Math.random() - 0.5) * 120,
+      scale: 1,
+    }
+  }
+
+  const hoverRef = useRef(false)
+
+  useEffect(() => {
+    let isCancelled = false
+    controls.stop()
+    hoverRef.current = isHovered
+    
+    const runAnimation = async () => {
+      if (isHovered) {
+        // --- HOVER IN SEQUENCE ---
+        
+        // 1. Spilling out like toys
+        if (isCancelled) return
+        await controls.start((i) => ({
+          ...getRandomSpill(),
+          opacity: 1,
+          width: isVertical ? "auto" : "auto",
+          transition: { type: "spring", stiffness: 300, damping: 15, delay: i * 0.01 }
+        }))
+        
+        if (!hoverRef.current || isCancelled) return
+        
+        // 2. Spell correctly briefly
+        const verticalVariant = Math.floor(Math.random() * 3)
+        // 0: Classic Vertical
+        // 1: Weaving / Sine wave
+        // 2: Double Column (YVANO on left, ANTONIO on right)
+
+        await controls.start((i) => {
+          let xValue: number | string = 0;
+          let yValue: number | string = isVertical ? `${(i - 6.5) * 6}vh` : 0;
+
+          if (isVertical) {
+            if (verticalVariant === 0) {
+              // Classic vertical
+              xValue = 0;
+            } else if (verticalVariant === 1) {
+              // Weaving (sine wave)
+              xValue = `${Math.sin(i * 0.8) * 20}vw`;
+            } else if (verticalVariant === 2) {
+              // Double Column
+              // YVANO (0-4), ANTONIO (6-12), . (13)
+              if (i <= 4) {
+                xValue = `-15vw`;
+                yValue = `${(i - 2) * 6}vh`; // center YVANO (5 letters)
+              } else if (i >= 6 && i <= 12) {
+                xValue = `15vw`;
+                yValue = `${(i - 9) * 6}vh`; // center ANTONIO (7 letters)
+              } else if (i === 13) {
+                xValue = `15vw`;
+                yValue = `${(13 - 9) * 6}vh`; // dot at the bottom
+              }
+            }
+          }
+
+          return {
+            x: xValue,
+            y: yValue,
+            rotate: 0,
+            scale: 1,
+            opacity: 1,
+            width: isVertical ? "auto" : "auto",
+            transition: { type: "spring", stiffness: 200, damping: 12, mass: 0.8 }
+          }
+        })
+        
+        if (!hoverRef.current || isCancelled) return
+        
+        // Pause briefly to read it
+        await new Promise(r => setTimeout(r, 1800))
+        
+        if (!hoverRef.current || isCancelled) return
+
+        // 3. Collapse into a jumble
+        await controls.start((i) => ({
+          ...getRandomJumble(),
+          transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
+        }))
+        
+        if (onAnimationComplete && !isCancelled) {
+          onAnimationComplete()
+        }
+
+      } else {
+        // --- HOVER OUT SEQUENCE ---
+        if (isCancelled) return
+        // Mouse removed: go back to "YA."
+        controls.start((i) => {
+          if (isYA(i)) {
+            return {
+              x: isVertical ? (isY(i) ? '-0.8em' : isA(i) ? '0' : '0.8em') : 0, 
+              y: 0,
+              rotate: 0,
+              scale: 1,
+              opacity: 1,
+              width: "auto",
+              transition: { type: "spring", stiffness: 300, damping: 20 }
+            }
+          } else {
+            return {
+              x: 0,
+              y: 0,
+              rotate: 0,
+              scale: 0,
+              opacity: 0,
+              width: isVertical ? "auto" : 0,
+              transition: { duration: 0.3 }
+            }
+          }
+        })
+      }
+    }
