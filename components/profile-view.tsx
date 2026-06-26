@@ -59,45 +59,49 @@ export function ProfileView() {
       </div>
 
       {/* Contact Section */}
-      <div className="mt-auto px-6 lg:px-24 w-full flex flex-col md:flex-row justify-center items-center gap-20 md:gap-40 lg:gap-64 pb-8">
-        {/* Left Column */}
+      <div className="mt-auto px-6 lg:px-24 w-full flex flex-col md:flex-row justify-center items-center gap-16 md:gap-32 lg:gap-40 pb-16">
+        {/* Left Column - Work */}
         <div className="flex flex-col items-center text-center">
-          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-4">Work</span>
-          <div className="overflow-visible py-2 mb-8 md:mb-12">
-            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-top">Inquiries</span>
+          <span className="text-[14px] uppercase tracking-[0.15em] font-medium text-white/90">Work</span>
+          <div className="mt-[-10px] mb-4">
+            <span 
+              className="block text-[100px] md:text-[140px] lg:text-[160px] font-bold uppercase tracking-tight leading-none"
+              style={{ fontFamily: 'var(--font-oswald), sans-serif', transform: 'scaleY(1.3)' }}
+            >
+              Inquiries
+            </span>
           </div>
-          <a href={`mailto:${contact.email}`} className="text-xs md:text-sm tracking-wider mt-2 hover:text-[#e60000] transition-colors">
+          <a href={`mailto:${contact.email}`} className="text-[14px] md:text-[16px] tracking-wide mt-2 hover:text-[#e60000] transition-colors text-white/90">
             {contact.email}
           </a>
         </div>
 
-        {/* Right Column */}
+        {/* Right Column - Socials */}
         <div className="flex flex-col items-center text-center">
-          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-4">Social</span>
-          <div className="overflow-visible py-2 mb-8 md:mb-12">
-            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-top">Links</span>
+          <span className="text-[14px] uppercase tracking-[0.15em] font-medium text-white/90">Social</span>
+          <div className="mt-[-10px] mb-4">
+            <span 
+              className="block text-[100px] md:text-[140px] lg:text-[160px] font-bold uppercase tracking-tight leading-none"
+              style={{ fontFamily: 'var(--font-oswald), sans-serif', transform: 'scaleY(1.3)' }}
+            >
+              Links
+            </span>
           </div>
           <div className="flex gap-4 mt-2">
-            {Object.entries(siteConfig.social).map(([platform, url]) => {
-              if (!url || platform === 'email') return null;
-              
-              let label = platform.substring(0, 2).toUpperCase();
-              if (platform === 'instagram') label = 'IG';
-              if (platform === 'tiktok') label = 'TK';
-              if (platform === 'youtube') label = 'YT';
-              if (platform === 'linkedin') label = 'LI';
-              if (platform === 'vimeo') label = 'VM';
-              if (platform === 'facebook') label = 'FB';
-              
+            {[
+              { id: 'tiktok', label: 'TK', url: siteConfig.social.tiktok },
+              { id: 'instagram', label: 'IG', url: siteConfig.social.instagram }
+            ].map((social) => {
+              if (!social.url) return null;
               return (
                 <a 
-                  key={platform}
-                  href={url} 
+                  key={social.id}
+                  href={social.url} 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors text-xs font-medium tracking-wider"
+                  className="w-12 h-12 rounded-full border-[1.5px] border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors text-[14px] font-medium tracking-wider"
                 >
-                  {label}
+                  {social.label}
                 </a>
               );
             })}
