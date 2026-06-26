@@ -37,27 +37,10 @@ export function ProfileView() {
   ]
 
   return (
-    <div className="w-full relative z-10 flex flex-col min-h-[100dvh] bg-transparent text-black pt-24 pb-32">
-      {/* Scrolling Photos */}
-      <div className="w-full mb-12 lg:mb-20 overflow-x-auto lg:overflow-x-visible hide-scrollbar snap-x snap-mandatory flex lg:justify-center gap-4 lg:gap-6 px-6 lg:px-0">
-        {scrollingPhotos.map((src, i) => (
-          <div key={i} className="flex-none w-[75vw] sm:w-[50vw] lg:w-[17vw] xl:w-[16vw] aspect-[4/5] relative snap-center rounded-3xl overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] bg-black/5 border border-black/5 transition-transform duration-500 hover:scale-[1.02] lg:hover:-translate-y-2">
-            <Image 
-              src={src}
-              alt={`Photo ${i+1}`}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
-        ))}
-        {/* Spacer to allow the last card to center perfectly on mobile */}
-        <div className="flex-none w-6 lg:hidden" aria-hidden="true" />
-      </div>
-
+    <div className="w-full relative z-10 flex flex-col min-h-[100dvh] bg-black text-white pt-32 pb-32">
       {/* Bio Text */}
       <div className="px-6 lg:px-24 mb-16 lg:mb-24 text-center">
-        <p className="text-sm sm:text-base lg:text-xl leading-[1.8] lg:leading-[2] text-black/70 font-medium max-w-4xl mx-auto">
+        <p className="text-sm sm:text-base lg:text-xl leading-[1.8] lg:leading-[2] text-white/70 font-medium max-w-4xl mx-auto">
           {siteConfig.imdbBio}
         </p>
       </div>
@@ -79,22 +62,22 @@ export function ProfileView() {
       <div className="mt-auto px-6 lg:px-24 w-full flex flex-col md:flex-row justify-center items-center gap-20 md:gap-40 lg:gap-64 pb-8">
         {/* Left Column */}
         <div className="flex flex-col items-center text-center">
-          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-1">Work</span>
-          <div className="overflow-visible py-4">
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-center">Inquiries</span>
+          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-4">Work</span>
+          <div className="overflow-visible py-2 mb-8 md:mb-12">
+            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-top">Inquiries</span>
           </div>
-          <a href={`mailto:${contact.email}`} className="text-xs md:text-sm tracking-wider mt-6 hover:text-[#e60000] transition-colors">
+          <a href={`mailto:${contact.email}`} className="text-xs md:text-sm tracking-wider mt-2 hover:text-[#e60000] transition-colors">
             {contact.email}
           </a>
         </div>
 
         {/* Right Column */}
         <div className="flex flex-col items-center text-center">
-          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-1">Social</span>
-          <div className="overflow-visible py-4">
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-center">Links</span>
+          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-4">Social</span>
+          <div className="overflow-visible py-2 mb-8 md:mb-12">
+            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-top">Links</span>
           </div>
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-4 mt-2">
             {Object.entries(siteConfig.social).map(([platform, url]) => {
               if (!url || platform === 'email') return null;
               
@@ -112,7 +95,7 @@ export function ProfileView() {
                   href={url} 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-[#f0f0f5] transition-colors text-xs font-medium tracking-wider"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors text-xs font-medium tracking-wider"
                 >
                   {label}
                 </a>
