@@ -75,12 +75,51 @@ export function ProfileView() {
         />
       </div>
 
-      {/* Contact Line */}
-      <div className="mt-auto px-6 lg:px-24 text-center opacity-80">
-        <p className="text-[10px] sm:text-xs lg:text-sm uppercase tracking-[0.1em] font-extrabold text-black leading-relaxed">
-          For bookings, collaborations and general inquiries please email <br className="lg:hidden" />
-          <a href={`mailto:${contact.email}`} className="text-black hover:text-[#e60000] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#e60000] lg:ml-2">{contact.email}</a>
-        </p>
+      {/* Contact Section */}
+      <div className="mt-auto px-6 lg:px-24 w-full flex flex-col md:flex-row justify-center items-center gap-20 md:gap-40 lg:gap-64 pb-8">
+        {/* Left Column */}
+        <div className="flex flex-col items-center text-center">
+          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-1">Work</span>
+          <div className="overflow-visible py-4">
+            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-center">Inquiries</span>
+          </div>
+          <a href={`mailto:${contact.email}`} className="text-xs md:text-sm tracking-wider mt-6 hover:text-[#e60000] transition-colors">
+            {contact.email}
+          </a>
+        </div>
+
+        {/* Right Column */}
+        <div className="flex flex-col items-center text-center">
+          <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-medium mb-1">Social</span>
+          <div className="overflow-visible py-4">
+            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter transform scale-y-[2.5] origin-center">Links</span>
+          </div>
+          <div className="flex gap-4 mt-6">
+            {Object.entries(siteConfig.social).map(([platform, url]) => {
+              if (!url || platform === 'email') return null;
+              
+              let label = platform.substring(0, 2).toUpperCase();
+              if (platform === 'instagram') label = 'IG';
+              if (platform === 'tiktok') label = 'TK';
+              if (platform === 'youtube') label = 'YT';
+              if (platform === 'linkedin') label = 'LI';
+              if (platform === 'vimeo') label = 'VM';
+              if (platform === 'facebook') label = 'FB';
+              
+              return (
+                <a 
+                  key={platform}
+                  href={url} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-black flex items-center justify-center hover:bg-black hover:text-[#f0f0f5] transition-colors text-xs font-medium tracking-wider"
+                >
+                  {label}
+                </a>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   )
