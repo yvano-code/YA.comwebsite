@@ -13,7 +13,7 @@ export function DesktopReelsShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
-  const [isMuted, setIsMuted] = useState(true)
+  const [isMuted, setIsMuted] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const projects = siteConfig.projects
 
@@ -42,7 +42,7 @@ export function DesktopReelsShowcase() {
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex)
       setPlayingIndex(null)
-      setIsMuted(true) // Reset mute when scrolling to a new video
+      setIsMuted(false) // Reset mute when scrolling to a new video
     }
   }
 
