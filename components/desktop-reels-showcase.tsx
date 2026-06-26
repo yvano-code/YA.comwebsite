@@ -1,14 +1,16 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import ReactPlayer from "react-player"
 import { siteConfig } from "@/lib/site-config"
 import { getVideoEmbedUrl } from "@/lib/utils"
 
 export function DesktopReelsShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [playingIndex, setPlayingIndex] = useState<number | null>(null)
+  const [playingIndex, setPlayingIndex] = useState<number | null>(0)
+  const [isMuted, setIsMuted] = useState(true)
   const projects = siteConfig.projects
 
   const handleScroll = () => {
@@ -60,26 +62,28 @@ export function DesktopReelsShowcase() {
             <div className="w-full h-full relative rounded-[40px] overflow-hidden group border border-white/10 shadow-2xl bg-black">
               {isPlaying && isVideo ? (
                 <>
-                  {isLocalVideo ? (
-                    <video 
-                      src={project.href} 
-                      autoPlay
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+                  <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden flex items-center justify-center">
+                    <ReactPlayer 
+                      url={project.href} 
+                      playing={isPlaying} 
+                      muted={isMuted} 
+                      width="100%" 
+                      height="100%"
+                      playsinline
+                      config={{
+                        youtube: { playerVars: { disablekb: 1, controls: 0, modestbranding: 1 } },
+                        vimeo: { playerOptions: { controls: 0, keyboard: 0 } }
+                      }}
+                      style={{ pointerEvents: 'none' }}
                     />
-                  ) : (
-                    <iframe 
-                      src={embedUrl || ""} 
-                      title={cleanTitle}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full border-0 z-0 bg-black pointer-events-none"
-                    />
-                  )}
+                  </div>
                   {/* Invisible overlay to allow swiping and tap-to-stop */}
                   <div 
                     className="absolute inset-0 z-10 cursor-pointer" 
-                    onClick={() => setPlayingIndex(null)}
+                    onClick={() => {
+                      setPlayingIndex(null)
+                      setIsMuted(true)
+                    }}
                   />
                 </>
               ) : (
@@ -95,15 +99,38 @@ export function DesktopReelsShowcase() {
               {/* Dark Gradient Overlay */}
               <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 pointer-events-none z-10 transition-opacity duration-1000 ${isPlaying ? 'opacity-0 delay-[2000ms]' : 'opacity-100'}`} />
 
-              {/* Play Button Overlay */}
-              {!isPlaying && isVideo && (
+              {/* Play / Sound Toggle Button */}
+              {isVideo && (
                 <div 
-                  className="absolute inset-0 m-auto w-24 h-24 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center transition-all hover:scale-110 z-20 cursor-pointer shadow-[0_8px_32px_rgba(0,0,0,0.5)]" 
-                  onClick={() => setPlayingIndex(idx)}
+                  className={`absolute inset-0 m-auto w-24 h-24 bg-white/10 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center transition-all z-20 cursor-pointer shadow-[0_8px_32px_rgba(0,0,0,0.5)] ${
+                    !isPlaying ? 'hover:bg-white/20 hover:scale-110 opacity-100' : 
+                    isMuted ? 'hover:bg-white/20 hover:scale-110 opacity-100' : 
+                    'opacity-0 hover:opacity-100 hover:bg-white/20 hover:scale-110'
+                  }`} 
+                  onClick={(e) => {
+                    if (!isPlaying) {
+                      setPlayingIndex(idx)
+                      setIsMuted(true)
+                    } else {
+                      e.stopPropagation()
+                      setIsMuted(!isMuted)
+                    }
+                  }}
                 >
-                  <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
+                  {!isPlaying ? (
+                    <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  ) : isMuted ? (
+                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                  ) : (
+                    <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M17.95 6.05a8 8 0 010 11.9M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  )}
                 </div>
               )}
 
