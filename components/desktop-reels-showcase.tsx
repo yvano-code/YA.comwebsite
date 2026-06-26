@@ -11,11 +11,24 @@ export function DesktopReelsShowcase() {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const projects = siteConfig.projects
 
+  const handleScroll = () => {
+    if (!scrollRef.current || playingIndex === null) return
+    const container = scrollRef.current
+    const scrollLeft = container.scrollLeft
+    const width = window.innerWidth
+    const currentIndex = Math.round(scrollLeft / width)
+    
+    if (playingIndex !== currentIndex) {
+      setPlayingIndex(null)
+    }
+  }
+
 
 
   return (
     <div 
       ref={scrollRef}
+      onScroll={handleScroll}
       className="w-screen h-screen overflow-x-auto overflow-y-hidden flex snap-x snap-mandatory bg-[#050505] text-white"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
@@ -45,23 +58,29 @@ export function DesktopReelsShowcase() {
             {/* The main rounded card */}
             <div className="w-full h-full relative rounded-[40px] overflow-hidden group border border-white/10 shadow-2xl bg-black">
               {isPlaying && isVideo ? (
-                isLocalVideo ? (
-                  <video 
-                    src={project.href} 
-                    controls 
-                    autoPlay
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover z-0"
+                <>
+                  {isLocalVideo ? (
+                    <video 
+                      src={project.href} 
+                      autoPlay
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+                    />
+                  ) : (
+                    <iframe 
+                      src={embedUrl || ""} 
+                      title={cleanTitle}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full border-0 z-0 bg-black pointer-events-none"
+                    />
+                  )}
+                  {/* Invisible overlay to allow swiping and tap-to-stop */}
+                  <div 
+                    className="absolute inset-0 z-10 cursor-pointer" 
+                    onClick={() => setPlayingIndex(null)}
                   />
-                ) : (
-                  <iframe 
-                    src={embedUrl || ""} 
-                    title={cleanTitle}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full border-0 z-0 bg-black"
-                  />
-                )
+                </>
               ) : (
                 <>
                   <Image 
