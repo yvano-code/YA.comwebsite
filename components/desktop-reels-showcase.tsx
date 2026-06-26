@@ -3,29 +3,50 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import ReactPlayer from "react-player"
+import dynamic from "next/dynamic"
+
+const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false })
 import { siteConfig } from "@/lib/site-config"
 import { getVideoEmbedUrl } from "@/lib/utils"
 
 export function DesktopReelsShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [playingIndex, setPlayingIndex] = useState<number | null>(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const [isMuted, setIsMuted] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
   const projects = siteConfig.projects
 
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
+    // Auto-play the currently visible video after 2.5 seconds
+    const timer = setTimeout(() => {
+      setPlayingIndex(currentIndex)
+    }, 2500)
+
+    return () => clearTimeout(timer)
+  }, [currentIndex, isMounted])
+
   const handleScroll = () => {
-    if (!scrollRef.current || playingIndex === null) return
+    if (!scrollRef.current) return
     const container = scrollRef.current
     const scrollLeft = container.scrollLeft
     const width = window.innerWidth
-    const currentIndex = Math.round(scrollLeft / width)
+    const newIndex = Math.round(scrollLeft / width)
     
-    if (playingIndex !== currentIndex) {
+    if (newIndex !== currentIndex) {
+      setCurrentIndex(newIndex)
       setPlayingIndex(null)
+      setIsMuted(true) // Reset mute when scrolling to a new video
     }
   }
 
-
+  if (!isMounted) return null // Prevent SSR mismatch completely
 
   return (
     <div 
@@ -60,7 +81,17 @@ export function DesktopReelsShowcase() {
           >
             {/* The main rounded card */}
             <div className="w-full h-full relative rounded-[40px] overflow-hidden group border border-white/10 shadow-2xl bg-black">
-              {isPlaying && isVideo ? (
+              
+              {/* Always show thumbnail so it doesn't blink black while video loads */}
+              <Image 
+                src={project.image || "/placeholder.svg"} 
+                alt={cleanTitle} 
+                fill 
+                className="object-cover transition-transform duration-1000 group-hover:scale-105 z-0"
+                priority={idx === 0}
+              />
+
+              {isPlaying && isVideo && (
                 <>
                   <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden flex items-center justify-center">
                     <ReactPlayer 
@@ -72,7 +103,8 @@ export function DesktopReelsShowcase() {
                       playsinline
                       config={{
                         youtube: { playerVars: { disablekb: 1, controls: 0, modestbranding: 1 } },
-                        vimeo: { playerOptions: { controls: 0, keyboard: 0 } }
+                        vimeo: { playerOptions: { controls: 0, keyboard: 0 } },
+                        file: { attributes: { style: { width: '100%', height: '100%', objectFit: 'cover' } } }
                       }}
                       style={{ pointerEvents: 'none' }}
                     />
@@ -86,14 +118,6 @@ export function DesktopReelsShowcase() {
                     }}
                   />
                 </>
-              ) : (
-                <Image 
-                  src={project.image || "/placeholder.svg"} 
-                  alt={cleanTitle} 
-                  fill 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105 z-0"
-                  priority={idx === 0}
-                />
               )}
                   
               {/* Dark Gradient Overlay */}
