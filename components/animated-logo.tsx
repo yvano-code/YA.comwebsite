@@ -77,7 +77,7 @@ const DustCloud = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export function GoodYuteLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
+export function GoodYuteLogo({ isHovered, onAnimationComplete, isMobile = false }: { isHovered: boolean, onAnimationComplete?: () => void, isMobile?: boolean }) {
   const topTextControls = useSafeAnimation()
   const bottomTextControls = useSafeAnimation()
   const dotControls = useSafeAnimation()
@@ -225,7 +225,7 @@ const getToyStyle = (index: number, char: string) => {
   };
 };
 
-export function TumblerLogo({ isHovered, onAnimationComplete, isVertical = false, muteSound = false }: { isHovered: boolean, onAnimationComplete?: () => void, isVertical?: boolean, muteSound?: boolean }) {
+export function TumblerLogo({ isHovered, onAnimationComplete, isVertical = false, isMobile = false, muteSound = false }: { isHovered: boolean, onAnimationComplete?: () => void, isVertical?: boolean, isMobile?: boolean, muteSound?: boolean }) {
 
   const controls = useSafeAnimation()
   
@@ -347,6 +347,11 @@ if (isHovered) {
           transition: { type: "spring", stiffness: 100, damping: 10, mass: 1.5 }
         }))
 
+        // Automatically complete the animation cycle
+        if (onAnimationComplete) {
+          onAnimationComplete()
+        }
+
       } else {
         // --- HOVER OUT SEQUENCE ---
         
@@ -440,7 +445,7 @@ const NasaDot = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
+export function RocketLogo({ isHovered, onAnimationComplete, isMobile = false, muteSound = false }: { isHovered: boolean, onAnimationComplete?: () => void, isMobile?: boolean, muteSound?: boolean }) {
   const yControls = useSafeAnimation()
   const aControls = useSafeAnimation()
   const dotControls = useSafeAnimation()
@@ -465,8 +470,8 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         // 1. Countdown
         if (isCancelled) return
         setCountdown(3)
-        playRocketSound('beep')
-        playRocketSound('eruption')
+        if (!muteSound) playRocketSound('beep')
+        if (!muteSound) playRocketSound('eruption')
         // rumble Y and Dot
         yControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
         dotControls.start({ x: [-1, 1, -1, 1], y: [-1, 1, -1, 1], transition: { repeat: Infinity, duration: 0.1 } })
@@ -475,11 +480,11 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         await new Promise(r => setTimeout(r, 1000))
         if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(2)
-        playRocketSound('beep')
+        if (!muteSound) playRocketSound('beep')
         await new Promise(r => setTimeout(r, 1000))
         if (!hoverRef.current) { isCancelled = true; return }
         setCountdown(1)
-        playRocketSound('beep')
+        if (!muteSound) playRocketSound('beep')
         
         // Ignite engine
         setSmokeActive(true)
@@ -506,7 +511,7 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         dotControls.start({ x: 0, y: 0 })
 
         // BLAST OFF SEQUENCE
-        playRocketSound('blastoff')
+        if (!muteSound) playRocketSound('blastoff')
         // 1. The Implosion / Anticipation Squash
         // It smoothly squashes down to build energy
         await aControls.start({
@@ -625,7 +630,8 @@ export function RocketLogo({ isHovered, onAnimationComplete }: { isHovered: bool
         
         // Wait 0.5 seconds at the end of the animation and then trigger next animation
         await new Promise(r => setTimeout(r, 500))
-        if (isCancelled) return
+        if (!hoverRef.current || isCancelled) return
+        
         if (onAnimationComplete) {
           onAnimationComplete()
         }
@@ -854,7 +860,7 @@ const csInitial = "CANADIAN SCREEN".split("").map(() => getInitialPos());
 const awInitial = "AWARD WINNER".split("").map(() => getInitialPos());
 const csaInitial = getInitialPos();
 
-export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered: boolean, onAnimationComplete?: () => void }) {
+export function AwardWinnerLogo({ isHovered, onAnimationComplete, isMobile = false, muteSound = false }: { isHovered: boolean, onAnimationComplete?: () => void, isMobile?: boolean, muteSound?: boolean }) {
   const [isActive, setIsActive]   = useState(false)
   const yControls        = useSafeAnimation()
   const aControls        = useSafeAnimation()   // Main A fade
@@ -896,7 +902,7 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
       swooshControls.stop()
 
       if (isHovered) {
-        playBinauralShimmer()
+        if (!muteSound) playBinauralShimmer()
         // 1. Hold for 500ms before exploding
         await new Promise(r => setTimeout(r, 500))
         if (isCancelled) return
@@ -960,7 +966,9 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
 
     runAnimation()
     return () => { isCancelled = true; clearTimeout(timeoutId) }
-  }, [isHovered, yControls, aControls, dotControls, restTextControls, aTextControls, gridControls, dustParticles, swooshControls])
+  }, [isHovered, yControls, aControls, dotControls, restTextControls, aTextControls, gridControls, dustParticles, swooshControls, onAnimationComplete])
+
+  const particlesToRender = isMobile ? dustParticles.slice(0, 30) : dustParticles;
 
   return (
     <div 
@@ -1017,27 +1025,29 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-50 w-max"
         >
           {/* Intense Central Core Light */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ 
-              opacity: [0, 0.7, 0.4, 0.8, 0.5], 
-              scale: [0.5, 1.2, 1, 1.3, 1.1] 
-            }}
-            transition={{ 
-              duration: 3, 
-              delay: 0.8, 
-              repeat: Infinity, 
-              repeatType: "reverse", 
-              ease: "easeInOut" 
-            }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[800px] aspect-square rounded-full pointer-events-none mix-blend-screen"
-            style={{
-              background: "radial-gradient(circle at center, rgba(255,250,200,0.4) 0%, rgba(253,224,71,0.15) 30%, transparent 70%)",
-              filter: "blur(40px)",
-              transformStyle: "preserve-3d",
-              transform: "translateZ(-100px)"
-            }}
-          />
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ 
+                opacity: [0, 0.7, 0.4, 0.8, 0.5], 
+                scale: [0.5, 1.2, 1, 1.3, 1.1] 
+              }}
+              transition={{ 
+                duration: 3, 
+                delay: 0.8, 
+                repeat: Infinity, 
+                repeatType: "reverse", 
+                ease: "easeInOut" 
+              }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[800px] aspect-square rounded-full pointer-events-none mix-blend-screen"
+              style={{
+                background: "radial-gradient(circle at center, rgba(255,250,200,0.4) 0%, rgba(253,224,71,0.15) 30%, transparent 70%)",
+                filter: "blur(40px)",
+                transformStyle: "preserve-3d",
+                transform: "translateZ(-100px)"
+              }}
+            />
+          )}
 
           {/* Dust Swirl 3D Effect */}
           <motion.div
@@ -1046,7 +1056,7 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
             animate={{ rotateZ: 360 }}
             transition={{ repeat: Infinity, duration: 150, ease: "linear" }}
           >
-            {dustParticles.map((p, i) => (
+            {particlesToRender.map((p, i) => (
               <motion.div
                 key={i}
                 custom={i}
@@ -1059,8 +1069,8 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete }: { isHovered:
                   background: `radial-gradient(circle at center, ${p.color} 0%, transparent 70%)`,
                   marginLeft: -(p.size * 4) / 2,
                   marginTop: -(p.size * 4) / 2,
-                  filter: `blur(${p.blur}px)`,
-                  transformStyle: "preserve-3d",
+                  filter: isMobile ? "none" : `blur(${p.blur}px)`,
+                  transformStyle: isMobile ? "flat" : "preserve-3d",
                   willChange: "transform, opacity"
                 }}
               />

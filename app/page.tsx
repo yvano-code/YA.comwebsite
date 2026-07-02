@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/site-config"
 import { AnimatedLogo, TumblerLogo } from "@/components/animated-logo"
 import { MobileAnimatedLogo } from "@/components/mobile-animated-logo"
 import { DesktopReelsShowcase } from "@/components/desktop-reels-showcase"
+import { MobileReelsFeed } from "@/components/mobile-reels-feed"
 import { useState, useEffect } from "react"
 import { initSensory } from "@/lib/sensory"
 
@@ -88,51 +89,13 @@ export default function HomePage() {
         <div className="bg-transparent text-black pt-8 pb-32">
           <AwardsSection />
           
-          <div 
-            className="w-full flex items-center justify-center mt-12 mb-16 text-[12px] md:text-[16px] lg:text-[24px] cursor-pointer relative z-20"
-            onPointerDown={handleTap}
-            onMouseEnter={() => setIsLogoHovered(true)}
-            onMouseLeave={() => setIsLogoHovered(false)}
-          >
-            <TumblerLogo 
-              isHovered={isHovered} 
-              onAnimationComplete={handleAnimationComplete}
-              muteSound={true}
-            />
-          </div>
         </div>
       </div>
 
       {/* === MOBILE VIEW === */}
-      <div className="block lg:hidden w-full relative min-h-screen overflow-x-hidden bg-transparent flex flex-col pt-24 pb-32">
-        <div className="flex flex-col px-6 md:px-12 mb-8 md:mb-12 text-black">
-          <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">FILM & TELEVISION</h1>
-          <p className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-black/50 mt-2">
-            MUSIC VIDEO | COMMERCIAL | LIVE BROADCAST
-          </p>
-        </div>
+      <div className="block lg:hidden w-full h-[100dvh] relative overflow-hidden bg-black text-white">
+        <MobileReelsFeed />
 
-        {/* The colorful, clickable scrolling reels we had before */}
-        <AccordionCarousel projects={siteConfig.projects} />
-        
-        {/* Spacer to allow full scroll view of showcase before moving to awards */}
-        <div style={{ height: "7vh", flexShrink: 0 }} />
-
-        {/* Filmography & Awards below the showcase */}
-        <AwardsSection />
-
-        <div 
-          className="w-full flex items-center justify-center mt-8 mb-16 text-[16px] cursor-pointer relative z-20"
-          onPointerDown={handleTap}
-          onMouseEnter={() => setIsLogoHovered(true)}
-          onMouseLeave={() => setIsLogoHovered(false)}
-        >
-          <TumblerLogo 
-            isHovered={isHovered} 
-            onAnimationComplete={handleAnimationComplete}
-            muteSound={true}
-          />
-        </div>
       </div>
     </>
   )

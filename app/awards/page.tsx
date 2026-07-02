@@ -93,14 +93,12 @@ export default function AwardsPage() {
 
       {/* ── MOBILE VIEW: AWARDS & OFFICIAL SELECTIONS ── */}
       <section className="px-6 md:px-12 pt-16 pb-0 relative z-10">
-        <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-8">
-          AWARDS & <br />
-          <span className="text-black/40">OFFICIAL SELECTIONS</span>
+        <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-8 leading-[0.85]">
+          <span className="block ml-[-0.035em] text-black">AWARDS &</span>
+          <span className="block text-black/40">OFFICIAL SELECTIONS</span>
         </h3>
 
         <div className="w-[calc(100%+3rem)] md:w-[calc(100%+6rem)] -ml-6 md:-ml-12 mb-12 relative bg-transparent">
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
           
           <div className="flex w-full items-center gap-0 overflow-x-auto hide-scrollbar px-6 md:px-12">
             {[
@@ -128,7 +126,7 @@ export default function AwardsPage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2">
+              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2 text-black">
                 {award.title}
               </h4>
               <p className="text-[13px] leading-relaxed text-black/80 font-medium max-w-sm">

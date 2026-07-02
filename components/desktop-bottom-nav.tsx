@@ -8,8 +8,9 @@ export function DesktopBottomNav() {
   const pathname = usePathname()
   
   // Determine active tab based on route
-  let activeTab = "home"
-  if (pathname === "/reels" || pathname === "/clips") activeTab = "clips"
+  let activeTab = "clips"
+  if (pathname === "/" || pathname === "/clips") activeTab = "clips"
+  else if (pathname === "/intro") activeTab = "home"
   else if (pathname === "/my-ya") activeTab = "my-ya"
 
   return (
@@ -25,7 +26,7 @@ export function DesktopBottomNav() {
 
         {/* YA Originals (Reels) */}
         <Link 
-          href="/reels"
+          href="/"
           className="flex items-center justify-center w-[64px] h-[64px] transition-all duration-300 rounded-full hover:bg-white/10"
         >
           {/* Custom SVG for Instagram Reels style Play icon */}

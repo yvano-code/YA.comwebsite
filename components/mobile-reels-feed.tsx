@@ -1,11 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Music, Play } from "lucide-react"
+import { useEffect, useRef, useState, useCallback, memo } from "react"
 import { FullVideoDrawer } from "@/components/full-video-drawer"
 import { siteConfig } from "@/lib/site-config"
 import { TumblerLogo } from "@/components/animated-logo"
-import { ProfileView } from "@/components/profile-view"
 
 const familyToProjectId: Record<string, string> = {
   "BLACK": "black",
@@ -163,26 +161,29 @@ const VIDEOS = [
   }
 ]
 
-function ReelVideo({ 
+const ReelVideo = memo(function ReelVideo({ 
   video, 
   globalMuted, 
   isMounted,
   isActive,
+  isNext,
   isDrawerOpen,
   onToggleMute, 
-  onForceMute, 
   onOpenDrawer 
 }: { 
   video: typeof VIDEOS[0], 
   globalMuted: boolean, 
   isMounted: boolean,
   isActive: boolean,
+  isNext: boolean,
   isDrawerOpen: boolean,
-  onToggleMute: (e: React.MouseEvent) => void, 
-  onForceMute: () => void, 
+  onToggleMute: (e: React.MouseEvent | React.TouchEvent) => void, 
   onOpenDrawer: (v: typeof VIDEOS[0]) => void 
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [showMuteIcon, setShowMuteIcon] = useState(false)
+  const [showUnmuteIcon, setShowUnmuteIcon] = useState(false)
+  const previousMuted = useRef(globalMuted)
   
   const project = siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[video.family])
   const credits = project?.credits?.filter(c => c.label.toLowerCase() !== "video by") || []
@@ -191,7 +192,19 @@ function ReelVideo({
     if (videoRef.current) {
       videoRef.current.muted = globalMuted
     }
-  }, [globalMuted])
+    
+    // Trigger flash animation if the state actually changed while this video is active
+    if (isActive && previousMuted.current !== globalMuted) {
+      if (globalMuted) {
+        setShowMuteIcon(true)
+        setTimeout(() => setShowMuteIcon(false), 800)
+      } else {
+        setShowUnmuteIcon(true)
+        setTimeout(() => setShowUnmuteIcon(false), 800)
+      }
+    }
+    previousMuted.current = globalMuted
+  }, [globalMuted, isActive])
 
   useEffect(() => {
     if (videoRef.current) {
@@ -210,63 +223,84 @@ function ReelVideo({
     }
   }, [isActive, isDrawerOpen])
 
+  const handleToggleMute = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation()
+    if (videoRef.current) {
+      videoRef.current.muted = !globalMuted
+    }
+    onToggleMute(e)
+  }
+
   return (
-    <div className="relative w-full h-[100dvh] snap-start bg-black flex-shrink-0 cursor-pointer" onClick={onToggleMute}>
+    <div className="relative w-full h-[100dvh] snap-start snap-always bg-black flex-shrink-0 cursor-pointer" onClick={handleToggleMute}>
       {isMounted && (
         <video
           ref={videoRef}
           src={video.src}
           poster={video.src.replace('.mp4', '_poster.jpg')}
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loop
           muted={globalMuted}
           playsInline
-          preload={isActive ? "auto" : "metadata"}
+          autoPlay={isActive}
+          preload={isActive || isNext ? "auto" : "metadata"}
         />
       )}
 
-      {/* Center Mute Indicator (Tied to the video) */}
+      {/* Center Mute Button (Restored) */}
       {globalMuted && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-3 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button 
+          type="button"
+          onClick={handleToggleMute}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200"
+        >
+          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+        </button>
+      )}
+
+      {/* Center Flash Indicators */}
+      {showMuteIcon && !globalMuted && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
+          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
           </svg>
         </div>
       )}
       
+      {showUnmuteIcon && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
+          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
+          </svg>
+        </div>
+      )}
+      
       {/* Gradients for readability */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
-      
-      {/* Desktop Standard Gradient */}
-      <div className="hidden lg:block absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-      
-      {/* Mobile Liquid Glassy Blur Effect */}
-      <div 
-        className="lg:hidden absolute inset-x-0 bottom-0 h-[45%] pointer-events-none z-10"
-        style={{ 
-          maskImage: 'linear-gradient(to top, black 25%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 25%, transparent 100%)',
-          transform: 'translateZ(0)',
-          WebkitTransform: 'translateZ(0)'
-        }} 
-      >
-        <div 
-          className="absolute inset-0 backdrop-blur-[30px] bg-black/20" 
-          style={{ 
-            transform: 'translateZ(0)',
-            WebkitTransform: 'translateZ(0)'
-          }} 
-        />
-      </div>
 
       {/* Bottom Left Info */}
-      <div className="absolute left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left">
+      <button 
+        type="button"
+        className="absolute left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left cursor-pointer text-left"
+        onClick={(e) => { 
+          e.stopPropagation(); 
+          onOpenDrawer(video); 
+        }}
+        onTouchEnd={(e) => { 
+          e.stopPropagation(); 
+          onOpenDrawer(video); 
+        }}
+      >
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 cursor-pointer border border-white/20" onClick={(e) => { e.stopPropagation(); onOpenDrawer(video); }}>
-            <img src={video.avatar} alt="Profile" className="w-full h-full object-cover" />
+          <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 border border-white/20">
+            <img src={video.avatar} alt="Profile" className="w-full h-full object-cover pointer-events-none" />
           </div>
-          <span className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre" onClick={(e) => { e.stopPropagation(); onOpenDrawer(video); }}>{video.username}</span>
+          <span className="text-white font-semibold text-[13px] drop-shadow-md uppercase whitespace-pre-wrap leading-tight">{video.username}</span>
         </div>
         
         {credits.length > 0 ? (
@@ -284,10 +318,10 @@ function ReelVideo({
             </p>
           </div>
         )}
-      </div>
+      </button>
     </div>
   )
-}
+})
 
 function TumblerLoop() {
   const [isHovered, setIsHovered] = useState(false)
@@ -324,7 +358,7 @@ function TumblerLoop() {
   )
 }
 
-export default function ClipsPage() {
+export function MobileReelsFeed() {
   const [globalMuted, setGlobalMuted] = useState(true) // MUST start muted for iOS autoPlay to work!
   const [displayVideos, setDisplayVideos] = useState(VIDEOS)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -333,15 +367,16 @@ export default function ClipsPage() {
   
   const selectedProject = selectedVideo ? siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[selectedVideo.family]) || null : null
 
-  const handleOpenDrawer = (video: typeof VIDEOS[0]) => {
+  const handleOpenDrawer = useCallback((video: typeof VIDEOS[0]) => {
     setSelectedVideo(video)
     setDrawerOpen(true)
-    setGlobalMuted(true) // Force mute background video when drawer opens
-  }
+    // Removed force mute so that sound state is preserved when drawer is closed.
+    // The video automatically pauses when drawer is open anyway.
+  }, [])
 
-  const handleCloseDrawer = () => {
+  const handleCloseDrawer = useCallback(() => {
     setDrawerOpen(false)
-  }
+  }, [])
 
   useEffect(() => {
     // 1. Start with a completely randomized pool of videos
@@ -388,14 +423,11 @@ export default function ClipsPage() {
     setDisplayVideos(finalArray)
   }, [])
 
-  const toggleGlobalMute = (e: React.MouseEvent) => {
+  const toggleGlobalMute = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
-    setGlobalMuted(!globalMuted)
-  }
-
-  const handleForceMute = () => {
-    setGlobalMuted(true)
-  }
+    e.preventDefault()
+    setGlobalMuted(prev => !prev)
+  }, [])
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget
@@ -409,45 +441,8 @@ export default function ClipsPage() {
 
   return (
     <>
-      {/* DESKTOP VIEW: Split Screen (TikTok Reels | Profile) */}
-      <div className="hidden lg:flex min-h-screen relative z-10 w-full overflow-hidden bg-white">
-        
-        {/* Left Pane: Reels */}
-        <div className="relative h-screen aspect-[9/16] shrink-0 bg-black border-r border-white/10 overflow-hidden">
-          {/* Global Fixed Header (Centered over reel) */}
-          <div className="absolute top-12 left-0 right-0 z-50 pointer-events-none opacity-[0.89] flex justify-center">
-            <TumblerLoop />
-          </div>
-
-          <div 
-            className="absolute inset-0 overflow-y-auto snap-y snap-mandatory hide-scrollbar flex flex-col"
-            onScroll={handleScroll}
-          >
-            {displayVideos.map((video, idx) => (
-              <ReelVideo 
-                key={`${video.src}-${idx}`} 
-                video={video} 
-                globalMuted={globalMuted} 
-                isMounted={Math.abs(idx - activeIndex) <= 1}
-                isActive={idx === activeIndex}
-                isDrawerOpen={drawerOpen}
-                onToggleMute={toggleGlobalMute} 
-                onForceMute={handleForceMute} 
-                onOpenDrawer={handleOpenDrawer}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Right Pane: Profile */}
-        <div className="relative h-screen flex-1 overflow-y-auto bg-white/50 backdrop-blur-3xl">
-          <ProfileView />
-        </div>
-      </div>
-
-      {/* MOBILE VIEW: Full-Screen Reel Scroller */}
       <div 
-        className="lg:hidden fixed inset-0 z-40 bg-black overflow-y-auto snap-y snap-mandatory hide-scrollbar flex flex-col"
+        className="lg:hidden fixed inset-0 z-40 bg-black overflow-y-auto snap-y snap-mandatory hide-scrollbar flex flex-col overscroll-none"
         onScroll={handleScroll}
       >
         {/* Global Fixed Header */}
@@ -455,19 +450,24 @@ export default function ClipsPage() {
           <TumblerLoop />
         </div>
 
-        {displayVideos.map((video, idx) => (
-          <ReelVideo 
-            key={`${video.src}-${idx}`} 
-            video={video} 
-            globalMuted={globalMuted} 
-            isMounted={Math.abs(idx - activeIndex) <= 1}
-            isActive={idx === activeIndex}
-            isDrawerOpen={drawerOpen}
-            onToggleMute={toggleGlobalMute} 
-            onForceMute={handleForceMute} 
-            onOpenDrawer={handleOpenDrawer}
-          />
-        ))}
+        {displayVideos.map((video, idx) => {
+          const isActive = idx === activeIndex
+          const isNext = idx === activeIndex + 1
+          const isMounted = Math.abs(idx - activeIndex) <= 2
+          return (
+            <ReelVideo 
+              key={`${video.src}-${idx}`} 
+              video={video} 
+              globalMuted={globalMuted} 
+              isMounted={isMounted}
+              isActive={isActive}
+              isNext={isNext}
+              isDrawerOpen={drawerOpen}
+              onToggleMute={toggleGlobalMute} 
+              onOpenDrawer={handleOpenDrawer}
+            />
+          )
+        })}
       </div>
 
       <FullVideoDrawer 
@@ -479,3 +479,4 @@ export default function ClipsPage() {
     </>
   )
 }
+

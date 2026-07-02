@@ -43,10 +43,10 @@ export function SiteFooter() {
   const pathname = usePathname()
   const { contact } = siteConfig
 
-  if (pathname === "/" || pathname === "/clips" || pathname === "/my-ya" || pathname === "/reels") return null
+  if (pathname === "/" || pathname === "/intro" || pathname === "/clips" || pathname === "/my-ya" || pathname === "/reels") return null
 
   return (
-    <footer className="w-full pt-24 md:pt-40 pb-12 relative flex flex-col items-center overflow-hidden">
+    <footer className="hidden md:flex w-full pt-24 md:pt-40 pb-12 relative flex-col items-center overflow-hidden">
       <div className="w-full flex justify-center relative pt-8">
         
         {/* ── DESKTOP ONLY: Massive Name & Blurb ── */}
@@ -64,13 +64,6 @@ export function SiteFooter() {
               <a href={`mailto:${contact.email}`} className="text-black hover:text-[#e60000] transition-colors underline decoration-2 underline-offset-4 decoration-black/40 hover:decoration-[#e60000]">{contact.email}</a>
             </p>
           </div>
-        </div>
-
-        {/* ── MOBILE ONLY: YA Toy Tumblr Animation ── */}
-        <div className="md:hidden flex flex-col items-center justify-center w-full mt-8">
-           <div className="w-full flex items-center justify-center text-[8vw]">
-             <TumblerLogo muteSound={true} isHovered={false} />
-           </div>
         </div>
 
       </div>

@@ -188,7 +188,7 @@ export function AwardsSection() {
                 <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2">
+              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2 text-black">
                 {award.title}
               </h4>
               <p className="text-[13px] leading-relaxed text-black/80 font-medium max-w-sm">

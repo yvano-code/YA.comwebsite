@@ -40,7 +40,7 @@ export function MobileAnimatedLogo() {
 
   return (
     <div 
-      className="absolute inset-0 w-full h-full cursor-pointer z-[100] bg-black/0" 
+      className="absolute inset-0 w-full h-full cursor-pointer z-[100] bg-black/0 text-black" 
       onPointerDown={handleTap}
     >
       <AnimatePresence mode="wait">
@@ -53,13 +53,13 @@ export function MobileAnimatedLogo() {
           className="w-full h-full flex items-center justify-center text-[6.5vh] leading-none font-black tracking-tighter"
         >
           {animType === "tumbler" ? (
-            <TumblerLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isVertical={true} />
+            <TumblerLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isVertical={true} isMobile={true} muteSound={true} />
           ) : animType === "awardwinner" ? (
-            <AwardWinnerLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isVertical={true} />
+            <AwardWinnerLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isMobile={true} muteSound={true} />
           ) : animType === "cartoon" ? (
-            <GoodYuteLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isVertical={true} />
+            <GoodYuteLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isMobile={true} muteSound={true} />
           ) : animType === "rocket" ? (
-            <RocketLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} />
+            <RocketLogo isHovered={isHovered} onAnimationComplete={handleAnimationComplete} isMobile={true} muteSound={true} />
           ) : null}
         </motion.div>
       </AnimatePresence>
