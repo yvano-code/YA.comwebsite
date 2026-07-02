@@ -57,7 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} ${oswald.variable} antialiased bg-[#f0f0f5] text-black selection:bg-black selection:text-white min-h-[100dvh] relative`}>
+      <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} ${oswald.variable} antialiased bg-black text-white selection:bg-white selection:text-black min-h-[100dvh] relative`}>
         {/* Patch for Brave Browser Wallet injecting broken scripts and crashing Next.js Dev Server */}
         <script dangerouslySetInnerHTML={{ __html: `if (typeof window !== 'undefined' && !window.ethereum) { window.ethereum = {}; }` }} />
         

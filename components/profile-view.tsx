@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { siteConfig } from "@/lib/site-config"
 import { GoodYuteLogo } from "@/components/animated-logo"
 import { useState } from "react"
@@ -28,86 +27,89 @@ export function ProfileView() {
   const { contact } = siteConfig
   const isHovered = playState === 1 || isLogoHovered
 
-  const scrollingPhotos = [
-    "/projects/IMG_0270.jpeg",
-    "/projects/PRO_8342.jpg",
-    "/projects/PRO_8782.jpg",
-    "/projects/PRO_8926.jpg",
-    "/projects/PRO_9325-Edit 2.jpg"
-  ]
-
   return (
-    <div className="w-full relative z-10 flex flex-col min-h-[100dvh] bg-black text-white pt-32 pb-32">
-      {/* Bio Text */}
-      <div className="px-6 lg:px-24 mb-16 lg:mb-24 text-center">
-        <p className="text-sm sm:text-base lg:text-xl leading-[1.8] lg:leading-[2] text-white/70 font-medium max-w-4xl mx-auto">
-          {siteConfig.imdbBio}
-        </p>
-      </div>
+    <div className="w-full relative z-10 flex flex-col min-h-[100dvh] bg-transparent text-black pt-32 lg:pt-48 pb-32">
+      
+      {/* Container for constrained width - Widened for Editorial Feel */}
+      <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-12 xl:px-16">
+        
+        {/* Interactive Logo Top Leftish */}
+        <div 
+          className="flex items-start justify-start text-[8vw] sm:text-[4vw] lg:text-[2.5vw] cursor-pointer mb-16 lg:mb-24 w-max"
+          onPointerDown={handleTap}
+          onMouseEnter={() => setIsLogoHovered(true)}
+          onMouseLeave={() => setIsLogoHovered(false)}
+        >
+          <GoodYuteLogo 
+            isHovered={isHovered} 
+            onAnimationComplete={handleAnimationComplete}
+          />
+        </div>
 
-      {/* Good Yute Logo Title (Interactive) */}
-      <div 
-        className="w-full flex items-center justify-center text-[5.5vw] sm:text-[4vw] lg:text-[2vw] cursor-pointer mb-8 -mt-[8vh]"
-        onPointerDown={handleTap}
-        onMouseEnter={() => setIsLogoHovered(true)}
-        onMouseLeave={() => setIsLogoHovered(false)}
-      >
-        <GoodYuteLogo 
-          isHovered={isHovered} 
-          onAnimationComplete={handleAnimationComplete}
-        />
-      </div>
+        {/* Bio Section */}
+        <div className="flex flex-col w-full" style={{ fontFamily: 'var(--font-hanken-grotesk), sans-serif' }}>
+          {/* Opener */}
+          <h1 className="text-3xl sm:text-4xl lg:text-[46px] xl:text-[52px] tracking-tight leading-[1.3] text-black mb-12 max-w-6xl font-medium" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Yvano Wickham-Edwards (professionally known as Yvano Antonio) is a Toronto-born, first-generation Canadian of Guyanese descent. He is an award-winning director, entrepreneur, and photojournalist who has built a career seamlessly blending cinematic realism with profound social impact. He won the <a href="https://www.academy.ca/2021/omolola-ajao/" target="_blank" rel="noopener noreferrer" className="underline hover:text-black/50 transition-colors decoration-1 underline-offset-4 font-semibold">2021 Canadian Screen Award</a> for Best Direction in a Documentary Series for his work on <i>Being Black in Toronto</i>. His standout contribution to the series, the short film <i>#BLACK</i>, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.
+          </h1>
+          
+          {/* Middle */}
+          <p className="text-lg sm:text-xl lg:text-[22px] text-black/80 leading-[1.7] lg:leading-[1.8] font-normal max-w-5xl mb-16 lg:mb-24">
+            Yvano’s commitment to generating positive change extends far beyond the lens. Through his work with the CEE Centre for Young Black Professionals, he successfully transferred his creative skills toward making tangible community impacts, empowering the next generation of creators. As an entrepreneur and versatile director, his portfolio spans high-end commercials, brand films, and music television. He served as the director for the top 10 countdown web series <i>Clubhouse Jamz</i>, collaborating with famous acts like Kranium, Anders, Charmaine, and 4Korners. Expanding his entrepreneurial footprint, he is now venturing into narrative fiction as the co-creator and director of the upcoming comedy series <i>Baked Butter Biscuits</i>.
+          </p>
 
-      {/* Contact Section */}
-      <div className="mt-auto px-6 lg:px-24 w-full flex flex-col md:flex-row justify-center items-center gap-16 md:gap-32 lg:gap-40 pb-16">
-        {/* Left Column - Work */}
-        <div className="flex flex-col items-center text-center">
-          <span className="text-[14px] uppercase tracking-[0.15em] font-medium text-white/90">Work</span>
-          <div className="mt-[-10px] mb-4">
-            <span 
-              className="block text-[100px] md:text-[140px] lg:text-[160px] font-bold uppercase tracking-tight leading-none"
-              style={{ fontFamily: 'var(--font-oswald), sans-serif', transform: 'scaleY(1.3)' }}
-            >
-              Inquiries
-            </span>
+          {/* Director's Statement */}
+          <div className="border-l-2 border-black/30 pl-6 lg:pl-12 my-8 lg:my-12 max-w-6xl">
+            <h3 className="text-[11px] lg:text-xs uppercase tracking-[0.25em] font-bold text-black/50 mb-6">Director's Statement</h3>
+            <blockquote className="text-2xl sm:text-3xl lg:text-[38px] tracking-tight leading-[1.4] text-black/90 font-medium italic" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+              "I'm tired of identifying as a 'Black' creative... Please don't get me wrong. I'm Black and I understand that the world views me through this lens. Just because I personally don't agree doesn't change that I'm viewed this way. In my honest opinion, I think 'Blackness' is a crutch in this industry. I find that the 'Black Creator' funds are drying up while identity politics often get in the way of solid storytelling in general. I'm a Canadian Screen Award-winning director. That has nothing to do with my race. If my work features Black actors then so be it. We're all humans looking to tell stories. I'm just a human."
+            </blockquote>
           </div>
-          <a href={`mailto:${contact.email}`} className="text-[14px] md:text-[16px] tracking-wide mt-2 hover:text-[#e60000] transition-colors text-white/90">
-            {contact.email}
+
+          {/* Closer */}
+          <p className="text-lg sm:text-xl lg:text-[22px] text-black/80 leading-[1.7] lg:leading-[1.8] font-normal max-w-5xl mt-16 lg:mt-24">
+            Ultimately, Yvano Antonio continues to craft compelling visual stories that push boundaries. Whether he is directing a national campaign, mentoring young professionals, or developing a new television series, his focus remains firmly on authentic human experiences and the universal power of solid storytelling.
+          </p>
+        </div>
+      </div>
+
+      {/* Massive Social Links Footer */}
+      <div className="w-full mt-32 lg:mt-48 flex flex-col items-center text-center px-6">
+        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-black/50 mb-12">Connect On</span>
+        
+        <div className="flex flex-col items-center gap-4">
+          {siteConfig.social.instagram && (
+            <a 
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
+              style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+            >
+              Instagram
+            </a>
+          )}
+          {siteConfig.social.tiktok && (
+            <a 
+              href={siteConfig.social.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
+              style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+            >
+              TikTok
+            </a>
+          )}
+          <a 
+            href={`mailto:${contact.email}`}
+            className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
+            style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+          >
+            Email
           </a>
         </div>
-
-        {/* Right Column - Socials */}
-        <div className="flex flex-col items-center text-center">
-          <span className="text-[14px] uppercase tracking-[0.15em] font-medium text-white/90">Social</span>
-          <div className="mt-[-10px] mb-4">
-            <span 
-              className="block text-[100px] md:text-[140px] lg:text-[160px] font-bold uppercase tracking-tight leading-none"
-              style={{ fontFamily: 'var(--font-oswald), sans-serif', transform: 'scaleY(1.3)' }}
-            >
-              Links
-            </span>
-          </div>
-          <div className="flex gap-4 mt-2">
-            {[
-              { id: 'tiktok', label: 'TK', url: siteConfig.social.tiktok },
-              { id: 'instagram', label: 'IG', url: siteConfig.social.instagram }
-            ].map((social) => {
-              if (!social.url) return null;
-              return (
-                <a 
-                  key={social.id}
-                  href={social.url} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full border-[1.5px] border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors text-[14px] font-medium tracking-wider"
-                >
-                  {social.label}
-                </a>
-              );
-            })}
-          </div>
-        </div>
       </div>
+
     </div>
   )
 }

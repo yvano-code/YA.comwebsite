@@ -136,6 +136,20 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                         title={project.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowFullScreen
+                        onLoad={(e) => {
+                          const playerEl = e.target as HTMLIFrameElement
+                          if (playerEl && playerEl.contentWindow && project.href?.includes('youtu')) {
+                            let attempts = 0;
+                            const interval = setInterval(() => {
+                              if (playerEl && playerEl.contentWindow) {
+                                playerEl.contentWindow.postMessage('{"event":"command","func":"unloadModule","args":["captions"]}', '*')
+                                playerEl.contentWindow.postMessage('{"event":"command","func":"setOption","args":["captions", "track", {}]}', '*')
+                              }
+                              attempts++;
+                              if (attempts > 8) clearInterval(interval);
+                            }, 500)
+                          }
+                        }}
                         className="absolute inset-0 w-full h-full border-0 z-0 bg-black"
                       />
                     )
@@ -145,6 +159,7 @@ export function AccordionCarousel({ projects }: { projects: Project[] }) {
                         src={thumbnailUrl}
                         alt={project.title}
                         fill
+                        style={{ objectPosition: (project as any).imagePosition || 'center' }}
                         className="object-cover z-0"
                       />
                       <div className="absolute inset-0 bg-black/20 group-hover/play:bg-black/10 transition-colors z-10" />

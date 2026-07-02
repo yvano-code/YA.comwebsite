@@ -13,19 +13,19 @@ export function AwardsSection() {
       
       {/* ── CREDITS & FILMOGRAPHY ── */}
       <section className="w-full pt-8 relative z-10">
-        <div className="px-6 flex items-end justify-between mb-8 lg:mb-16">
+        <div className="px-6 flex flex-col md:flex-row items-start md:items-end gap-6 lg:gap-12 mb-8 lg:mb-16">
           <h3 className="text-4xl md:text-5xl lg:text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block ml-[-0.035em] text-black lg:text-white">CREDITS &</span>
-            <span className="block text-black/30 lg:text-white/30">FILMOGRAPHY</span>
+            <span className="block ml-[-0.035em] text-black">CREDITS &</span>
+            <span className="block text-black/30">FILMOGRAPHY</span>
           </h3>
           
-          <div className="flex items-center gap-1.5 mb-1 px-3 py-1.5 rounded-full bg-black/5 lg:bg-white/5 border border-black/10 lg:border-white/10 backdrop-blur-sm shadow-inner cursor-pointer" onClick={() => window.scrollBy({ left: window.innerWidth * 0.7, behavior: 'smooth' })}>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-black/60 lg:text-white/60">Swipe</span>
+          <div className="flex items-center gap-1.5 mb-1 md:mb-2 lg:mb-4 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 backdrop-blur-sm shadow-inner cursor-pointer" onClick={() => window.scrollBy({ left: window.innerWidth * 0.7, behavior: 'smooth' })}>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-black/60">Swipe</span>
             <motion.div
               animate={{ x: [0, 4, 0] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             >
-              <ArrowRight className="w-3 h-3 text-black/60 lg:text-white/60" />
+              <ArrowRight className="w-3 h-3 text-black/60" />
             </motion.div>
           </div>
         </div>
@@ -108,22 +108,22 @@ export function AwardsSection() {
       <section className="hidden lg:block mt-12 px-12 pb-12 pt-16 relative z-10">
         <div className="mb-24">
           <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block text-white">AWARDS &</span>
-            <span className="block text-white/30">OFFICIAL SELECTIONS</span>
+            <span className="block text-black">AWARDS &</span>
+            <span className="block text-black/30">OFFICIAL SELECTIONS</span>
           </h3>
         </div>
 
         <div className="grid grid-cols-4 gap-0 mb-16">
           {siteConfig.awards.map((award, idx) => (
-            <div key={idx} className={`relative px-8 ${idx !== 0 ? 'border-l border-white/10' : 'pl-0'}`}>
-              <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-4 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+            <div key={idx} className={`relative px-8 ${idx !== 0 ? 'border-l border-black/10' : 'pl-0'}`}>
+              <div className="text-[10px] font-bold tracking-[0.2em] uppercase text-black/50 mb-4 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 text-white">
+              <h4 className="text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 text-black">
                 {award.title}
               </h4>
-              <p className="text-[13px] leading-relaxed text-white/70 font-medium max-w-sm">
+              <p className="text-[13px] leading-relaxed text-black/70 font-medium max-w-sm">
                 {award.description}
               </p>
             </div>
@@ -131,21 +131,21 @@ export function AwardsSection() {
         </div>
 
         {/* Laurels Banner Images Stacked */}
-        <div className="w-full relative overflow-hidden -mb-72">
+        <div className="w-full relative overflow-hidden -mb-[15vw] xl:-mb-[10vw]">
           <div className="flex w-full flex-col items-center pt-8 pb-0 gap-0">
             <Image 
               src="/projects/bbt_laurels_nobg.png"
               alt="Festival Laurels"
               width={2000}
               height={400}
-              className="w-[89%] h-auto object-contain opacity-90 invert drop-shadow-sm relative z-10"
+              className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm relative z-10"
             />
             <Image 
               src="/projects/official_selects_1_nobg.png"
               alt="Official Selection"
               width={2000}
               height={400}
-              className="w-[89%] h-auto object-contain opacity-90 invert drop-shadow-sm -mt-[15%] relative z-0"
+              className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm -mt-[15%] relative z-0"
             />
           </div>
         </div>
@@ -200,7 +200,7 @@ export function AwardsSection() {
       </section>
 
       {/* Small spacer to ensure the bottom navbar sits nicely */}
-      <div className="w-full h-24 lg:h-32" />
+      <div className="w-full h-16 lg:h-0" />
     </div>
   )
 }

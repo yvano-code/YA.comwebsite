@@ -20,6 +20,10 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
       if (!base) return null;
       const params = new URLSearchParams();
       params.set('playsinline', '1');
+      params.set('enablejsapi', '1');
+      params.set('rel', '0');
+      params.set('iv_load_policy', '3');
+      params.set('cc_load_policy', '0'); // Explicitly disable closed captions
       if (autoplay || preview) params.set('autoplay', '1');
       if (preview) {
         params.set('mute', '1');
@@ -40,6 +44,7 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
         let base = `https://player.vimeo.com/video/${videoId}`;
         const params = new URLSearchParams();
         params.set('playsinline', '1');
+        params.set('api', '1');
         if (hash) params.set('h', hash);
         if (autoplay || preview) params.set('autoplay', '1');
         if (preview) {

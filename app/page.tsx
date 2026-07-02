@@ -46,13 +46,13 @@ export default function HomePage3() {
 
          {/* Permanent Content Nav (Links to Clips) - Desktop Only */}
          <nav className="hidden lg:flex absolute bottom-[10dvh] lg:bottom-[27vh] w-full items-center justify-center px-2 lg:px-12 pb-4 text-sm font-semibold z-50 pointer-events-none">
-               <div className="text-[7.5px] lg:text-[13.5px] font-medium tracking-[0.2em] lg:tracking-[0.25em] uppercase text-black/50 flex flex-row flex-nowrap items-center justify-center gap-2 lg:gap-8 w-full max-w-full text-center whitespace-nowrap overflow-visible">
+               <div className="text-[7.5px] lg:text-[13.5px] font-medium tracking-[0.2em] lg:tracking-[0.25em] uppercase text-white/50 flex flex-row flex-nowrap items-center justify-center gap-2 lg:gap-8 w-full max-w-full text-center whitespace-nowrap overflow-visible">
                   <span className="transition-colors">FILM & TELEVISION</span>
-                  <span className="text-black/20 font-light">|</span>
+                  <span className="text-white/20 font-light">|</span>
                   <span className="transition-colors">MUSIC VIDEO</span>
-                  <span className="text-black/20 font-light">|</span>
+                  <span className="text-white/20 font-light">|</span>
                   <span className="transition-colors">COMMERCIAL</span>
-                  <span className="text-black/20 font-light">|</span>
+                  <span className="text-white/20 font-light">|</span>
                   <span className="transition-colors">LIVE BROADCAST</span>
                </div>
          </nav>
