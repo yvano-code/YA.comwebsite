@@ -387,7 +387,8 @@ export const siteConfig = {
     tiktok: "https://www.tiktok.com/@yvanoantonio",
     instagram: "https://www.instagram.com/yvanoantonio/",
     youtube: "",
-    email: "ywickhamedwards@gmail.com",
+    twitch: "https://www.twitch.tv/yvanoantonio",
+    email: "yvanoantonio@protonmail.com",
   },
 }
 

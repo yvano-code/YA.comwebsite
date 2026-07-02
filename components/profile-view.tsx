@@ -66,27 +66,23 @@ export function ProfileView() {
             </blockquote>
           </div>
 
-          {/* Closer */}
-          <p className="text-lg sm:text-xl lg:text-[22px] text-black/80 leading-[1.7] lg:leading-[1.8] font-normal max-w-5xl mt-16 lg:mt-24">
-            Ultimately, Yvano Antonio continues to craft compelling visual stories that push boundaries. Whether he is directing a national campaign, mentoring young professionals, or developing a new television series, his focus remains firmly on authentic human experiences and the universal power of solid storytelling.
-          </p>
+          {/* Closer section removed */}
         </div>
       </div>
 
       {/* Massive Social Links Footer */}
-      <div className="w-full mt-32 lg:mt-48 flex flex-col items-center text-center px-6">
-        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-black/50 mb-12">Connect On</span>
+      <div className="w-full mt-24 lg:mt-32 flex flex-col items-center text-center px-6">
+        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-black/50 mb-12">LET'S STAY IN TOUCH</span>
         
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-row flex-wrap justify-center items-center gap-8 sm:gap-12 lg:gap-16">
           {siteConfig.social.instagram && (
             <a 
               href={siteConfig.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
-              style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+              className="text-black hover:text-black/40 transition-colors"
             >
-              Instagram
+              <svg className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
             </a>
           )}
           {siteConfig.social.tiktok && (
@@ -94,18 +90,26 @@ export function ProfileView() {
               href={siteConfig.social.tiktok}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
-              style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+              className="text-black hover:text-black/40 transition-colors"
             >
-              TikTok
+              <svg className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+            </a>
+          )}
+          {siteConfig.social.twitch && (
+            <a 
+              href={siteConfig.social.twitch}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black hover:text-black/40 transition-colors"
+            >
+              <svg className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"></path></svg>
             </a>
           )}
           <a 
             href={`mailto:${contact.email}`}
-            className="text-6xl sm:text-8xl lg:text-[140px] font-medium tracking-tight hover:text-black/40 transition-colors leading-[0.9]"
-            style={{ fontFamily: 'var(--font-oswald), sans-serif' }}
+            className="text-black hover:text-black/40 transition-colors"
           >
-            Email
+            <svg className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
           </a>
         </div>
       </div>
