@@ -183,6 +183,8 @@ const ReelVideo = memo(function ReelVideo({
   const videoRef = useRef<HTMLVideoElement>(null)
   const [showMuteIcon, setShowMuteIcon] = useState(false)
   const [showUnmuteIcon, setShowUnmuteIcon] = useState(false)
+  const [playFailed, setPlayFailed] = useState(false)
+  const [isBuffering, setIsBuffering] = useState(false)
   const previousMuted = useRef(globalMuted)
   
   const project = siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[video.family])
@@ -194,7 +196,7 @@ const ReelVideo = memo(function ReelVideo({
     }
     
     // Trigger flash animation if the state actually changed while this video is active
-    if (isActive && previousMuted.current !== globalMuted) {
+    if (isActive && previousMuted.current !== globalMuted && !playFailed) {
       if (globalMuted) {
         setShowMuteIcon(true)
         setTimeout(() => setShowMuteIcon(false), 800)
@@ -204,17 +206,18 @@ const ReelVideo = memo(function ReelVideo({
       }
     }
     previousMuted.current = globalMuted
-  }, [globalMuted, isActive])
+  }, [globalMuted, isActive, playFailed])
 
   useEffect(() => {
     if (videoRef.current) {
       if (isActive && !isDrawerOpen) {
-        // Use a small timeout to ensure DOM is ready and prevent play() promise interruption
         const playPromise = videoRef.current.play()
         if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            // Auto-play was prevented
+          playPromise.then(() => {
+            setPlayFailed(false)
+          }).catch(error => {
             console.log("Auto-play prevented", error)
+            setPlayFailed(true)
           })
         }
       } else {
@@ -223,12 +226,35 @@ const ReelVideo = memo(function ReelVideo({
     }
   }, [isActive, isDrawerOpen])
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onWaiting = () => setIsBuffering(true);
+    const onPlaying = () => setIsBuffering(false);
+    video.addEventListener('waiting', onWaiting);
+    video.addEventListener('playing', onPlaying);
+    return () => {
+      video.removeEventListener('waiting', onWaiting);
+      video.removeEventListener('playing', onPlaying);
+    }
+  }, []);
+
   const handleToggleMute = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
     if (videoRef.current) {
-      videoRef.current.muted = !globalMuted
+      if (videoRef.current.paused) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => setPlayFailed(false)).catch(() => {});
+        }
+        // Force un-mute since they actively clicked it to play
+        videoRef.current.muted = false;
+        if (globalMuted) onToggleMute(e);
+      } else {
+        videoRef.current.muted = !globalMuted
+        onToggleMute(e)
+      }
     }
-    onToggleMute(e)
   }
 
   return (
@@ -240,19 +266,39 @@ const ReelVideo = memo(function ReelVideo({
           poster={video.src.replace('.mp4', '_poster.jpg')}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loop
-          muted={globalMuted}
+          defaultMuted
           playsInline
-          autoPlay={isActive}
           preload={isActive || isNext ? "auto" : "metadata"}
         />
       )}
 
-      {/* Center Mute Button (Restored) */}
-      {globalMuted && (
+      {/* Center Play Button (Fallback for Low Power Mode) */}
+      {playFailed && !isBuffering && (
         <button 
           type="button"
-          onClick={handleToggleMute}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] p-6 bg-black/60 backdrop-blur-md rounded-full pointer-events-none"
+        >
+          <svg className="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+      )}
+
+      {/* Buffering Spinner */}
+      {isBuffering && isActive && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none">
+          <svg className="animate-spin h-12 w-12 text-white/50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+      )}
+
+      {/* Center Mute Button (Restored) */}
+      {globalMuted && !playFailed && !isBuffering && (
+        <button 
+          type="button"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200 pointer-events-none"
         >
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
@@ -262,7 +308,7 @@ const ReelVideo = memo(function ReelVideo({
       )}
 
       {/* Center Flash Indicators */}
-      {showMuteIcon && !globalMuted && (
+      {showMuteIcon && !globalMuted && !playFailed && !isBuffering && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
@@ -271,7 +317,7 @@ const ReelVideo = memo(function ReelVideo({
         </div>
       )}
       
-      {showUnmuteIcon && (
+      {showUnmuteIcon && !playFailed && !isBuffering && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
