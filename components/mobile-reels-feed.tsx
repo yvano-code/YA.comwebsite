@@ -207,27 +207,34 @@ const ReelVideo = memo(function ReelVideo({
   }, [globalMuted, isActive])
 
   useEffect(() => {
+    let playTimeout: NodeJS.Timeout;
+    
     if (videoRef.current) {
       if (isActive && !isDrawerOpen) {
         // Use a small timeout to ensure DOM is ready and prevent play() promise interruption
-        const playPromise = videoRef.current.play()
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            // Auto-play was prevented
-            console.log("Auto-play prevented", error)
-          })
-        }
+        playTimeout = setTimeout(() => {
+          if (videoRef.current) {
+            const playPromise = videoRef.current.play()
+            if (playPromise !== undefined) {
+              playPromise.catch(error => {
+                // Auto-play was prevented
+                console.log("Auto-play prevented", error)
+              })
+            }
+          }
+        }, 150)
       } else {
         videoRef.current.pause()
       }
     }
+    
+    return () => clearTimeout(playTimeout)
   }, [isActive, isDrawerOpen])
 
   const handleToggleMute = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
     if (videoRef.current) {
       if (videoRef.current.paused) {
-        // If Safari blocked autoplay (or it was manually paused), force play
         videoRef.current.play().catch(() => {})
         videoRef.current.muted = false
         if (globalMuted) onToggleMute(e)
@@ -240,7 +247,7 @@ const ReelVideo = memo(function ReelVideo({
 
   return (
     <div className="relative w-full h-[100dvh] snap-start snap-always bg-black flex-shrink-0 cursor-pointer" onClick={handleToggleMute}>
-      {/* Background Poster */}
+      {/* Background Poster (Shows immediately while video mounts/loads) */}
       <div 
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat pointer-events-none opacity-50"
         style={{ backgroundImage: `url('${video.src.replace('.mp4', '_poster.jpg')}')` }}
@@ -358,7 +365,6 @@ function TumblerLoop() {
 }
 
 export function MobileReelsFeed() {
-  const [isHydrated, setIsHydrated] = useState(false)
   const [globalMuted, setGlobalMuted] = useState(true) // MUST start muted for iOS autoPlay to work!
   const [displayVideos, setDisplayVideos] = useState(VIDEOS)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -370,6 +376,8 @@ export function MobileReelsFeed() {
   const handleOpenDrawer = useCallback((video: typeof VIDEOS[0]) => {
     setSelectedVideo(video)
     setDrawerOpen(true)
+    // Removed force mute so that sound state is preserved when drawer is closed.
+    // The video automatically pauses when drawer is open anyway.
   }, [])
 
   const handleCloseDrawer = useCallback(() => {
@@ -384,18 +392,23 @@ export function MobileReelsFeed() {
     while (remaining.length > 0) {
       const lastFamily = finalArray[finalArray.length - 1].family
       
+      // Try to find a video of a different family to append naturally
       const nextIndex = remaining.findIndex(v => v.family !== lastFamily)
       
       if (nextIndex !== -1) {
         finalArray.push(remaining.splice(nextIndex, 1)[0])
       } else {
+        // If we get here, the ONLY videos left in the pool belong to the exact same family!
+        // We must retroactively insert them earlier into the feed where they won't clash.
         const leftover = remaining.shift()!
         let inserted = false
         
+        // Check if it's safe to drop at the very top of the feed
         if (finalArray[0].family !== leftover.family) {
            finalArray.unshift(leftover)
            inserted = true
         } else {
+           // Scan the timeline for a 'safe slot' (between two elements that aren't this family)
            for (let i = 1; i < finalArray.length; i++) {
              if (finalArray[i - 1].family !== leftover.family && finalArray[i].family !== leftover.family) {
                finalArray.splice(i, 0, leftover)
@@ -405,6 +418,8 @@ export function MobileReelsFeed() {
            }
         }
         
+        // If absolutely no safe slot exists anywhere, a collision is mathematically unavoidable.
+        // We just append it as a last resort.
         if (!inserted) {
           finalArray.push(leftover)
         }
@@ -412,7 +427,6 @@ export function MobileReelsFeed() {
     }
     
     setDisplayVideos(finalArray)
-    setIsHydrated(true)
   }, [])
 
   const toggleGlobalMute = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -429,10 +443,6 @@ export function MobileReelsFeed() {
     if (clampedIndex !== activeIndex) {
       setActiveIndex(clampedIndex)
     }
-  }
-
-  if (!isHydrated) {
-    return <div className="fixed inset-0 z-40 bg-black flex items-center justify-center"></div>
   }
 
   return (
