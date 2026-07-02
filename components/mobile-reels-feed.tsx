@@ -226,9 +226,19 @@ const ReelVideo = memo(function ReelVideo({
   const handleToggleMute = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
     if (videoRef.current) {
-      videoRef.current.muted = !globalMuted
+      if (videoRef.current.paused) {
+        // If the video is paused (e.g., iOS Low Power Mode blocked autoplay), 
+        // a tap anywhere should play it immediately.
+        videoRef.current.play().catch(() => {})
+        videoRef.current.muted = false
+        if (globalMuted) {
+          onToggleMute(e)
+        }
+      } else {
+        videoRef.current.muted = !globalMuted
+        onToggleMute(e)
+      }
     }
-    onToggleMute(e)
   }
 
   return (
@@ -246,29 +256,15 @@ const ReelVideo = memo(function ReelVideo({
           poster={video.src.replace('.mp4', '_poster.jpg')}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loop
-          muted={globalMuted}
+          defaultMuted
           playsInline
           autoPlay={isActive}
           preload={isActive ? "auto" : isNext ? "metadata" : "none"}
         />
       )}
 
-      {/* Center Mute Button */}
-      {globalMuted && (
-        <button 
-          type="button"
-          onClick={handleToggleMute}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200"
-        >
-          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-          </svg>
-        </button>
-      )}
-
       {/* Center Flash Indicators */}
-      {showMuteIcon && !globalMuted && (
+      {showMuteIcon && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-none p-4 bg-black/40 backdrop-blur-md rounded-full animate-in fade-in zoom-in duration-200">
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
