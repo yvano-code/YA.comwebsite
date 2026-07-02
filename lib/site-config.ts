@@ -27,7 +27,6 @@ export const siteConfig = {
   // Top navigation links.
   nav: [
     { label: "HOME", href: "/" },
-    { label: "REELS", href: "/reels" },
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
     { label: "AWARDS", href: "/awards" },
