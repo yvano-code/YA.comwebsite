@@ -138,6 +138,8 @@ export function AwardsSection() {
               alt="Festival Laurels"
               width={2000}
               height={400}
+              priority={true}
+              unoptimized={true}
               className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm relative z-10"
             />
             <Image 
@@ -145,6 +147,8 @@ export function AwardsSection() {
               alt="Official Selection"
               width={2000}
               height={400}
+              priority={true}
+              unoptimized={true}
               className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm -mt-[15%] relative z-0"
             />
           </div>
@@ -173,6 +177,7 @@ export function AwardsSection() {
                   alt={`Festival Laurels Row ${i + 1}`}
                   width={2500}
                   height={400}
+                  priority={true}
                   unoptimized={true}
                   className="w-full h-auto object-contain"
                 />

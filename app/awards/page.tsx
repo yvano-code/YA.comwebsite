@@ -111,6 +111,7 @@ export default function AwardsPage() {
                   alt={`Festival Laurels Row ${i + 1}`}
                   width={2500}
                   height={400}
+                  priority={true}
                   unoptimized={true}
                   className="w-full h-auto object-contain"
                 />
