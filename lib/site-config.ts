@@ -112,6 +112,13 @@ export const siteConfig = {
       image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg"
     },
     {
+      title: "Clubhouse Jamz",
+      year: "2022-2024",
+      roles: ["Director"],
+      type: "Live Broadcast",
+      image: "/projects/CHJ_card.jpg"
+    },
+    {
       title: "Honestly - Fafiélla",
       year: "2024",
       roles: ["Director"],

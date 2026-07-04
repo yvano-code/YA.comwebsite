@@ -15,11 +15,14 @@ export function MobileBottomNav() {
   else if (pathname === "/awards") activeTab = "awards"
   else if (pathname === "/my-ya") activeTab = "my-ya"
 
+  if (pathname === "/test-jason") return null;
+
   return (
     <div className="md:hidden fixed bottom-6 left-0 right-0 z-[100] flex justify-center pointer-events-none">
       <motion.div
         drag
         dragMomentum={false}
+        initial={{ x: 0, y: 0 }}
         className="pointer-events-auto cursor-grab active:cursor-grabbing"
         whileDrag={{ scale: 1.05 }}
       >

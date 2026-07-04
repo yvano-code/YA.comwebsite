@@ -14,9 +14,8 @@ export function AwardsSection() {
       {/* ── CREDITS & FILMOGRAPHY ── */}
       <section className="w-full pt-8 relative z-10">
         <div className="px-6 flex flex-col md:flex-row items-start md:items-end gap-6 lg:gap-12 mb-8 lg:mb-16">
-          <h3 className="text-4xl md:text-5xl lg:text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block ml-[-0.035em] text-black">CREDITS &</span>
-            <span className="block text-black/30">FILMOGRAPHY</span>
+          <h3 className="text-4xl md:text-5xl lg:text-[72px] font-medium tracking-tight leading-[1] text-black" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Credits & Filmography
           </h3>
           
           <div className="flex items-center gap-1.5 mb-1 md:mb-2 lg:mb-4 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 backdrop-blur-sm shadow-inner cursor-pointer" onClick={() => window.scrollBy({ left: window.innerWidth * 0.7, behavior: 'smooth' })}>
@@ -107,9 +106,8 @@ export function AwardsSection() {
       {/* ── DESKTOP VIEW: AWARDS & OFFICIAL SELECTIONS ── */}
       <section className="hidden lg:block mt-12 px-12 pb-12 pt-16 relative z-10">
         <div className="mb-24">
-          <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block text-black">AWARDS &</span>
-            <span className="block text-black/30">OFFICIAL SELECTIONS</span>
+          <h3 className="text-4xl md:text-5xl lg:text-[72px] font-medium tracking-tight leading-[1] text-black" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Awards & Official Selections
           </h3>
         </div>
 
@@ -120,7 +118,7 @@ export function AwardsSection() {
                 <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-2xl font-black tracking-tight uppercase leading-[1.1] mb-4 text-black">
+              <h4 className="text-3xl font-semibold tracking-wide uppercase leading-[1.1] mb-3 text-black" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
                 {award.title}
               </h4>
               <p className="text-[13px] leading-relaxed text-black/70 font-medium max-w-sm">
@@ -133,33 +131,36 @@ export function AwardsSection() {
         {/* Laurels Banner Images Stacked */}
         <div className="w-full relative overflow-hidden -mb-[15vw] xl:-mb-[10vw]">
           <div className="flex w-full flex-col items-center pt-8 pb-0 gap-0">
-            <Image 
-              src="/projects/bbt_laurels_nobg.png"
-              alt="Festival Laurels"
-              width={2000}
-              height={400}
-              priority={true}
-              unoptimized={true}
-              className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm relative z-10"
-            />
-            <Image 
-              src="/projects/official_selects_1_nobg.png"
-              alt="Official Selection"
-              width={2000}
-              height={400}
-              priority={true}
-              unoptimized={true}
-              className="w-[89%] h-auto object-contain opacity-90 drop-shadow-sm -mt-[15%] relative z-0"
-            />
+            <div className="w-[89%] relative z-10">
+              <Image 
+                src="/projects/bbt_laurels_nobg.png"
+                alt="Festival Laurels"
+                width={2000}
+                height={400}
+                priority={true}
+                unoptimized={true}
+                className="w-full h-auto object-contain"
+              />
+            </div>
+            <div className="w-[89%] -mt-[15%] relative z-0">
+              <Image 
+                src="/projects/official_selects_1_nobg.png"
+                alt="Official Selection"
+                width={2000}
+                height={400}
+                priority={true}
+                unoptimized={true}
+                className="w-full h-auto object-contain"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── MOBILE VIEW: AWARDS & OFFICIAL SELECTIONS ── */}
       <section className="lg:hidden px-6 md:px-12 pt-16 pb-16 relative z-10">
-        <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-8">
-          AWARDS & <br />
-          <span className="text-black/40">OFFICIAL SELECTIONS</span>
+        <h3 className="text-4xl md:text-5xl font-medium tracking-tight leading-[1] text-black mb-8" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Awards & Official Selections
         </h3>
 
         <div className="w-[calc(100%+3rem)] md:w-[calc(100%+6rem)] -ml-6 md:-ml-12 mb-12 relative bg-transparent">
@@ -193,7 +194,7 @@ export function AwardsSection() {
                 <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2 text-black">
+              <h4 className="text-2xl md:text-3xl font-semibold tracking-wide uppercase leading-[1.1] mb-2 text-black" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
                 {award.title}
               </h4>
               <p className="text-[13px] leading-relaxed text-black/80 font-medium max-w-sm">

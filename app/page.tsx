@@ -51,12 +51,12 @@ export default function HomePage() {
       {/* ── HERO BANNER (From Homepage) ── */}
       <header className="relative w-full h-[100dvh] lg:min-h-[100vh] flex flex-col items-center justify-center z-0 [overflow:clip]">
         {/* Desktop Logo */}
-        <div className="hidden lg:flex items-center justify-center w-full flex-grow relative z-20">
+        <div className="hidden lg:flex items-center justify-center w-full flex-grow relative z-20 pb-[15vh]">
           <AnimatedLogo />
         </div>
 
         {/* Mobile Logo */}
-        <div className="flex lg:hidden absolute inset-0 w-full h-full items-center justify-center z-[100] text-[6.5vh] leading-none font-black tracking-tighter">
+        <div className="flex lg:hidden absolute inset-0 w-full h-full items-center justify-center pb-[15vh] z-[100] text-[6.5vh] leading-none font-black tracking-tighter">
           <MobileAnimatedLogo />
         </div>
 
@@ -77,9 +77,8 @@ export default function HomePage() {
       {/* === DESKTOP VIEW === */}
       <div className="hidden lg:block pt-16">
         <div className="px-12 mb-16">
-          <h3 className="text-[81px] font-black tracking-tighter uppercase leading-[0.85] ml-[-0.035em]">
-            <span className="text-black">SELECTED</span>
-            <span className="text-black/30 ml-8">WORKS</span>
+          <h3 className="text-5xl lg:text-[72px] font-medium tracking-tight leading-[1] text-black" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Selected Works
           </h3>
         </div>
         

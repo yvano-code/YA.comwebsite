@@ -13,9 +13,8 @@ export default function AwardsPage() {
       {/* ── CREDITS & FILMOGRAPHY ── */}
       <section className="w-full pt-8 relative">
         <div className="px-6 flex flex-col mb-4">
-          <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase leading-[0.85]">
-            <span className="block ml-[-0.035em] text-black">CREDITS &</span>
-            <span className="block text-black/40">FILMOGRAPHY</span>
+          <h3 className="text-4xl md:text-5xl font-medium tracking-tight leading-[1] text-black" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Credits & Filmography
           </h3>
         </div>
 
@@ -93,9 +92,8 @@ export default function AwardsPage() {
 
       {/* ── MOBILE VIEW: AWARDS & OFFICIAL SELECTIONS ── */}
       <section className="px-6 md:px-12 pt-16 pb-0 relative z-10">
-        <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-8 leading-[0.85]">
-          <span className="block ml-[-0.035em] text-black">AWARDS &</span>
-          <span className="block text-black/40">OFFICIAL SELECTIONS</span>
+        <h3 className="text-4xl md:text-5xl font-medium tracking-tight leading-[1] text-black mb-8" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            Awards & Official Selections
         </h3>
 
         <div className="w-[calc(100%+3rem)] md:w-[calc(100%+6rem)] -ml-6 md:-ml-12 mb-12 relative bg-transparent">
@@ -127,7 +125,7 @@ export default function AwardsPage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-black/20"></div>
                 {award.status}
               </div>
-              <h4 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-[1.1] mb-2 text-black">
+              <h4 className="text-2xl md:text-3xl font-semibold tracking-wide uppercase leading-[1.1] mb-2 text-black" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
                 {award.title}
               </h4>
               <p className="text-[13px] leading-relaxed text-black/80 font-medium max-w-sm">

@@ -13,11 +13,14 @@ export function DesktopBottomNav() {
   else if (pathname === "/intro") activeTab = "home"
   else if (pathname === "/my-ya") activeTab = "my-ya"
 
+  if (pathname === "/test-jason") return null;
+
   return (
     <div className="hidden md:flex fixed bottom-8 left-0 right-0 z-[100] items-end justify-center pointer-events-none">
       <motion.div
         drag
         dragMomentum={false}
+        initial={{ x: 0, y: 0 }}
         className="pointer-events-auto cursor-grab active:cursor-grabbing"
         whileDrag={{ scale: 1.05 }}
       >

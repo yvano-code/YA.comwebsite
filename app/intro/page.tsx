@@ -35,12 +35,12 @@ export default function HomePage3() {
       <header className="relative w-full h-[100dvh] lg:min-h-[100vh] flex flex-col items-center justify-center z-0 [overflow:clip]">
         
         {/* Desktop Logo */}
-        <div className="hidden lg:flex items-center justify-center w-full flex-grow relative z-20">
+        <div className="hidden lg:flex items-center justify-center w-full flex-grow relative z-20 pb-[15vh]">
           <AnimatedLogo />
         </div>
 
         {/* Mobile Logo */}
-        <div className="flex lg:hidden absolute inset-0 w-full h-full items-center justify-center z-[100] text-[6.5vh] leading-none font-black tracking-tighter">
+        <div className="flex lg:hidden absolute inset-0 w-full h-full items-center justify-center pb-[15vh] z-[100] text-[6.5vh] leading-none font-black tracking-tighter">
           <MobileAnimatedLogo />
         </div>
 
