@@ -16,14 +16,14 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
       } else {
         videoId = new URL(url).pathname.slice(1);
       }
-      const base = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+      const base = videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : null;
       if (!base) return null;
       const params = new URLSearchParams();
       params.set('playsinline', '1');
       params.set('enablejsapi', '1');
       params.set('rel', '0');
       params.set('iv_load_policy', '3');
-      params.set('cc_load_policy', '0'); // Explicitly disable closed captions
+      params.set('cc_load_policy', '0');
       if (autoplay || preview) params.set('autoplay', '1');
       if (preview) {
         params.set('mute', '1');
@@ -48,7 +48,12 @@ export function getVideoEmbedUrl(url: string | undefined, autoplay: boolean = fa
         if (hash) params.set('h', hash);
         if (autoplay || preview) params.set('autoplay', '1');
         if (preview) {
-          params.set('background', '1'); // Vimeo's background=1 sets autoplay, loop, mute, and hides controls
+          params.set('muted', '1');
+          params.set('controls', '0');
+          params.set('title', '0');
+          params.set('byline', '0');
+          params.set('portrait', '0');
+          params.set('autopause', '0');
         }
         
         const qs = params.toString();

@@ -7,7 +7,7 @@ export function VideoPlayer({ url }: { url: string }) {
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none">
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=${videoId}`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&modestbranding=1&loop=1&playlist=${videoId}`}
         className="absolute inset-0 w-full h-full"
         allow="autoplay; encrypted-media"
       />
