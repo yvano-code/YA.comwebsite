@@ -270,7 +270,7 @@ const ReelVideo = memo(function ReelVideo({
           loop
           playsInline
           autoPlay={isActive}
-          preload={isActive || isNext ? "auto" : "metadata"}
+          preload="none"
         />
       )}
 
@@ -488,7 +488,7 @@ export function MobileReelsFeed() {
         {displayVideos.map((video, idx) => {
           const isActive = idx === activeIndex
           const isNext = idx === activeIndex + 1
-          const isMounted = Math.abs(idx - activeIndex) <= 1
+          const isMounted = isActive
           return (
             <ReelVideo 
               key={`${video.src}-${idx}`} 
