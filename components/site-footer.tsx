@@ -43,7 +43,7 @@ export function SiteFooter() {
   const pathname = usePathname()
   const { contact } = siteConfig
 
-  if (pathname === "/" || pathname === "/intro" || pathname === "/clips" || pathname === "/my-ya" || pathname === "/reels") return null
+  if (pathname === "/" || pathname === "/clips" || pathname === "/about" || pathname === "/reels" || pathname === "/test-jason") return null
 
   return (
     <footer className="hidden md:flex w-full pt-24 md:pt-40 pb-12 relative flex-col items-center overflow-hidden">

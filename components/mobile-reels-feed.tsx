@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback, memo } from "react"
+import Image from "next/image"
 import { FullVideoDrawer } from "@/components/full-video-drawer"
 import { siteConfig } from "@/lib/site-config"
 import { TumblerLogo } from "@/components/animated-logo"
@@ -248,10 +249,15 @@ const ReelVideo = memo(function ReelVideo({
   return (
     <div className="relative w-full h-[100dvh] snap-start snap-always bg-black flex-shrink-0 cursor-pointer" onClick={handleToggleMute}>
       {/* Background Poster (Shows immediately while video mounts/loads) */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat pointer-events-none opacity-50"
-        style={{ backgroundImage: `url('${video.src.replace('.mp4', '_poster.jpg')}')` }}
-      />
+      <div className="absolute inset-0 w-full h-full pointer-events-none opacity-50">
+        <Image 
+          src={video.src.replace('.mp4', '_poster.jpg')} 
+          alt="Video Thumbnail"
+          fill
+          className="object-cover"
+          priority={isActive}
+        />
+      </div>
       
       {isMounted && (
         <video
@@ -422,6 +428,22 @@ export function MobileReelsFeed() {
         // We just append it as a last resort.
         if (!inserted) {
           finalArray.push(leftover)
+        }
+      }
+    }
+    
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      const vParam = urlParams.get('v')
+      if (vParam) {
+        const foundIndex = finalArray.findIndex(vid => vid.src === vParam)
+        if (foundIndex !== -1) {
+          // Move the shared video to the very beginning so it's under the drawer without scrolling
+          const [sharedVid] = finalArray.splice(foundIndex, 1)
+          finalArray.unshift(sharedVid)
+          
+          setSelectedVideo(sharedVid)
+          setDrawerOpen(true)
         }
       }
     }

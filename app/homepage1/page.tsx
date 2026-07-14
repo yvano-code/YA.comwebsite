@@ -121,7 +121,7 @@ export default function HomePage1() {
         <section className="mt-8 md:mt-12 px-6 md:px-12 pb-12 border-t border-black/10 pt-16 md:pt-24">
           <div className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter uppercase mb-6">AWARDS & OFFICIAL SELECTIONS</h3>
+              <h3 className="text-3xl md:text-4xl lg:text-[60px] font-semibold tracking-wide uppercase leading-[1.1] text-black mb-6" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>AWARDS & OFFICIAL SELECTIONS</h3>
               <p className="text-[13px] md:text-[15px] font-medium leading-relaxed max-w-2xl text-gray-700">
                 {siteConfig.accreditations}
               </p>

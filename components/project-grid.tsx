@@ -8,7 +8,7 @@ import { getVideoEmbedUrl, getVideoThumbnailUrl } from "@/lib/utils"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog"
 import { ZoomIn, Play } from "lucide-react"
 
-function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (project: Project) => void }) {
+function ProjectCard({ project, onSelect, index = 0 }: { project: Project, onSelect?: (project: Project) => void, index?: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
 
@@ -74,7 +74,7 @@ function ProjectCard({ project, onSelect }: { project: Project, onSelect?: (proj
           // @ts-ignore
           project.imagePosition === "bottom" ? "object-cover object-bottom" : "object-cover"
         } ${isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity delay-300`} // fade out image slightly after delay so video can load behind
-        priority={true}
+        priority={index < 6}
       />
       
       {/* Background preview player */}
@@ -173,8 +173,8 @@ export function ProjectGrid({ projects, onSelect }: { projects: Project[], onSel
   return (
     <section aria-label="Selected work" className="mx-auto w-full max-w-[1400px] px-4 md:px-12 mb-20">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-8">
-        {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} onSelect={onSelect} />
+        {projects.map((project, idx) => (
+          <ProjectCard key={project.title} project={project} onSelect={onSelect} index={idx} />
         ))}
       </div>
     </section>

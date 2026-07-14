@@ -1,52 +1,84 @@
 "use client"
 
+import { useState } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
-export function DesktopBottomNav() {
+export function DesktopBottomNav({ className, isGlobal = false }: { className?: string, isGlobal?: boolean }) {
   const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
   
-  // Determine active tab based on route
-  let activeTab = "clips"
-  if (pathname === "/" || pathname === "/clips") activeTab = "clips"
-  else if (pathname === "/intro") activeTab = "home"
-  else if (pathname === "/my-ya") activeTab = "my-ya"
+  if (pathname === "/test-jason") return null;
+
+  const links = [
+    { name: "HOME", path: "/" },
+    { name: "REELS", path: "/reels" },
+    { name: "BIO", path: "/about" },
+  ]
 
   return (
-    <div className="hidden md:flex fixed bottom-8 left-0 right-0 z-[100] items-end justify-center pointer-events-none">
+    <div className={className || "hidden md:flex fixed bottom-12 right-12 z-[100] items-end justify-end pointer-events-none"}>
       <motion.div
         drag
         dragMomentum={false}
-        className="pointer-events-auto cursor-grab active:cursor-grabbing"
+        initial={{ x: 0, y: 0 }}
+        className="pointer-events-auto cursor-grab active:cursor-grabbing flex flex-col items-center gap-4"
         whileDrag={{ scale: 1.05 }}
       >
-        {/* Liquid Glass Pill Background */}
-        <div className="flex items-center justify-center gap-6 p-3 px-6 bg-black/40 backdrop-blur-[40px] border border-white/20 rounded-full shadow-[0_16px_40px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.2)] saturate-[1.2] transition-colors duration-500 hover:bg-black/50">
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="flex flex-col gap-2 p-6 bg-black/60 backdrop-blur-[30px] border border-white/10 rounded-[2rem] shadow-xl saturate-[1.5] w-[200px]"
+            >
+              {links.map((link) => {
+                const isActive = pathname === link.path || (link.path === "/" && pathname === "/clips")
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="group relative px-4 py-3 w-full text-center overflow-hidden rounded-xl transition-colors duration-300 hover:bg-white/10"
+                  >
+                    <span className={`relative z-10 font-mono text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${isActive ? "text-white font-bold" : "text-[#eae3d9]/70 group-hover:text-white"}`}>
+                      {link.name}
+                    </span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-indicator"
+                        className="absolute inset-0 border border-white/20 rounded-xl"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                )
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* YA Originals (Reels) */}
-        <Link 
-          href="/"
-          className="flex items-center justify-center w-[64px] h-[64px] transition-all duration-300 rounded-full hover:bg-white/10"
+        {/* Floating Toggle Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative w-16 h-16 rounded-full bg-black/60 backdrop-blur-[30px] border border-white/10 shadow-lg saturate-[1.5] transition-all duration-300 hover:bg-black/80 hover:scale-105 active:scale-95 flex items-center justify-center overflow-hidden"
         >
-          {/* Custom SVG for Instagram Reels style Play icon */}
-          <svg width="28" height="28" viewBox="0 0 24 24" fill={activeTab === "clips" ? "white" : "none"} stroke="currentColor" strokeWidth={activeTab === "clips" ? "0" : "2"} strokeLinecap="round" strokeLinejoin="round" className="text-white">
-            <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
-            <polygon points="10 8 16 12 10 16 10 8" fill={activeTab === "clips" ? "black" : "none"} stroke={activeTab === "clips" ? "none" : "currentColor"}></polygon>
-          </svg>
-        </Link>
-
-        {/* Profile / About YA */}
-        <Link 
-          href="/my-ya"
-          className="flex items-center justify-center w-[64px] h-[64px] transition-all duration-300 rounded-full hover:bg-white/10"
-        >
-          <div className={`w-[32px] h-[32px] rounded-full overflow-hidden border-2 transition-colors ${activeTab === "my-ya" ? "border-white" : "border-transparent"}`}>
-            <img src="/projects/10157E32-F553-4DD4-B336-1D1414F25305.JPG" alt="Profile" className="w-full h-full object-cover pointer-events-none" />
-          </div>
-        </Link>
-
-        </div>
+          <motion.div
+            initial={false}
+            animate={{ rotate: isOpen ? 90 : 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="flex flex-col items-center justify-center gap-1"
+          >
+            {isOpen ? (
+              <span className="text-[#eae3d9] font-mono text-xl leading-none font-light">×</span>
+            ) : (
+              <span className="text-[#eae3d9] font-serif text-sm tracking-widest italic font-bold" style={{ fontFamily: 'var(--font-playfair), serif' }}>YA.</span>
+            )}
+          </motion.div>
+        </button>
       </motion.div>
     </div>
   )

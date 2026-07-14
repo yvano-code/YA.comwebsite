@@ -1,4 +1,9 @@
 node_modules
 .git
 .next
-
+venv
+venv-rembg
+venv_rembg
+yt-dlp
+.DS_Store
+public/**/*.mp4

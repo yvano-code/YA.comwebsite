@@ -72,7 +72,7 @@ export default function EditorialPage() {
                                   rel="noopener noreferrer"
                                   className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit"
                                 >
-                                  {linkText} ↗
+                                  {linkText} <span className="font-sans">↗&#xFE0E;</span>
                                 </a>
                               </div>
                             )
@@ -88,7 +88,7 @@ export default function EditorialPage() {
                                   rel="noopener noreferrer"
                                   className="inline-block text-xs font-bold tracking-[0.1em] uppercase hover:text-gray-500 transition-colors border-b border-black pb-1 hover:border-gray-500 w-fit shrink-0"
                                 >
-                                  {linkText} ↗
+                                  {linkText} <span className="font-sans">↗&#xFE0E;</span>
                                 </a>
                               </div>
                             )

@@ -13,9 +13,26 @@ const permanentMarker = Permanent_Marker({ weight: "400", subsets: ['latin'], va
 const oswald = Oswald({ subsets: ['latin'], variable: '--font-oswald' })
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  metadataBase: new URL('https://yvanoantonio.com'),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
   generator: 'v0.app',
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: 'https://yvanoantonio.com',
+    siteName: siteConfig.name,
+    locale: 'en_CA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
   icons: {
     icon: [
       {
@@ -57,6 +74,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Yvano Wickham-Edwards",
+              "alternateName": "Yvano Antonio",
+              "url": "https://yvanoantonio.com",
+              "jobTitle": "Director & Filmmaker",
+              "sameAs": [
+                "https://www.instagram.com/yvanoantonio",
+                "https://www.tiktok.com/@yvanoantonio",
+                "https://www.imdb.com/name/nm10557262/"
+              ]
+            })
+          }}
+        />
+      </head>
       <body className={`${inter.className} ${playfair.variable} ${outfit.variable} ${hankenGrotesk.variable} ${sedgwickDisplay.variable} ${permanentMarker.variable} ${oswald.variable} antialiased bg-black text-white selection:bg-white selection:text-black min-h-[100dvh] relative`}>
         {/* Patch for Brave Browser Wallet injecting broken scripts and crashing Next.js Dev Server */}
         <script dangerouslySetInnerHTML={{ __html: `if (typeof window !== 'undefined' && !window.ethereum) { window.ethereum = {}; }` }} />
@@ -73,7 +110,9 @@ export default function RootLayout({
           </main>
           <SiteFooter />
         </div>
-        <DesktopBottomNav />
+        {process.env.NODE_ENV === 'development' && (
+          <DesktopBottomNav isGlobal={true} />
+        )}
         <MobileBottomNav />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

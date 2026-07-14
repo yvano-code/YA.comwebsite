@@ -29,9 +29,8 @@ export const siteConfig = {
     { label: "HOME", href: "/" },
     { label: "FILM & TV", href: "/film-tv" },
     { label: "EDITORIAL", href: "/editorial" },
-    { label: "AWARDS", href: "/awards" },
     { label: "ACCREDITATIONS", href: "/imdb" },
-    { label: "PROFILE", href: "/my-ya" },
+    { label: "PROFILE", href: "/about" },
     { label: "CONTACT", href: "/contact" },
   ],
 
@@ -95,7 +94,7 @@ export const siteConfig = {
 
   // ── IMDB CREDITS ──────────────────────────────────────────────────────────
   // Manually entered IMDB credits to display on the native /imdb page.
-  imdbBio: "Yvano Wickham-Edwards (professionally known as Yvano Antonio) is a Toronto-born, first-generation Canadian of Guyanese descent. He is an award-winning director, entrepreneur, and photojournalist who has built a career seamlessly blending cinematic realism with profound social impact. He won the 2021 Canadian Screen Award for Best Direction in a Documentary Series for his work on Being Black in Toronto. His standout contribution to the series, the short film #BLACK, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.",
+  imdbBio: "Yvano Wickham-Edwards (professionally known as Yvano Antonio) is a Toronto-born, first-generation Canadian of Guyanese descent. He is an award-winning director, entrepreneur, and photojournalist who has built a career seamlessly blending cinematic realism with profound social impact.\n\nHe won the 2021 Canadian Screen Award for Best Direction in a Documentary Series for his work on Being Black in Toronto. His standout contribution to the series, the short film #BLACK, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.",
   imdbBioMiddle: "Yvano’s commitment to generating positive change extends far beyond the lens. Through his work with the CEE Centre for Young Black Professionals, he successfully transferred his creative skills toward making tangible community impacts, empowering the next generation of creators. As an entrepreneur and versatile director, his portfolio spans high-end commercials, brand films, and music television. He served as the director for the top 10 countdown web series Clubhouse Jamz, collaborating with famous acts like Kranium, Anders, Charmaine, and 4Korners. Expanding his entrepreneurial footprint, he is now venturing into narrative fiction as the co-creator and director of the upcoming comedy series Baked Butter Biscuits.",
   imdbDirectorStatement: "\"I'm tired of identifying as a 'Black' creative... Please don't get me wrong. I'm Black and I understand that the world views me through this lens. Just because I personally don't agree doesn't change that I'm viewed this way. In my honest opinion, I think 'Blackness' is a crutch in this industry. I find that the 'Black Creator' funds are drying up while identity politics often get in the way of solid storytelling in general. I'm a Canadian Screen Award-winning director. That has nothing to do with my race. If my work features Black actors then so be it. We're all humans looking to tell stories. I'm just a human.\"",
   imdbBioCloser: "Ultimately, Yvano Antonio continues to craft compelling visual stories that push boundaries. Whether he is directing a national campaign, mentoring young professionals, or developing a new television series, his focus remains firmly on authentic human experiences and the universal power of solid storytelling.",
@@ -110,6 +109,13 @@ export const siteConfig = {
       roles: ["Co-Creator & Director"],
       type: "TV Series",
       image: "/projects/SnapInsta.to_573842667_18058301084536953_7117152274377110093_n.jpg"
+    },
+    {
+      title: "Clubhouse Jamz",
+      year: "2022-2024",
+      roles: ["Director"],
+      type: "Live Broadcast",
+      image: "/projects/CHJ_card.jpg"
     },
     {
       title: "Honestly - Fafiélla",
@@ -281,8 +287,8 @@ export const siteConfig = {
         blob3: "from-red-400/80 via-rose-400/80 to-amber-400/0"
       },
       credits: [
-        { label: "Co-Creators", value: "Yvano Antonio & Ananse" },
-        { label: "Co-Directors", value: "Yvano Antonio & Ananse" },
+        { label: "Co-Creator", value: "Yvano Antonio & Ananse" },
+        { label: "Co-Director", value: "Yvano Antonio & Ananse" },
         { label: "DOP", value: "Samuel Mapaderun" },
         { label: "Starring", value: "Khara Martin, Ananse, Yvano Antonio" }
       ]
@@ -312,7 +318,7 @@ export const siteConfig = {
       title: "FAFIÉLLA - HONESTLY | MUSIC VIDEO", 
       category: "Music Video",
       image: "/projects/fafiella_image_site.jpg", 
-      href: "https://vimeo.com/895031625/d4268c2880",
+      href: "/projects/fafiella.mp4",
       colorway: {
         id: "fafiella",
         baseBg: "bg-[#fce7f3]", // slightly deeper pink tint

@@ -48,6 +48,25 @@ export function FullVideoDrawer({ isOpen, onClose, project, clipInfo }: FullVide
   const parts = project.title.split('|')
   const mainTitle = parts[0].trim()
 
+  const handleShare = async () => {
+    try {
+      const shareUrl = `${window.location.origin}${window.location.pathname}?v=${encodeURIComponent(clipInfo.src)}`
+      const shareData = {
+        title: mainTitle,
+        text: `Check out ${mainTitle}`,
+        url: shareUrl,
+      }
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        await navigator.clipboard.writeText(shareData.url)
+        alert('Link copied to clipboard')
+      }
+    } catch (err) {
+      console.log('Error sharing:', err)
+    }
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -145,7 +164,10 @@ export function FullVideoDrawer({ isOpen, onClose, project, clipInfo }: FullVide
                 </div>
 
                 <div className="flex justify-between items-center mb-8 pr-1">
-                  <button className="bg-white hover:bg-white/90 text-black px-5 py-2.5 rounded-full flex items-center gap-2 font-bold text-sm transition-colors">
+                  <button 
+                    onClick={handleShare}
+                    className="bg-white hover:bg-white/90 text-black px-5 py-2.5 rounded-full flex items-center gap-2 font-bold text-sm transition-colors"
+                  >
                     <Send className="w-4 h-4 -ml-0.5" /> Share
                   </button>
                   

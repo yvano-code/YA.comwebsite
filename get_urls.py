@@ -1,0 +1,19 @@
+import urllib.request
+urls = [
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVGWqo0JXf_wrfdiCBVW0qlPWYbmAydD3o879TZnSIEWYHJaAx8LGpO08JHn9oVMbnRCdxpimq9SzFq_EpY0uSrNUU-6xuZURGu7n_2fCx1C8IwraB_B9MlzOSbJphh7pE_KtqBW_tMsDl7XnVuhNcFFHN9uS6ZXzPD1Vr7WB8k4kmlXUKhJE=",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBBYn2CFaCbU2ed49fWcM52_uHaIt_KeAL-nV_A7bWwVu5Lb_R4L0GGYjxzbvur6WwpDI4C95WOMUWSbPCVstezDB_k6sZOnKVQ0W0OzVAmRjheJPbP7lHtQ==",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLCWVv00fwVAPyeguc7L5nGC34FEpV0RhoKUj7Gt3q8imSx10TGl_Xoh5l3Ve1GBClloT2jOCAGt8aUsvOVBEpj_mL3ccB7v4Za24nwjPk7-5kpHbMmhbiytWvPbE2FnGkH-ub9krYPm9r5gWmXd16yJHmDOCp6S-7wED7QPbl7_Q7HZ1Dy2Mc-5GVrH9EzJhic088sVO8FDMHOAs8_-nQkL7vuQT2LQhAXO922PklsZmjxQ==",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJPgzv3zGvi9wrANdIceu5G9pLfulsZAKp3_rj4HBTizDg9ylnSj7PK8fOpU5e95Ca9Say9n1crMeNQrg6KE9XG0QN9yVYCcHaNd_-xtQK6U79SOWFV3sLHoWOcx84EAfxYfYViNqzl1UDok3zxaGQkEicTLwDIn2TbRqpy7lOtZccg0qZ0j9adtvuNMVR_v9tEwf2LEC9lOkmfEvzRelG6ZvFYCj_aQ==",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaxNWtSNk9riqMBP3Djss0HY1jQ_reToej2XTb89AJvRrpyv1EaE7VqP07VDzzpRnB8H-B8MrPCj7g1VLmXs0-BNpXowe1cGmKi8YblIS475-2l9Cwz1xrTebXtnq6zU_TNrJ0xZUieLYg55KpthQTi_dvSw==",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZteC5WLRCTmARADlCOuRRuPp6Axu0RTfPsJrEL8H3X9PaQfsa65TR4rUHJ3ueNdyeCZBCkvEeqlR_hz2Fh-qBb_ofA_iDnwSeNfZn7-jmEOUIKKjsnIubMq46PSuJb5ByPyKcjWe45BY=",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGExfbjqK-zNIVakKZZ9ctnOcGUAwDgQScwv6YHqcU_d39QUDoT3p-uftV3B__WJkOMSxdPAwsC3Cs8-wDbtJYaA1QIUOR1NROsanFJhVhXlTb3lYW-j5zs_KkEXc-baMhfajH_bHRwAw==",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFJ32z9xOysj0ad9GIp1tqHh2QHulQjSlyhqil4JEDmqJaj0qMJ0l7jDtOPd45vtpSGH5x5SmZ1KmTILbEu-eUFCrftIhRZF_hvCv4WYadZFJGZD7aowkuEsvGqZZ6LOKoZ1d9Wwo=",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFQt_hQfIGr75M_iZisRw9u7H8nxr62k-yxhOEAY6Hd9RNrW7C7RhxWfIpNutKmn68dkveB32lPklLmrv-sCWYeleg5lIMj6omjyb7CaPo-o65qUutlRFTxfMO-3TSigthtAiAB-v_x5JjdA5pg_qWGR7a",
+  "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtUaEXcgxU42PgPCeE6Uru3SAuXXDIE3D_txgm3u-emxL_z73wVCfAklx5Odh694749_Ix6RNd0MyTmuT3fIprlgeEuEZed3dwLLT2hCeHNO_AfLHNLSrZxMjovsUfkSIqDZftSoo1W2C7UzgYYbuP2rt-h3wxk6b6ZqDtJgF0ErNw_j3xb4SYBQ=="
+]
+for url in urls:
+  try:
+    res = urllib.request.urlopen(url)
+    print(res.geturl())
+  except Exception as e:
+    pass

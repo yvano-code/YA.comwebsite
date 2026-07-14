@@ -17,6 +17,17 @@ function useSafeAnimation() {
         throw e;
       }
     };
+    
+    const origSet = controls.set;
+    controls.set = (...args: any[]) => {
+      try {
+        return origSet.apply(controls, args);
+      } catch (e: any) {
+        if (e && e.message && e.message.includes("mounted")) return;
+        throw e;
+      }
+    };
+    
     (controls as any)._isPatched = true;
   }
   return controls;
@@ -949,18 +960,30 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete, isMobile = fal
       } else {
         clearTimeout(timeoutId)
         if (isActive) {
-          aTextControls.start({ opacity: 0, scale: 0.95, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
-          restTextControls.start({ opacity: 0, scale: 0.95, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
-          swooshControls.start({ opacity: 0, scale: 0.8, transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } })
+          const maxIdx = 31;
+          const stagger = 0.02;
+          aTextControls.start({ 
+            opacity: 0, scale: 0, rotate: awInitial[0].rotate, x: awInitial[0].x, y: awInitial[0].y,
+            transition: { type: "spring", damping: 14, stiffness: 110, delay: (maxIdx - 20) * stagger } 
+          })
+          restTextControls.start(i => {
+            const idx = i as number;
+            const init = idx >= 20 ? awInitial[idx - 20] : csInitial[idx];
+            return { 
+              opacity: 0, scale: 0, rotate: init?.rotate || 0, x: init?.x || 0, y: init?.y || 0,
+              transition: { type: "spring", damping: 14, stiffness: 110, delay: (maxIdx - idx) * stagger } 
+            }
+          })
+          swooshControls.start({ opacity: 0, transition: { duration: 0.8, ease: "easeOut" } })
           timeoutId = setTimeout(() => {
             if (!isCancelled) setIsActive(false)
-          }, 500)
+          }, 1800)
         }
 
         const smoothTransition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
-        yControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 0 } })
-        aControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 0.08 } })
-        dotControls.start({ opacity: 1, transition: { ...smoothTransition, delay: 0.16 } })
+        yControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 1.2 } })
+        aControls.start({ scale: 1, opacity: 1, transition: { ...smoothTransition, delay: 1.28 } })
+        dotControls.start({ opacity: 1, transition: { ...smoothTransition, delay: 1.36 } })
       }
     }
 
@@ -983,20 +1006,22 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete, isMobile = fal
       <motion.span
         animate={yControls}
         initial={{ scale: 1, opacity: 1 }}
-        className="inline-flex items-center origin-center z-20"
+        className="inline-flex items-baseline justify-center origin-center z-20 relative w-[0.8em] mr-[0.2em]"
       >
         <img 
           src="/csa_award_statue_nobg_v3.png" 
           alt="Canadian Screen Award Statue" 
-          className="h-[2.2em] w-auto object-contain mr-[0.2em]" 
+          className="absolute bottom-[0em] h-[2.2em] w-auto max-w-none object-contain origin-bottom" 
         />
+        {/* Invisible Y to ensure correct baseline height for this item */}
+        <span className="opacity-0 pointer-events-none">Y</span>
       </motion.span>
 
       {/* A — fades in/out */}
       <motion.span
         animate={aControls}
         initial={{ opacity: 1 }}
-        className="inline-block z-20 -translate-y-[0.1em]"
+        className="inline-block z-20"
       >
         A
       </motion.span>
@@ -1005,7 +1030,7 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete, isMobile = fal
       <motion.span
         animate={dotControls}
         initial={{ opacity: 1 }}
-        className="inline-block z-20 -translate-y-[0.1em]"
+        className="inline-block z-20"
       >
         .
       </motion.span>
@@ -1078,16 +1103,20 @@ export function AwardWinnerLogo({ isHovered, onAnimationComplete, isMobile = fal
           </motion.div>
 
           <div
-            className="flex flex-col items-center justify-center relative uppercase"
+            className="flex flex-col items-center justify-center relative uppercase w-max"
             style={{
-              fontSize: "clamp(24px, 5.5vw, 64px)", // slightly smaller to accommodate wide tracking
+              fontSize: "clamp(10px, 1.8vw, 22px)", 
               letterSpacing: "0.15em",
               fontFamily: '"Avenir Next", Montserrat, "Century Gothic", sans-serif',
               transform: "translateZ(0)",
               transformStyle: "preserve-3d",
-              lineHeight: 1.1,
+              lineHeight: 1.2,
               gap: "0.15em",
               fontWeight: 300,
+              WebkitTextStroke: "0.1px currentColor", // very slightly thicker (approx 5%)
+              color: "#ffffff",
+              textShadow: "0px 2px 10px rgba(0,0,0,0.6), 0px 4px 30px rgba(0,0,0,0.8)", // help it stand out from background
+              whiteSpace: "nowrap",
             }}
           >
             {/* CANADIAN SCREEN */}
@@ -1148,7 +1177,7 @@ const SprayCan = ({ className }: { className?: string }) => (
 )
 
 
-export function AnimatedLogo() {
+export function AnimatedLogo({ className, muteSound = false, autoPlay = false, disableInteraction = false }: { className?: string, muteSound?: boolean, autoPlay?: boolean, disableInteraction?: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
   const [animType, setAnimType] = useState<"cartoon" | "tumbler" | "rocket" | "storyteller" | "awardwinner" | null>(null)
 
@@ -1158,6 +1187,7 @@ export function AnimatedLogo() {
   }, [])
 
   const handleMouseEnter = () => {
+    if (autoPlay || disableInteraction) return;
     setIsHovered(true)
   }
 
@@ -1179,40 +1209,88 @@ export function AnimatedLogo() {
   }
 
   const handleMouseLeave = () => {
+    if (autoPlay || disableInteraction) return;
     setIsHovered(false)
     cycleAnimation()
   }
 
+  useEffect(() => {
+    if (!autoPlay || !animType) return;
+    
+    let isCancelled = false;
+
+    const runAutoPlayCycle = async () => {
+      await new Promise(r => setTimeout(r, 800));
+      if (isCancelled) return;
+      setIsHovered(true);
+
+      // Increased reading time for better digestability. Adjust per animation type to prevent cutoffs
+      let forwardTime = 4500;
+      if (animType === "rocket") forwardTime = 8000; // Let the entire rocket sequence play
+      else if (animType === "awardwinner") forwardTime = 6500; // Hold Canadian Screen Award an extra 2 seconds
+
+      await new Promise(r => setTimeout(r, forwardTime));
+      if (isCancelled) return;
+      setIsHovered(false);
+
+      let timeoutMs = 800;
+      if (animType === "cartoon") timeoutMs = 1200;
+      else if (animType === "tumbler") timeoutMs = 1000;
+      
+      await new Promise(r => setTimeout(r, timeoutMs + 200));
+      if (isCancelled) return;
+
+      setAnimType(prev => {
+        const allTypes: ("cartoon" | "tumbler" | "rocket" | "awardwinner")[] = ["cartoon", "tumbler", "rocket", "awardwinner"];
+        const availableTypes = allTypes.filter(type => type !== prev);
+        return availableTypes[Math.floor(Math.random() * availableTypes.length)];
+      });
+    };
+
+    runAutoPlayCycle();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [autoPlay, animType]);
+
   if (!animType) {
     return (
-      <div className="text-[70px] md:text-[90px] lg:text-[120px] leading-none font-black tracking-tighter flex items-center justify-center z-50 w-fit mx-auto text-transparent select-none pointer-events-none py-4">
+      <div className={`leading-none font-black tracking-tighter flex items-center justify-center z-50 w-fit mx-auto text-transparent select-none pointer-events-none py-4 ${className || "text-[70px] md:text-[90px] lg:text-[120px]"}`}>
         YA
       </div>
     )
   }
 
+  const containerClass = `leading-none font-black tracking-tighter flex items-center justify-center z-50 w-fit mx-auto text-black ${className || "text-[70px] md:text-[90px] lg:text-[120px]"}`
+
+  const Wrapper = disableInteraction ? "div" : Link
+  const wrapperProps = disableInteraction ? {
+    className: containerClass,
+  } : {
+    href: "/",
+    className: `${containerClass} cursor-pointer`,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave
+  }
+
   return (
-    <Link 
-      href="/" 
-      className="text-[70px] md:text-[90px] lg:text-[120px] leading-none font-black tracking-tighter flex items-center justify-center z-50 cursor-pointer w-fit mx-auto text-black"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <Wrapper {...wrapperProps as any}>
       <AnimatePresence mode="wait">
         <motion.div key={animType} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
           {animType === "cartoon" ? (
             <GoodYuteLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
           ) : animType === "tumbler" ? (
-            <TumblerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+            <TumblerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} muteSound={muteSound} />
           ) : animType === "storyteller" ? (
             <StoryTellerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
           ) : animType === "awardwinner" ? (
-            <AwardWinnerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+            <AwardWinnerLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} muteSound={muteSound} />
           ) : (
-            <RocketLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} />
+            <RocketLogo isHovered={isHovered} onAnimationComplete={cycleAnimation} muteSound={muteSound} />
           )}
         </motion.div>
       </AnimatePresence>
-    </Link>
+    </Wrapper>
   )
 }

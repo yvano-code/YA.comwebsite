@@ -28,7 +28,7 @@ export function FilmCarousel() {
         {credits.map((credit, idx) => (
           <div 
             key={idx} 
-            className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-zinc-900 transition-all duration-500 rounded-3xl overflow-hidden p-8 flex flex-col justify-between min-h-[50vh] md:min-h-[60vh] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] cursor-pointer border border-white/10"
+            className="flex-none w-[80vw] sm:w-[45vw] md:w-[35vw] lg:w-[28vw] snap-center group relative bg-zinc-900 transition-all duration-200 rounded-3xl overflow-hidden p-8 flex flex-col justify-between min-h-[50vh] md:min-h-[60vh] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] cursor-pointer border border-white/10"
           >
             {/* Image Background */}
             {credit.image && (
@@ -45,7 +45,7 @@ export function FilmCarousel() {
                     alt={credit.title}
                     fill
                     unoptimized={true}
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 origin-center opacity-80 group-hover:opacity-100"
+                    className="object-cover transition-transform duration-200 group-hover:scale-105 origin-center opacity-80 group-hover:opacity-100"
                   />
                 </div>
                 {/* Gradients */}
