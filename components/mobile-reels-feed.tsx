@@ -249,15 +249,10 @@ const ReelVideo = memo(function ReelVideo({
   return (
     <div className="relative w-full h-[100dvh] snap-start snap-always bg-black flex-shrink-0 cursor-pointer" onClick={handleToggleMute}>
       {/* Background Poster (Shows immediately while video mounts/loads) */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none opacity-50">
-        <Image 
-          src={video.src.replace('.mp4', '_poster.jpg')} 
-          alt="Video Thumbnail"
-          fill
-          className="object-cover"
-          priority={isActive}
-        />
-      </div>
+      <div 
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat pointer-events-none opacity-50"
+        style={{ backgroundImage: `url('${video.src.replace('.mp4', '_poster.jpg')}')` }}
+      />
       
       {isMounted && (
         <video
@@ -377,6 +372,7 @@ function TumblerLoop() {
 }
 
 export function MobileReelsFeed() {
+  const [isHydrated, setIsHydrated] = useState(false)
   const [globalMuted, setGlobalMuted] = useState(true) // MUST start muted for iOS autoPlay to work!
   const [displayVideos, setDisplayVideos] = useState(VIDEOS)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -455,6 +451,7 @@ export function MobileReelsFeed() {
     }
     
     setDisplayVideos(finalArray)
+    setIsHydrated(true)
   }, [])
 
   const toggleGlobalMute = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -471,6 +468,10 @@ export function MobileReelsFeed() {
     if (clampedIndex !== activeIndex) {
       setActiveIndex(clampedIndex)
     }
+  }
+
+  if (!isHydrated) {
+    return <div className="lg:hidden fixed inset-0 z-40 bg-black flex items-center justify-center"></div>
   }
 
   return (
