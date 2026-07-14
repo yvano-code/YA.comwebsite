@@ -13,6 +13,15 @@ const nextConfig = {
       { protocol: 'https', hostname: 'vumbnail.com' }
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/my-ya',
+        destination: '/about',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
