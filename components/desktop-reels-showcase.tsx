@@ -99,19 +99,20 @@ export function DesktopReelsShowcase() {
             }`}>
               
               {/* VIDEO LAYER (Bottom) */}
-              {isFocused && isVideo && isPlaying && (
-                <div className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-black">
+              {isVideo && (
+                <div className={`absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-black transition-opacity duration-500 ${isFocused && isPlaying ? 'opacity-100' : 'opacity-0'}`}>
                   {isLocalVideo ? (
                     <video 
                       ref={el => { mediaRefs.current[idx] = el }}
                       src={project.href} 
-                      autoPlay
+                      autoPlay={isFocused && isPlaying}
                       playsInline
                       muted={true}
+                      preload="auto"
                       onPlay={() => setVideoReady(prev => ({ ...prev, [idx]: true }))}
                       className="absolute inset-0 w-full h-full object-cover z-0"
                     />
-                  ) : (
+                  ) : (isFocused && isPlaying) ? (
                     <iframe 
                       ref={el => { mediaRefs.current[idx] = el as HTMLIFrameElement }}
                       src={getVideoEmbedUrl(project.href, true, true) || ""} 
@@ -140,7 +141,7 @@ export function DesktopReelsShowcase() {
                       }}
                       className="absolute inset-0 w-full h-full border-0 z-0 bg-black"
                     />
-                  )}
+                  ) : null}
                 </div>
               )}
 
