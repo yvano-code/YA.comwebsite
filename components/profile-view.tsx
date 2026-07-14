@@ -176,7 +176,7 @@ export function ProfileView() {
                       Yvano Wickham-Edwards (professionally known as Yvano Antonio) is a Toronto-born, first-generation Canadian of Guyanese descent. He is an award-winning director, entrepreneur, and photojournalist who has built a career seamlessly blending cinematic realism with profound social impact.
                     </p>
                     <p>
-                      He won the <a href="https://www.academy.ca/2021/omolola-ajao/" target="_blank" rel="noopener noreferrer" className="hover:text-black/60 transition-colors">2021 Canadian Screen Award</a> for Best Direction in a Documentary Series for his work on Being Black in Toronto. His standout contribution to the series, the short film #BLACK, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.
+                      He won the <a href="https://www.academy.ca/2021/omolola-ajao/" target="_blank" rel="noopener noreferrer" className="underline decoration-black/30 underline-offset-4 hover:decoration-black hover:bg-black/5 px-1 -mx-1 rounded font-medium transition-all">2021 Canadian Screen Award</a> for Best Direction in a Documentary Series for his work on Being Black in Toronto. His standout contribution to the series, the short film #BLACK, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.
                     </p>
                   </div>
                 </motion.div>
