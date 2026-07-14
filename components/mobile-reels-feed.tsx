@@ -261,15 +261,21 @@ const ReelVideo = memo(function ReelVideo({
       
       {isMounted && (
         <video
-          ref={videoRef}
+          ref={(el) => {
+            if (el) {
+              el.defaultMuted = globalMuted;
+              el.muted = globalMuted;
+            }
+            // @ts-ignore
+            videoRef.current = el;
+          }}
           src={video.src}
           poster={video.src.replace('.mp4', '_poster.jpg')}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           loop
-          muted={globalMuted}
           playsInline
           autoPlay={isActive}
-          preload={isActive || isNext ? "auto" : "none"}
+          preload={isActive || isNext ? "auto" : "metadata"}
         />
       )}
 
