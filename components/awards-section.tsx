@@ -164,9 +164,6 @@ export function AwardsSection({ children }: { children?: React.ReactNode }) {
         </h3>
 
         <div className="w-[calc(100%+3rem)] md:w-[calc(100%+6rem)] -ml-6 md:-ml-12 mb-12 relative bg-transparent">
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
-          
           <div className="flex w-full items-center gap-0 overflow-x-auto hide-scrollbar px-6 md:px-12">
             {[
               "/projects/official_selects_1_final.png",
