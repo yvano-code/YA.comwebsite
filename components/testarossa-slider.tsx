@@ -447,7 +447,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
                     >
                       {items[activeIndex].credits
                         ?.filter(c => c.value.includes('Yvano'))
-                        .map(c => c.label)
+                        ?.map(c => c.label)
                         .join(' • ')}
                     </motion.span>
                   </motion.div>
@@ -473,7 +473,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
                     >
                       {items[activeIndex].credits
                         ?.filter(c => c.label.toLowerCase().includes('executive producer') || c.label.toLowerCase().includes('creator'))
-                        .map(c => `${c.label}: ${c.value}`)
+                        ?.map(c => `${c.label}: ${c.value}`)
                         .join(' • ')}
                     </motion.span>
                   </motion.div>

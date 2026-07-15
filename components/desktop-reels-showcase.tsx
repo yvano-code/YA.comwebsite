@@ -231,7 +231,7 @@ export function DesktopReelsShowcase() {
                 </h2>
                 
                 <div className="flex flex-col max-w-md border-t border-white/20 pt-5">
-                  {project.credits?.slice(0, 2).map((credit, i) => (
+                  {project.credits?.slice(0, 2)?.map((credit, i) => (
                     <div key={i} className="flex border-b border-white/10 pb-3 mb-3 last:border-0 last:pb-0 last:mb-0">
                       <span className="w-32 text-[9px] font-bold tracking-[0.2em] uppercase text-white/50 mt-0.5">
                         {credit.label}
