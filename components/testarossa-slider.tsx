@@ -294,9 +294,17 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
           );
         })}
       </div>
-
-
-
+      {/* ── TOP LOGO HEADER ── */}
+      <div className={`absolute top-[15vh] left-0 w-full flex justify-center z-[100] pointer-events-none transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
+        <motion.div
+          layoutId="ya-logo-nav"
+          className="relative flex justify-center h-12 w-full"
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] flex justify-center pointer-events-auto origin-center scale-[1.05]">
+            <AnimatedLogo autoPlay={true} muteSound={true} disableInteraction={true} className="text-3xl lg:text-4xl" />
+          </div>
+        </motion.div>
+      </div>
       {/* ── VERTICAL SLIDER CORE (Also Expanded View) ── */}
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none gap-6">
 
@@ -500,12 +508,15 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
                 </AnimatePresence>
               </div>
             </div>
+
+
+
           </div>
         </div>
 
-{/* ── LEFT SCROLL INDICATOR ── */ }
-<div className={`hidden md:flex absolute left-4 md:left-8 lg:left-12 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-6 pointer-events-none transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
-  <div className="text-[9px] font-mono tracking-[0.3em] text-[#eae3d9]/50 [writing-mode:vertical-lr] rotate-180 uppercase">
+{/* ── RIGHT SCROLL INDICATOR ── */ }
+<div className={`hidden md:flex absolute right-64 md:right-72 lg:right-80 xl:right-96 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-6 pointer-events-none transition-opacity duration-500 scale-[1.11] ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
+  <div className="text-[9px] font-mono tracking-[0.3em] text-white [writing-mode:vertical-lr] rotate-180 uppercase">
     Scroll to explore
   </div>
   <div className="relative w-[1px] h-16 bg-[#eae3d9]/20 overflow-hidden">
@@ -521,7 +532,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
 <div 
   className={`hidden lg:flex absolute left-16 xl:left-20 z-40 w-[18vw] max-w-[300px] flex-col justify-start pointer-events-auto transition-opacity duration-500 top-1/2 -translate-y-[15.6vw] xl:-translate-y-[14.05vw] mt-1 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
 >
-  <div className="flex flex-col gap-4 text-sm xl:text-base text-[#eae3d9]/80 leading-relaxed tracking-tight font-medium mix-blend-difference text-left" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+  <div className="flex flex-col gap-4 text-sm xl:text-base text-white leading-relaxed tracking-tight font-medium text-left" style={{ fontFamily: 'var(--font-playfair), serif' }}>
     {siteConfig.imdbBio.split('\n\n').map((paragraph, i) => (
       <p key={i}>{paragraph}</p>
     ))}
@@ -537,17 +548,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
 {/* ── RIGHT SIDEBAR (LOGO + TITLES) ── */ }
 <div className={`hidden md:flex absolute right-12 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 z-50 flex-col items-end pointer-events-auto max-h-[80vh] transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
 
-  {/* LOGO */}
-  <div className="flex flex-col items-center pr-4 mb-10 w-full">
-    <motion.div
-      layoutId="ya-logo-nav"
-      className="relative flex justify-center h-8 w-full"
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] flex justify-center pointer-events-auto origin-center scale-90">
-        <AnimatedLogo autoPlay={true} muteSound={true} disableInteraction={true} className="text-3xl lg:text-4xl" />
-      </div>
-    </motion.div>
-  </div>
+  {/* LOGO MOVED TO TOP HEADER */}
 
   {/* TITLES LIST */}
   <div className="flex flex-col gap-2 lg:gap-3 items-center overflow-y-auto no-scrollbar py-4 pr-4">
@@ -561,7 +562,10 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
           }}
           className={`group flex items-center justify-center cursor-pointer transition-all duration-200 w-full text-center py-1.5 px-4 rounded-full hover:bg-white/5`}
         >
-          <span className={`text-[9px] lg:text-[10px] uppercase tracking-[0.15em] transition-all duration-200 ${isActive ? "text-[#eae3d9] font-medium scale-105" : "text-[#eae3d9]/30 font-light group-hover:text-[#eae3d9]/80 group-hover:scale-105"}`}>
+          <span 
+            className={`text-sm lg:text-base italic uppercase tracking-tight transition-all duration-200 ${isActive ? "text-white scale-110 drop-shadow-lg" : "text-white/90 group-hover:text-white group-hover:scale-105"}`}
+            style={{ fontFamily: 'var(--font-playfair), serif' }}
+          >
             {item.title.split('|')[0].trim()}
           </span>
         </div>
@@ -570,26 +574,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
   </div>
 </div>
 
-{/* ── TYPOGRAPHY OVERLAY ── */ }
-{
-  (!isExpanded) && (
-    <div className={`absolute inset-0 z-40 pointer-events-none flex items-center justify-center px-4 md:px-12 text-center transition-opacity duration-500`}>
-      <AnimatePresence mode="wait">
-        <motion.h2
-          key={activeIndex}
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -50, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.77, 0, 0.175, 1] }}
-          className="text-[12vw] md:text-[9vw] lg:text-[7rem] leading-[0.9] tracking-tighter text-[#eae3d9] italic drop-shadow-2xl uppercase max-w-[90vw]"
-          style={{ fontFamily: 'var(--font-playfair), serif' }}
-        >
-          {items[activeIndex].title.split('|')[0].trim()}
-        </motion.h2>
-      </AnimatePresence>
-    </div>
-  )
-}
+{/* ── TYPOGRAPHY OVERLAY (REMOVED) ── */ }
 
 {/* ── FOOTER ── */ }
 <div className={`absolute bottom-0 left-0 w-full flex justify-between items-end px-8 py-8 z-50 text-[10px] uppercase font-mono tracking-widest transition-opacity duration-500 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100 text-[#eae3d9]/70'}`}>
