@@ -90,9 +90,10 @@ export function ProfileView() {
   const [currentMobileIndex, setCurrentMobileIndex] = useState(0)
 
   useEffect(() => {
-    // Set to 'about' by default on mobile screens
+    // Set default sections on mobile screens
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setActiveBioSection('about')
+      setActiveSection('portraits')
     }
   }, [])
 
@@ -227,17 +228,35 @@ export function ProfileView() {
           {/* Press Section - Full width to align with other section titles */}
           <div className="w-full px-6 mt-8 lg:mt-12 pt-16 border-t border-black/10">
         <div className="mb-16 lg:mb-24 flex items-center">
-          <h3 className="text-3xl md:text-4xl lg:text-[60px] font-semibold tracking-wide uppercase leading-[1.1]" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
+          {/* Mobile Layout (Portraits First) */}
+          <h3 className="md:hidden text-3xl font-semibold tracking-wide uppercase leading-[1.1]" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
+            <span 
+              onClick={() => setActiveSection('portraits')} 
+              className={`cursor-pointer transition-all duration-300 ${activeSection === 'portraits' ? 'text-black underline decoration-[3px] underline-offset-[12px]' : 'text-black/30 hover:text-black/60'}`}
+            >
+              PORTRAITS
+            </span>
+            <span className="text-black/30 mx-2">&</span>
             <span 
               onClick={() => setActiveSection('press')} 
-              className={`cursor-pointer transition-all duration-300 ${activeSection === 'press' ? 'text-black underline decoration-[3px] md:decoration-[4px] underline-offset-[12px] md:underline-offset-[16px]' : 'text-black/30 hover:text-black/60'}`}
+              className={`cursor-pointer transition-all duration-300 ${activeSection === 'press' ? 'text-black underline decoration-[3px] underline-offset-[12px]' : 'text-black/30 hover:text-black/60'}`}
             >
               PRESS
             </span>
-            <span className="text-black/30 mx-2 lg:mx-4">&</span>
+          </h3>
+
+          {/* Desktop Layout (Press First) */}
+          <h3 className="hidden md:block text-4xl lg:text-[60px] font-semibold tracking-wide uppercase leading-[1.1]" style={{ fontFamily: 'var(--font-oswald), sans-serif' }}>
+            <span 
+              onClick={() => setActiveSection('press')} 
+              className={`cursor-pointer transition-all duration-300 ${activeSection === 'press' ? 'text-black underline decoration-[4px] underline-offset-[16px]' : 'text-black/30 hover:text-black/60'}`}
+            >
+              PRESS
+            </span>
+            <span className="text-black/30 mx-4">&</span>
             <span 
               onClick={() => setActiveSection('portraits')} 
-              className={`cursor-pointer transition-all duration-300 ${activeSection === 'portraits' ? 'text-black underline decoration-[3px] md:decoration-[4px] underline-offset-[12px] md:underline-offset-[16px]' : 'text-black/30 hover:text-black/60'}`}
+              className={`cursor-pointer transition-all duration-300 ${activeSection === 'portraits' ? 'text-black underline decoration-[4px] underline-offset-[16px]' : 'text-black/30 hover:text-black/60'}`}
             >
               PORTRAITS
             </span>
