@@ -21,13 +21,6 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
   return (
     <div className={`z-[50] flex flex-col items-center justify-center gap-5 w-[60px] py-6 bg-black/40 backdrop-blur-md border border-white/20 rounded-full shadow-lg overflow-hidden ${className || "fixed right-4 bottom-28"}`}>
 
-      {/* Animated Scrolling Background Hint */}
-      <motion.div
-        className="absolute left-0 top-0 w-full h-[200%] bg-gradient-to-t from-transparent via-white/10 to-transparent pointer-events-none"
-        animate={{ y: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-      />
-
       {/* Portfolio / Profile Button */}
       <Link href="/about" className="relative z-10 flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
         <div className={`relative w-[44px] h-[44px] rounded-full overflow-hidden shadow-sm border-[2px] transition-colors ${activeTab === "my-ya" ? "border-white" : "border-white/40 hover:border-white/80"}`}>
