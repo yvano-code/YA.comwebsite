@@ -17,18 +17,22 @@ export default function InfoPage() {
           </div>
           
           <div className="space-y-12">
-            <p className="text-2xl md:text-4xl lg:text-5xl font-serif leading-[1.4] md:leading-[1.3] text-[#111] max-w-4xl tracking-tight" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            <p className="text-2xl md:text-4xl lg:text-5xl font-serif leading-[1.4] md:leading-[1.3] text-[#111] max-w-4xl tracking-tight whitespace-pre-wrap" style={{ fontFamily: 'var(--font-playfair), serif' }}>
               {siteConfig.imdbBio}
             </p>
-            <p className="text-xl md:text-3xl font-serif leading-[1.5] text-[#111]/80 max-w-4xl" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            <p className="text-xl md:text-3xl font-serif leading-[1.5] text-[#111]/80 max-w-4xl whitespace-pre-wrap" style={{ fontFamily: 'var(--font-playfair), serif' }}>
               {siteConfig.imdbBioMiddle}
             </p>
             
             <div className="relative py-12 md:py-16 my-8 md:my-16 pl-6 md:pl-12 border-l-2 border-[#111]/20">
               <span className="absolute -left-6 md:-left-8 top-12 text-6xl md:text-8xl text-[#111]/10 font-serif" style={{ fontFamily: 'var(--font-playfair), serif' }}>"</span>
-              <p className="text-lg md:text-2xl font-serif italic text-[#111]/70 max-w-3xl leading-[1.8]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-                {siteConfig.imdbDirectorStatement?.replace(/"/g, '')}
-              </p>
+              <div className="text-lg md:text-2xl font-serif text-[#111]/70 max-w-3xl leading-[1.8] flex flex-col gap-6" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                {siteConfig.imdbDirectorStatement?.split('\n\n').map((paragraph, i, arr) => (
+                  <p key={i}>
+                    {paragraph}{i === arr.length - 1 ? '"' : ''}
+                  </p>
+                ))}
+              </div>
             </div>
             
             <p className="text-sm md:text-base font-sans font-medium leading-[2] tracking-wide text-[#111]/70 max-w-2xl uppercase">

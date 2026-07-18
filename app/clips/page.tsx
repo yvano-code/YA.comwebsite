@@ -6,6 +6,7 @@ import { FullVideoDrawer } from "@/components/full-video-drawer"
 import { siteConfig } from "@/lib/site-config"
 import { TumblerLogo } from "@/components/animated-logo"
 import { ProfileView } from "@/components/profile-view"
+import { VerticalNavPill } from "@/components/nav-pill"
 
 const familyToProjectId: Record<string, string> = {
   "BLACK": "black",
@@ -184,9 +185,6 @@ function ReelVideo({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   
-  const project = siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[video.family])
-  const credits = project?.credits?.filter(c => c.label.toLowerCase() !== "video by") || []
-
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = globalMuted
@@ -260,31 +258,6 @@ function ReelVideo({
         />
       </div>
 
-      {/* Bottom Left Info */}
-      <div className="absolute left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 cursor-pointer border border-white/20" onClick={(e) => { e.stopPropagation(); onOpenDrawer(video); }}>
-            <img src={video.avatar} alt="Profile" className="w-full h-full object-cover" />
-          </div>
-          <span className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre" onClick={(e) => { e.stopPropagation(); onOpenDrawer(video); }}>{video.username}</span>
-        </div>
-        
-        {credits.length > 0 ? (
-          <div className="flex flex-col pr-4 border-l-[1.5px] border-white/40 pl-3 py-1 my-1 gap-1">
-            {credits.map((c, i) => (
-              <p key={i} className="text-[10px] sm:text-[11px] font-bold text-white drop-shadow-md tracking-wider uppercase leading-snug">
-                {c.label}: <span className="text-white/70 font-medium">{c.value}</span>
-              </p>
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col pr-4">
-            <p className="text-white text-[13px] font-normal drop-shadow-md truncate">
-              {video.description} <span className="text-white/90">{video.hashtags}</span>
-            </p>
-          </div>
-        )}
-      </div>
     </div>
   )
 }
@@ -407,6 +380,10 @@ export default function ClipsPage() {
     }
   }
 
+  const activeVideo = displayVideos[activeIndex]
+  const activeProject = activeVideo ? siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[activeVideo.family]) : null
+  const activeCredits = activeProject?.credits?.filter(c => c.label.toLowerCase() !== "video by") || []
+
   return (
     <>
       {/* DESKTOP VIEW: Split Screen (TikTok Reels | Profile) */}
@@ -437,6 +414,42 @@ export default function ClipsPage() {
               />
             ))}
           </div>
+
+          {/* Desktop Fixed Bottom Info */}
+          {activeVideo && (
+            <div className="absolute left-6 bottom-24 right-16 flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left transition-opacity duration-300">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre animate-in fade-in" onClick={(e) => { e.stopPropagation(); handleOpenDrawer(activeVideo); }}>{activeVideo.username}</span>
+                </div>
+              </div>
+              
+              {activeCredits.length > 0 ? (
+                <div className="flex flex-col pr-4 border-l-[1.5px] border-white/40 pl-3 py-1 my-1 gap-1">
+                  {activeCredits.map((c, i) => (
+                    <p key={`${activeVideo.src}-${i}`} className="text-[10px] sm:text-[11px] font-bold text-white drop-shadow-md tracking-wider uppercase leading-snug animate-in fade-in slide-in-from-bottom-1">
+                      {c.label}: <span className="text-white/70 font-medium">{c.value}</span>
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <div key={activeVideo.description} className="flex flex-col pr-4 animate-in fade-in slide-in-from-bottom-1">
+                  <p className="text-white text-[13px] font-normal drop-shadow-md truncate">
+                    {activeVideo.description} <span className="text-white/90">{activeVideo.hashtags}</span>
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Desktop Fixed Side Nav Pill */}
+          {activeVideo && (
+            <VerticalNavPill 
+              className="absolute right-6 bottom-24 hidden lg:flex"
+              avatarSrc={activeVideo.avatar}
+              onWatchMore={() => handleOpenDrawer(activeVideo)}
+            />
+          )}
         </div>
 
         {/* Right Pane: Profile */}
@@ -454,6 +467,42 @@ export default function ClipsPage() {
         <div className="fixed top-12 md:top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-[0.89]">
           <TumblerLoop />
         </div>
+
+        {/* Global Fixed Bottom Info */}
+        {activeVideo && (
+          <div className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left transition-opacity duration-300">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre animate-in fade-in" onClick={(e) => { e.stopPropagation(); handleOpenDrawer(activeVideo); }}>{activeVideo.username}</span>
+              </div>
+            </div>
+            
+            {activeCredits.length > 0 ? (
+              <div className="flex flex-col pr-4 border-l-[1.5px] border-white/40 pl-3 py-1 my-1 gap-1">
+                {activeCredits.map((c, i) => (
+                  <p key={`${activeVideo.src}-${i}`} className="text-[10px] sm:text-[11px] font-bold text-white drop-shadow-md tracking-wider uppercase leading-snug animate-in fade-in slide-in-from-bottom-1">
+                    {c.label}: <span className="text-white/70 font-medium">{c.value}</span>
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <div key={activeVideo.description} className="flex flex-col pr-4 animate-in fade-in slide-in-from-bottom-1">
+                <p className="text-white text-[13px] font-normal drop-shadow-md truncate">
+                  {activeVideo.description} <span className="text-white/90">{activeVideo.hashtags}</span>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Global Side Nav Pill */}
+        {activeVideo && (
+          <VerticalNavPill 
+            className="fixed right-4 bottom-28 lg:hidden"
+            avatarSrc={activeVideo.avatar}
+            onWatchMore={() => handleOpenDrawer(activeVideo)}
+          />
+        )}
 
         {displayVideos.map((video, idx) => (
           <ReelVideo 

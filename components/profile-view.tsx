@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/site-config"
 import { AnimatedLogo } from "@/components/animated-logo"
 import { useState, useEffect } from "react"
 import { AwardsSection } from "@/components/awards-section"
+import { ContactSection } from './contact-section'
 import { motion, AnimatePresence } from "framer-motion"
 
 const pressArticles = [
@@ -150,17 +151,23 @@ export function ProfileView() {
 
             <AnimatePresence mode="wait">
               {activeBioSection === 'statement' ? (
-                <motion.blockquote
+                <motion.div
                   key="statement"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="text-xl sm:text-2xl lg:text-3xl tracking-tight leading-[1.4] text-black/90 font-medium italic"
-                  style={{ fontFamily: 'var(--font-playfair), serif' }}
+                  className="relative py-2 pl-6 md:pl-10 border-l border-black/20"
                 >
-                  "I'm tired of identifying as a 'Black' creative... Please don't get me wrong. I'm Black and I understand that the world views me through this lens. Just because I personally don't agree doesn't change that I'm viewed this way. In my honest opinion, I think 'Blackness' is a crutch in this industry. I find that the 'Black Creator' funds are drying up while identity politics often get in the way of solid storytelling in general. I'm a Canadian Screen Award-winning director. That has nothing to do with my race. If my work features Black actors then so be it. We're all humans looking to tell stories. I'm just a human."
-                </motion.blockquote>
+                  <span className="absolute -left-4 md:-left-6 -top-4 md:-top-6 text-7xl md:text-8xl text-black/10 font-serif leading-none" style={{ fontFamily: 'var(--font-playfair), serif' }}>"</span>
+                  <div className="text-lg sm:text-xl lg:text-2xl tracking-tight leading-[1.6] text-black/85 font-medium flex flex-col gap-6" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                    {siteConfig.imdbDirectorStatement.split('\n\n').map((paragraph, i, arr) => (
+                      <p key={i}>
+                        {paragraph}{i === arr.length - 1 ? '"' : ''}
+                      </p>
+                    ))}
+                  </div>
+                </motion.div>
               ) : (
                 <motion.div
                   key="about"

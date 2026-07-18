@@ -96,7 +96,7 @@ export const siteConfig = {
   // Manually entered IMDB credits to display on the native /imdb page.
   imdbBio: "Yvano Wickham-Edwards (professionally known as Yvano Antonio) is a Toronto-born, first-generation Canadian of Guyanese descent. He is an award-winning director, entrepreneur, and photojournalist who has built a career seamlessly blending cinematic realism with profound social impact.\n\nHe won the 2021 Canadian Screen Award for Best Direction in a Documentary Series for his work on Being Black in Toronto. His standout contribution to the series, the short film #BLACK, reached young people across the nation, offering a grounded look at the everyday challenges and responsibilities Black youth navigate in the digital age.",
   imdbBioMiddle: "Yvano’s commitment to generating positive change extends far beyond the lens. Through his work with the CEE Centre for Young Black Professionals, he successfully transferred his creative skills toward making tangible community impacts, empowering the next generation of creators. As an entrepreneur and versatile director, his portfolio spans high-end commercials, brand films, and music television. He served as the director for the top 10 countdown web series Clubhouse Jamz, collaborating with famous acts like Kranium, Anders, Charmaine, and 4Korners. Expanding his entrepreneurial footprint, he is now venturing into narrative fiction as the co-creator and director of the upcoming comedy series Baked Butter Biscuits.",
-  imdbDirectorStatement: "\"I'm tired of identifying as a 'Black' creative... Please don't get me wrong. I'm Black and I understand that the world views me through this lens. Just because I personally don't agree doesn't change that I'm viewed this way. In my honest opinion, I think 'Blackness' is a crutch in this industry. I find that the 'Black Creator' funds are drying up while identity politics often get in the way of solid storytelling in general. I'm a Canadian Screen Award-winning director. That has nothing to do with my race. If my work features Black actors then so be it. We're all humans looking to tell stories. I'm just a human.\"",
+  imdbDirectorStatement: "Before I ever picked up a camera with any sort of intention, I learnt a valuable lesson about the power of photography from a photograph.\n\nIn 1976, photojournalist Stanely Forman captured a very dramatic moment at a protest. He called it the Soiling of Old Glory. See for yourself. I found the photo while researching the pulitzer prize. That moment was where it all started.\n\nIt set me on a path. I followed that path through college as a photojournalist capturing Black Lives Matter protests. As a set photographer capturing stills on documentaries around the world. And now as a director crafting their first featuring film.\n\nI learned that intention should be paramount to an artist. As a photojournalist, the intention is truth. Unfiltered and unscripted. Truth to a filmmaker, is created. Mise en scene (staged). Intention here is deliberate. Careful and unhurried. We’re encouraged to select the right medium for the message.\n\nMy work is deliberate and unfiltered. I intend to be careful in my selection and unhurried by capitalism.",
   imdbBioCloser: "Ultimately, Yvano Antonio continues to craft compelling visual stories that push boundaries. Whether he is directing a national campaign, mentoring young professionals, or developing a new television series, his focus remains firmly on authentic human experiences and the universal power of solid storytelling.",
   imdbBioLink: {
     title: "Canadian Screen Award Details",
@@ -225,7 +225,7 @@ export const siteConfig = {
       description: "Being Black in Toronto (2020) — Best Youth Film"
     },
     {
-      title: "Hollywood North Film Awards (2020)",
+      title: "Hollywood North Film Festival (2020)",
       status: "Nominated",
       description: "#BLACK — Best VFX & Color, Best Editing of a Canadian Short Doc"
     }
@@ -234,25 +234,6 @@ export const siteConfig = {
   // ── PROJECTS ──────────────────────────────────────────────────────────────
   // The grid of work on the homepage. Order here = order on the page.
   projects: [
-    { 
-      title: "#BLACK | SHORT FILM | CSA WINNER ", 
-      category: "Short Film",
-      image: "/projects/black-bleed.png", 
-      imagePosition: "50% 28%",
-      isVertical: true,
-      href: "https://youtu.be/-xLbpc2JCGg",
-      colorway: {
-        id: "black",
-        baseBg: "bg-[#d4d4d8]", // zinc-300 base
-        blob1: "from-zinc-600/80 via-zinc-500/70 to-transparent", // Mid-dark
-        blob2: "from-zinc-500/70 via-zinc-400/70 to-transparent", // Mid
-        blob3: "from-white/60 via-zinc-100/40 to-transparent" // Bright highlight
-      },
-      credits: [
-        { label: "Executive Producer", value: "Fabienne Colas Foundation" },
-        { label: "Writer & Director", value: "Yvano Antonio" }
-      ]
-    },
     { 
       title: "CLUBHOUSE JAMZ | LIVE BROADCAST", 
       category: "Live Broadcast | Limited Series",
@@ -373,6 +354,25 @@ export const siteConfig = {
         { label: "Director", value: "Yvano Antonio" },
         { label: "Creative Director", value: "Maria Monet" },
         { label: "DOP", value: "Lucas Joseph" }
+      ]
+    },
+    { 
+      title: "#BLACK | SHORT FILM | CSA WINNER ", 
+      category: "Short Film",
+      image: "/projects/black-bleed.png", 
+      imagePosition: "50% 28%",
+      isVertical: true,
+      href: "https://youtu.be/-xLbpc2JCGg",
+      colorway: {
+        id: "black",
+        baseBg: "bg-[#d4d4d8]", // zinc-300 base
+        blob1: "from-zinc-600/80 via-zinc-500/70 to-transparent", // Mid-dark
+        blob2: "from-zinc-500/70 via-zinc-400/70 to-transparent", // Mid
+        blob3: "from-white/60 via-zinc-100/40 to-transparent" // Bright highlight
+      },
+      credits: [
+        { label: "Executive Producer", value: "Fabienne Colas Foundation" },
+        { label: "Writer & Director", value: "Yvano Antonio" }
       ]
     },
   ],

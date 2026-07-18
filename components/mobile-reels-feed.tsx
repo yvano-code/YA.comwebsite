@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, memo } from "react"
 import Image from "next/image"
+import { VerticalNavPill } from "@/components/nav-pill"
 import { FullVideoDrawer } from "@/components/full-video-drawer"
 import { siteConfig } from "@/lib/site-config"
 import { TumblerLogo } from "@/components/animated-logo"
@@ -186,9 +187,6 @@ const ReelVideo = memo(function ReelVideo({
   const [showUnmuteIcon, setShowUnmuteIcon] = useState(false)
   const previousMuted = useRef(globalMuted)
   
-  const project = siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[video.family])
-  const credits = project?.credits?.filter(c => c.label.toLowerCase() !== "video by") || []
-
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = globalMuted
@@ -296,42 +294,6 @@ const ReelVideo = memo(function ReelVideo({
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
 
-      {/* Bottom Left Info */}
-      <button 
-        type="button"
-        className="absolute left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left cursor-pointer text-left"
-        onClick={(e) => { 
-          e.stopPropagation(); 
-          onOpenDrawer(video); 
-        }}
-        onTouchEnd={(e) => { 
-          e.stopPropagation(); 
-          onOpenDrawer(video); 
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 border border-white/20">
-            <img src={video.avatar} alt="Profile" className="w-full h-full object-cover pointer-events-none" />
-          </div>
-          <span className="text-white font-semibold text-[13px] drop-shadow-md uppercase whitespace-pre-wrap leading-tight">{video.username}</span>
-        </div>
-        
-        {credits.length > 0 ? (
-          <div className="flex flex-col pr-4 border-l-[1.5px] border-white/40 pl-3 py-1 my-1 gap-1">
-            {credits.map((c, i) => (
-              <p key={i} className="text-[10px] sm:text-[11px] font-bold text-white drop-shadow-md tracking-wider uppercase leading-snug">
-                {c.label}: <span className="text-white/70 font-medium">{c.value}</span>
-              </p>
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col pr-4">
-            <p className="text-white text-[13px] font-normal drop-shadow-md truncate">
-              {video.description} <span className="text-white/90">{video.hashtags}</span>
-            </p>
-          </div>
-        )}
-      </button>
     </div>
   )
 })
@@ -470,6 +432,10 @@ export function MobileReelsFeed() {
     }
   }
 
+  const activeVideo = displayVideos[activeIndex]
+  const activeProject = activeVideo ? siteConfig.projects.find(p => p.colorway?.id === familyToProjectId[activeVideo.family]) : null
+  const activeCredits = activeProject?.credits?.filter(c => c.label.toLowerCase() !== "video by") || []
+
   if (!isHydrated) {
     return <div className="lg:hidden fixed inset-0 z-40 bg-black flex items-center justify-center"></div>
   }
@@ -484,6 +450,51 @@ export function MobileReelsFeed() {
         <div className="fixed top-12 md:top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-[0.89]">
           <TumblerLoop />
         </div>
+
+        {/* Global Fixed Bottom Info */}
+        {activeVideo && (
+          <div 
+            className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left cursor-pointer text-left pointer-events-auto transition-opacity duration-300"
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              handleOpenDrawer(activeVideo); 
+            }}
+            onTouchEnd={(e) => { 
+              e.stopPropagation(); 
+              handleOpenDrawer(activeVideo); 
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md uppercase whitespace-pre-wrap leading-tight animate-in fade-in">{activeVideo.username}</span>
+              </div>
+            </div>
+            
+            {activeCredits.length > 0 ? (
+              <div className="flex flex-col pr-4 border-l-[1.5px] border-white/40 pl-3 py-1 my-1 gap-1">
+                {activeCredits.map((c, i) => (
+                  <p key={`${activeVideo.src}-${i}`} className="text-[10px] sm:text-[11px] font-bold text-white drop-shadow-md tracking-wider uppercase leading-snug animate-in fade-in slide-in-from-bottom-1">
+                    {c.label}: <span className="text-white/70 font-medium">{c.value}</span>
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <div key={activeVideo.description} className="flex flex-col pr-4 animate-in fade-in slide-in-from-bottom-1">
+                <p className="text-white text-[13px] font-normal drop-shadow-md truncate">
+                  {activeVideo.description} <span className="text-white/90">{activeVideo.hashtags}</span>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Global Side Nav Pill */}
+        {activeVideo && (
+          <VerticalNavPill 
+            avatarSrc={activeVideo.avatar}
+            onWatchMore={() => handleOpenDrawer(activeVideo)}
+          />
+        )}
 
         {displayVideos.map((video, idx) => {
           const isActive = idx === activeIndex

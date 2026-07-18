@@ -111,6 +111,15 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
 
   const [showInfo, setShowInfo] = useState(false)
   const isAnimating = useRef(false)
+  const touchStartY = useRef(0)
+  const [isMobile, setIsMobile] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     setIsMounted(true)
@@ -297,12 +306,13 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
       {/* ── TOP LOGO HEADER ── */}
       <div className={`absolute top-[15vh] left-0 w-full flex justify-center z-[100] pointer-events-none transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
         <motion.div
-          layoutId="ya-logo-nav"
-          className="relative flex justify-center h-12 w-full"
+          animate={{
+            y: isMobile === null ? 0 : isMobile ? -50 : 0
+          }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative pointer-events-auto"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] flex justify-center pointer-events-auto origin-center scale-[1.05]">
-            <AnimatedLogo autoPlay={true} muteSound={true} disableInteraction={true} className="text-3xl lg:text-4xl" />
-          </div>
+          <AnimatedLogo autoPlay={true} muteSound={true} disableInteraction={true} className="text-3xl lg:text-4xl" />
         </motion.div>
       </div>
       {/* ── VERTICAL SLIDER CORE (Also Expanded View) ── */}
@@ -499,7 +509,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
                     className="absolute py-4 -my-4"
                   >
                     <motion.span
-                      animate={{ opacity: [0.7, 1, 0.7], textShadow: ['0px 0px 0px rgba(234,227,217,0)', '0px 0px 12px rgba(234,227,217,0.95)', '0px 0px 0px rgba(234,227,217,0)'] }}
+                      animate={{ opacity: [0.7, 1, 0.7] }}
                       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 4 }}
                     >
                       .{String(activeIndex + 1).padStart(2, '0')}
@@ -563,7 +573,7 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
           className={`group flex items-center justify-center cursor-pointer transition-all duration-200 w-full text-center py-1.5 px-4 rounded-full hover:bg-white/5`}
         >
           <span 
-            className={`text-sm lg:text-base italic uppercase tracking-tight transition-all duration-200 ${isActive ? "text-white scale-110 drop-shadow-lg" : "text-white/90 group-hover:text-white group-hover:scale-105"}`}
+            className={`text-sm lg:text-base italic uppercase tracking-tight transition-all duration-200 ${isActive ? "text-white scale-110" : "text-white/90 group-hover:text-white group-hover:scale-105"}`}
             style={{ fontFamily: 'var(--font-playfair), serif' }}
           >
             {item.title.split('|')[0].trim()}

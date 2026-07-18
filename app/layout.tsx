@@ -67,11 +67,15 @@ const InteractiveLavaLamp = dynamic(
   () => import('@/components/interactive-lava-lamp').then((mod) => mod.InteractiveLavaLamp)
 )
 
+import fs from 'fs'
+import path from 'path'
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
   return (
     <html lang="en">
       <head>
@@ -114,6 +118,7 @@ export default function RootLayout({
           <DesktopBottomNav isGlobal={true} />
         )}
         <MobileBottomNav />
+        
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
