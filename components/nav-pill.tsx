@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
 
 interface VerticalNavPillProps {
   className?: string;
@@ -18,10 +19,17 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
   else if (pathname === "/about") activeTab = "my-ya"
 
   return (
-    <div className={`z-[50] flex flex-col items-center justify-center gap-5 w-[60px] py-6 bg-black/40 backdrop-blur-md border border-white/20 rounded-full shadow-lg ${className || "fixed right-4 bottom-28"}`}>
+    <div className={`z-[50] flex flex-col items-center justify-center gap-5 w-[60px] py-6 bg-black/40 backdrop-blur-md border border-white/20 rounded-full shadow-lg relative overflow-hidden ${className || "fixed right-4 bottom-28"}`}>
       
+      {/* Animated Scrolling Background Hint */}
+      <motion.div 
+        className="absolute left-0 top-0 w-full h-[200%] bg-gradient-to-t from-transparent via-white/10 to-transparent pointer-events-none"
+        animate={{ y: ["0%", "-50%"] }}
+        transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+      />
+
       {/* Portfolio / Profile Button */}
-      <Link href="/about" className="flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
+      <Link href="/about" className="relative z-10 flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
         <div className={`relative w-[44px] h-[44px] rounded-full overflow-hidden shadow-sm border-[2px] transition-colors ${activeTab === "my-ya" ? "border-white" : "border-white/40 hover:border-white/80"}`}>
           <Image
             src="/projects/10157E32-F553-4DD4-B336-1D1414F25305.JPG" 
@@ -33,7 +41,7 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
       </Link>
 
       {/* Reels / Home Button */}
-      <Link href="/" className="flex items-center justify-center w-[44px] h-[44px] bg-transparent rounded-full hover:bg-white/10 transition-colors active:scale-95 shadow-sm mt-1">
+      <Link href="/" className="relative z-10 flex items-center justify-center w-[44px] h-[44px] bg-transparent rounded-full hover:bg-white/10 transition-colors active:scale-95 shadow-sm mt-1">
         <svg width="26" height="26" viewBox="0 0 24 24" fill={activeTab === "clips" ? "white" : "none"} stroke="white" strokeWidth={activeTab === "clips" ? "0" : "1.5"} strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
           <polygon points="10 8 16 12 10 16 10 8" fill={activeTab === "clips" ? "black" : "none"} stroke={activeTab === "clips" ? "none" : "white"}></polygon>
@@ -45,7 +53,7 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
         <button 
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); onWatchMore(); }}
           onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); onWatchMore(); }}
-          className="flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer mt-1 group"
+          className="relative z-10 flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer mt-1 group"
         >
           <div className="w-[42px] h-[42px] rounded-full bg-white/10 group-hover:bg-white/20 transition-colors flex items-center justify-center shadow-md border border-white/30">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
