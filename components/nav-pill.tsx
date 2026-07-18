@@ -19,11 +19,11 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
   else if (pathname === "/about") activeTab = "my-ya"
 
   return (
-    <div className={`z-[50] flex flex-col items-center justify-center gap-5 w-[60px] py-6 bg-black/40 backdrop-blur-md border border-white/20 rounded-full shadow-lg overflow-hidden ${className || "fixed right-4 bottom-28"}`}>
+    <div className={`z-[50] flex flex-col items-center justify-center gap-4 w-[50px] py-4 bg-black/40 backdrop-blur-md border border-white/20 rounded-full shadow-lg overflow-hidden ${className || "fixed right-4 top-1/2 -translate-y-1/2"}`}>
 
       {/* Portfolio / Profile Button */}
       <Link href="/about" className="relative z-10 flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
-        <div className={`relative w-[44px] h-[44px] rounded-full overflow-hidden shadow-sm border-[2px] transition-colors ${activeTab === "my-ya" ? "border-white" : "border-white/40 hover:border-white/80"}`}>
+        <div className={`relative w-[36px] h-[36px] rounded-full overflow-hidden shadow-sm border-[2px] transition-colors ${activeTab === "my-ya" ? "border-white" : "border-white/40 hover:border-white/80"}`}>
           <Image
             src="/projects/10157E32-F553-4DD4-B336-1D1414F25305.JPG"
             alt="Portfolio"
@@ -34,8 +34,8 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
       </Link>
 
       {/* Reels / Home Button */}
-      <Link href="/" className="relative z-10 flex items-center justify-center w-[44px] h-[44px] bg-transparent rounded-full hover:bg-white/10 transition-colors active:scale-95 shadow-sm mt-1">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill={activeTab === "clips" ? "white" : "none"} stroke="white" strokeWidth={activeTab === "clips" ? "0" : "1.5"} strokeLinecap="round" strokeLinejoin="round">
+      <Link href="/" className="relative z-10 flex items-center justify-center w-[36px] h-[36px] bg-transparent rounded-full hover:bg-white/10 transition-colors active:scale-95 shadow-sm mt-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill={activeTab === "clips" ? "white" : "none"} stroke="white" strokeWidth={activeTab === "clips" ? "0" : "1.5"} strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
           <polygon points="10 8 16 12 10 16 10 8" fill={activeTab === "clips" ? "black" : "none"} stroke={activeTab === "clips" ? "none" : "white"}></polygon>
         </svg>
@@ -48,13 +48,13 @@ export function VerticalNavPill({ className, avatarSrc, onWatchMore }: VerticalN
           onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); onWatchMore(); }}
           className="relative z-10 flex flex-col items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer mt-1 group"
         >
-          <div className="w-[42px] h-[42px] rounded-full bg-white/10 group-hover:bg-white/20 transition-colors flex items-center justify-center shadow-md border border-white/30">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="w-[34px] h-[34px] rounded-full bg-white/10 group-hover:bg-white/20 transition-colors flex items-center justify-center shadow-md border border-white/30">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
               <circle cx="12" cy="12" r="3" />
             </svg>
           </div>
-          <span className="text-white font-bold text-[9px] uppercase tracking-wider drop-shadow-md">More</span>
+          <span className="text-white font-bold text-[8px] uppercase tracking-wider drop-shadow-md">More</span>
         </button>
       )}
     </div>
