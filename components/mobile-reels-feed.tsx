@@ -454,15 +454,7 @@ export function MobileReelsFeed() {
         {/* Global Fixed Bottom Info */}
         {activeVideo && (
           <div 
-            className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left cursor-pointer text-left pointer-events-auto transition-opacity duration-300"
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              handleOpenDrawer(activeVideo); 
-            }}
-            onTouchEnd={(e) => { 
-              e.stopPropagation(); 
-              handleOpenDrawer(activeVideo); 
-            }}
+            className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left text-left pointer-events-none transition-opacity duration-300"
           >
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2 flex-wrap">

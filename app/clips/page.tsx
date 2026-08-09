@@ -420,7 +420,7 @@ export default function ClipsPage() {
             <div className="absolute left-6 bottom-24 right-16 flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left transition-opacity duration-300">
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre animate-in fade-in" onClick={(e) => { e.stopPropagation(); handleOpenDrawer(activeVideo); }}>{activeVideo.username}</span>
+                  <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md uppercase whitespace-pre animate-in fade-in">{activeVideo.username}</span>
                 </div>
               </div>
               
@@ -470,10 +470,10 @@ export default function ClipsPage() {
 
         {/* Global Fixed Bottom Info */}
         {activeVideo && (
-          <div className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left transition-opacity duration-300">
+          <div className="fixed left-6 bottom-24 right-16 pb-[env(safe-area-inset-bottom)] flex flex-col gap-1.5 z-50 scale-[0.92] origin-bottom-left pointer-events-none transition-opacity duration-300">
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md cursor-pointer uppercase whitespace-pre animate-in fade-in" onClick={(e) => { e.stopPropagation(); handleOpenDrawer(activeVideo); }}>{activeVideo.username}</span>
+                <span key={activeVideo.username} className="text-white font-semibold text-[13px] drop-shadow-md uppercase whitespace-pre animate-in fade-in">{activeVideo.username}</span>
               </div>
             </div>
             
