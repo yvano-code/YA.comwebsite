@@ -538,9 +538,9 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
   </div>
 </div>
 
-{/* ── LEFT BIO ── */ }
+{/* ── RIGHT (WAS LEFT) BIO / READ MORE ── */ }
 <div 
-  className={`hidden lg:flex absolute left-16 xl:left-20 z-40 w-[18vw] max-w-[300px] flex-col justify-start pointer-events-auto transition-opacity duration-500 top-1/2 -translate-y-[15.6vw] xl:-translate-y-[14.05vw] mt-1 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+  className={`hidden lg:flex absolute right-12 lg:right-16 xl:right-20 z-40 w-[18vw] max-w-[300px] flex-col items-center justify-center pointer-events-auto transition-opacity duration-500 top-1/2 -translate-y-1/2 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
 >
   {/* <div className="flex flex-col gap-4 text-sm xl:text-base text-white leading-relaxed tracking-tight font-medium text-left" style={{ fontFamily: 'var(--font-playfair), serif' }}>
     {siteConfig.imdbBio.split('\n\n').map((paragraph, i) => (
@@ -555,13 +555,13 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
   </Link>
 </div>
 
-{/* ── RIGHT SIDEBAR (LOGO + TITLES) ── */ }
-<div className={`hidden md:flex absolute right-12 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 z-50 flex-col items-end pointer-events-auto max-h-[80vh] transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
+{/* ── LEFT SIDEBAR (WAS RIGHT) (LOGO + TITLES) ── */ }
+<div className={`hidden md:flex absolute left-12 lg:left-16 xl:left-20 top-1/2 -translate-y-1/2 z-50 flex-col items-start pointer-events-auto max-h-[80vh] transition-opacity duration-500 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
 
   {/* LOGO MOVED TO TOP HEADER */}
 
   {/* TITLES LIST */}
-  <div className="flex flex-col gap-2 lg:gap-3 items-center overflow-y-auto no-scrollbar py-4 pr-4">
+  <div className="flex flex-col gap-2 lg:gap-3 items-start overflow-y-auto no-scrollbar py-4 pl-4">
     {items.map((item, idx) => {
       const isActive = idx === activeIndex;
       return (
