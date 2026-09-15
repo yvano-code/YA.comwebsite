@@ -161,9 +161,9 @@ export function ProfileView() {
                   className="relative py-2 pl-6 md:pl-10 border-l border-black/20"
                 >
                   <span className="absolute -left-4 md:-left-6 -top-4 md:-top-6 text-7xl md:text-8xl text-black/10 font-serif leading-none" style={{ fontFamily: '"JPMC Tiempos", "Tiempos Text", serif' }}>"</span>
-                  <div className="text-base md:text-lg lg:text-xl xl:text-2xl tracking-normal leading-[1.8] text-black/90 font-normal flex flex-col gap-6 max-w-prose text-justify" style={{ fontFamily: '"JPMC Tiempos", "Tiempos Text", serif' }}>
+                  <div className="text-base md:text-lg lg:text-xl xl:text-2xl tracking-normal leading-[1.8] text-black/90 font-normal flex flex-col gap-6" style={{ fontFamily: '"JPMC Tiempos", "Tiempos Text", serif' }}>
                     {siteConfig.imdbDirectorStatement.split('\n\n').map((paragraph, i, arr) => (
-                      <p key={i}>
+                      <p key={i} className="whitespace-pre-line">
                         {paragraph}{i === arr.length - 1 ? '"' : ''}
                       </p>
                     ))}
