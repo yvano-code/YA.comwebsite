@@ -92,7 +92,7 @@ export function ProfileView() {
   useEffect(() => {
     // Set default sections on mobile screens
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      setActiveBioSection('about')
+      // setActiveBioSection('about')
       setActiveSection('portraits')
     }
   }, [])
@@ -135,13 +135,13 @@ export function ProfileView() {
           {/* Bio Toggle Section */}
           <div className="border-l-2 border-black/30 pl-6 lg:pl-12 mb-16 lg:mb-24 max-w-6xl min-h-[200px]">
             <h3 className="text-[11px] lg:text-xs uppercase tracking-[0.25em] font-bold mb-6 flex items-center">
-              <span 
+              {/* <span 
                 onClick={() => setActiveBioSection('about')} 
                 className={`cursor-pointer transition-all duration-300 ${activeBioSection === 'about' ? 'text-black underline decoration-[2px] underline-offset-[6px]' : 'text-black/30 hover:text-black/60'}`}
               >
                 ABOUT
               </span>
-              <span className="text-black/30 mx-2 lg:mx-3">|</span>
+              <span className="text-black/30 mx-2 lg:mx-3">|</span> */}
               <span 
                 onClick={() => setActiveBioSection('statement')} 
                 className={`cursor-pointer transition-all duration-300 ${activeBioSection === 'statement' ? 'text-black underline decoration-[2px] underline-offset-[6px]' : 'text-black/30 hover:text-black/60'}`}

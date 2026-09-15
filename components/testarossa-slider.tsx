@@ -542,11 +542,11 @@ export function TestarossaSlider({ items, className }: { items: Project[], class
 <div 
   className={`hidden lg:flex absolute left-16 xl:left-20 z-40 w-[18vw] max-w-[300px] flex-col justify-start pointer-events-auto transition-opacity duration-500 top-1/2 -translate-y-[15.6vw] xl:-translate-y-[14.05vw] mt-1 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
 >
-  <div className="flex flex-col gap-4 text-sm xl:text-base text-white leading-relaxed tracking-tight font-medium text-left" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+  {/* <div className="flex flex-col gap-4 text-sm xl:text-base text-white leading-relaxed tracking-tight font-medium text-left" style={{ fontFamily: 'var(--font-playfair), serif' }}>
     {siteConfig.imdbBio.split('\n\n').map((paragraph, i) => (
       <p key={i}>{paragraph}</p>
     ))}
-  </div>
+  </div> */}
   <Link href="/about" className="mt-8 group relative flex items-center justify-center gap-4 px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full backdrop-blur-md transition-all duration-200 w-fit overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
     {/* Glow effect */}
     <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-200 rounded-full" />
